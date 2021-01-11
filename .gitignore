@@ -1,0 +1,6 @@
+# ignore extensions
+*.pyc
+
+# ignore directories
+__pycache__/
+.vscode/
