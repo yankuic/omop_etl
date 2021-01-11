@@ -1,6 +1,7 @@
-drop table if exists preload.drug_admin
+truncate table preload.drug_admin
+insert into preload.drug_admin with (tablock)
 select [person_id] = b.person_id
-      ,[drug_concept_id] = NULL
+      ,[drug_concept_id] = 0
       ,[drug_exposure_start_date] = a.TAKEN_DATE
       ,[drug_exposure_start_datetime] = a.TAKEN_DATETIME
       ,[drug_exposure_end_date] = a.TAKEN_DATE
@@ -9,7 +10,9 @@ select [person_id] = b.person_id
       ,[drug_type_concept_id] = 32817
       ,[stop_reason] = NULL
       ,[refills] = NULL
-      ,[quantity] = a.TOTAL_DOSE_CHAR
+      ,[quantity] = (case when isnumeric(a.TOTAL_DOSE_CHAR) = 0 then dbo.udf_extract_numbers(a.TOTAL_DOSE_CHAR)
+                          else a.TOTAL_DOSE_CHAR
+                     end) 
       ,[days_supply] = NULL
       ,[sig] = NULL
       ,[route_concept_id] = NULL
@@ -22,7 +25,6 @@ select [person_id] = b.person_id
       ,[route_source_value] = a.MED_ORDER_ROUTE
       ,[dose_unit_source_value] = a.MED_DOSE_UNIT_DESC
       ,[source_table] = 'drug_admin'
-into preload.drug_admin
 from stage.drug_admin a
 join xref.person_mapping b
 on a.patient_key = b.patient_key

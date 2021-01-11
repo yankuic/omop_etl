@@ -20,6 +20,7 @@ class Loader:
         store_name (str): Connection shortcut.
 
     """
+    
     def __init__(self, store_name):
         data_store = DataStore(store_name) 
         self.engine = data_store.engine
