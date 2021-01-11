@@ -159,3 +159,27 @@ class DataStore:
 
         with self.engine.connect() as con:
             return pd.read_sql_query(q, con)
+
+    def create_schema(self, schema):
+        """Create new database schema.
+
+        Args:
+            schema (str): Schema name.
+
+        """
+        with self.engine.connect() as con:
+            tran = con.begin()
+            try: 
+                res = con.execute('''
+                    IF NOT EXISTS (
+                        SELECT * 
+                        FROM sys.schemas
+                        WHERE name = '{0}')
+                      
+                      EXEC('CREATE SCHEMA {0}')
+                '''.format(schema))
+                tran.commit()
+                return res.rowcount
+            except Exception as e:
+                tran.rollback()
+                raise(e)
