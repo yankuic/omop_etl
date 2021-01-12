@@ -3,12 +3,8 @@
 
 import os
 import pandas as pd
+import yaml
 from sqlalchemy import create_engine
-
-STORE = {
-    'omop': ['edw.***REMOVED***.edu', 'DWS_OMOP'], 
-    'mtd': ['edw.***REMOVED***.edu', 'DWS_METADATA']
-}
 
 def execute(query_string, engine):
     """[summary].
@@ -57,15 +53,12 @@ class DataStore:
 
     """
 
-    def __init__(self, store_name, database=None, *args):
-        server_str, default_db = STORE[store_name]
-
-        if database is None:
-            database = default_db
-        
-        self.server = server_str
-        self.database = database
-        self._engine_str = f'mssql+pyodbc://{server_str}/{database}?driver=SQL+Server'
+    def __init__(self, store_name, config_file, database=None, *args):
+        with open(config_file) as f:
+            self.config_param = yaml.safe_load(f)
+        self.server = self.config_param[store_name]['server']
+        self.database = self.config_param[store_name]['database']
+        self._engine_str = f'mssql+pyodbc://{self.server}/{self.database}?driver=SQL+Server'
         self.engine = create_engine(self._engine_str, max_overflow=-1, *args)
     
     def list_dbs(self):

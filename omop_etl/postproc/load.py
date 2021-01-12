@@ -9,7 +9,7 @@ Assumptions:
     - Postprocessed tables are in dbo schema.
 """
 
-from omop_etl.settings import PRELOAD
+import yaml
 from omop_etl.utils import timeitc
 from omop_etl.datastore import DataStore, execute, read_sql
 
@@ -21,13 +21,18 @@ class Loader:
 
     """
     
-    def __init__(self, store_name):
-        data_store = DataStore(store_name) 
+    def __init__(self, store_name, config_file):
+        data_store = DataStore(store_name, config_file) 
         self.engine = data_store.engine
         self.sql_path = 'omop_etl/postproc/sql/'
 
+        try:
+            self.preload_param = data_store.config_param['preload']
+        except KeyError:
+            print('Preload parameters not found.')
+
     def preload(self, table):
-        preload_list = PRELOAD[table]
+        preload_list = list(self.preload_param[table].values())
         for s in preload_list:
             print(f'Executing {s} ...')
             with timeitc(f'Preloading'):
