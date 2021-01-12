@@ -1,8 +1,9 @@
 import sys
 import os
 import pandas as pd
+from pathlib import Path
 import sqlalchemy
-from omop_etl.datastore import DataStore
+from datastore import DataStore
 from datetime import datetime as dt
 
 #   Utils   #
@@ -29,7 +30,7 @@ with open(config_path,'r') as input_config:
     start_date = str(all_data[index_containing_substring(all_data, 'start_date')]).split('=')[1].strip()
     end_date = str(all_data[index_containing_substring(all_data, 'end_date')]).split('=')[1].strip()
     patient_id_path = str(all_data[index_containing_substring(all_data, 'patient_file')]).split('=')[1].strip()
-    _patient_id = pd.read_csv("{}".format(patient_id_path), dtype ={'id':'str'} )
+    _patient_id = pd.read_csv(os.path.join(cur_path,patient_id_path), dtype ={'id':'str'} )
 
 
 #   Derived variables   #
@@ -92,7 +93,20 @@ class Puller:
         truncate table [DWS_OMOP].[stage].[{0}]
         insert into [DWS_OMOP].[stage].[{0}] with (tablock)
         {1} 
+        
         '''.format(self.dp_name,sql_query)
+
+        datastore = DataStore('omop')
+        row_count = datastore.row_count(self.dp_name, 'stage')
+        query_log = """
+        values (''{0}'', ''{1}'', {2}, {3})
+        """.format(self.dp_name, sql_query, now_dt, row_count)
+
+
+        log_sp = '''
+        insert into [DWS_OMOP].[stage].[query_log] with (tablock)
+        {}
+        '''.format(query_log)
 
         #################################
         #   Exexcute Stored Procedure   #
@@ -105,15 +119,21 @@ class Puller:
         tran_con = con.begin()
         tran_con.commit()
 
+        execute_sp = "execute ('use [DWS_PROD]; {}')".format(log_sp)
+
+        con = self.omop_eng.connect()
+git        con.execute(execute_sp)
+        tran_con = con.begin()
+        tran_con.commit()
+
+
 
 if __name__ == '__main__':
     stime = dt.now()
     print ('Start time: {}\r\n'.format(stime))
     for dp in dp_list:
         Puller(dp, mtd_eng, omop_eng).execute()
-        datastore = DataStore('omop')
-        row = datastore.row_count(dp, 'stage')
-        print("The stage.{1} table has been successfully created. There are {0} row(s).".format(row, dp))
+        print("The stage tables has been successfully created")
     print ('Finished at: {}'.format(dt.now()))
     print ('Total processing time (h:m:s): {}\r\n'.format(dt.now() - stime))
     
