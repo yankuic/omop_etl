@@ -1,0 +1,15 @@
+# Project configuration parameters
+datastore: 
+  omop:
+    server: edw.shands.ufl.edu
+    database: DWS_OMOP 
+  mtd:
+    server: edw.shands.ufl.edu
+    database: DWS_METADATA
+
+preload:
+  condition: preload_condition.sql
+  procedure: preload_procedure.sql
+  drug: 
+    order: "preload_drug_order.sql"
+    admin: "preload_drug_admin.sql"
