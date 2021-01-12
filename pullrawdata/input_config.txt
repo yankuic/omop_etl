@@ -2,6 +2,6 @@ wh_host = EDW.shands.ufl.edu
 mtdt_db = DWS_METADATA
 omop_db = DWS_OMOP
 dp_name = PERSON, DEATH, CONDITION
-patient_file = \\share.ahc.ufl.edu\Share$\DSS\IDR_Projects\OMOP\omop_etl\pullrawdata\sample_id.csv
+patient_file = sample_id.csv
 start_date = 01/01/2020 00:0:0
 end_date = 
