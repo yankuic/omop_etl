@@ -23,7 +23,7 @@ SELECT @integers =
             END
         FROM
         ( 
-            --Get list of numbers to reference string characters indexes.
+            --Get list of character indexes.
             SELECT TOP (CASE WHEN @String IS NULL THEN 0 ELSE @len END)
                 ROW_NUMBER() OVER ( ORDER BY ( SELECT 1 ) ) AS Number
              FROM master.sys.all_columns a
