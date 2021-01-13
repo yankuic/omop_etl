@@ -209,7 +209,7 @@ class DataStore:
                         IT (internal table), P (stored procedure). 
             name (str): Object name. 
         """
-        #TODO: implement parameter schema.
+        #TODO: implement option to set schema.
 
         q = '''
         select (case 

@@ -7,9 +7,38 @@ datastore:
     server: edw.shands.ufl.edu
     database: DWS_METADATA
 
-preload:
-  condition: preload_condition.sql
-  procedure: preload_procedure.sql
-  drug: 
-    order: "preload_drug_order.sql"
-    admin: "preload_drug_admin.sql"
+load:
+  # Comment/Uncomment to include/exclude what to load.
+  condition_occurrence:
+  procedure_occurrence:
+  drug_exposure: 
+    order: add description
+    admin: add description
+  measurement: 
+    bp: add description
+    heart_rate: add description 
+    height: add description
+    # lab: add description
+    # lda: add description
+    # pain: add description
+    # qtcb: add description
+    # res_dev: add description
+    # res_etco2: add description
+    # res_fio2: add description
+    # res_gcs: add description
+    # res_o2: add description
+    # res_peep: add description
+    # res_pip: add description
+    # res_resp: add description
+    # res_spo2: add description
+    # res_tidal: add description
+    # res_vent: add description
+    # rothman: add description
+    # sofa: add description
+    # temp: add description
+    # weight: add description
+  observation:
+    icu: add description
+    payer: add description
+    smoking: add description
+    zipcode: add description

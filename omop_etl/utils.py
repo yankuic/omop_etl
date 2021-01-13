@@ -12,7 +12,7 @@ def timeitc(name=''):
     yield
 
     elapsedTime = time.time() - startTime
-    print('{} finished in {}'.format(name, time.strftime("%H h %M m %S s",  
+    print('{} finished. Elapsed time {}'.format(name, time.strftime("%H:%M:%S",  
                                      time.gmtime(elapsedTime))))
 
 def timeitd(f):
@@ -22,6 +22,6 @@ def timeitd(f):
         startTime = time.time()
         result = f(*args, **kwargs)
         elapsedTime = time.time() - startTime
-        print(f'{f.__name__} completed in {time.strftime("%H h %M m %S s", time.gmtime(elapsedTime))}')
+        print(f'{f.__name__} complete. Elapsed time {time.strftime("%H:%M:%S", time.gmtime(elapsedTime))}')
         return result
     return wrap
