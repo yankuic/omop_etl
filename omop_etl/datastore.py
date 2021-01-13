@@ -29,7 +29,7 @@ def read_sql(filepath):
     """[summary].
 
     Args:
-        filepath (str): Full path of sql file.
+        filepath (str): Full path to sql file.
 
     """
     try:
@@ -44,20 +44,25 @@ def read_sql(filepath):
         raise(e)
 
 class DataStore:
-    """Instantiate db engine.
+    """Instantiate configuration parameters.
 
     Arguments:
         store_name {str} -- Connection shortcut (omop, mtd).
         database {str} -- Database name (default: None). If database is None the datastore default database is passed to the connection string.
+        config_file {str} --YAML file with project configuration parameters.
         *args {any} -- Additional arguments for sqlalchemy.create_engine.
 
     """
 
-    def __init__(self, store_name, config_file, database=None, *args):
+    def __init__(self, config_file, store_name=None, *args):
         with open(config_file) as f:
             self.config_param = yaml.safe_load(f)
-        self.server = self.config_param[store_name]['server']
-        self.database = self.config_param[store_name]['database']
+
+        if store_name is None:
+            store_name = 'omop'
+        
+        self.database = self.config_param['datastore'][store_name]['database']
+        self.server = self.config_param['datastore'][store_name]['server']
         self._engine_str = f'mssql+pyodbc://{self.server}/{self.database}?driver=SQL+Server'
         self.engine = create_engine(self._engine_str, max_overflow=-1, *args)
     
@@ -91,6 +96,24 @@ class DataStore:
                 WHERE SCHEMA_NAME(schema_id) IN ({})
                 AND name like '%{}%'
             '''.format(schema_list, name_pattern)
+
+        with self.engine.connect() as con:
+            return pd.read_sql(q, con)
+
+    def list_schemas(self, database=None):
+        """List user schemas."""
+        q = '''
+        select s.name as schema_name, 
+            s.schema_id,
+            u.name as schema_owner
+        from sys.schemas s
+          inner join sys.sysusers u
+          on u.uid = s.principal_id
+        order by s.name
+        '''
+
+        if database is None:
+            database = self.database
 
         with self.engine.connect() as con:
             return pd.read_sql(q, con)
@@ -176,3 +199,35 @@ class DataStore:
             except Exception as e:
                 tran.rollback()
                 raise(e)
+
+    def object_exists(self, object_type, name):
+        """Evaluate if object exist in database.
+
+        Args:
+            object_type (str): FN (scalar function), SQ (service queue), 
+                        U (user table), PK (primary key constraint), S (system table), 
+                        IT (internal table), P (stored procedure). 
+            name (str): Object name. 
+        """
+        #TODO: implement parameter schema.
+
+        q = '''
+        select (case 
+			when EXISTS (
+				SELECT * 
+				FROM sys.objects 
+				WHERE type = '{}' AND OBJECT_ID = OBJECT_ID('{}')
+			)
+			then 1 
+			else 0 
+		end
+        )'''.format(object_type, name)
+
+        with self.engine.connect() as con:
+            res = con.execute(q).fetchone()[0]
+            
+            if res == 1: 
+                return True
+            else:
+                return False
+
