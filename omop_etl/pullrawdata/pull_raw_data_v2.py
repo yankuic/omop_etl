@@ -122,7 +122,7 @@ class Puller:
         execute_sp = "execute ('use [DWS_PROD]; {}')".format(log_sp)
 
         con = self.omop_eng.connect()
-git        con.execute(execute_sp)
+        con.execute(execute_sp)
         tran_con = con.begin()
         tran_con.commit()
 

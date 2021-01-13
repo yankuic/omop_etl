@@ -202,16 +202,6 @@ CREATE TABLE [stage].MEASUREMENT_Res_PIP(
 	Visit_Provider [decimal] null
 ) ON [fg_user1]
 
-DROP TABLE IF EXISTS [stage].MEASUREMENT_Res_PIP
-CREATE TABLE [stage].MEASUREMENT_Res_PIP(
-	PATIENT_KEY [int], 
-	PATNT_ENCNTR_KEY [decimal] null, 
-	Respiratory_Date [date] NULL,
-	Respiratory_Datetime [datetime2] NULL,
-	PIP [varchar] (200) NULL,
-	Attending_Provider [decimal] null,
-	Visit_Provider [decimal] null
-) ON [fg_user1]
 
 
 DROP TABLE IF EXISTS [stage].MEASUREMENT_Res_RESP
@@ -334,10 +324,10 @@ DROP TABLE IF EXISTS [stage].MEASUREMENT_Height
 CREATE TABLE [stage].MEASUREMENT_Height(
 	PATIENT_KEY [int], 
 	PATNT_ENCNTR_KEY [decimal] null, 
-	HIGHT_Date [date] NULL,
-	HIGHT_Datetime [datetime2] NULL,
-	HIGH_INCH [decimal] null,
-	HIGH_CM [decimal] null,
+	HEIGHT_DATE [date] NULL,
+	HEIGHT_DATETIME [datetime2] NULL,
+	HEIGH_INCH [decimal] null,
+	HEIGH_CM [decimal] null,
 	Attending_Provider [decimal] null,
 	Visit_Provider [decimal] null
 ) ON [fg_user1]
