@@ -1,7 +1,7 @@
-truncate table preload.drug_order
-insert into preload.drug_order with (tablock)
+-- truncate table preload.drug_order
+insert into preload.drug_exposure with (tablock)
 select [person_id] = b.person_id
-      ,[drug_concept_id] = 0
+      ,[drug_concept_id] = e.concept_id_2
       ,[drug_exposure_start_date] = a.MED_ORDER_START_DATE
       ,[drug_exposure_start_datetime] = a.MED_ORDER_START_DATETIME
       ,[drug_exposure_end_date] = ISNULL(a.MED_ORDER_END_DATE, a.MED_ORDER_START_DATE)
@@ -21,7 +21,7 @@ select [person_id] = b.person_id
       ,[visit_occurrence_id] = 0 
       ,[visit_detail_id] = NULL
       ,[drug_source_value] = a.RXNORM_CODE
-      ,[drug_source_concept_id] = 0
+      ,[drug_source_concept_id] = d.concept_id
       ,[route_source_value] = a.MED_ORDER_ROUTE
       ,[dose_unit_source_value] = a.MED_ORDER_DISCRETE_DOSE_UNIT
       ,[source_table] = 'drug_order'

@@ -9,20 +9,69 @@ Assumptions:
     - Postprocessed tables are in dbo schema.
 """
 
-import yaml
-from omop_etl.utils import timeitc
+from omop_etl.utils import timeitd
 from omop_etl.datastore import DataStore, execute, read_sql
 
+PRELOAD = {
+    'condition_occurrence': 'preload_condition.sql', 
+    'procedure_occurrence': 'preload_procedure.sql', 
+    'drug_exposure': {
+        'order': 'preload_drug_order.sql', 
+        'admin': 'preload_drug_admin.sql'
+    }, 
+    'measurement': {
+        'bp': 'preload_measurement_bp.sql', 
+        'heart_rate': 'preload_measurement_heart_rate.sql', 
+        'height': 'preload_measurement_height.sql', 
+        'lab': 'preload_measurement_lab.sql', 
+        'lda': 'preload_measurement_lda.sql', 
+        'pain': 'preload_measurement_pain.sql', 
+        'qtcb': 'preload_measurement_qtcb.sql', 
+        'res_dev': 'preload_measurement_res_dev.sql', 
+        'res_etco2': 'preload_measurement_res_etco2.sql', 
+        'res_fio2': 'preload_measurement_res_fio2.sql', 
+        'res_gcs': 'preload_measurement_res_gcs.sql', 
+        'res_o2': 'preload_measurement_res_o2.sql', 
+        'res_peep': 'preload_measurement_res_peep.sql', 
+        'res_pip': 'preload_measurement_res_pip.sql', 
+        'res_resp': 'preload_measurement_res_resp.sql', 
+        'res_spo2': 'preload_measurement_res_spo2.sql', 
+        'res_tidal': 'preload_measurement_res_tidal.sql', 
+        'res_vent': 'preload_measurement_res_vent.sql', 
+        'rothman': 'preload_measurement_rothman.sql', 
+        'sofa': 'preload_measurement_sofa.sql', 
+        'temp': 'preload_measurement_temp.sql', 
+        'weight': 'preload_measurement_weight.sql'
+    }, 
+    'observation': {
+        'icu': 'preload_observation_icu.sql', 
+        'payer': 'preload_observation_payer.sql', 
+        'smoking': 'preload_observation_smoking.sql', 
+        'zipcode': 'preload_observation_zipcode.sql'
+    }
+}
+
+LOAD = {
+    'person': 'load_person.sql',
+    'death': 'load_death.sql',
+    'condition_occurrence'
+}
+
+
+def truncate(schema, table, engine):
+    q = f'truncate table {schema}.{table}'
+    return execute(q, engine)
+
 class Loader:
-    """[summary].
+    """Load data into OMOP confomant tables.
 
     Args:
-        store_name (str): Connection shortcut.
+        config_file (file): YAML file with project configuration parameters.
 
     """
     
-    def __init__(self, store_name, config_file):
-        data_store = DataStore(store_name, config_file) 
+    def __init__(self, config_file):
+        data_store = DataStore(config_file) 
         self.engine = data_store.engine
         self.sql_path = 'omop_etl/postproc/sql/'
 
@@ -31,25 +80,58 @@ class Loader:
         except KeyError:
             print('Preload parameters not found.')
 
-    def preload(self, table):
-        preload_list = list(self.preload_param[table].values())
-        for s in preload_list:
-            print(f'Executing {s} ...')
-            with timeitc(f'Preloading'):
-                q = read_sql(self.sql_path + s)
-                execute(q, self.engine)
-        return 0
+    @timeitd
+    def preload(self, table, subset):
+        print(f'Preloading {table} ({subset}) ...')
+        preload_file = PRELOAD[table][subset]
+        q = read_sql(self.sql_path + preload_file)
+        return execute(q, self.engine)
 
-    def load_person(self):
+    @timeitd
+    def load(self, table):
+        if table in PRELOAD.keys():
+            truncate('preload', table, self.engine)
+            preload_list = list(self.preload_param[table].keys())
+            for s in preload_list:
+                self.preload(table, s)
+
+        print(f'Loading {table} ...')
+        q = read_sql(self.sql_path + 'load_drug_exposure.sql')
+        return execute(q, self.engine)
+
+
+    @timeitd
+    def person(self):
+        print('Loading person ...')
         q = read_sql(self.sql_path + 'load_person.sql')
         return execute(q, self.engine)
 
-    def load_death(self):
+    @timeitd
+    def death(self):
+        print('Loading death ...')
         q = read_sql(self.sql_path + 'load_death.sql')
         return execute(q, self.engine)
 
-    def load_drug_exposure(self):
-        out = self.preload('drug')
-        if out == 0:
-            q = read_sql(self.sql_path + 'load_drug_exposure.sql')
-            return execute(q, self.engine)
+    @timeitd
+    def drug_exposure(self):
+        truncate('preload','drug_exposure', self.engine)
+        truncate('dbo','drug_exposure', self.engine)
+        preload_list = list(self.preload_param['drug'].keys())
+        for s in preload_list:
+            self.preload('drug', s)
+        
+        print('Loading drug_exposure ...')
+        q = read_sql(self.sql_path + 'load_drug_exposure.sql')
+        return execute(q, self.engine)
+
+    @timeitd
+    def measurement(self):
+        truncate('preload','measurement', self.engine)
+        truncate('dbo','measurement', self.engine)
+        preload_list = list(self.preload_param['measurement'].keys())
+        for s in preload_list:
+            self.preload('measurement', s)
+        
+        print('Loading measurement ...')
+        q = read_sql(self.sql_path + 'load_measurement.sql')
+        return execute(q, self.engine)
