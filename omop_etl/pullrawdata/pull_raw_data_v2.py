@@ -1,49 +1,69 @@
+"""[description]."""
+
 import sys
 import os
 import pandas as pd
 from pathlib import Path
 import sqlalchemy
-from datastore import DataStore
+from omop_etl.datastore import DataStore
 from datetime import datetime as dt
+
+
+STAGE = {
+    'measurement': {
+        'res_pip': 'MEASUREMENT_Res_PIP'
+    }
+}
 
 #   Utils   #
 
-def index_containing_substring(the_list, substring):
-    for i, s in enumerate(the_list):
-        if substring in s:
-              return i
+# def index_containing_substring(the_list, substring):
+#     for i, s in enumerate(the_list):
+#         if substring in s:
+#               return i
 
 
 #   Global variables   #
-cur_path = os.path.dirname(__file__)
+# print(os.getcwd())
+# main_path = os.path.dirname(os.path.abspath(__file__))
+cur_path = 'omop_etl/pullrawdata' # os.path.dirname(__file__)
 config_path = os.path.join(cur_path,'input_config.txt')
 now = dt.now()
 now_dt =  now.strftime("%m/%d/%Y %H:%M:%S")
 
 with open(config_path,'r') as input_config:
     all_data = [line.strip() for line in input_config.readlines()]
-    wh_host = str(all_data[index_containing_substring(all_data, 'wh_host')]).split('=')[1].strip()
-    mtdt_db = str(all_data[index_containing_substring(all_data, 'mtdt_db')]).split('=')[1].strip()
-    omop_db = str(all_data[index_containing_substring(all_data, 'omop_db')]).split('=')[1].strip()
-    dp_names = all_data[index_containing_substring(all_data, 'dp_name')].split('=')[1]
-    dp_list = dp_names.strip().split(', ') 
-    start_date = str(all_data[index_containing_substring(all_data, 'start_date')]).split('=')[1].strip()
-    end_date = str(all_data[index_containing_substring(all_data, 'end_date')]).split('=')[1].strip()
-    patient_id_path = str(all_data[index_containing_substring(all_data, 'patient_file')]).split('=')[1].strip()
-    _patient_id = pd.read_csv(os.path.join(cur_path,patient_id_path), dtype ={'id':'str'} )
+    # wh_host = str(all_data[index_containing_substring(all_data, 'wh_host')]).split('=')[1].strip()
+    # mtdt_db = str(all_data[index_containing_substring(all_data, 'mtdt_db')]).split('=')[1].strip()
+    # omop_db = str(all_data[index_containing_substring(all_data, 'omop_db')]).split('=')[1].strip()
+    # dp_names = all_data[index_containing_substring(all_data, 'dp_name')].split('=')[1]
+    # dp_list = dp_names.strip().split(', ') 
+    # start_date = str(all_data[index_containing_substring(all_data, 'start_date')]).split('=')[1].strip()
+    # end_date = str(all_data[index_containing_substring(all_data, 'end_date')]).split('=')[1].strip()
+    # patient_id_path = str(all_data[index_containing_substring(all_data, 'patient_file')]).split('=')[1].strip()
+    # _patient_id = pd.read_csv(os.path.join(cur_path,patient_id_path), dtype ={'id':'str'} )
 
 
 #   Derived variables   #
-
-mtd_db = 'mtd'
-mtd_eng = DataStore(mtd_db).engine
+#You can declare all these variables within your class (if you really want to use a class)
+#that way you only need to pass config.yml as parameter to instantiate. 
+mtdt_db = 'mtd'
+mtd_eng = DataStore('config.yml', store_name='mtd').engine
 
 omop_db = 'omop'
-omop_eng = DataStore(omop_db).engine
+store = DataStore('config.yml')
+omop_eng = store.engine
 
-
+start_date = store.config_param['date_range']['start_date']
+end_date = store.config_param['date_range']['end_date']
+patient_file = store.config_param['patient_file']
+_patient_id = pd.read_csv(os.path.join(cur_path, patient_file), dtype ={'id':'str'} )
 patient_id = _patient_id['id'].astype(str).tolist()
 patient_id = ','.join(patient_id)
+
+#This list should be defined based on config.yml
+#hard coded for now
+dp_list = ['person']
 
 now = dt.now()
 now_dt =  now.strftime("%m/%d/%Y %H:%M:%S")
@@ -62,6 +82,8 @@ class Puller:
     #   Read and execute SQL query from metadata   #
     ################################################
 
+    #lets avoid this name (I have an execute method but basically does the same as the execute method from sqlalchemy)
+    #my suggestion is to rename to run. 
     def execute(self):
         
         # Matt will update the table to generate the sql that queries DWS in BO.
@@ -74,6 +96,7 @@ class Puller:
             where DOC_NAME = 'omop'
         )
         """
+        # DOC_NAME = 'omop' (this will be different for each project)
 
         # Read out the SQL query and put in a dataframe
         omop_metadata = pd.read_sql(sql_metadata, self.mtd_eng)
@@ -96,8 +119,8 @@ class Puller:
         
         '''.format(self.dp_name,sql_query)
 
-        datastore = DataStore('omop')
-        row_count = datastore.row_count(self.dp_name, 'stage')
+        # datastore = DataStore('omop')
+        row_count = store.row_count(self.dp_name, 'stage')
         query_log = """
         values (''{0}'', ''{1}'', {2}, {3})
         """.format(self.dp_name, sql_query, now_dt, row_count)
