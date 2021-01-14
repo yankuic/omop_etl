@@ -7,8 +7,18 @@ datastore:
     server: edw.shands.ufl.edu
     database: DWS_METADATA
 
+date_range:
+  start_date: 01/01/2020
+  end_date: 1/14/2021
+
+patient_file: sample_id.csv
+
+doc_name: 'covid'
+
 load:
   # Comment/Uncomment to include/exclude what to load.
+  person:
+  death:
   condition_occurrence:
   procedure_occurrence:
   drug_exposure: 

@@ -54,9 +54,11 @@ PRELOAD = {
 LOAD = {
     'person': 'load_person.sql',
     'death': 'load_death.sql',
-    'condition_occurrence'
+    'condition_occurrence': 'load_condition.sql',
+    'procedure_occurrence': 'load_procedure.sql',
+    'drug_exposure': 'load_drug_exposure.sql',
+    'measurement': 'load_measurement.sql'
 }
-
 
 def truncate(schema, table, engine):
     q = f'truncate table {schema}.{table}'
@@ -76,7 +78,7 @@ class Loader:
         self.sql_path = 'omop_etl/postproc/sql/'
 
         try:
-            self.preload_param = data_store.config_param['preload']
+            self.load_param = data_store.config_param['load']
         except KeyError:
             print('Preload parameters not found.')
 
@@ -88,50 +90,14 @@ class Loader:
         return execute(q, self.engine)
 
     @timeitd
-    def load(self, table):
+    def load_table(self, table):
         if table in PRELOAD.keys():
             truncate('preload', table, self.engine)
-            preload_list = list(self.preload_param[table].keys())
+            preload_list = list(self.load_param[table].keys())
             for s in preload_list:
                 self.preload(table, s)
 
         print(f'Loading {table} ...')
-        q = read_sql(self.sql_path + 'load_drug_exposure.sql')
-        return execute(q, self.engine)
-
-
-    @timeitd
-    def person(self):
-        print('Loading person ...')
-        q = read_sql(self.sql_path + 'load_person.sql')
-        return execute(q, self.engine)
-
-    @timeitd
-    def death(self):
-        print('Loading death ...')
-        q = read_sql(self.sql_path + 'load_death.sql')
-        return execute(q, self.engine)
-
-    @timeitd
-    def drug_exposure(self):
-        truncate('preload','drug_exposure', self.engine)
-        truncate('dbo','drug_exposure', self.engine)
-        preload_list = list(self.preload_param['drug'].keys())
-        for s in preload_list:
-            self.preload('drug', s)
-        
-        print('Loading drug_exposure ...')
-        q = read_sql(self.sql_path + 'load_drug_exposure.sql')
-        return execute(q, self.engine)
-
-    @timeitd
-    def measurement(self):
-        truncate('preload','measurement', self.engine)
-        truncate('dbo','measurement', self.engine)
-        preload_list = list(self.preload_param['measurement'].keys())
-        for s in preload_list:
-            self.preload('measurement', s)
-        
-        print('Loading measurement ...')
-        q = read_sql(self.sql_path + 'load_measurement.sql')
+        load_file = LOAD[table]
+        q = read_sql(self.sql_path + load_file)
         return execute(q, self.engine)
