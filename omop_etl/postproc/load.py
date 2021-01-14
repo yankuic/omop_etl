@@ -12,9 +12,13 @@ Assumptions:
 from omop_etl.utils import timeitd
 from omop_etl.datastore import DataStore, execute, read_sql
 
+# Register preload and load sql scripts here.
 PRELOAD = {
     'condition_occurrence': 'preload_condition.sql', 
-    'procedure_occurrence': 'preload_procedure.sql', 
+    'procedure_occurrence': {
+        'cpt': 'preload_procedure_cpt.sql', 
+        'icd': 'preload_procedure_icd.sql'
+    },
     'drug_exposure': {
         'order': 'preload_drug_order.sql', 
         'admin': 'preload_drug_admin.sql'
@@ -83,21 +87,28 @@ class Loader:
             print('Preload parameters not found.')
 
     @timeitd
-    def preload(self, table, subset):
+    def preload(self, table, subset=None):
+        """Execute preload sql query."""
         print(f'Preloading {table} ({subset}) ...')
-        preload_file = PRELOAD[table][subset]
+        if subset: preload_file = PRELOAD[table][subset]
+        else: preload_file = PRELOAD[table]
         q = read_sql(self.sql_path + preload_file)
         return execute(q, self.engine)
 
     @timeitd
     def load_table(self, table):
+        """Execute load sql query."""
         if table in PRELOAD.keys():
             truncate('preload', table, self.engine)
-            preload_list = list(self.load_param[table].keys())
-            for s in preload_list:
-                self.preload(table, s)
+            if self.load_param[table]:
+                preload_list = list(self.load_param[table].keys())
+                for s in preload_list:
+                    self.preload(table, s)
+            else:
+                self.preload(table)
 
         print(f'Loading {table} ...')
+        truncate('dbo', table, self.engine)
         load_file = LOAD[table]
         q = read_sql(self.sql_path + load_file)
         return execute(q, self.engine)
