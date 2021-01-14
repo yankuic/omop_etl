@@ -312,9 +312,9 @@ DROP TABLE IF EXISTS [stage].MEASUREMENT_HeartRate
 CREATE TABLE [stage].MEASUREMENT_HeartRate(
 	PATIENT_KEY [int], 
 	PATNT_ENCNTR_KEY [decimal] null, 
-	VITALS_Date [date] NULL,
-	VITALS_Datetime [datetime2] NULL,
-	PIP [varchar] (200) NULL,
+	VITALS_DATE [date] NULL,
+	VITALS_DATETIME [datetime2] NULL,
+	HEARTRATE [varchar] (100) NULL,
 	Attending_Provider [decimal] null,
 	Visit_Provider [decimal] null
 ) ON [fg_user1]
