@@ -73,6 +73,7 @@ _patient_id = pd.read_csv(os.path.join(cur_path, patient_file), dtype ={'id':'st
 patient_id = _patient_id['id'].astype(str).tolist()
 patient_id = ','.join(patient_id)
 
+
 # Get list of tables to stage
 load_params = store.config_param['load']
 
@@ -126,6 +127,7 @@ class Puller:
         #   Create Stored Procedure #
         #############################
 
+        patient_id = "select PATIENT_KEY from [DWS_OMOP].cohort.PersonList"
         sql_query = sql_query.replace("12345678", patient_id)
         sql_query = sql_query.replace("01/01/1900 00:0:0", start_date)
         sql_query = sql_query.replace("12/31/1900 00:0:0", end_date)
@@ -138,17 +140,17 @@ class Puller:
         
         '''.format(self.dp_name,sql_query)
 
-        # datastore = DataStore('omop')
-        row_count = store.row_count(self.dp_name, 'stage')
-        query_log = """
-        values (''{0}'', ''{1}'', {2}, {3})
-        """.format(self.dp_name, sql_query, now_dt, row_count)
+        # # datastore = DataStore('omop')
+        # row_count = store.row_count(self.dp_name, 'stage')
+        # query_log = """
+        # values (''{0}'', ''{1}'', {2}, {3})
+        # """.format(self.dp_name, sql_query, now_dt, row_count)
 
 
-        log_sp = '''
-        insert into [DWS_OMOP].[stage].[query_log] with (tablock)
-        {}
-        '''.format(query_log)
+        # log_sp = '''
+        # insert into [DWS_OMOP].[stage].[query_log] with (tablock)
+        # {}
+        # '''.format(query_log)
 
         #################################
         #   Exexcute Stored Procedure   #
@@ -161,12 +163,12 @@ class Puller:
         tran_con = con.begin()
         tran_con.commit()
 
-        execute_sp = "execute ('use [DWS_PROD]; {}')".format(log_sp)
+        # execute_sp = "execute ('use [DWS_PROD]; {}')".format(log_sp)
 
-        con = self.omop_eng.connect()
-        con.execute(execute_sp)
-        tran_con = con.begin()
-        tran_con.commit()
+        # con = self.omop_eng.connect()
+        # con.execute(execute_sp)
+        # tran_con = con.begin()
+        # tran_con.commit()
 
 
 if __name__ == '__main__':
