@@ -44,7 +44,7 @@ def read_sql(filepath):
         raise(e)
 
 class DataStore:
-    """Instantiate configuration parameters.
+    """Instantiate engine and configuration parameters.
 
     Arguments:
         store_name {str} -- Connection shortcut (omop, mtd).
@@ -231,3 +231,6 @@ class DataStore:
             else:
                 return False
 
+    def truncate(self, schema, table):
+        q = f'truncate table {schema}.{table}'
+        return execute(q, self.engine)
