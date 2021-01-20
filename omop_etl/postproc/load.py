@@ -12,7 +12,12 @@ Assumptions:
 from omop_etl.utils import timeitd
 from omop_etl.datastore import DataStore, execute, read_sql
 
-# Register preload and load sql scripts here.
+# Register mapping, preload and load sql scripts here.
+MAPPING = {
+    'person': 'person_mapping.sql'
+    #'visit_occurrence': 'visit_occurrence_mapping.sql'
+}
+
 PRELOAD = {
     'condition_occurrence': 'preload_condition.sql', 
     'procedure_occurrence': {
@@ -64,10 +69,6 @@ LOAD = {
     'measurement': 'load_measurement.sql'
 }
 
-def truncate(schema, table, engine):
-    q = f'truncate table {schema}.{table}'
-    return execute(q, engine)
-
 class Loader:
     """Load data into OMOP confomant tables.
 
@@ -77,38 +78,53 @@ class Loader:
     """
     
     def __init__(self, config_file):
-        data_store = DataStore(config_file) 
-        self.engine = data_store.engine
+        self.store = DataStore(config_file) 
+        self.engine = self.store.engine
         self.sql_path = 'omop_etl/postproc/sql/'
 
         try:
-            self.load_param = data_store.config_param['load']
+            self.load_param = self.store.config_param['load']
         except KeyError:
-            print('Preload parameters not found.')
+            print('Load parameters not found.')
+
+    @timeitd
+    def update_mappings(self, table):
+        """Register new records in mapping table."""
+        print(f'Updating {table} ...')
+        try:
+            mapping_sql = MAPPING[table]
+            q = read_sql(self.sql_path + mapping_sql)
+            return execute(q, self.engine)
+        except KeyError:
+            print(f'{table} is not registered as mapping table.')
+        #TODO: function does not return output. 
 
     @timeitd
     def preload(self, table, subset=None):
         """Execute preload sql query."""
         print(f'Preloading {table} ({subset}) ...')
-        if subset: preload_file = PRELOAD[table][subset]
-        else: preload_file = PRELOAD[table]
+        if subset: 
+            preload_file = PRELOAD[table][subset]
+        else: 
+            preload_file = PRELOAD[table]
         q = read_sql(self.sql_path + preload_file)
         return execute(q, self.engine)
 
     @timeitd
-    def load_table(self, table):
+    def load_table(self, table, skip_preload=False):
         """Execute load sql query."""
-        if table in PRELOAD.keys():
-            truncate('preload', table, self.engine)
-            if self.load_param[table]:
-                preload_list = list(self.load_param[table].keys())
-                for s in preload_list:
-                    self.preload(table, s)
-            else:
-                self.preload(table)
-
+        if skip_preload == False:
+            if table in PRELOAD.keys():
+                self.store.truncate('preload', table)
+                if self.load_param[table]:
+                    preload_list = list(self.load_param[table].keys())
+                    for s in preload_list:
+                        self.preload(table, s)
+                else:
+                    self.preload(table)
+        
         print(f'Loading {table} ...')
-        truncate('dbo', table, self.engine)
+        self.store.truncate('dbo', table)
         load_file = LOAD[table]
         q = read_sql(self.sql_path + load_file)
         return execute(q, self.engine)
