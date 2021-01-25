@@ -8,6 +8,8 @@ import sqlalchemy
 from omop_etl.datastore import DataStore
 from datetime import datetime as dt
 
+# PARAMETERS:
+
 STAGE = {
     'person': 'PERSON',
     'death': 'DEATH',
@@ -52,69 +54,6 @@ STAGE = {
         'zipcode': 'OBSERVATION_Zipcode'
     }
 }
-
-#   Utils   #
-
-# def index_containing_substring(the_list, substring):
-#     for i, s in enumerate(the_list):
-#         if substring in s:
-#               return i
-
-#   Global variables   #
-# print(os.getcwd())
-# main_path = os.path.dirname(os.path.abspath(__file__))
-cur_path = 'omop_etl/pullrawdata' # os.path.dirname(__file__)
-# config_path = os.path.join(cur_path,'input_config.txt')
-now = dt.now()
-now_dt =  now.strftime("%m/%d/%Y %H:%M:%S")
-
-# with open(config_path,'r') as input_config:
-#     all_data = [line.strip() for line in input_config.readlines()]
-    # wh_host = str(all_data[index_containing_substring(all_data, 'wh_host')]).split('=')[1].strip()
-    # mtdt_db = str(all_data[index_containing_substring(all_data, 'mtdt_db')]).split('=')[1].strip()
-    # omop_db = str(all_data[index_containing_substring(all_data, 'omop_db')]).split('=')[1].strip()
-    # dp_names = all_data[index_containing_substring(all_data, 'dp_name')].split('=')[1]
-    # dp_list = dp_names.strip().split(', ') 
-    # start_date = str(all_data[index_containing_substring(all_data, 'start_date')]).split('=')[1].strip()
-    # end_date = str(all_data[index_containing_substring(all_data, 'end_date')]).split('=')[1].strip()
-    # patient_id_path = str(all_data[index_containing_substring(all_data, 'patient_file')]).split('=')[1].strip()
-    # _patient_id = pd.read_csv(os.path.join(cur_path,patient_id_path), dtype ={'id':'str'} )
-
-
-#   Derived variables   #
-#You can declare all these variables within your class (if you really want to use a class)
-#that way you only need to pass config.yml as parameter to instantiate. 
-# mtdt_db = 'mtd'
-mtd_eng = DataStore('config.yml', store_name='mtd').engine
-
-# omop_db = 'omop'
-store = DataStore('config.yml')
-omop_eng = store.engine
-
-start_date = store.config_param['date_range']['start_date']
-end_date = store.config_param['date_range']['end_date']
-# #Patient file is now read from DWS_OMOP.cohort.PersonList
-# patient_file = store.config_param['patient_file']
-# _patient_id = pd.read_csv(os.path.join(cur_path, patient_file), dtype ={'id':'str'} )
-# patient_id = _patient_id['id'].astype(str).tolist()
-# patient_id = ','.join(patient_id)
-
-
-# Get list of tables to stage
-load_params = store.config_param['load']
-
-dp_list = []
-for t in load_params.keys():
-    if load_params[t]:
-        for part in load_params[t].keys(): 
-            dp_list.append(STAGE[t][part])
-    else: 
-        dp_list.append(STAGE[t])
-
-now = dt.now()
-now_dt =  now.strftime("%m/%d/%Y %H:%M:%S")
-if len(end_date) == 0:
-    end_date = now_dt
 
 
 class Puller:
@@ -198,11 +137,38 @@ class Puller:
 
 
 if __name__ == '__main__':
-    stime = dt.now()
-    print ('Start time: {}\r\n'.format(stime))
+    #cur_path = 'omop_etl/pullrawdata' # os.path.dirname(__file__)
+
+    mtd_eng = DataStore('config.yml', store_name='mtd').engine
+
+    store = DataStore('config.yml')
+    omop_eng = store.engine
+
+    start_date = store.config_param['date_range']['start_date']
+    end_date = store.config_param['date_range']['end_date']
+    now = dt.now()
+    now_dt =  now.strftime("%m/%d/%Y %H:%M:%S")
+    if len(end_date) == 0:
+        end_date = now_dt
+
+    # Get list of tables to stage
+    load_params = store.config_param['load']
+
+    dp_list = []
+    for t in load_params.keys():
+        if load_params[t]:
+            for part in load_params[t].keys(): 
+                dp_list.append(STAGE[t][part])
+        else: 
+            dp_list.append(STAGE[t])
+
+    start_dt = dt.now()
+    start_dt =  start_dt.strftime("%m/%d/%Y %H:%M:%S")
+    #stime = dt.now()
+    print ('Start time: {}\n'.format(now_dt))
     for dp in dp_list:
         Puller(dp, mtd_eng, omop_eng).execute()
-        print("The stage tables has been successfully created")
+        print("The {} stage table has been successfully created!".format(dp))
     print ('Finished at: {}'.format(dt.now()))
-    print ('Total processing time (h:m:s): {}\r\n'.format(dt.now() - stime))
+    print ('Total processing time (h:m:s): {}\r\n'.format(dt.now() - start_dt))
     
