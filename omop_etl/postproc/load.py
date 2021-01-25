@@ -9,7 +9,7 @@ Assumptions:
     - Postprocessed tables are in dbo schema.
 """
 
-from omop_etl.utils import timeitd
+from omop_etl.utils import timeitd, timeitc
 from omop_etl.datastore import DataStore, execute, read_sql
 
 # Register mapping, preload and load sql scripts here.
@@ -101,28 +101,52 @@ class Loader:
 
     @timeitd
     def preload(self, table, subset=None):
-        """Execute preload sql query."""
-        print(f'Preloading {table} ({subset}) ...')
-        if subset: 
-            preload_file = PRELOAD[table][subset]
-        else: 
+        """Execute preload sql query.
+        
+        Args:
+            subset (str): Subset key (e.g. icd, cpt)or None. If None all subsets for table will be loaded. 
+            Default: None. 
+
+        """
+        assert table in PRELOAD.keys(), f'{table} has no preload sql script.'
+        print(f'Preloading {table} ({"all" or subset}) ...')
+        
+        if isinstance(PRELOAD[table], dict):
+            if subset in PRELOAD[table].keys(): 
+                preload_file = PRELOAD[table][subset]
+                print(f'executing {preload_file} ...')
+                q = read_sql(self.sql_path + preload_file)
+                self.store.truncate('preload', table)
+                return execute(q, self.engine)
+            elif subset is None: 
+                preload_list = list(self.load_param[table].keys())
+                self.store.truncate('preload', table)
+                for s in preload_list:
+                    preload_file = PRELOAD[table][s]
+                    print(f'executing {preload_file} ...')
+                    q = read_sql(self.sql_path + preload_file)
+                    print(execute(q, self.engine))
+            else: 
+                print(f'{subset} is not a valid option for argument subset or {table} has no subset key {subset}.')
+        else:
             preload_file = PRELOAD[table]
-        q = read_sql(self.sql_path + preload_file)
-        return execute(q, self.engine)
+            print(f'executing {preload_file} ...')
+            q = read_sql(self.sql_path + preload_file)
+            self.store.truncate('preload', table)
+            return execute(q, self.engine)
+
+    def preload_all(self):
+        """Preload all tables and subsets listed in configuration file."""
+        #read all tables/subsets from config 
+        with timeitc('Preloading'):
+            tables = self.load_param.keys()
+            for t in tables:
+                if t in PRELOAD.keys():
+                    self.preload(t)
 
     @timeitd
-    def load_table(self, table, skip_preload=False):
+    def load_table(self, table):
         """Execute load sql query."""
-        if skip_preload == False:
-            if table in PRELOAD.keys():
-                self.store.truncate('preload', table)
-                if self.load_param[table]:
-                    preload_list = list(self.load_param[table].keys())
-                    for s in preload_list:
-                        self.preload(table, s)
-                else:
-                    self.preload(table)
-        
         print(f'Loading {table} ...')
         self.store.truncate('dbo', table)
         load_file = LOAD[table]
