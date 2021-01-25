@@ -1,4 +1,5 @@
-drop table if exists preload.pre_condition_occurrence
+-- drop table if exists preload.condition_occurrence
+insert into preload.condition_occurrence
 select distinct 
       b.[person_id]
       ,[condition_concept_id] = e.concept_id_2
@@ -15,7 +16,6 @@ select distinct
       ,[condition_source_concept_id] = d.concept_id
       ,[condition_status_source_value] = a.CONDITION_POA
       ,[condition_status_concept_id] = 0
-into preload.pre_condition_occurrence
 from stage.condition a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
