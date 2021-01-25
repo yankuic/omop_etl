@@ -1,4 +1,6 @@
 # Project configuration parameters
+# Items must follow format <item: subitem> OR <item:>
+# Comment/Uncomment to activate/deactivate items.
 datastore: 
   omop:
     server: edw.shands.ufl.edu
@@ -16,17 +18,15 @@ date_range:
 doc_name: 'covid'
 
 load:
-  #Comment/Uncomment to include/exclude what to load.
-  # person:
-  # death:
-  # condition_occurrence:
-  # visit:
-  # procedure_occurrence:
-  #   cpt: add DRUG_ADMIN
-  #   icd: add DRUG_ADMIN
-  # drug_exposure: 
-  #   order: add DRUG_ADMIN
-  #   admin: add description
+  person:
+  death:
+  condition_occurrence:
+  procedure_occurrence:
+    icd:
+    cpt:
+  drug_exposure: 
+    order: add description
+    admin: add description
   measurement: 
     bp: add description
     heart_rate: add description     
@@ -50,6 +50,25 @@ load:
     temp: add description
     weight: add description
     height: add description
+    # lab: add description
+    # lda: add description
+    # pain: add description
+    # qtcb: add description
+    # res_dev: add description
+    # res_etco2: add description
+    # res_fio2: add description
+    # res_gcs: add description
+    # res_o2: add description
+    # res_peep: add description
+    # res_pip: add description
+    # res_resp: add description
+    # res_spo2: add description
+    # res_tidal: add description
+    # res_vent: add description
+    # rothman: add description
+    # sofa: add description
+    # temp: add description
+    # weight: add description
   # observation:
   #   icu: add description
   #   payer: add description
