@@ -13,8 +13,6 @@ date_range:
   start_date: 01/01/2020
   end_date: 1/14/2021
 
-patient_file: sample_id.csv
-
 doc_name: 'covid'
 
 load:
@@ -29,7 +27,7 @@ load:
     admin: add description
   measurement: 
     bp: add description
-    heart_rate: add description 
+    # heart_rate: add description 
     height: add description
     # lab: add description
     # lda: add description
