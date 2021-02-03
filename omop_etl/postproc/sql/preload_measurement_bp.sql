@@ -13,7 +13,7 @@ select person_id = b.person_id
       ,range_low = NULL
       ,range_high = NULL
       ,provider_id = c.provider_id
-      ,visit_occurrence_id = NULL
+      ,visit_occurrence_id = e.visit_occurrence_id
       ,visit_detail_id = NULL
       ,measurement_source_value = d.source_code
       ,measurement_source_concept_id = d.source_concept_id
@@ -27,6 +27,8 @@ join xref.provider c
 on c.provider_source_value = isnull(a.Attending_Provider, Visit_Provider)
 left join xref.source_to_concept_map d 
 on source_code = 'BP - Art Line SBP'
+join xref.visit_occurrence_mapping e 
+on a.patnt_encntr_key = e.patnt_encntr_key
 
 union 
 select person_id = b.person_id
@@ -42,7 +44,7 @@ select person_id = b.person_id
       ,range_low = NULL
       ,range_high = NULL
       ,provider_id = c.provider_id
-      ,visit_occurrence_id = NULL
+      ,visit_occurrence_id = e.visit_occurrence_id
       ,visit_detail_id = NULL
       ,measurement_source_value = d.source_code
       ,measurement_source_concept_id = d.source_concept_id
@@ -56,3 +58,5 @@ join xref.provider c
 on c.provider_source_value = isnull(a.Attending_Provider, Visit_Provider)
 left join xref.source_to_concept_map d 
 on source_code = 'BP - Art Line DBP'
+join xref.visit_occurrence_mapping e 
+on a.patnt_encntr_key = e.patnt_encntr_key
