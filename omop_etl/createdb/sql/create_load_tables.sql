@@ -1,5 +1,23 @@
 USE DWS_OMOP
 
+drop table if exists [xref].[visit_occurrence_mapping]
+create table [xref].[visit_occurrence_mapping](
+	[visit_occurrence_id] [int] identity(1,1) not null,
+	[patnt_encntr_key] [decimal](18, 0) null,
+	[load_dt] [datetime2](7) null,
+	[active_ind] [varchar](1) null,
+ constraint [xpk_visit_occurrence_mapping] primary key clustered 
+(
+	[visit_occurrence_id] asc
+)with (pad_index = off, 
+	   statistics_norecompute = off, 
+	   ignore_dup_key = off, 
+	   allow_row_locks = on, 
+	   allow_page_locks = on
+	) on [fg_user1]
+) on [fg_user1]
+
+
 DROP TABLE IF EXISTS preload.condition_occurrence
 CREATE TABLE [preload].[condition_occurrence](
 	[person_id] [int] NOT NULL,
@@ -176,4 +194,46 @@ CREATE TABLE [dbo].[measurement](
 	[measurement_source_concept_id] [int] NULL,
 	[unit_source_value] [varchar](50) NULL,
 	[value_source_value] [varchar](50) NULL
+) ON [fg_user1]
+
+CREATE TABLE [preload].[observation](
+	[person_id] [int] NOT NULL,
+	[observation_concept_id] [int] NOT NULL,
+	[observation_date] [date] NOT NULL,
+	[observation_datetime] [datetime2](7) NULL,
+	[observation_type_concept_id] [int] NOT NULL,
+	[value_as_number] [float] NULL,
+	[value_as_string] [varchar](60) NULL,
+	[value_as_concept_id] [int] NULL,
+	[qualifier_concept_id] [int] NULL,
+	[unit_concept_id] [int] NULL,
+	[provider_id] [int] NULL,
+	[visit_occurrence_id] [int] NULL,
+	[visit_detail_id] [int] NULL,
+	[observation_source_value] [varchar](50) NULL,
+	[observation_source_concept_id] [int] NULL,
+	[unit_source_value] [varchar](50) NULL,
+	[qualifier_source_value] [varchar](50) NULL,
+	[source_table] [varchar](50) NULL
+) ON [fg_user1]
+
+CREATE TABLE [dbo].[observation](
+	[observation_id] [int] identity(1,1) NOT NULL,
+	[person_id] [int] NOT NULL,
+	[observation_concept_id] [int] NOT NULL,
+	[observation_date] [date] NOT NULL,
+	[observation_datetime] [datetime2](7) NULL,
+	[observation_type_concept_id] [int] NOT NULL,
+	[value_as_number] [float] NULL,
+	[value_as_string] [varchar](60) NULL,
+	[value_as_concept_id] [int] NULL,
+	[qualifier_concept_id] [int] NULL,
+	[unit_concept_id] [int] NULL,
+	[provider_id] [int] NULL,
+	[visit_occurrence_id] [int] NULL,
+	[visit_detail_id] [int] NULL,
+	[observation_source_value] [varchar](50) NULL,
+	[observation_source_concept_id] [int] NULL,
+	[unit_source_value] [varchar](50) NULL,
+	[qualifier_source_value] [varchar](50) NULL
 ) ON [fg_user1]
