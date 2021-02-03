@@ -156,8 +156,28 @@ class DataStore:
 
             return int(result[1].strip())
 
+    def get_bo_query(self, doc_name): 
+        """Retrieve query from BO.
+        
+        Arguments:
+            doc_name {str} -- BO document name.
+        """
+        sql_metadata = """
+        select DISTINCT DP_NAME, SQL_QUERY
+        from DWS_METADATA.dbo.MD_MGMT_WEBI_DATA_PRVDRS
+        where DOC_ID in (
+            select DOC_ID
+            from DWS_METADATA.dbo.MD_MGMT_WEBI_DOCS 
+            where DOC_NAME = '{}'
+        )
+        """.format(doc_name)
+
+        with self.engine.connect() as con:
+            result = con.execute(sql_metadata).fetchall()
+            return dict(result)
+
     def get_indexes(self, table, schema='dbo'):
-        """[summary]
+        """[summary].
 
         Arguments:
             table {[type]} -- [description]

@@ -14,8 +14,8 @@ from omop_etl.datastore import DataStore, execute, read_sql
 
 # Register mapping, preload and load sql scripts here.
 MAPPING = {
-    'person': 'person_mapping.sql'
-    #'visit_occurrence': 'visit_occurrence_mapping.sql'
+    'person': 'person_mapping.sql',
+    'visit_occurrence': 'visit_occurrence_mapping.sql'
 }
 
 PRELOAD = {
@@ -30,10 +30,9 @@ PRELOAD = {
     }, 
     'measurement': {
         'bp': 'preload_measurement_bp.sql', 
-        'heart_rate': 'preload_measurement_heart_rate.sql', 
+        'heart_rate': 'preload_measurement_heartrate.sql', 
         'height': 'preload_measurement_height.sql', 
         'lab': 'preload_measurement_lab.sql', 
-        'lda': 'preload_measurement_lda.sql', 
         'pain': 'preload_measurement_pain.sql', 
         'qtcb': 'preload_measurement_qtcb.sql', 
         'res_dev': 'preload_measurement_res_dev.sql', 
@@ -54,6 +53,8 @@ PRELOAD = {
     }, 
     'observation': {
         'icu': 'preload_observation_icu.sql', 
+        'lda': 'preload_observation_lda.sql', 
+        'vent': 'preload_observation_vent.sql',
         'payer': 'preload_observation_payer.sql', 
         'smoking': 'preload_observation_smoking.sql', 
         'zipcode': 'preload_observation_zipcode.sql'
@@ -66,7 +67,13 @@ LOAD = {
     'condition_occurrence': 'load_condition.sql',
     'procedure_occurrence': 'load_procedure.sql',
     'drug_exposure': 'load_drug_exposure.sql',
-    'measurement': 'load_measurement.sql'
+    'measurement': 'load_measurement.sql',
+    'observation': 'load_observation.sql',
+    'visit_occurrence': 'load_visit_occurrence.sql',
+    # populate these tables at the end and in order: provider, care_site, location
+    'provider': 'load_provider.sql',
+    'care_site': 'load_care_site.sql',
+    'location': 'load_location.sql'
 }
 
 class Loader:
@@ -89,7 +96,7 @@ class Loader:
 
     @timeitd
     def update_mappings(self, table):
-        """Register new records in mapping table."""
+        """Load new records into mapping table."""
         print(f'Updating {table} ...')
         try:
             mapping_sql = MAPPING[table]
@@ -97,7 +104,6 @@ class Loader:
             return execute(q, self.engine)
         except KeyError:
             print(f'{table} is not registered as mapping table.')
-        #TODO: function does not return output. 
 
     @timeitd
     def preload(self, table, subset=None):
@@ -136,7 +142,7 @@ class Loader:
             return execute(q, self.engine)
 
     def preload_all(self):
-        """Preload all tables and subsets listed in configuration file."""
+        """Preload all active tables and subsets in the configuration file."""
         #read all tables/subsets from config 
         with timeitc('Preloading'):
             tables = self.load_param.keys()
