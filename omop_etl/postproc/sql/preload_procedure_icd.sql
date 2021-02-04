@@ -8,7 +8,7 @@ select distinct
     ,[modifier_concept_id] = 0
     ,[quantity] = NULL 
     ,[provider_id] = c.provider_id
-    ,[visit_occurrence_id] = e.visit_occurrence_id
+    ,[visit_occurrence_id] = g.visit_occurrence_id
     ,[visit_detail_id] = 0
     ,[procedure_source_value] = a.PROC_CD_DECML
     ,[procedure_source_concept_id] = d.concept_id

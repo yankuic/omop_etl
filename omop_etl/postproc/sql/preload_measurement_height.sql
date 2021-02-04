@@ -17,8 +17,8 @@ select distinct
       ,visit_detail_id = NULL
       ,measurement_source_value = d.source_code
       ,measurement_source_concept_id = d.source_concept_id
-      ,unit_source_value = NULL
-      ,value_source_value = 'BP-SYSTOLIC'
+      ,unit_source_value = 'cm'
+      ,value_source_value = a.HEIGHT_CM
       ,source_table = 'measurement_height'
 from stage.measurement_height a 
 join xref.person_mapping b
