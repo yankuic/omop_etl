@@ -9,9 +9,13 @@ select [person_id] = b.person_id
       ,[verbatim_end_date] = a.MED_ORDER_END_DATE
       ,[drug_type_concept_id] = 32817
       ,[stop_reason] = NULL
-      ,[refills] = a.MED_ORDER_REFILLS
-      ,[quantity] = (case when isnumeric(a.MED_ORDER_QTY) = 0 then dbo.udf_extract_numbers(a.MED_ORDER_QTY)
-                          else a.MED_ORDER_QTY
+      ,[refills] = try_convert(INT, a.MED_ORDER_REFILLS)
+      ,[quantity] = (case 
+                        when try_convert(INT, a.MED_ORDER_QTY) is NULL
+                          or try_convert(NUMERIC(18,4), a.MED_ORDER_QTY) is null 
+                          or try_conver(FLOAT, a.MED_ORDER_QTY) is null 
+                          then dbo.udf_extract_numbers(a.MED_ORDER_QTY)
+                        else a.MED_ORDER_QTY
                      end)
       ,[days_supply] = NULL
       ,[sig] = a.MED_ORDER_SIG
