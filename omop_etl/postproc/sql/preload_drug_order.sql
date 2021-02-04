@@ -13,7 +13,7 @@ select [person_id] = b.person_id
       ,[quantity] = (case 
                         when try_convert(INT, a.MED_ORDER_QTY) is NULL
                           or try_convert(NUMERIC(18,4), a.MED_ORDER_QTY) is null 
-                          or try_conver(FLOAT, a.MED_ORDER_QTY) is null 
+                          or try_convert(FLOAT, a.MED_ORDER_QTY) is null 
                           then dbo.udf_extract_numbers(a.MED_ORDER_QTY)
                         else a.MED_ORDER_QTY
                      end)
