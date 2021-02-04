@@ -13,49 +13,48 @@ date_range:
   start_date: 01/01/2020
   end_date: 1/14/2021
 
-doc_name: 'covid'
+doc_name: covid
 
 load:
   person:
   death:
   condition_occurrence:
   procedure_occurrence:
-    icd:
-    cpt:
+    icd: ICD coded procedures
+    cpt: CPT coded procedures
   drug_exposure: 
-    order: add description
-    admin: add description
+    order: Medication orders
+    admin: Medication administration
   measurement: 
-    bp: add description
-    heart_rate: add description     
-    height: add description
-    # lab: add description
-    # lda: add description
-    # pain: add description
-    # qtcb: add description
-    # res_dev: add description
-    # res_etco2: add description
-    # res_fio2: add description
-    # res_gcs: add description
-    # res_o2: add description
-    # res_peep: add description
-    # res_pip: add description
-    # res_resp: add description
-    # res_spo2: add description
-    # res_tidal: add description
-    # res_vent: add description
-    # rothman: add description
-    # sofa: add description
-    # temp: add description
-    # weight: add description
+    bp: Arterial blood presure
+    heart_rate: Heart rate
+    height: Height
+    lab: Laboratory results
+    pain: Pain scale
+    qtcb: Q-T interval corrected Bazett
+    res_dev: Respiratory device
+    res_etco2: Carbon dioxide [Partial pressure] in Exhaled gas at end expiration
+    res_fio2: Inhaled oxygen concentration
+    res_gcs: Glasgow coma score total
+    res_o2: Inhaled oxygen flow rate
+    res_peep: PEEP Respiratory system
+    res_pip: Peak inspiratory pressure
+    res_resp: Breath rate spontaneous, mechanical, and respiratory rate
+    res_spo2: Oxygen saturation in arterial blood by pulse oximetry
+    res_tidal: Tidal volume setting and volume.exhaled maximum ventilator alarm
+    res_vent: Ventilation mode 
+    rothman: Rothman index calculated
+    sofa: Sequential organ failure assessment score
+    temp: Body temperature
+    weight: Body weight
   observation:
-    icu: add description
-    lda:
-    vent:
-    payer: add description
-    smoking: add description
-    zipcode: add description
-  # visit:
+    icu: Intensive care unit stay
+    lda: LDA intubation type and LDA intubation start and end times
+    vent: Dependence on respirator
+    payer: Healthcare payer
+    smoking: Tobacco smoking behavior 
+    zipcode: Patient postal code
+  visit:
   provider:
   care_site:
   location:
