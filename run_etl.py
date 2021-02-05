@@ -7,7 +7,7 @@ if __name__ == "__main__":
     l = Loader(config_file='config.yml')
 
     print(l.update_mappings('person'))
-    # print(l.update_mappings('visit_occurrence'))
+    print(l.update_mappings('visit_occurrence'))
     
     print(l.preload_all())
     

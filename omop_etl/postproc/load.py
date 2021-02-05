@@ -33,9 +33,9 @@ PRELOAD = {
         'heart_rate': 'preload_measurement_heartrate.sql', 
         'height': 'preload_measurement_height.sql', 
         'lab': 'preload_measurement_lab.sql', 
-        'pain': 'preload_measurement_pain.sql', 
+        'pain': 'preload_measurement_painscale.sql', 
         'qtcb': 'preload_measurement_qtcb.sql', 
-        'res_dev': 'preload_measurement_res_dev.sql', 
+        'res_dev': 'preload_measurement_res_device.sql', 
         'res_etco2': 'preload_measurement_res_etco2.sql', 
         'res_fio2': 'preload_measurement_res_fio2.sql', 
         'res_gcs': 'preload_measurement_res_gcs.sql', 
@@ -115,7 +115,7 @@ class Loader:
 
         """
         assert table in PRELOAD.keys(), f'{table} has no preload sql script.'
-        print(f'Preloading {table} ({"all" or subset}) ...')
+        print(f'Preloading {table} ({subset or "all"}) ...')
         
         if isinstance(PRELOAD[table], dict):
             if subset in PRELOAD[table].keys(): 

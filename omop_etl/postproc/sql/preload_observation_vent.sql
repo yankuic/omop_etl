@@ -29,5 +29,5 @@ on c.provider_source_value = isnull(a.Attending_Provider, a.Visit_Provider)
 left join xref.source_to_concept_map d 
 on source_code = 'Mechanical vent use Y/N' and source_vocabulary_id = 'observation'
 join xref.visit_occurrence_mapping e
-on a.patnt_encntr_key = g.patnt_encntr_key
+on a.patnt_encntr_key = e.patnt_encntr_key
 where ENCOUNTER_EFFECTIVE_DATE is not null

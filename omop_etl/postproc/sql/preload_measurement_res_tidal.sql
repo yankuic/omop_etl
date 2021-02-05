@@ -20,7 +20,7 @@ from (
             ,measurement_source_concept_id = d.source_concept_id
             ,unit_source_value = 'mL'
             ,value_source_value = a.Tidal_Volume
-            ,source_table = 'measurement_res_spo2'
+            ,source_table = 'measurement_res_tidal'
       from stage.measurement_res_tidal a 
       join xref.person_mapping b
       on a.patient_key = b.patient_key
@@ -51,7 +51,7 @@ from (
             ,measurement_source_concept_id = d.source_concept_id
             ,unit_source_value = 'mL'
             ,value_source_value = a.Tidal_Volume_Exhaled
-            ,source_table = 'measurement_res_spo2'
+            ,source_table = 'measurement_res_tidal'
       from stage.measurement_res_tidal a 
       join xref.person_mapping b
       on a.patient_key = b.patient_key

@@ -1,3 +1,6 @@
+--bypass truncation warnings
+SET ANSI_WARNINGS OFF
+
 insert into preload.measurement with (tablock)
 select distinct 
       person_id = b.person_id
@@ -7,14 +10,11 @@ select distinct
       ,measurement_time = isnull(a.SPECIMEN_TAKEN_TIME, a.INFERRED_SPECIMEN_TIME)
       ,measurement_type_concept_id = 32817
       ,operator_concept_id = NULL
-      ,(CASE
-            WHEN ISNUMERIC(a.LAB_RESULT) = 1 THEN a.LAB_RESULT
-            ELSE NULL
-        END) value_as_number 
+      ,value_as_number = try_convert(float, a.LAB_RESULT)
       ,value_as_concept_id = NULL
       ,unit_concept_id = g.concept_id
-      ,range_low = a.NORMAL_LOW
-      ,range_high = a.NORMAL_HIGH
+      ,range_low = try_convert(float, a.NORMAL_LOW)
+      ,range_high = try_convert(float, a.NORMAL_HIGH)
       ,provider_id = c.provider_id
       ,visit_occurrence_id = h.visit_occurrence_id
       ,visit_detail_id = NULL
@@ -38,3 +38,5 @@ left join xref.concept g
 on a.LAB_UNIT = g.concept_code and g.domain_id = 'Unit'
 join xref.visit_occurrence_mapping h 
 on a.patnt_encntr_key = h.patnt_encntr_key
+
+SET ANSI_WARNINGS ON

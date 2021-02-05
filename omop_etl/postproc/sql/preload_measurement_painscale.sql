@@ -8,7 +8,7 @@ from (
         ,measurement_time = CAST(a.PAIN_DATETIME as TIME)
         ,measurement_type_concept_id = 32817
         ,operator_concept_id = NULL
-        ,value_as_number = a.Pain_Peds_Wong_Baker
+        ,value_as_number = try_convert(float, a.Pain_Peds_Wong_Baker)
         ,value_as_concept_id = NULL
         ,unit_concept_id = 0
         ,range_low = NULL
@@ -39,7 +39,7 @@ from (
         ,measurement_time = CAST(a.PAIN_DATETIME as TIME)
         ,measurement_type_concept_id = 32817
         ,operator_concept_id = NULL
-        ,value_as_number = a.PAIN_UF_DVPRS
+        ,value_as_number = try_convert(float, a.PAIN_UF_DVPRS)
         ,value_as_concept_id = NULL
         ,unit_concept_id = 0
         ,range_low = NULL
@@ -50,7 +50,7 @@ from (
         ,measurement_source_value = d.source_code
         ,measurement_source_concept_id = d.source_concept_id
         ,unit_source_value = '{score}'
-        ,value_source_value = a.Pain_Peds_Wong_Baker
+        ,value_source_value = a.PAIN_UF_DVPRS
         ,source_table = 'measurement_painscale'
     from stage.measurement_painscale a 
     join xref.person_mapping b
@@ -70,7 +70,7 @@ from (
         ,measurement_time = CAST(a.PAIN_DATETIME as TIME)
         ,measurement_type_concept_id = 32817
         ,operator_concept_id = NULL
-        ,value_as_number = a.Pain_JAX
+        ,value_as_number = try_convert(float, a.Pain_JAX)
         ,value_as_concept_id = NULL
         ,unit_concept_id = 0
         ,range_low = NULL
@@ -81,7 +81,7 @@ from (
         ,measurement_source_value = d.source_code
         ,measurement_source_concept_id = d.source_concept_id
         ,unit_source_value = '{score}'
-        ,value_source_value = a.Pain_Peds_Wong_Baker
+        ,value_source_value = a.Pain_JAX
         ,source_table = 'measurement_painscale'
     from stage.measurement_painscale a 
     join xref.person_mapping b

@@ -11,7 +11,7 @@ select [person_id] = b.person_id
       ,[stop_reason] = NULL
       ,[refills] = try_convert(INT, a.MED_ORDER_REFILLS)
       ,[quantity] = (case 
-                        when try_convert(INT, a.MED_ORDER_QTY) is NULL
+                        when try_convert(INT, a.MED_ORDER_QTY) is null
                           or try_convert(NUMERIC(18,4), a.MED_ORDER_QTY) is null 
                           or try_convert(FLOAT, a.MED_ORDER_QTY) is null 
                           then dbo.udf_extract_numbers(a.MED_ORDER_QTY)
