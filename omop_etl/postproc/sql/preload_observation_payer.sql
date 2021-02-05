@@ -25,4 +25,4 @@ on c.provider_source_value = isnull(a.Attending_Provider, a.Visit_Provider)
 left join xref.source_to_concept_map d 
 on source_code = 'Payer' and source_vocabulary_id = 'observation'
 join xref.visit_occurrence_mapping e
-on a.patnt_encntr_key = g.patnt_encntr_key
+on a.patnt_encntr_key = e.patnt_encntr_key

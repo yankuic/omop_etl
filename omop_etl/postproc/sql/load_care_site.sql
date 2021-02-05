@@ -18,4 +18,4 @@ join (
         select care_site_id from dbo.visit_occurrence
     ) b
 ) c 
-on a.care_site_id = c.care_site_id
+on a.care_site_id = c.care_site_id and c.care_site_id is not null

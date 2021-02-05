@@ -17,6 +17,7 @@ insert into xref.visit_occurrence_mapping (
 		where b.patnt_encntr_key is null
 ) x
 
+SET NOCOUNT ON;
 /*
 Activate only visits existing in stage table.
 */
@@ -35,3 +36,5 @@ Rebuild index
 */
 alter index [xpk_visit_occurrence_mapping] ON [xref].[visit_occurrence_mapping] 
 rebuild partition = ALL with (SORT_IN_TEMPDB = ON)
+
+SET NOCOUNT OFF;

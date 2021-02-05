@@ -8,7 +8,7 @@ from (
         ,measurement_time = CAST(a.Respiratory_Datetime as TIME)
         ,measurement_type_concept_id = 32817
         ,operator_concept_id = NULL
-        ,value_as_number = a.Peds_Vent_Mode
+        ,value_as_number = try_convert(float, a.Peds_Vent_Mode)
         ,value_as_concept_id = NULL
         ,unit_concept_id = NULL
         ,range_low = NULL
@@ -39,7 +39,7 @@ from (
         ,measurement_time = CAST(a.Respiratory_Datetime as TIME)
         ,measurement_type_concept_id = 32817
         ,operator_concept_id = NULL
-        ,value_as_number = a.Adult_Vent_Mode
+        ,value_as_number = try_convert(float, a.Adult_Vent_Mode)
         ,value_as_concept_id = NULL
         ,unit_concept_id = NULL
         ,range_low = NULL

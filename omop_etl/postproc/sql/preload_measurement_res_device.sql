@@ -1,3 +1,6 @@
+--bypass truncation warnings
+SET ANSI_WARNINGS OFF
+
 insert into preload.measurement with (tablock)
 select distinct 
        person_id = b.person_id
@@ -29,3 +32,5 @@ left join xref.source_to_concept_map d
 on source_code = 'RESP DEVICE' and source_vocabulary_id = 'Flowsheet'
 join xref.visit_occurrence_mapping e 
 on a.patnt_encntr_key = e.patnt_encntr_key
+
+SET ANSI_WARNINGS ON
