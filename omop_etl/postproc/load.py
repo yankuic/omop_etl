@@ -10,7 +10,7 @@ Assumptions:
 """
 
 from omop_etl.utils import timeitd, timeitc
-from omop_etl.datastore import DataStore, execute, read_sql
+from omop_etl.datastore import DataStore, read_sql
 
 # Register mapping, preload and load sql scripts here.
 MAPPING = {
@@ -101,7 +101,7 @@ class Loader:
         try:
             mapping_sql = MAPPING[table]
             q = read_sql(self.sql_path + mapping_sql)
-            return execute(q, self.engine)
+            return self.store.execute(q)
         except KeyError:
             print(f'{table} is not registered as mapping table.')
 
@@ -123,7 +123,7 @@ class Loader:
                 print(f'executing {preload_file} ...')
                 q = read_sql(self.sql_path + preload_file)
                 self.store.truncate('preload', table)
-                return execute(q, self.engine)
+                return self.store.execute(q)
             elif subset is None: 
                 preload_list = list(self.load_param[table].keys())
                 self.store.truncate('preload', table)
@@ -131,7 +131,7 @@ class Loader:
                     preload_file = PRELOAD[table][s]
                     print(f'executing {preload_file} ...')
                     q = read_sql(self.sql_path + preload_file)
-                    print(execute(q, self.engine))
+                    print(self.store.execute(q))
             else: 
                 print(f'{subset} is not a valid option for argument subset or {table} has no subset key {subset}.')
         else:
@@ -139,7 +139,7 @@ class Loader:
             print(f'executing {preload_file} ...')
             q = read_sql(self.sql_path + preload_file)
             self.store.truncate('preload', table)
-            return execute(q, self.engine)
+            return self.store.execute(q)
 
     def preload_all(self):
         """Preload all active tables and subsets in the configuration file."""
@@ -157,4 +157,4 @@ class Loader:
         self.store.truncate('dbo', table)
         load_file = LOAD[table]
         q = read_sql(self.sql_path + load_file)
-        return execute(q, self.engine)
+        return self.store.execute(q)
