@@ -65,13 +65,20 @@ CREATE TABLE [stage].PROCEDURE_ICD(
 ) ON [fg_user1]
 
 
---DROP TABLE [stage].	VISIT
---CREATE TABLE [stage].VISIT(
---	ENCNTR_CSN_ID [decimal] , --PATNT_ENCNTR_KEY_XREF1.ENCNTR_CSN_I,  
---	ADMIT_SOURCES [varchar] (254)  ,--ALL_ADMIT_SOURCES.STNDRD_LABE,  
---	DISCHARGE_DISPOSITIONS [varchar] (254),--ALL_DISCHARGE_DISPOSITIONS.STNDRD_LABELE,  
---	PATIENT_KEY [int]--ALL_PATIENTS.PATNT_KEY 
---) ON [fg_user1]
+DROP TABLE IF EXISTS [stage].VISIT
+CREATE TABLE [stage].VISIT(
+	PATIENT_KEY [int], --ALL_PATIENTS.PATNT_KEY 
+	ENCOUNTER_EFFECTIVE_DATE [date] NULL,
+	ENCOUNTER_TYPE [varchar] (255) NULL,
+	PATIENT_TYPE [varchar] (255) NULL,
+	DISCHG_DATE [date] NULL,
+	DISCHG_DATETIME [datetime2],
+	ENCOUNTER_STATUS [varchar] (255),
+	ADMIT_SOURCES [varchar] (255)  ,--ALL_ADMIT_SOURCES.STNDRD_LABE,  
+	DISCHG_DISPOSITION [varchar] (255) null  ,
+	PATNT_ENCNTR_KEY [decimal] NULL,
+	VISIT_PROVIDER [decimal] null
+) ON [fg_user1]
 
 
 DROP TABLE IF EXISTS [stage].DRUG_ORDER
@@ -81,13 +88,13 @@ CREATE TABLE [stage].DRUG_ORDER(
 	MED_ORDER_START_DATETIME [datetime2],--PROCEDURE_EVENT_DTL.PROCEDURE_TYPE,  
 	MED_ORDER_END_DATE [date],--ALL_ICD_PROCEDURE_CODES.PROC_CD_DECML,  
 	MED_ORDER_END_DATETIME [datetime2], --ALL_ICD_PROCEDURE_CODES.ICD_TYPE,  
-	MED_ORDER_DISCRETE_DOSE [varchar] (50), --PX_PATNT_ENCNTR_KEY_XREF.PATNT_ENCNTR_KEY 
-	MED_ORDER_DISCRETE_DOSE_UNIT [varchar] (50),
-	RXNORM_CODE [varchar] (50),
-	MED_ORDER_QTY [varchar] (50),
-	MED_ORDER_REFILLS [varchar] (50),
-	MED_ORDER_ROUTE [varchar] (50),
-	MED_ORDER_SIG [varchar] (250),
+	MED_ORDER_DISCRETE_DOSE [varchar] (255), --PX_PATNT_ENCNTR_KEY_XREF.PATNT_ENCNTR_KEY 
+	MED_ORDER_DISCRETE_DOSE_UNIT [varchar] (255),
+	RXNORM_CODE [varchar] (255),
+	MED_ORDER_QTY [varchar] (255),
+	MED_ORDER_REFILLS [varchar] (255),
+	MED_ORDER_ROUTE [varchar] (255),
+	MED_ORDER_SIG [varchar] (max),
 	MED_ORDER_AUTH_PROV_KEY [decimal],
 	PATNT_ENCNTR_KEY [decimal]
 ) ON [fg_user1]
@@ -111,7 +118,7 @@ DROP TABLE IF EXISTS [stage].MEASUREMENT_Res_Device
 CREATE TABLE [stage].MEASUREMENT_Res_Device(
 	PATIENT_KEY [int], --PX_ALL_PATIENTS.PATNT_KEY,  
 	PATNT_ENCNTR_KEY [decimal] null, --PX_PATNT_ENCNTR_KEY_XREF.PATNT_ENCNTR_KEY 
-	Respiratory_Device [varchar] (50) null,
+	Respiratory_Device [varchar] (255) null,
 	Respiratory_Date [date] NULL,
 	Respiratory_Datetime [datetime2] NULL,
 	Attending_Provider [int] null,
@@ -141,17 +148,6 @@ CREATE TABLE [stage].MEASUREMENT_Res_FIO2(
 	Visit_Provider [int] null
 ) ON [fg_user1]
 
-
-
-DROP TABLE IF EXISTS [stage].OBSERVATION_Smoking
-CREATE TABLE [stage].OBSERVATION_Smoking(
-	PATIENT_KEY [int], --PX_ALL_PATIENTS.PATNT_KEY,  
-	Smoking_Status [varchar] (50),
-	Encounter_Effective_Date [date] NULL,
-	PATNT_ENCNTR_KEY [decimal] null, --PX_PATNT_ENCNTR_KEY_XREF.PATNT_ENCNTR_KEY 
-	Attending_Provider [int] null,
-	Visit_Provider [int] null
-) ON [fg_user1]
 
 
 DROP TABLE IF EXISTS [stage].MEASUREMENT_Res_O2
@@ -286,6 +282,7 @@ CREATE TABLE [stage].MEASUREMENT_LAB(
 	Attending_Provider [decimal] null
 ) ON [fg_user1]
 
+
 DROP TABLE IF EXISTS [stage].MEASUREMENT_BP
 CREATE TABLE [stage].MEASUREMENT_BP(
 	PATIENT_KEY [int], 
@@ -332,17 +329,6 @@ CREATE TABLE [stage].MEASUREMENT_Height(
 	Visit_Provider [decimal] null
 ) ON [fg_user1]
 
-DROP TABLE IF EXISTS [stage].MEASUREMENT_LDA
-CREATE TABLE [stage].MEASUREMENT_LDA(
-	PATIENT_KEY [int], 
-	Intubation_Dt [datetime2] NULL,
-	Extubation_Dt [datetime2] NULL,
-	PATNT_ENCNTR_KEY [decimal] null, 
-	Airway_Display_Name [varchar] (200) NULL,
-	Attending_Provider [decimal] null,
-	Visit_Provider [decimal] null
-) ON [fg_user1]
-
 
 DROP TABLE IF EXISTS [stage].MEASUREMENT_PainScale
 CREATE TABLE [stage].MEASUREMENT_PainScale(
@@ -362,7 +348,7 @@ CREATE TABLE [stage].MEASUREMENT_QTCB(
 	PATIENT_KEY [int], 
 	PATNT_ENCNTR_KEY [decimal] null, 
 	ECG_Acq_Date [datetime2] NULL,
-	ECG_Acq_Time [varchar] (100) null,
+	ECG_Acq_Time [varchar] (255) null,
 	QTCB [decimal] null,
 	Attending_Provider [decimal] null,
 	Visit_Provider [decimal] null
@@ -455,4 +441,29 @@ CREATE TABLE [stage].OBSERVATION_Zipcode(
 	PATNT_ENCNTR_KEY [decimal] null, 
 	Attending_Provider [int] null,
 	Visit_Provider [int] null
+) ON [fg_user1]
+
+
+DROP TABLE IF EXISTS [stage].OBSERVATION_LDA
+CREATE TABLE [stage].OBSERVATION_LDA(
+	PATIENT_KEY [int], 
+	Intubation_Dt [datetime2] NULL,
+	Extubation_Dt [datetime2] NULL,
+	PATNT_ENCNTR_KEY [decimal] null, 
+	Airway_Display_Name [varchar] (200) NULL,
+	Attending_Provider [decimal] null,
+	Visit_Provider [decimal] null
+) ON [fg_user1]
+
+
+DROP TABLE IF EXISTS [stage].OBSERVATION_VENT
+CREATE TABLE [stage].OBSERVATION_VENT(
+	PATIENT_KEY [int], 
+	ENCOUNTER_EFFECTIVE_DATE [datetime] null,
+	DATE_OF_CARE [datetime] null,
+	VENT_INVASIVE [VARCHAR] (50) NULL,
+	VENT_NON_INVASIVE [VARCHAR] (50) NULL,
+	PATNT_ENCNTR_KEY [decimal] null, 
+	ATTENDING_PROVIDER [decimal] null,
+	VISIT_PROVIDER [decimal] null
 ) ON [fg_user1]
