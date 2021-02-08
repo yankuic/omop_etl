@@ -1,29 +1,11 @@
 #coding:utf-8
 """[description]."""
 
-import os
+from contextlib import contextmanager
 import pandas as pd
 import yaml
 from sqlalchemy import create_engine
 
-def execute(query_string, engine):
-    """[summary].
-
-    Args:
-        query_string ([type]): [description]
-        engine ([type]): [description]
-
-    """
-    with engine.connect() as connection: 
-        tran = connection.begin()
-        try:
-            res = connection.execute(query_string)
-            tran.commit()
-            return f'{res.rowcount} rows affected'
-
-        except Exception as e:
-            tran.rollback()
-            raise(e)
 
 def read_sql(filepath):
     """[summary].
@@ -44,7 +26,7 @@ def read_sql(filepath):
         raise(e)
 
 class DataStore:
-    """Instantiate configuration parameters.
+    """Instantiate engine and configuration parameters.
 
     Arguments:
         store_name {str} -- Connection shortcut (omop, mtd).
@@ -65,7 +47,27 @@ class DataStore:
         self.server = self.config_param['datastore'][store_name]['server']
         self._engine_str = f'mssql+pyodbc://{self.server}/{self.database}?driver=SQL+Server'
         self.engine = create_engine(self._engine_str, max_overflow=-1, *args)
+
+    @contextmanager
+    def connection(self):
+        """Manage connection context."""
+        con = self.engine.connect()
+        tran = con.begin()
+
+        try:
+            yield con
+        except:
+            tran.rollback()
+            raise
+        else:
+            tran.commit()
     
+    def execute(self, query_string):
+        """[summary]."""
+        with self.connection() as con: 
+            res = con.execute(query_string)
+            return f'{res.rowcount} rows affected'
+
     def list_dbs(self):
         """List all databases in server."""
         q = '''
@@ -73,7 +75,7 @@ class DataStore:
             FROM sys.databases;  
         '''
 
-        with self.engine.connect() as con:
+        with self.connection()  as con:
             return pd.read_sql(q, con)
 
     def list_tables(self, database=None, in_schema=['dbo'], name_pattern=None):
@@ -97,7 +99,7 @@ class DataStore:
                 AND name like '%{}%'
             '''.format(schema_list, name_pattern)
 
-        with self.engine.connect() as con:
+        with self.connection()  as con:
             return pd.read_sql(q, con)
 
     def list_schemas(self, database=None):
@@ -115,7 +117,7 @@ class DataStore:
         if database is None:
             database = self.database
 
-        with self.engine.connect() as con:
+        with self.connection()  as con:
             return pd.read_sql(q, con)
 
     def find_column(self, pattern, in_schema=['dbo']):
@@ -139,7 +141,7 @@ class DataStore:
              ORDER BY schema_name, table_name;
         """.format(pattern, schema_list)
 
-        with self.engine.connect() as con:
+        with self.connection() as con:
             return pd.read_sql(query, con)
     
     def row_count(self, table, schema='dbo'):
@@ -150,14 +152,34 @@ class DataStore:
             schema {str} -- Schema name.
 
         """
-        with self.engine.connect() as con:
+        with self.connection()  as con:
             query = "EXEC sp_spaceused '{}.{}'".format(schema, table)
             result = con.execute(query).next()
 
             return int(result[1].strip())
 
+    def get_bo_query(self, doc_name): 
+        """Retrieve query from BO.
+        
+        Arguments:
+            doc_name {str} -- BO document name.
+        """
+        sql_metadata = """
+        select DISTINCT DP_NAME, SQL_QUERY
+        from DWS_METADATA.dbo.MD_MGMT_WEBI_DATA_PRVDRS
+        where DOC_ID in (
+            select DOC_ID
+            from DWS_METADATA.dbo.MD_MGMT_WEBI_DOCS 
+            where DOC_NAME = '{}'
+        )
+        """.format(doc_name)
+
+        with self.connection()  as con:
+            result = con.execute(sql_metadata).fetchall()
+            return dict(result)
+
     def get_indexes(self, table, schema='dbo'):
-        """[summary]
+        """[summary].
 
         Arguments:
             table {[type]} -- [description]
@@ -173,7 +195,7 @@ class DataStore:
             EXEC sys.sp_helpindex @objname = N'{}.{}'
         '''.format(schema, table)
 
-        with self.engine.connect() as con:
+        with self.connection() as con:
             return pd.read_sql_query(q, con)
 
     def create_schema(self, schema):
@@ -183,22 +205,16 @@ class DataStore:
             schema (str): Schema name.
 
         """
-        with self.engine.connect() as con:
-            tran = con.begin()
-            try: 
-                res = con.execute('''
-                    IF NOT EXISTS (
-                        SELECT * 
-                        FROM sys.schemas
-                        WHERE name = '{0}')
-                      
-                      EXEC('CREATE SCHEMA {0}')
-                '''.format(schema))
-                tran.commit()
-                return res.rowcount
-            except Exception as e:
-                tran.rollback()
-                raise(e)
+        with self.connection()  as con: 
+            q ='''
+                IF NOT EXISTS (
+                    SELECT * 
+                    FROM sys.schemas
+                    WHERE name = '{0}')
+                    
+                    EXEC('CREATE SCHEMA {0}')
+            '''.format(schema)
+            return self.execute(q)
 
     def object_exists(self, object_type, name):
         """Evaluate if object exist in database.
@@ -223,7 +239,7 @@ class DataStore:
 		end
         )'''.format(object_type, name)
 
-        with self.engine.connect() as con:
+        with self.connection()  as con:
             res = con.execute(q).fetchone()[0]
             
             if res == 1: 
@@ -231,3 +247,6 @@ class DataStore:
             else:
                 return False
 
+    def truncate(self, schema, table):
+        q = f'truncate table {schema}.{table}'
+        return self.execute(q)

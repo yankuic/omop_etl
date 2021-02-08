@@ -10,7 +10,7 @@ select distinct
       ,[condition_type_concept_id] = 32817
       ,[stop_reason] = NULL
       ,[provider_id] = c.provider_id
-      ,[visit_occurrence_id] = 0
+      ,[visit_occurrence_id] = g.visit_occurrence_id
       ,[visit_detail_id] = 0
       ,[condition_source_value] = a.DIAG_CD_DECML
       ,[condition_source_concept_id] = d.concept_id
@@ -27,3 +27,5 @@ join xref.concept_relationship e
 on d.concept_id = e.concept_id_1 and e.relationship_id = 'Maps to'
 join xref.concept f 
 on e.concept_id_2 = f.concept_id and f.domain_id = 'Condition'
+join xref.visit_occurrence_mapping g
+on a.patnt_encntr_key = g.patnt_encntr_key
