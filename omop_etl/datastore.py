@@ -75,7 +75,7 @@ class DataStore:
             FROM sys.databases;  
         '''
 
-        with self.connection()  as con:
+        with self.connection() as con:
             return pd.read_sql(q, con)
 
     def list_tables(self, database=None, in_schema=['dbo'], name_pattern=None):
