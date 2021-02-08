@@ -13,9 +13,7 @@ date_range:
   start_date: 01/01/2020
   end_date: 01/31/2021
 
-# patient_file: sample_id.csv
-
-doc_name: 'covid'
+doc_name: covid
 
 load:
   # person:

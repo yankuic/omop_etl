@@ -34,3 +34,6 @@ left join xref.source_to_concept_map g
 on a.SEX = g.source_code and g.source_vocabulary_id = 'sex'
 left join xref.source_to_concept_map h
 on a.RACE = h.source_code and h.source_vocabulary_id = 'race'
+where a.patnt_birth_datetime is not null 
+and h.target_concept_id is not null 
+and f.target_concept_id is not null 
