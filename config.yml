@@ -13,8 +13,6 @@ date_range:
   start_date: 01/01/2020
   end_date: 1/14/2021
 
-doc_name: covid
-
 load:
   person:
   death:
