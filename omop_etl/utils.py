@@ -1,6 +1,9 @@
 #coding=utf-8
 
+import sys
+import threading
 import time
+import logging
 from contextlib import contextmanager
 from functools import wraps
 
@@ -19,9 +22,32 @@ def timeitd(f):
     """Return elapsed time to run function."""
     @wraps(f)
     def wrap(*args, **kwargs):
+        arg = locals()['args'][1]
+        print(f"Executing {f.__name__}({arg}) ... ", end='')
+        def spinner():
+            while True:
+                for cursor in '|/-\\':
+                    sys.stdout.write(cursor)
+                    sys.stdout.flush()
+                    time.sleep(0.1)
+                    sys.stdout.write('\b')
+                    if done:
+                        sys.stdout.write('Done')
+                        return
+        
         startTime = time.time()
+
+        done = False
+        spin_thread = threading.Thread(target=spinner)
+        spin_thread.start()
+
         result = f(*args, **kwargs)
+
+        done = True
+        spin_thread.join()
+
         elapsedTime = time.time() - startTime
-        print(f'{f.__name__} complete. Elapsed time {time.strftime("%H:%M:%S", time.gmtime(elapsedTime))}')
+        logging.info(f'Process to execute {f.__name__}({arg}) is completed. Elapsed time: {time.strftime("%Hh:%Mm:%Ss", time.gmtime(elapsedTime))}')
+        sys.stdout.write(f'\nElapsed time {time.strftime("%H:%M:%S", time.gmtime(elapsedTime))}')
         return result
     return wrap
