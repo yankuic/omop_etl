@@ -24,6 +24,7 @@ def timeitd(f):
     def wrap(*args, **kwargs):
         arg = locals()['args'][1]
         print(f"Executing {f.__name__}({arg}) ... ", end='')
+
         def spinner():
             while True:
                 for cursor in '|/-\\':
@@ -34,20 +35,30 @@ def timeitd(f):
                     if done:
                         sys.stdout.write('Done')
                         return
-        
+
         startTime = time.time()
 
-        done = False
-        spin_thread = threading.Thread(target=spinner)
-        spin_thread.start()
+        result = None
 
-        result = f(*args, **kwargs)
+        try:
+            done = False
+            spin_thread = threading.Thread(target=spinner)
+            spin_thread.start()
 
-        done = True
-        spin_thread.join()
+            result = f(*args, **kwargs)
+
+            done = True
+            spin_thread.join()
+
+        except (KeyboardInterrupt, AssertionError):
+            done = True
+            raise
 
         elapsedTime = time.time() - startTime
+
         logging.info(f'Process to execute {f.__name__}({arg}) is completed. Elapsed time: {time.strftime("%Hh:%Mm:%Ss", time.gmtime(elapsedTime))}')
-        sys.stdout.write(f'\nElapsed time {time.strftime("%H:%M:%S", time.gmtime(elapsedTime))}')
-        return result
+        sys.stdout.write(f'\nElapsed time {time.strftime("%H:%M:%S", time.gmtime(elapsedTime))}\n')
+        
+        return (result or 0)
+
     return wrap
