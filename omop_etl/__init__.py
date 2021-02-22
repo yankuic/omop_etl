@@ -6,7 +6,7 @@ from omop_etl.load import Loader
 
 logging.basicConfig(filename='omop_etl.log', 
                     format='%(asctime)s: %(message)s', 
-                    level=logging.DEBUG,
+                    level=logging.INFO,
                     datefmt='%m/%d/%Y %I:%M:%S %p')
 
 store = DataStore('config.yml')

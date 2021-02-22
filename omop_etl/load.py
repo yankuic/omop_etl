@@ -111,9 +111,8 @@ class Loader:
         """Execute preload sql query.
         
         Args:
-            subset (str): Subset key (e.g. icd, cpt)or None. If None all subsets for table will be loaded. 
+            subset (str): Subset key (e.g. icd, cpt) or None. If None all subsets for table will be loaded. 
             Default: None. 
-
         """
         assert table in PRELOAD.keys(), f'{table} has no preload sql script.'
         logging.info(f'Process to execute preload {table} ({subset or "all"}) is started.')

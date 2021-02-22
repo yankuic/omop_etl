@@ -2,9 +2,11 @@
 """[description]."""
 
 from contextlib import contextmanager
-import pandas as pd
 import yaml
+import pandas as pd
 from sqlalchemy import create_engine
+import sqlparse
+from sqlparse.sql import Identifier, Function, Operation, Case
 
 
 def read_sql(filepath):
@@ -24,6 +26,53 @@ def read_sql(filepath):
         # if e is IOError:
         #     print(f'Error: Failed to open {filepath}. File exists?')
         raise(e)
+
+
+def format_bo_sql(sqlstring:str, table_name:str, database:str='DWS_OMOP', schema:str='cohort', aliases:list=None):
+    """Insert INTO {table_name} right before first FROM clause."""
+    assert len(sqlstring) > 0, 'Empty string passed.'
+
+    parsed = sqlparse.parse(sqlstring)[0]
+    idx = [parsed.token_index(t) for t in parsed if t.is_keyword and t.value == 'FROM'][0]
+    columns = parsed.token_prev(idx)[1]
+
+    # Extract columns from SELECT clause. If duplicated columns, use alias, 
+    # else append abbreviated source table name.
+    colnames = [i.value.split('.')[-1] for i in columns]
+    dup_cols = set([x for x in colnames if colnames.count(x) > 1])
+    new_colnames = []
+
+    if aliases:
+        col_items = [item for item in columns if isinstance(item, (Identifier, Function, Operation, Case))]
+        assert len(col_items) == len(aliases), 'Number of columns in query does not match number of aliases passed.'
+        new_colnames = [f'{item.value} AS {alias}' for item,alias in zip (col_items, aliases)]
+
+    else:
+        counter = 0
+        for item in columns:
+            if isinstance(item, Identifier):
+                colname = item.value.split('.')[-1]
+                tabname = item.value.split('.')[-2]
+                shrt_tabname = '_'.join([word[:3] for word in tabname.split('_')])
+                if colname in dup_cols:
+                    item.value = f'{item.value} AS {shrt_tabname}_{colname}'
+                new_colnames.append(item.value)
+            
+            elif isinstance(item, (Function, Operation, Case)):
+                counter += 1
+                fn_name = f'FN_{counter}'
+                item.value = f'{item.value} AS {fn_name}'
+                new_colnames.append(item.value)
+
+    colnames_str = ', '.join(new_colnames)
+    into_str = f'{colnames_str} INTO {database}.{schema}.{table_name} '
+
+    # Replace string with INTO clause and new column names.
+    columns.value = into_str
+    sqlstring = f'DROP TABLE IF EXISTS {database}.{schema}.{table_name}; ' + ''.join([t.value for t in parsed])
+    
+    return sqlstring.replace("'", "''")
+
 
 class DataStore:
     """Instantiate engine and configuration parameters.
@@ -71,7 +120,9 @@ class DataStore:
     def list_dbs(self):
         """List all databases in server."""
         q = '''
-            SELECT [Database Name]= name, [Database ID] = database_id, Created = create_date
+            SELECT [Database Name]= name, 
+                   [Database ID] = database_id, 
+                   Created = create_date
             FROM sys.databases;  
         '''
 
@@ -170,7 +221,7 @@ class DataStore:
         where DOC_ID in (
             select DOC_ID
             from DWS_METADATA.dbo.MD_MGMT_WEBI_DOCS 
-            where DOC_NAME = '{}'
+            where DOC_NAME = '{}' and FOLDER_PATH like 'Public Folders%'
         )
         """.format(doc_name)
 
