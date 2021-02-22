@@ -1,0 +1,336 @@
+# Column aliases
+aliases:
+  CONDITION:
+  - patient_key
+  - start_date
+  - end_date
+  - diag_cd_decml
+  - diagnosis_type
+  - icd_type
+  - condition_poa
+  - providr_key
+  - patnt_encntr_key
+  DEATH:
+  - patient_key
+  - patnt_dth_date
+  - patnt_ssn_dth_date
+  DRUG_ADMIN:
+  - patient_key
+  - mar_action
+  - rxnorm_code
+  - med_order_route
+  - taken_date
+  - taken_datetime
+  - total_dose_char
+  - med_dose_unit_desc
+  - med_order_auth_prov_key
+  - patnt_encntr_key
+  DRUG_ORDER:
+  - patient_key
+  - med_order_start_date
+  - med_order_start_datetime
+  - med_order_end_date
+  - med_order_end_datetime
+  - med_order_discrete_dose
+  - med_order_discrete_dose_unit
+  - rxnorm_code
+  - med_order_qty
+  - med_order_refills
+  - med_order_route
+  - med_order_sig
+  - med_order_auth_prov_key
+  - patnt_encntr_key
+  MEASUREMENT_BP:
+  - patient_key
+  - patnt_encntr_key
+  - bp_date
+  - bp_datetime
+  - bp
+  - systolic
+  - diastolic
+  - bp_non_invasive
+  - arterial_line
+  - cvp
+  - cvp_mean
+  - map_a_line
+  - map_cuff
+  - map_non_invasive
+  - pap_mean
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_HeartRate:
+  - patient_key
+  - patnt_encntr_key
+  - vitals_date
+  - vitals_datetime
+  - heartrate
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Height:
+  - patient_key
+  - patnt_encntr_key
+  - height_date
+  - height_datetime
+  - height_inch
+  - height_cm
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_LAB:
+  - patient_key
+  - patnt_encntr_key
+  - normal_low
+  - normal_high
+  - inferred_loinc_code
+  - lab_unit
+  - lab_result
+  - specimen_taken_date
+  - specimen_taken_time
+  - specimen_taken_datetime
+  - inferred_specimen_date
+  - inferred_specimen_time
+  - inferred_specimen_datetime
+  - attending_provider
+  MEASUREMENT_PainScale:
+  - patient_key
+  - patnt_encntr_key
+  - pain_date
+  - pain_datetime
+  - pain_uf_dvprs
+  - pain_peds_wong_baker
+  - pain_jax
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_QTCB:
+  - patient_key
+  - patnt_encntr_key
+  - ecg_acq_date
+  - ecg_acq_time
+  - qtcb
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_Device:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_device
+  - respiratory_date
+  - respiratory_datetime
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_ETCO2:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - etco2
+  - etco2_oral_nasal
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_FIO2:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - fio2
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_GCS:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - glasgow_coma_peds_score
+  - glasgow_coma_adult_score
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_O2:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - o2_lmin
+  - o2_mlmin
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_PEEP:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - peep
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_PIP:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - pip
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_RESP:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - adult_mech_resp_rate
+  - adult_spont_resp_rate
+  - peds_mech_resp_rate
+  - peds_spont_resp_rate
+  - respiratory_device
+  - respiratory_rate
+  - attending_provider
+  - visit_provider
+  - adult_vent_model
+  - adult_vent_start_time
+  - adult_vent_end_time
+  - peds_vent_mode
+  - peds_vent_start_time
+  - peds_vent_end_time
+  - encounter_number_csn
+  MEASUREMENT_Res_SPO2:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - spo2
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_Tidal:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - tidal_volume
+  - tidal_volume_exhaled
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_Vent:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - peds_vent_mode
+  - adult_vent_mode
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Rothman:
+  - patient_key
+  - patnt_encntr_key
+  - rothman_index_date
+  - rothman_index_datetime
+  - rothman_index_score
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_SOFA:
+  - patient_key
+  - patnt_encntr_key
+  - date_of_care
+  - sofa_score
+  - cardiovascular
+  - cns
+  - coagulation
+  - liver
+  - renal
+  - respiration
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Temp:
+  - patient_key
+  - patnt_encntr_key
+  - vitals_date
+  - vitals_datetime
+  - temp_farenheit
+  - temp_celsius
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Weight:
+  - patient_key
+  - patnt_encntr_key
+  - weight_date
+  - weight_datetime
+  - weight_kgs
+  - weight_lbs
+  - attending_provider
+  - visit_provider
+  OBSERVATION_ICU:
+  - patient_key
+  - encounter_effective_date
+  - icu_stay
+  - icu_days
+  - patnt_encntr_key
+  - attending_provider
+  - visit_provider
+  OBSERVATION_LDA:
+  - patient_key
+  - intubation_dt
+  - extubation_dt
+  - patnt_encntr_key
+  - airway_display_name
+  - attending_provider
+  - visit_provider
+  OBSERVATION_Payer:
+  - patient_key
+  - encounter_effective_date
+  - payer
+  - patnt_encntr_key
+  - attending_provider
+  - visit_provider
+  OBSERVATION_Smoking:
+  - patient_key
+  - smoking_status
+  - encounter_effective_date
+  - patnt_encntr_key
+  - attending_provider
+  - visit_provider
+  OBSERVATION_Vent:
+  - patient_key
+  - encounter_effective_date
+  - date_of_care
+  - vent_invasive
+  - vent_non_invasive
+  - patnt_encntr_key
+  - attending_provider
+  - visit_provider
+  OBSERVATION_Zipcode:
+  - patient_key
+  - encounter_effective_date
+  - zip
+  - patnt_encntr_key
+  - attending_provider
+  - visit_provider
+  PERSON:
+  - patient_key
+  - sex
+  - race
+  - ethnicity
+  - addr_key
+  - patnt_birth_datetime
+  - patient_reported_pcp_prov_key
+  - patient_reported_primary_dept_id
+  PROCEDURE_CPT:
+  - patient_key
+  - start_date
+  - procedure_type
+  - cpt_cd
+  - patnt_encntr_key
+  - providr_key
+  PROCEDURE_ICD:
+  - patient_key
+  - start_date
+  - procedure_type
+  - proc_cd_decml
+  - icd_type
+  - patnt_encntr_key
+  - providr_key
+  VISIT:
+  - patient_key
+  - encounter_effective_date
+  - encounter_type
+  - patient_type
+  - dischg_date
+  - dischg_datetime
+  - encounter_status
+  - admit_sources
+  - dischg_disposition
+  - patnt_encntr_key
+  - visit_provider

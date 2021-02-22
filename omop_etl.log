@@ -1,74 +1,12 @@
-02/09/2021 01:47:51 PM: Preloading condition_occurrence (all) ...
-02/09/2021 01:47:51 PM: Executing preload_condition.sql ...
-02/09/2021 01:48:01 PM: Executing preload(condition_occurrence) completed in 00h:00m:09s
-02/09/2021 01:54:41 PM: Preloading condition_occurrence (all) ...
-02/09/2021 01:54:41 PM: Executing preload_condition.sql ...
-02/09/2021 01:54:54 PM: Executing preload(condition_occurrence) completed in 00h:00m:13s
-02/09/2021 01:58:24 PM: Starting preload  condition_occurrence (all) ...
-02/09/2021 01:58:24 PM: Executing preload_condition.sql ...
-02/09/2021 01:58:37 PM: Executing preload(condition_occurrence) completed in 00h:00m:13s
-02/09/2021 02:03:57 PM: Process to execute preload condition_occurrence (all) is started.
-02/09/2021 02:03:57 PM: Executing preload_condition.sql ...
-02/09/2021 02:04:13 PM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:00m:15s
-02/09/2021 02:40:04 PM: Process to execute preload condition_occurrence (all) is started.
-02/09/2021 02:40:04 PM: Executing preload_condition.sql ...
-02/09/2021 02:43:30 PM: Process to execute preload condition_occurrence (all) is started.
-02/09/2021 02:43:30 PM: Executing preload_condition.sql ...
-02/09/2021 02:48:10 PM: Process to execute preload condition_occurrence (all) is started.
-02/09/2021 02:48:10 PM: Executing preload_condition.sql ...
-02/09/2021 03:03:01 PM: Process to execute preload condition_occurrence (all) is started.
-02/09/2021 03:03:01 PM: Executing preload_condition.sql ...
-02/09/2021 03:03:16 PM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:00m:14s
-02/09/2021 03:06:12 PM: Process to execute preload condition_occurrence (all) is started.
-02/09/2021 03:06:12 PM: Executing preload_condition.sql ...
-02/09/2021 03:06:52 PM: Process to execute preload condition_occurrence (all) is started.
-02/09/2021 03:06:52 PM: Executing preload_condition.sql ...
-02/09/2021 03:07:06 PM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:00m:13s
-02/09/2021 03:09:21 PM: Process to execute load_table(person) is started.
-02/09/2021 03:09:23 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:02s
-02/09/2021 03:09:23 PM: Process to execute load_table(death) is started.
-02/09/2021 03:09:23 PM: Process to execute load_table(death) is completed. Elapsed time: 00h:00m:00s
-02/09/2021 03:12:00 PM: Process to execute load_table(person) is started.
-02/09/2021 03:12:03 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:02s
-02/09/2021 03:12:03 PM: Process to execute load_table(death) is started.
-02/09/2021 03:12:03 PM: Process to execute load_table(death) is completed. Elapsed time: 00h:00m:00s
-02/09/2021 03:14:05 PM: Process to execute load_table(person) is started.
-02/09/2021 03:14:06 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:01s
-02/09/2021 03:14:06 PM: Process to execute load_table(death) is started.
-02/09/2021 03:14:06 PM: Process to execute load_table(death) is completed. Elapsed time: 00h:00m:00s
-02/09/2021 03:15:18 PM: Process to execute load_table(person) is started.
-02/09/2021 03:15:21 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:02s
-02/09/2021 03:15:21 PM: Process to execute load_table(death) is started.
-02/09/2021 03:15:21 PM: Process to execute load_table(death) is completed. Elapsed time: 00h:00m:00s
-02/09/2021 03:17:07 PM: Process to execute load_table(person) is started.
-02/09/2021 03:17:09 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:01s
-02/09/2021 03:17:09 PM: Process to execute load_table(death) is started.
-02/09/2021 03:17:09 PM: Process to execute load_table(death) is completed. Elapsed time: 00h:00m:00s
-02/09/2021 03:18:01 PM: Process to execute load_table(person) is started.
-02/09/2021 03:18:02 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:01s
-02/09/2021 03:18:02 PM: Process to execute load_table(death) is started.
-02/09/2021 03:18:02 PM: Process to execute load_table(death) is completed. Elapsed time: 00h:00m:00s
-02/09/2021 03:29:41 PM: Process to execute load_table(person) is started.
-02/09/2021 03:38:19 PM: Process to execute preload condition_occurrence (all) is started.
-02/09/2021 03:38:19 PM: Executing preload_condition.sql ...
-02/09/2021 03:38:31 PM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:00m:11s
-02/09/2021 03:39:28 PM: Process to execute preload condition_occurrence (all) is started.
-02/09/2021 03:39:28 PM: Executing preload_condition.sql ...
-02/09/2021 03:39:36 PM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:00m:08s
-02/09/2021 03:40:50 PM: Process to execute preload condition_occurrence (all) is started.
-02/09/2021 03:40:50 PM: Executing preload_condition.sql ...
-02/09/2021 03:41:02 PM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:00m:11s
-02/09/2021 04:03:06 PM: Process to execute preload(condition_occurrenc) is completed. Elapsed time: 00h:00m:00s
-02/09/2021 04:04:17 PM: Process to execute preload(condition_occurrenc) is completed. Elapsed time: 00h:00m:00s
-02/09/2021 04:08:21 PM: Process to execute preload condition_occurrence (all) is started.
-02/09/2021 04:08:21 PM: Executing preload_condition.sql ...
-02/09/2021 04:08:32 PM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:00m:11s
-02/09/2021 04:09:09 PM: Process to execute preload condition_occurrence (all) is started.
-02/09/2021 04:09:09 PM: Executing preload_condition.sql ...
-02/09/2021 04:09:23 PM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:00m:13s
-02/09/2021 04:12:15 PM: Process to execute preload condition_occurrence (all) is started.
-02/09/2021 04:12:15 PM: Executing preload_condition.sql ...
-02/09/2021 04:12:24 PM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:00m:08s
-02/09/2021 04:14:42 PM: Process to execute preload condition_occurrence (all) is started.
-02/09/2021 04:14:42 PM: Executing preload_condition.sql ...
-02/09/2021 04:14:51 PM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:00m:09s
+02/22/2021 11:40:20 AM: Updating person ...
+02/22/2021 11:40:45 AM: Process to execute update_mappings(person) is completed. Elapsed time: 00h:00m:24s
+02/22/2021 11:40:45 AM: Updating visit_occurrence ...
+02/22/2021 11:41:50 AM: Process to execute update_mappings(visit_occurrence) is completed. Elapsed time: 00h:01m:05s
+02/22/2021 11:41:50 AM: Process to execute preload condition_occurrence (all) is started.
+02/22/2021 11:41:50 AM: Executing preload_condition.sql ...
+02/22/2021 11:44:11 AM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:02m:21s
+02/22/2021 11:44:11 AM: Process to execute preload procedure_occurrence (all) is started.
+02/22/2021 11:44:11 AM: Executing preload_procedure_icd.sql ...
+02/22/2021 11:44:15 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:03s
+02/22/2021 11:44:15 AM: Process to execute preload drug_exposure (all) is started.
+02/22/2021 11:44:15 AM: Executing preload_drug_order.sql ...

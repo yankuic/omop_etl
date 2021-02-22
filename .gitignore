@@ -1,7 +1,11 @@
 # ignore extensions
 *.pyc
+*.log
 settings.json 
+MANIFEST
 
 # ignore directories
 __pycache__/
 .vscode/
+output/
+dist/
