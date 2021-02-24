@@ -12,9 +12,9 @@ select [person_id] = b.person_id
       ,[refills] = try_convert(INT, a.MED_ORDER_REFILLS)
       ,[quantity] = (case 
                         when try_convert(INT, a.MED_ORDER_QTY) is null
-                          or try_convert(NUMERIC(18,4), a.MED_ORDER_QTY) is null 
-                          or try_convert(FLOAT, a.MED_ORDER_QTY) is null 
-                          then dbo.udf_extract_numbers(a.MED_ORDER_QTY)
+                          -- or try_convert(NUMERIC(18,4), a.MED_ORDER_QTY) is null 
+                          -- or try_convert(FLOAT, a.MED_ORDER_QTY) is null 
+                        then SUBSTRING(a.MED_ORDER_QTY, PATINDEX('%[0-9]%', a.MED_ORDER_QTY), PATINDEX('%[a-z]%', a.MED_ORDER_QTY)-1)
                         else a.MED_ORDER_QTY
                      end)
       ,[days_supply] = NULL

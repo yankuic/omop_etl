@@ -111,44 +111,38 @@ class Loader:
         """Execute preload sql query.
         
         Args:
-            subset (str): Subset key (e.g. icd, cpt) or None. If None all subsets for table will be loaded. 
-            Default: None. 
+            subset (str): Subset key (e.g. icd, cpt) or None. Default: None. 
         """
-        assert table in PRELOAD.keys(), f'{table} has no preload sql script.'
+        assert table in PRELOAD.keys(), f'{table} has no subset {subset}.'
         logging.info(f'Process to execute preload {table} ({subset or "all"}) is started.')
         
-        if isinstance(PRELOAD[table], dict):
-            if subset in PRELOAD[table].keys(): 
-                preload_file = PRELOAD[table][subset]
-                logging.info(f'Executing {preload_file} ...')
-                q = read_sql(self.sql_path + preload_file)
-                self.store.truncate('preload', table)
-                return self.store.execute(q)
-            elif subset is None: 
-                preload_list = list(self.load_param[table].keys())
-                self.store.truncate('preload', table)
-                for s in preload_list:
-                    preload_file = PRELOAD[table][s]
-                    logging.info(f'Executing {preload_file} ...')
-                    q = read_sql(self.sql_path + preload_file)
-                    return self.store.execute(q)
-            else: 
-                print(f'{subset} is not a valid option for argument subset or {table} has no subset key {subset}.')
+        if subset: 
+            assert subset in PRELOAD[table].keys(), f'{table} has no subset key {subset}.'
+            preload_file = PRELOAD[table][subset]
+            logging.info(f'Executing {preload_file} ...')
+            q = read_sql(self.sql_path + preload_file)
+
         else:
+            assert not isinstance(PRELOAD[table], dict), f'{table} has no subsets'
             preload_file = PRELOAD[table]
             logging.info(f'Executing {preload_file} ...')
             q = read_sql(self.sql_path + preload_file)
-            self.store.truncate('preload', table)
-            return self.store.execute(q)
+                
+        return self.store.execute(q)
 
-    def preload_all(self):
-        """Preload all active tables and subsets in the configuration file."""
+    def full_preload(self, table):
+        """Preload table with all subsets listed in the configuration file."""
         #read all tables/subsets from config 
-        with timeitc('Preloading'):
-            tables = self.load_param.keys()
-            for t in tables:
-                if t in PRELOAD.keys():
-                    self.preload(t)
+        with timeitc(f'Processing {table}'):
+            self.store.truncate('preload', table)
+            if isinstance(PRELOAD[table], dict):
+                subsets = self.load_param[table]
+                print(f"Processing {table} subsets: {', '.join(subsets)}")
+                for s in subsets:
+                    print(self.preload(table, subset=s))
+            else:
+                print(f"Processing table: {table}")
+                print(self.preload(table))
 
     @timeitd
     def load_table(self, table):

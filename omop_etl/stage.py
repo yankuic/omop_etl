@@ -16,8 +16,8 @@ from omop_etl.utils import timeitd
 STAGE = {
     'person': 'PERSON',
     'death': 'DEATH',
+    'visit_occurrence': 'VISIT',
     'condition_occurrence': 'CONDITION',
-    'visit': 'VISIT',
     'procedure_occurrence': {
         'cpt': 'PROCEDURE_CPT',
         'icd': 'PROCEDURE_ICD'

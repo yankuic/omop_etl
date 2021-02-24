@@ -10,7 +10,8 @@ select [person_id] = b.person_id
       ,[drug_type_concept_id] = 32817
       ,[stop_reason] = NULL
       ,[refills] = NULL
-      ,[quantity] = (case when isnumeric(a.TOTAL_DOSE_CHAR) = 0 then dbo.udf_extract_numbers(a.TOTAL_DOSE_CHAR)
+      ,[quantity] = (case when isnumeric(a.TOTAL_DOSE_CHAR) = 0 
+                          then SUBSTRING(a.TOTAL_DOSE_CHAR, PATINDEX('%[0-9]%', a.TOTAL_DOSE_CHAR), PATINDEX('%[a-z]%', a.TOTAL_DOSE_CHAR)-1) 
                           else a.TOTAL_DOSE_CHAR
                      end) 
       ,[days_supply] = NULL

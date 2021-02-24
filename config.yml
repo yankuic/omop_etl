@@ -52,7 +52,7 @@ load:
     payer: Healthcare payer
     smoking: Tobacco smoking behavior 
     zipcode: Patient postal code
-  visit:
+  visit_occurrence:
   provider:
   care_site:
   location:
