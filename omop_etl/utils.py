@@ -3,6 +3,7 @@
 import sys
 import threading
 import time
+import datetime
 import logging
 from contextlib import contextmanager
 from functools import wraps
@@ -15,26 +16,36 @@ def timeitc(name=''):
     yield
 
     elapsedTime = time.time() - startTime
-    print('{} finished. Elapsed time {}'.format(name, time.strftime("%H:%M:%S",  
+    print('{} finished in {}'.format(name, time.strftime("%H:%M:%S",  
                                      time.gmtime(elapsedTime))))
 
 def timeitd(f):
     """Return elapsed time to run function."""
     @wraps(f)
     def wrap(*args, **kwargs):
-        arg = locals()['args'][1]
-        print(f"Executing {f.__name__}({arg}) ... ", end='')
+        try: 
+            arg = locals()['args'][1]
+        except IndexError: 
+            arg = ''
+
+        try:
+            kwarg = list(locals()['kwargs'].values())
+        except IndexError:
+            kwarg = ''
+        
+        msg = f"Executing {f.__name__}({arg}, {kwarg}) ... "
 
         def spinner():
+            t = 0
             while True:
-                for cursor in '|/-\\':
-                    sys.stdout.write(cursor)
-                    sys.stdout.flush()
-                    time.sleep(0.1)
-                    sys.stdout.write('\b')
-                    if done:
-                        sys.stdout.write('Done')
-                        return
+                timeformat = str(datetime.timedelta(seconds=t))
+                sys.stdout.write(msg + timeformat + '\r')
+                time.sleep(1)
+                t += 1
+
+                if done:
+                    sys.stdout.write(msg + 'Done   ')
+                    break 
 
         startTime = time.time()
 
