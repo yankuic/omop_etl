@@ -1,15 +1,12 @@
 """[description]."""
 
-# import sys
-# import os
-from datetime import datetime as dt
 import logging
+from datetime import datetime as dt
+
 import yaml
 import sqlparse
 import pandas as pd
-# from pathlib import Path
-# import sqlalchemy
-# PARAMETERS:
+
 from omop_etl.datastore import DataStore, format_bo_sql
 from omop_etl.utils import timeitd
 
@@ -103,7 +100,6 @@ class Stager:
     #################################
     #   Exexcute Stored Procedure   #
     #################################
-
     @timeitd
     def stage_table(self, table, subset=None):
         """Execute stage bo query."""

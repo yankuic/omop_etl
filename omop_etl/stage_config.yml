@@ -46,8 +46,8 @@ aliases:
   - bp_date
   - bp_datetime
   - bp
-  - systolic
-  - diastolic
+  # - systolic
+  # - diastolic
   - bp_non_invasive
   - arterial_line
   - cvp
@@ -95,7 +95,7 @@ aliases:
   - patnt_encntr_key
   - pain_date
   - pain_datetime
-  - pain_uf_dvprs
+  - pain_uf_dvprs 
   - pain_peds_wong_baker
   - pain_jax
   - attending_provider
@@ -306,7 +306,7 @@ aliases:
   - addr_key
   - patnt_birth_datetime
   - patient_reported_pcp_prov_key
-  - patient_reported_primary_dept_id
+  - dept_id
   PROCEDURE_CPT:
   - patient_key
   - start_date
