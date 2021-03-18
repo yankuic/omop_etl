@@ -20,9 +20,9 @@ select person_id = b.person_id
 from stage.observation_icu a 
 join xref.person_mapping b
 on a.patient_key = b.patient_key
-join xref.provider c 
+left join xref.provider c 
 on c.provider_source_value = isnull(a.Attending_Provider, a.Visit_Provider)
 left join xref.source_to_concept_map d 
 on source_code = 'ICU stay Y/N' and source_vocabulary_id = 'observation'
-join xref.visit_occurrence_mapping e
+left join xref.visit_occurrence_mapping e
 on a.patnt_encntr_key = e.patnt_encntr_key

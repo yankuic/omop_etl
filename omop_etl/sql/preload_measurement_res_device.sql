@@ -1,5 +1,5 @@
 --bypass truncation warnings
-SET ANSI_WARNINGS OFF
+-- SET ANSI_WARNINGS OFF
 
 insert into preload.measurement with (tablock)
 select distinct 
@@ -21,16 +21,17 @@ select distinct
       ,measurement_source_value = d.source_code
       ,measurement_source_concept_id = d.source_concept_id
       ,unit_source_value = NULL
-      ,value_source_value = a.Respiratory_Device
+      --explicit truncation to avoid truncation warning
+      ,value_source_value = left(a.Respiratory_Device,50)
       ,source_table = 'measurement_res_device'
 from stage.measurement_res_device a 
 join xref.person_mapping b
 on a.patient_key = b.patient_key
-join xref.provider c 
+left join xref.provider c 
 on c.provider_source_value = isnull(a.Attending_Provider, a.Visit_Provider)
 left join xref.source_to_concept_map d 
 on source_code = 'RESP DEVICE' and source_vocabulary_id = 'Flowsheet'
-join xref.visit_occurrence_mapping e 
+left join xref.visit_occurrence_mapping e 
 on a.patnt_encntr_key = e.patnt_encntr_key
 
-SET ANSI_WARNINGS ON
+-- SET ANSI_WARNINGS ON

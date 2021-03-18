@@ -1,7 +1,8 @@
 /****** Script for SelectTopNRows command from SSMS  ******/
 truncate table dbo.person
 insert into dbo.person 
-select b.[person_id]
+select distinct 
+      b.[person_id]
       ,[gender_concept_id] = g.target_concept_id
       ,[year_of_birth] = YEAR(a.patnt_birth_datetime)
       ,[month_of_birth] = MONTH(a.patnt_birth_datetime)
@@ -25,7 +26,7 @@ on a.patient_key = b.patient_key
 left join xref.provider c
 on a.PATIENT_REPORTED_PCP_PROV_KEY = c.provider_source_value
 left join xref.care_site d
-on cast(a.PATIENT_REPORTED_PRIMARY_DEPT_ID as varchar(50)) = d.care_site_source_value
+on cast(a.dept_id as varchar(50)) = d.care_site_source_value
 left join xref.location e
 on a.addr_key = e.location_source_value
 left join xref.source_to_concept_map f 
@@ -37,3 +38,4 @@ on a.RACE = h.source_code and h.source_vocabulary_id = 'race'
 where a.patnt_birth_datetime is not null 
 and h.target_concept_id is not null 
 and f.target_concept_id is not null 
+and b.active_ind = 'Y'
