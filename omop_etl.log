@@ -1,278 +1,600 @@
-02/22/2021 11:40:20 AM: Updating person ...
-02/22/2021 11:40:45 AM: Process to execute update_mappings(person) is completed. Elapsed time: 00h:00m:24s
-02/22/2021 11:40:45 AM: Updating visit_occurrence ...
-02/22/2021 11:41:50 AM: Process to execute update_mappings(visit_occurrence) is completed. Elapsed time: 00h:01m:05s
-02/22/2021 11:41:50 AM: Process to execute preload condition_occurrence (all) is started.
-02/22/2021 11:41:50 AM: Executing preload_condition.sql ...
-02/22/2021 11:44:11 AM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:02m:21s
-02/22/2021 11:44:11 AM: Process to execute preload procedure_occurrence (all) is started.
-02/22/2021 11:44:11 AM: Executing preload_procedure_icd.sql ...
-02/22/2021 11:44:15 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:03s
-02/22/2021 11:44:15 AM: Process to execute preload drug_exposure (all) is started.
-02/22/2021 11:44:15 AM: Executing preload_drug_order.sql ...
-02/22/2021 04:00:08 PM: Process to execute preload drug_exposure (all) is started.
-02/22/2021 04:00:09 PM: Executing preload_drug_order.sql ...
-02/22/2021 04:00:31 PM: Process to execute preload(drug_exposure) is completed. Elapsed time: 00h:00m:22s
-02/22/2021 04:22:50 PM: Process to execute preload drug_exposure (all) is started.
-02/22/2021 04:22:50 PM: Executing preload_drug_order.sql ...
-02/22/2021 04:23:09 PM: Process to execute preload(drug_exposure) is completed. Elapsed time: 00h:00m:18s
-02/23/2021 09:35:33 AM: Process to execute preload drug_exposure (all) is started.
-02/23/2021 09:35:33 AM: Executing preload_drug_order.sql ...
-02/23/2021 09:36:03 AM: Process to execute preload(drug_exposure) is completed. Elapsed time: 00h:00m:29s
-02/23/2021 09:39:05 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 09:39:06 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 09:39:09 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:03s
-02/23/2021 09:46:18 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 09:46:18 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 09:46:23 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:05s
-02/23/2021 09:47:56 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 09:47:56 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 09:47:57 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:01s
-02/23/2021 09:48:28 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 09:48:29 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 09:48:31 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:02s
-02/23/2021 09:49:08 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 09:49:08 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 09:49:09 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:01s
-02/23/2021 10:25:54 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 10:25:54 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 10:26:01 AM: Executing preload_procedure_cpt.sql ...
-02/23/2021 10:26:27 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:33s
-02/23/2021 10:29:48 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 10:29:48 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 10:29:52 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:03s
-02/23/2021 10:57:09 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 10:57:10 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 10:59:57 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 10:59:57 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 11:00:15 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:17s
-02/23/2021 11:04:16 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 11:04:17 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 11:04:24 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:07s
-02/23/2021 11:07:47 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 11:07:47 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 11:07:50 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:03s
-02/23/2021 11:10:21 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 11:10:22 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 11:10:24 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:03s
-02/23/2021 11:14:27 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 11:14:27 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 11:14:29 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:02s
-02/23/2021 11:15:31 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 11:15:31 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 11:15:33 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:02s
-02/23/2021 11:16:50 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 11:16:50 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 11:16:52 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:02s
-02/23/2021 11:18:14 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 11:18:14 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 11:18:16 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:02s
-02/23/2021 11:19:17 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 11:19:18 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 11:19:20 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:02s
-02/23/2021 11:19:50 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 11:19:50 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 11:19:52 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:02s
-02/23/2021 11:20:54 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 11:20:54 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 11:20:56 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:02s
-02/23/2021 11:23:26 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 11:23:27 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 11:23:30 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:04s
-02/23/2021 11:23:52 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 11:23:52 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 11:23:56 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:04s
-02/23/2021 11:25:07 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 11:25:07 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 11:25:16 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:09s
-02/23/2021 11:26:04 AM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 11:26:05 AM: Executing preload_procedure_icd.sql ...
-02/23/2021 11:26:11 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:07s
-02/23/2021 12:10:57 PM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 12:10:58 PM: Executing preload_procedure_icd.sql ...
-02/23/2021 12:11:00 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:03s
-02/23/2021 12:13:39 PM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 12:13:40 PM: Executing preload_procedure_icd.sql ...
-02/23/2021 12:13:41 PM: Executing preload_procedure_cpt.sql ...
-02/23/2021 12:13:48 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:08s
-02/23/2021 12:16:08 PM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 12:16:08 PM: Executing preload_procedure_icd.sql ...
-02/23/2021 12:16:10 PM: Executing preload_procedure_cpt.sql ...
-02/23/2021 12:16:21 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:13s
-02/23/2021 12:17:05 PM: Process to execute preload procedure_occurrence (all) is started.
-02/23/2021 12:17:05 PM: Executing preload_procedure_icd.sql ...
-02/23/2021 12:17:07 PM: Executing preload_procedure_cpt.sql ...
-02/23/2021 12:17:13 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:08s
-02/23/2021 12:23:04 PM: Process to execute fun_pun() is completed. Elapsed time: 00h:00m:01s
-02/23/2021 12:24:22 PM: Process to execute fun_pun() is completed. Elapsed time: 00h:00m:02s
-02/23/2021 12:27:27 PM: Process to execute fun_pun() is completed. Elapsed time: 00h:00m:20s
-02/23/2021 12:28:24 PM: Process to execute fun_pun() is completed. Elapsed time: 00h:00m:02s
-02/23/2021 12:29:16 PM: Process to execute fun_pun() is completed. Elapsed time: 00h:00m:20s
-02/23/2021 12:32:20 PM: Process to execute fun_pun() is completed. Elapsed time: 00h:00m:02s
-02/23/2021 01:29:12 PM: Process to execute preload procedure_occurrence (cpt) is started.
-02/23/2021 01:29:12 PM: Executing preload_procedure_cpt.sql ...
-02/23/2021 01:29:26 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:14s
-02/23/2021 01:45:31 PM: Process to execute preload procedure_occurrence (icd) is started.
-02/23/2021 01:45:31 PM: Executing preload_procedure_icd.sql ...
-02/23/2021 01:45:33 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:02s
-02/23/2021 01:45:33 PM: Process to execute preload procedure_occurrence (cpt) is started.
-02/23/2021 01:45:33 PM: Executing preload_procedure_cpt.sql ...
-02/23/2021 01:45:40 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:07s
-02/23/2021 01:48:42 PM: Process to execute preload procedure_occurrence (icd) is started.
-02/23/2021 01:48:42 PM: Executing preload_procedure_icd.sql ...
-02/23/2021 01:48:44 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:02s
-02/23/2021 01:48:44 PM: Process to execute preload procedure_occurrence (cpt) is started.
-02/23/2021 01:48:44 PM: Executing preload_procedure_cpt.sql ...
-02/23/2021 01:48:51 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:07s
-02/23/2021 01:49:25 PM: Process to execute preload procedure_occurrence (icd) is started.
-02/23/2021 01:49:25 PM: Executing preload_procedure_icd.sql ...
-02/23/2021 01:49:27 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:02s
-02/23/2021 01:49:27 PM: Process to execute preload procedure_occurrence (cpt) is started.
-02/23/2021 01:49:27 PM: Executing preload_procedure_cpt.sql ...
-02/23/2021 01:49:33 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:06s
-02/23/2021 01:50:50 PM: Process to execute preload procedure_occurrence (icd) is started.
-02/23/2021 01:50:50 PM: Executing preload_procedure_icd.sql ...
-02/23/2021 01:50:53 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:03s
-02/23/2021 01:50:53 PM: Process to execute preload procedure_occurrence (cpt) is started.
-02/23/2021 01:50:53 PM: Executing preload_procedure_cpt.sql ...
-02/23/2021 01:51:02 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:09s
-02/23/2021 01:53:28 PM: Process to execute preload procedure_occurrence (icd) is started.
-02/23/2021 01:53:28 PM: Executing preload_procedure_icd.sql ...
-02/23/2021 01:53:32 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:04s
-02/23/2021 01:53:32 PM: Process to execute preload procedure_occurrence (cpt) is started.
-02/23/2021 01:53:32 PM: Executing preload_procedure_cpt.sql ...
-02/23/2021 01:53:41 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:09s
-02/23/2021 01:54:52 PM: Process to execute preload procedure_occurrence (icd) is started.
-02/23/2021 01:54:52 PM: Executing preload_procedure_icd.sql ...
-02/23/2021 01:54:58 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:06s
-02/23/2021 01:54:58 PM: Process to execute preload procedure_occurrence (cpt) is started.
-02/23/2021 01:54:58 PM: Executing preload_procedure_cpt.sql ...
-02/23/2021 01:55:17 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:19s
-02/23/2021 01:55:49 PM: Process to execute preload procedure_occurrence (icd) is started.
-02/23/2021 01:55:49 PM: Executing preload_procedure_icd.sql ...
-02/23/2021 01:55:53 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:04s
-02/23/2021 01:55:53 PM: Process to execute preload procedure_occurrence (cpt) is started.
-02/23/2021 01:55:53 PM: Executing preload_procedure_cpt.sql ...
-02/23/2021 01:56:17 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:24s
-02/23/2021 01:56:48 PM: Process to execute preload procedure_occurrence (icd) is started.
-02/23/2021 01:56:48 PM: Executing preload_procedure_icd.sql ...
-02/23/2021 01:57:10 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:22s
-02/23/2021 01:57:10 PM: Process to execute preload procedure_occurrence (cpt) is started.
-02/23/2021 01:57:10 PM: Executing preload_procedure_cpt.sql ...
-02/23/2021 01:57:19 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:09s
-02/23/2021 01:59:40 PM: Process to execute preload procedure_occurrence (icd) is started.
-02/23/2021 01:59:40 PM: Executing preload_procedure_icd.sql ...
-02/23/2021 01:59:42 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:02s
-02/23/2021 01:59:42 PM: Process to execute preload procedure_occurrence (cpt) is started.
-02/23/2021 01:59:42 PM: Executing preload_procedure_cpt.sql ...
-02/23/2021 01:59:48 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:06s
-02/23/2021 02:00:05 PM: Process to execute preload procedure_occurrence (icd) is started.
-02/23/2021 02:00:05 PM: Executing preload_procedure_icd.sql ...
-02/23/2021 02:00:07 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:02s
-02/23/2021 02:00:07 PM: Process to execute preload procedure_occurrence (cpt) is started.
-02/23/2021 02:00:07 PM: Executing preload_procedure_cpt.sql ...
-02/23/2021 02:00:20 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:13s
-02/23/2021 02:19:41 PM: Process to execute preload procedure_occurrence (icd) is started.
-02/23/2021 02:19:41 PM: Executing preload_procedure_icd.sql ...
-02/23/2021 02:19:44 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:03s
-02/23/2021 02:19:44 PM: Process to execute preload procedure_occurrence (cpt) is started.
-02/23/2021 02:19:44 PM: Executing preload_procedure_cpt.sql ...
-02/23/2021 02:19:52 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:08s
-02/23/2021 02:25:22 PM: Process to execute preload procedure_occurrence (icd) is started.
-02/23/2021 02:25:22 PM: Executing preload_procedure_icd.sql ...
-02/23/2021 02:25:25 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:03s
-02/23/2021 02:25:25 PM: Process to execute preload procedure_occurrence (cpt) is started.
-02/23/2021 02:25:25 PM: Executing preload_procedure_cpt.sql ...
-02/23/2021 02:25:37 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:12s
-02/23/2021 02:28:58 PM: Process to execute preload drug_exposure (order) is started.
-02/23/2021 02:28:58 PM: Executing preload_drug_order.sql ...
-02/23/2021 02:29:16 PM: Process to execute preload(drug_exposure) is completed. Elapsed time: 00h:00m:18s
-02/23/2021 02:29:16 PM: Process to execute preload drug_exposure (admin) is started.
-02/23/2021 02:29:16 PM: Executing preload_drug_admin.sql ...
-02/23/2021 02:29:35 PM: Process to execute preload(drug_exposure) is completed. Elapsed time: 00h:00m:19s
-02/23/2021 02:40:23 PM: Updating person ...
-02/23/2021 02:40:33 PM: Process to execute update_mappings(person) is completed. Elapsed time: 00h:00m:10s
-02/23/2021 02:40:33 PM: Updating visit_occurrence ...
-02/23/2021 02:40:39 PM: Process to execute update_mappings(visit_occurrence) is completed. Elapsed time: 00h:00m:06s
-02/23/2021 02:40:39 PM: Process to execute load_table(person) is started.
-02/23/2021 02:40:43 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:04s
-02/23/2021 02:40:43 PM: Process to execute load_table(death) is started.
-02/23/2021 02:40:44 PM: Process to execute load_table(death) is completed. Elapsed time: 00h:00m:01s
-02/23/2021 02:40:44 PM: Process to execute preload drug_exposure (order) is started.
-02/23/2021 02:40:44 PM: Executing preload_drug_order.sql ...
-02/23/2021 02:41:20 PM: Process to execute preload(drug_exposure) is completed. Elapsed time: 00h:00m:36s
-02/23/2021 02:41:20 PM: Process to execute preload drug_exposure (admin) is started.
-02/23/2021 02:41:20 PM: Executing preload_drug_admin.sql ...
-02/23/2021 02:41:50 PM: Process to execute preload(drug_exposure) is completed. Elapsed time: 00h:00m:30s
-02/23/2021 02:41:50 PM: Process to execute preload condition_occurrence (all) is started.
-02/23/2021 02:41:50 PM: Executing preload_condition.sql ...
-02/23/2021 02:43:34 PM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:01m:44s
-02/23/2021 02:43:34 PM: Process to execute preload procedure_occurrence (icd) is started.
-02/23/2021 02:43:34 PM: Executing preload_procedure_icd.sql ...
-02/23/2021 02:43:36 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:02s
-02/23/2021 02:43:36 PM: Process to execute preload procedure_occurrence (cpt) is started.
-02/23/2021 02:43:36 PM: Executing preload_procedure_cpt.sql ...
-02/23/2021 02:43:45 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:09s
-02/23/2021 02:43:45 PM: Process to execute preload drug_exposure (order) is started.
-02/23/2021 02:43:45 PM: Executing preload_drug_order.sql ...
-02/23/2021 02:44:02 PM: Process to execute preload(drug_exposure) is completed. Elapsed time: 00h:00m:17s
-02/23/2021 02:44:02 PM: Process to execute preload drug_exposure (admin) is started.
-02/23/2021 02:44:02 PM: Executing preload_drug_admin.sql ...
-02/23/2021 02:44:18 PM: Process to execute preload(drug_exposure) is completed. Elapsed time: 00h:00m:16s
-02/23/2021 02:44:18 PM: Process to execute preload observation (icu) is started.
-02/23/2021 02:44:18 PM: Executing preload_observation_icu.sql ...
-02/23/2021 02:44:20 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:02s
-02/23/2021 02:44:20 PM: Process to execute preload observation (lda) is started.
-02/23/2021 02:44:20 PM: Executing preload_observation_lda.sql ...
-02/23/2021 02:44:25 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:05s
-02/23/2021 02:44:25 PM: Process to execute preload observation (vent) is started.
-02/23/2021 02:44:25 PM: Executing preload_observation_vent.sql ...
-02/23/2021 02:44:27 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:02s
-02/23/2021 02:44:27 PM: Process to execute preload observation (payer) is started.
-02/23/2021 02:44:27 PM: Executing preload_observation_payer.sql ...
-02/23/2021 02:44:35 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:08s
-02/23/2021 02:44:35 PM: Process to execute preload observation (smoking) is started.
-02/23/2021 02:44:35 PM: Executing preload_observation_smoking.sql ...
-02/23/2021 02:44:42 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:07s
-02/23/2021 02:44:42 PM: Process to execute preload observation (zipcode) is started.
-02/23/2021 02:44:42 PM: Executing preload_observation_zipcode.sql ...
-02/23/2021 02:44:48 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:06s
-02/24/2021 10:39:01 AM: Process to execute load_table(visit_occurrence) is started.
-02/24/2021 10:39:07 AM: Process to execute load_table(visit_occurrence) is completed. Elapsed time: 00h:00m:06s
-02/24/2021 10:39:07 AM: Process to execute load_table(condition_occurrence) is started.
-02/24/2021 10:39:38 AM: Process to execute load_table(condition_occurrence) is completed. Elapsed time: 00h:00m:31s
-02/24/2021 10:39:38 AM: Process to execute load_table(procedure_occurrence) is started.
-02/24/2021 10:39:42 AM: Process to execute load_table(procedure_occurrence) is completed. Elapsed time: 00h:00m:04s
-02/24/2021 10:39:42 AM: Process to execute load_table(drug_exposure) is started.
-02/24/2021 10:41:07 AM: Process to execute load_table(drug_exposure) is completed. Elapsed time: 00h:01m:25s
-02/24/2021 10:41:07 AM: Process to execute load_table(observation) is started.
-02/24/2021 10:41:40 AM: Process to execute load_table(observation) is completed. Elapsed time: 00h:00m:33s
-02/24/2021 10:41:40 AM: Process to execute load_table(provider) is started.
-02/24/2021 10:41:45 AM: Process to execute load_table(provider) is completed. Elapsed time: 00h:00m:05s
-02/24/2021 10:41:45 AM: Process to execute load_table(care_site) is started.
-02/24/2021 10:41:46 AM: Process to execute load_table(care_site) is completed. Elapsed time: 00h:00m:01s
-02/24/2021 10:41:46 AM: Process to execute load_table(location) is started.
-02/24/2021 10:41:47 AM: Process to execute load_table(location) is completed. Elapsed time: 00h:00m:01s
-02/24/2021 10:54:30 AM: Process to execute load_table(measurement) is started.
-02/24/2021 10:54:53 AM: Process to execute load_table(measurement) is completed. Elapsed time: 00h:00m:23s
-02/24/2021 10:58:34 AM: Updating person ...
-02/24/2021 10:58:43 AM: Process to execute update_mappings(person) is completed. Elapsed time: 00h:00m:09s
-02/24/2021 10:58:43 AM: Updating visit_occurrence ...
-02/24/2021 10:58:46 AM: Process to execute update_mappings(visit_occurrence) is completed. Elapsed time: 00h:00m:03s
-02/24/2021 10:58:46 AM: Process to execute preload condition_occurrence (all) is started.
-02/24/2021 10:58:46 AM: Executing preload_condition.sql ...
-02/24/2021 11:18:20 AM: Process to execute stage_table(person, None) is started.
-02/24/2021 11:18:40 AM: Process to execute stage_table(person) is completed. Elapsed time: 00h:00m:20s
-02/24/2021 11:18:40 AM: Process to execute stage_table(death, None) is started.
-02/24/2021 11:18:41 AM: Process to execute stage_table(death) is completed. Elapsed time: 00h:00m:01s
-02/24/2021 11:18:41 AM: Process to execute stage_table(condition_occurrence, None) is started.
-02/24/2021 11:19:35 AM: Process to execute stage_table(condition_occurrence) is completed. Elapsed time: 00h:00m:54s
-02/24/2021 11:19:35 AM: Process to execute stage_table(procedure_occurrence, icd) is started.
-02/24/2021 11:19:50 AM: Process to execute stage_table(procedure_occurrence) is completed. Elapsed time: 00h:00m:14s
-02/24/2021 11:19:50 AM: Process to execute stage_table(procedure_occurrence, cpt) is started.
-02/24/2021 11:20:09 AM: Process to execute stage_table(procedure_occurrence) is completed. Elapsed time: 00h:00m:19s
-02/24/2021 11:20:09 AM: Process to execute stage_table(drug_exposure, order) is started.
-02/24/2021 11:20:37 AM: Process to execute stage_table(drug_exposure) is completed. Elapsed time: 00h:00m:28s
-02/24/2021 11:20:37 AM: Process to execute stage_table(drug_exposure, admin) is started.
-02/24/2021 11:21:25 AM: Process to execute stage_table(drug_exposure) is completed. Elapsed time: 00h:00m:48s
-02/24/2021 11:21:25 AM: Process to execute stage_table(measurement, bp) is started.
+02/25/2021 12:17:43 PM: Process to execute preload condition_occurrence (all) is started.
+02/25/2021 12:17:43 PM: Executing preload_condition.sql ...
+02/25/2021 12:20:30 PM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:02m:46s
+02/25/2021 01:03:23 PM: Updating person ...
+02/25/2021 01:03:33 PM: Process to execute update_mappings(person) is completed. Elapsed time: 00h:00m:10s
+02/25/2021 01:03:33 PM: Updating visit_occurrence ...
+02/25/2021 01:03:38 PM: Process to execute update_mappings(visit_occurrence) is completed. Elapsed time: 00h:00m:05s
+02/25/2021 01:03:38 PM: Process to execute load_table(person) is started.
+02/25/2021 01:03:42 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:04s
+02/25/2021 01:03:42 PM: Process to execute load_table(visit_occurrence) is started.
+02/25/2021 01:03:50 PM: Process to execute load_table(visit_occurrence) is completed. Elapsed time: 00h:00m:08s
+02/25/2021 01:03:50 PM: Process to execute load_table(death) is started.
+02/25/2021 01:03:51 PM: Process to execute load_table(death) is completed. Elapsed time: 00h:00m:01s
+02/25/2021 01:03:51 PM: Process to execute load_table(condition_occurrence) is started.
+02/25/2021 01:04:21 PM: Process to execute load_table(condition_occurrence) is completed. Elapsed time: 00h:00m:30s
+02/25/2021 01:04:21 PM: Process to execute load_table(procedure_occurrence) is started.
+02/25/2021 01:04:25 PM: Process to execute load_table(procedure_occurrence) is completed. Elapsed time: 00h:00m:04s
+02/25/2021 01:04:25 PM: Process to execute load_table(drug_exposure) is started.
+02/25/2021 01:05:52 PM: Process to execute load_table(drug_exposure) is completed. Elapsed time: 00h:01m:27s
+02/25/2021 01:05:52 PM: Process to execute load_table(measurement) is started.
+02/25/2021 01:06:15 PM: Process to execute load_table(measurement) is completed. Elapsed time: 00h:00m:23s
+02/25/2021 01:06:15 PM: Process to execute load_table(observation) is started.
+02/25/2021 01:06:48 PM: Process to execute load_table(observation) is completed. Elapsed time: 00h:00m:33s
+02/25/2021 01:06:48 PM: Process to execute load_table(provider) is started.
+02/25/2021 01:06:54 PM: Process to execute load_table(provider) is completed. Elapsed time: 00h:00m:06s
+02/25/2021 01:06:54 PM: Process to execute load_table(care_site) is started.
+02/25/2021 01:06:55 PM: Process to execute load_table(care_site) is completed. Elapsed time: 00h:00m:01s
+02/25/2021 01:06:55 PM: Process to execute load_table(location) is started.
+02/25/2021 01:06:56 PM: Process to execute load_table(location) is completed. Elapsed time: 00h:00m:01s
+02/25/2021 01:08:02 PM: Process to execute preload condition_occurrence (all) is started.
+02/25/2021 01:08:02 PM: Executing preload_condition.sql ...
+02/25/2021 01:10:42 PM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:02m:40s
+02/25/2021 01:10:43 PM: Process to execute preload procedure_occurrence (icd) is started.
+02/25/2021 01:10:43 PM: Executing preload_procedure_icd.sql ...
+02/25/2021 01:10:46 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:03s
+02/25/2021 01:10:46 PM: Process to execute preload procedure_occurrence (cpt) is started.
+02/25/2021 01:10:46 PM: Executing preload_procedure_cpt.sql ...
+02/25/2021 01:10:55 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:09s
+02/25/2021 01:10:55 PM: Process to execute preload drug_exposure (order) is started.
+02/25/2021 01:10:55 PM: Executing preload_drug_order.sql ...
+02/25/2021 01:11:12 PM: Process to execute preload(drug_exposure) is completed. Elapsed time: 00h:00m:17s
+02/25/2021 01:11:12 PM: Process to execute preload drug_exposure (admin) is started.
+02/25/2021 01:11:12 PM: Executing preload_drug_admin.sql ...
+02/25/2021 01:11:31 PM: Process to execute preload(drug_exposure) is completed. Elapsed time: 00h:00m:18s
+02/25/2021 01:11:31 PM: Process to execute preload measurement (heart_rate) is started.
+02/25/2021 01:11:31 PM: Executing preload_measurement_heartrate.sql ...
+02/25/2021 01:14:30 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:02m:59s
+02/25/2021 01:14:30 PM: Process to execute preload measurement (height) is started.
+02/25/2021 01:14:30 PM: Executing preload_measurement_height.sql ...
+02/25/2021 01:14:34 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:04s
+02/25/2021 01:14:34 PM: Process to execute preload measurement (lab) is started.
+02/25/2021 01:14:34 PM: Executing preload_measurement_lab.sql ...
+02/25/2021 01:15:01 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:27s
+02/25/2021 01:15:01 PM: Process to execute preload measurement (pain) is started.
+02/25/2021 01:15:01 PM: Executing preload_measurement_painscale.sql ...
+02/25/2021 01:15:29 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:28s
+02/25/2021 01:15:29 PM: Process to execute preload measurement (qtcb) is started.
+02/25/2021 01:15:29 PM: Executing preload_measurement_qtcb.sql ...
+02/25/2021 01:15:32 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:03s
+02/25/2021 01:15:32 PM: Process to execute preload measurement (res_dev) is started.
+02/25/2021 01:15:32 PM: Executing preload_measurement_res_device.sql ...
+02/25/2021 01:15:44 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:12s
+02/25/2021 01:15:44 PM: Process to execute preload measurement (res_etco2) is started.
+02/25/2021 01:15:44 PM: Executing preload_measurement_res_etco2.sql ...
+02/25/2021 01:16:05 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:21s
+02/25/2021 01:16:05 PM: Process to execute preload measurement (res_fio2) is started.
+02/25/2021 01:16:05 PM: Executing preload_measurement_res_fio2.sql ...
+02/25/2021 01:16:12 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:07s
+02/25/2021 01:16:12 PM: Process to execute preload measurement (res_gcs) is started.
+02/25/2021 01:16:12 PM: Executing preload_measurement_res_gcs.sql ...
+02/25/2021 01:16:55 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:43s
+02/25/2021 01:16:55 PM: Process to execute preload measurement (res_o2) is started.
+02/25/2021 01:16:55 PM: Executing preload_measurement_res_o2.sql ...
+02/25/2021 01:17:04 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:08s
+02/25/2021 01:17:04 PM: Process to execute preload measurement (res_peep) is started.
+02/25/2021 01:17:04 PM: Executing preload_measurement_res_peep.sql ...
+02/25/2021 01:17:08 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:04s
+02/25/2021 01:17:08 PM: Process to execute preload measurement (res_pip) is started.
+02/25/2021 01:17:08 PM: Executing preload_measurement_res_pip.sql ...
+02/25/2021 01:17:20 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:12s
+02/25/2021 01:17:20 PM: Process to execute preload measurement (res_resp) is started.
+02/25/2021 01:17:20 PM: Executing preload_measurement_res_resp.sql ...
+02/25/2021 01:18:09 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:49s
+02/25/2021 01:18:09 PM: Process to execute preload measurement (res_spo2) is started.
+02/25/2021 01:18:09 PM: Executing preload_measurement_res_spo2.sql ...
+02/25/2021 01:18:33 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:24s
+02/25/2021 01:18:33 PM: Process to execute preload measurement (res_tidal) is started.
+02/25/2021 01:18:33 PM: Executing preload_measurement_res_tidal.sql ...
+02/25/2021 01:18:58 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:25s
+02/25/2021 01:18:58 PM: Process to execute preload measurement (res_vent) is started.
+02/25/2021 01:18:58 PM: Executing preload_measurement_res_vent.sql ...
+02/25/2021 01:25:33 PM: Process to execute preload measurement (res_vent) is started.
+02/25/2021 01:25:33 PM: Executing preload_measurement_res_vent.sql ...
+02/25/2021 01:25:37 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:04s
+02/25/2021 01:25:37 PM: Process to execute preload measurement (rothman) is started.
+02/25/2021 01:25:37 PM: Executing preload_measurement_rothman.sql ...
+02/25/2021 01:27:24 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:01m:47s
+02/25/2021 01:27:24 PM: Process to execute preload measurement (sofa) is started.
+02/25/2021 01:27:24 PM: Executing preload_measurement_sofa.sql ...
+02/25/2021 01:28:51 PM: Process to execute preload measurement (sofa) is started.
+02/25/2021 01:28:51 PM: Executing preload_measurement_sofa.sql ...
+02/25/2021 01:29:03 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:12s
+02/25/2021 01:29:03 PM: Process to execute preload measurement (temp) is started.
+02/25/2021 01:29:03 PM: Executing preload_measurement_temp.sql ...
+02/25/2021 01:29:19 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:16s
+02/25/2021 01:29:19 PM: Process to execute preload measurement (weight) is started.
+02/25/2021 01:29:19 PM: Executing preload_measurement_weight.sql ...
+02/25/2021 01:29:23 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:04s
+02/25/2021 01:29:23 PM: Process to execute preload observation (icu) is started.
+02/25/2021 01:29:23 PM: Executing preload_observation_icu.sql ...
+02/25/2021 01:29:24 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:01s
+02/25/2021 01:29:24 PM: Process to execute preload observation (lda) is started.
+02/25/2021 01:29:24 PM: Executing preload_observation_lda.sql ...
+02/25/2021 01:29:27 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:03s
+02/25/2021 01:29:27 PM: Process to execute preload observation (vent) is started.
+02/25/2021 01:29:27 PM: Executing preload_observation_vent.sql ...
+02/25/2021 01:29:28 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:01s
+02/25/2021 01:29:28 PM: Process to execute preload observation (payer) is started.
+02/25/2021 01:29:28 PM: Executing preload_observation_payer.sql ...
+02/25/2021 01:29:34 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:06s
+02/25/2021 01:29:34 PM: Process to execute preload observation (smoking) is started.
+02/25/2021 01:29:34 PM: Executing preload_observation_smoking.sql ...
+02/25/2021 01:29:40 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:06s
+02/25/2021 01:29:40 PM: Process to execute preload observation (zipcode) is started.
+02/25/2021 01:29:40 PM: Executing preload_observation_zipcode.sql ...
+02/25/2021 01:29:45 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:05s
+02/25/2021 01:29:45 PM: Process to execute load_table(visit_occurrence) is started.
+02/25/2021 01:29:49 PM: Process to execute load_table(visit_occurrence) is completed. Elapsed time: 00h:00m:04s
+02/25/2021 01:29:49 PM: Process to execute load_table(death) is started.
+02/25/2021 01:29:50 PM: Process to execute load_table(death) is completed. Elapsed time: 00h:00m:01s
+02/25/2021 01:29:50 PM: Process to execute load_table(condition_occurrence) is started.
+02/25/2021 01:30:21 PM: Process to execute load_table(condition_occurrence) is completed. Elapsed time: 00h:00m:31s
+02/25/2021 01:30:21 PM: Process to execute load_table(procedure_occurrence) is started.
+02/25/2021 01:30:25 PM: Process to execute load_table(procedure_occurrence) is completed. Elapsed time: 00h:00m:04s
+02/25/2021 01:30:25 PM: Process to execute load_table(drug_exposure) is started.
+02/25/2021 01:31:54 PM: Process to execute load_table(drug_exposure) is completed. Elapsed time: 00h:01m:29s
+02/25/2021 01:31:54 PM: Process to execute load_table(measurement) is started.
+02/25/2021 01:32:47 PM: Process to execute load_table(measurement) is completed. Elapsed time: 00h:00m:53s
+02/25/2021 01:32:47 PM: Process to execute load_table(observation) is started.
+02/25/2021 01:33:22 PM: Process to execute load_table(observation) is completed. Elapsed time: 00h:00m:35s
+02/25/2021 01:33:22 PM: Process to execute load_table(provider) is started.
+02/25/2021 01:33:29 PM: Process to execute load_table(provider) is completed. Elapsed time: 00h:00m:07s
+02/25/2021 01:33:29 PM: Process to execute load_table(care_site) is started.
+02/25/2021 01:33:30 PM: Process to execute load_table(care_site) is completed. Elapsed time: 00h:00m:01s
+02/25/2021 01:33:30 PM: Process to execute load_table(location) is started.
+02/25/2021 01:33:31 PM: Process to execute load_table(location) is completed. Elapsed time: 00h:00m:01s
+02/25/2021 04:37:39 PM: Process to execute preload condition_occurrence (all) is started.
+02/25/2021 04:37:39 PM: Executing preload_condition.sql ...
+02/25/2021 04:48:11 PM: Process to execute preload condition_occurrence (all) is started.
+02/25/2021 04:48:11 PM: Executing preload_condition.sql ...
+02/25/2021 11:20:12 PM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 06h:32m:00s
+02/26/2021 09:34:23 AM: Process to execute preload condition_occurrence (all) is started.
+02/26/2021 09:34:23 AM: Executing preload_condition.sql ...
+02/26/2021 09:35:45 AM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:01m:22s
+02/26/2021 09:37:05 AM: Process to execute preload condition_occurrence (all) is started.
+02/26/2021 09:37:05 AM: Executing preload_condition.sql ...
+02/26/2021 09:38:24 AM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:01m:19s
+02/26/2021 09:41:04 AM: Process to execute load_table(condition_occurrence) is started.
+02/26/2021 09:41:30 AM: Process to execute load_table(condition_occurrence) is completed. Elapsed time: 00h:00m:26s
+02/26/2021 01:32:44 PM: Process to execute preload condition_occurrence (all) is started.
+02/26/2021 01:32:44 PM: Executing preload_condition.sql ...
+02/26/2021 01:37:25 PM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:04m:41s
+02/26/2021 01:37:25 PM: Process to execute load_table(condition_occurrence) is started.
+02/26/2021 01:38:10 PM: Process to execute load_table(condition_occurrence) is completed. Elapsed time: 00h:00m:45s
+02/26/2021 01:39:07 PM: Process to execute preload condition_occurrence (all) is started.
+02/26/2021 01:39:07 PM: Executing preload_condition.sql ...
+02/26/2021 01:49:05 PM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:09m:58s
+02/26/2021 01:49:05 PM: Process to execute load_table(condition_occurrence) is started.
+02/26/2021 01:50:02 PM: Process to execute load_table(condition_occurrence) is completed. Elapsed time: 00h:00m:57s
+02/26/2021 01:50:35 PM: Process to execute preload condition_occurrence (all) is started.
+02/26/2021 01:50:35 PM: Executing preload_condition.sql ...
+02/26/2021 01:51:08 PM: Process to execute preload condition_occurrence (all) is started.
+02/26/2021 01:51:08 PM: Executing preload_condition.sql ...
+02/26/2021 01:55:34 PM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:04m:25s
+02/26/2021 01:55:34 PM: Process to execute load_table(condition_occurrence) is started.
+02/26/2021 01:56:32 PM: Process to execute load_table(condition_occurrence) is completed. Elapsed time: 00h:00m:58s
+02/26/2021 04:33:31 PM: Process to execute preload condition_occurrence (all) is started.
+02/26/2021 04:33:31 PM: Executing preload_condition.sql ...
+02/26/2021 04:35:30 PM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:01m:59s
+02/26/2021 04:35:30 PM: Process to execute load_table(condition_occurrence) is started.
+02/26/2021 04:36:16 PM: Process to execute load_table(condition_occurrence) is completed. Elapsed time: 00h:00m:46s
+03/08/2021 09:31:49 AM: Updating person ...
+03/08/2021 09:31:58 AM: Process to execute update_mappings(person) is completed. Elapsed time: 00h:00m:09s
+03/08/2021 09:31:58 AM: Process to execute load_table(person) is started.
+03/08/2021 09:32:01 AM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:03s
+03/08/2021 09:32:01 AM: Process to execute load_table(death) is started.
+03/08/2021 09:32:02 AM: Process to execute load_table(death) is completed. Elapsed time: 00h:00m:01s
+03/08/2021 09:36:28 AM: Updating person ...
+03/08/2021 09:36:30 AM: Process to execute update_mappings(person) is completed. Elapsed time: 00h:00m:02s
+03/08/2021 09:36:30 AM: Process to execute load_table(person) is started.
+03/08/2021 09:36:33 AM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:03s
+03/08/2021 09:36:33 AM: Process to execute load_table(death) is started.
+03/08/2021 09:36:34 AM: Process to execute load_table(death) is completed. Elapsed time: 00h:00m:01s
+03/08/2021 09:41:53 AM: Updating person ...
+03/08/2021 09:42:02 AM: Process to execute update_mappings(person) is completed. Elapsed time: 00h:00m:09s
+03/08/2021 09:42:02 AM: Updating visit_occurrence ...
+03/08/2021 09:42:07 AM: Process to execute update_mappings(visit_occurrence) is completed. Elapsed time: 00h:00m:05s
+03/08/2021 09:42:07 AM: Process to execute load_table(visit_occurrence) is started.
+03/08/2021 09:42:11 AM: Process to execute load_table(visit_occurrence) is completed. Elapsed time: 00h:00m:04s
+03/08/2021 09:42:11 AM: Process to execute load_table(procedure_occurrence) is started.
+03/08/2021 09:42:15 AM: Process to execute load_table(procedure_occurrence) is completed. Elapsed time: 00h:00m:04s
+03/08/2021 12:11:52 PM: Process to execute load_table(procedure_occurrence) is started.
+03/08/2021 12:11:56 PM: Process to execute load_table(procedure_occurrence) is completed. Elapsed time: 00h:00m:04s
+03/08/2021 12:27:50 PM: Process to execute preload procedure_occurrence (icd) is started.
+03/08/2021 12:27:50 PM: Executing preload_procedure_icd.sql ...
+03/08/2021 12:27:52 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:02s
+03/08/2021 12:27:52 PM: Process to execute preload procedure_occurrence (cpt) is started.
+03/08/2021 12:27:52 PM: Executing preload_procedure_cpt.sql ...
+03/08/2021 12:29:36 PM: Process to execute preload procedure_occurrence (icd) is started.
+03/08/2021 12:29:36 PM: Executing preload_procedure_icd.sql ...
+03/08/2021 12:29:38 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:02s
+03/08/2021 12:29:38 PM: Process to execute preload procedure_occurrence (cpt) is started.
+03/08/2021 12:29:38 PM: Executing preload_procedure_cpt.sql ...
+03/08/2021 12:29:47 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:09s
+03/08/2021 12:29:47 PM: Process to execute load_table(procedure_occurrence) is started.
+03/08/2021 12:29:57 PM: Process to execute load_table(procedure_occurrence) is completed. Elapsed time: 00h:00m:10s
+03/08/2021 03:12:24 PM: Process to execute preload drug_exposure (order) is started.
+03/08/2021 03:12:24 PM: Executing preload_drug_order.sql ...
+03/08/2021 03:13:03 PM: Process to execute preload(drug_exposure) is completed. Elapsed time: 00h:00m:39s
+03/08/2021 03:13:04 PM: Process to execute preload drug_exposure (admin) is started.
+03/08/2021 03:13:04 PM: Executing preload_drug_admin.sql ...
+03/08/2021 03:14:36 PM: Process to execute preload(drug_exposure) is completed. Elapsed time: 00h:01m:32s
+03/08/2021 03:14:36 PM: Process to execute load_table(drug_exposure) is started.
+03/08/2021 03:17:44 PM: Process to execute load_table(drug_exposure) is completed. Elapsed time: 00h:03m:07s
+03/08/2021 03:28:39 PM: Process to execute preload drug_exposure (order) is started.
+03/08/2021 03:28:39 PM: Executing preload_drug_order.sql ...
+03/08/2021 03:28:56 PM: Process to execute preload(drug_exposure) is completed. Elapsed time: 00h:00m:16s
+03/08/2021 03:28:56 PM: Process to execute preload drug_exposure (admin) is started.
+03/08/2021 03:28:56 PM: Executing preload_drug_admin.sql ...
+03/08/2021 03:29:16 PM: Process to execute preload(drug_exposure) is completed. Elapsed time: 00h:00m:20s
+03/08/2021 03:29:16 PM: Process to execute load_table(drug_exposure) is started.
+03/08/2021 03:31:15 PM: Process to execute load_table(drug_exposure) is completed. Elapsed time: 00h:01m:59s
+03/08/2021 03:39:26 PM: Process to execute load_table(condition_occurrence) is started.
+03/08/2021 03:39:57 PM: Process to execute load_table(condition_occurrence) is completed. Elapsed time: 00h:00m:31s
+03/08/2021 03:40:58 PM: Process to execute preload condition_occurrence (all) is started.
+03/08/2021 03:40:58 PM: Executing preload_condition.sql ...
+03/08/2021 03:42:39 PM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:01m:41s
+03/08/2021 03:42:39 PM: Process to execute load_table(condition_occurrence) is started.
+03/08/2021 03:43:07 PM: Process to execute load_table(condition_occurrence) is completed. Elapsed time: 00h:00m:28s
+03/08/2021 03:45:28 PM: Process to execute preload condition_occurrence (all) is started.
+03/08/2021 03:45:28 PM: Executing preload_condition.sql ...
+03/08/2021 03:47:02 PM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:01m:33s
+03/08/2021 03:47:02 PM: Process to execute load_table(condition_occurrence) is started.
+03/08/2021 03:47:29 PM: Process to execute load_table(condition_occurrence) is completed. Elapsed time: 00h:00m:27s
+03/08/2021 03:48:32 PM: Process to execute preload procedure_occurrence (icd) is started.
+03/08/2021 03:48:32 PM: Executing preload_procedure_icd.sql ...
+03/08/2021 03:48:35 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:03s
+03/08/2021 03:48:35 PM: Process to execute preload procedure_occurrence (cpt) is started.
+03/08/2021 03:48:35 PM: Executing preload_procedure_cpt.sql ...
+03/08/2021 03:49:10 PM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:35s
+03/08/2021 03:49:10 PM: Process to execute load_table(procedure_occurrence) is started.
+03/08/2021 03:49:21 PM: Process to execute load_table(procedure_occurrence) is completed. Elapsed time: 00h:00m:11s
+03/09/2021 11:05:18 AM: Process to execute preload measurement (bp) is started.
+03/09/2021 11:05:18 AM: Executing preload_measurement_bp.sql ...
+03/09/2021 11:06:00 AM: Process to execute preload measurement (bp) is started.
+03/09/2021 11:06:00 AM: Executing preload_measurement_bp.sql ...
+03/09/2021 11:06:01 AM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:01s
+03/09/2021 11:07:59 AM: Process to execute stage_table(measurement, bp) is started.
+03/09/2021 12:01:51 PM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:53m:51s
+03/09/2021 12:07:20 PM: Process to execute preload measurement (bp) is started.
+03/09/2021 12:07:20 PM: Executing preload_measurement_bp.sql ...
+03/09/2021 12:08:11 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:51s
+03/09/2021 02:35:08 PM: Process to execute preload measurement (bp) is started.
+03/09/2021 02:35:09 PM: Executing preload_measurement_bp.sql ...
+03/09/2021 02:36:00 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:51s
+03/11/2021 01:05:18 PM: Process to execute preload measurement (bp) is started.
+03/11/2021 01:05:18 PM: Executing preload_measurement_bp.sql ...
+03/11/2021 01:06:09 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:51s
+03/11/2021 01:10:19 PM: Process to execute preload measurement (heartrate) is started.
+03/11/2021 01:11:13 PM: Process to execute preload measurement (heart_rate) is started.
+03/11/2021 01:11:13 PM: Executing preload_measurement_heartrate.sql ...
+03/11/2021 01:14:13 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:03m:00s
+03/11/2021 03:18:00 PM: Process to execute preload measurement (heigh) is started.
+03/11/2021 03:18:21 PM: Process to execute preload measurement (height) is started.
+03/11/2021 03:18:21 PM: Executing preload_measurement_height.sql ...
+03/11/2021 03:18:33 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:12s
+03/11/2021 03:24:25 PM: Process to execute preload measurement (lab) is started.
+03/11/2021 03:24:25 PM: Executing preload_measurement_lab.sql ...
+03/11/2021 03:25:40 PM: Process to execute preload measurement (lab) is started.
+03/11/2021 03:25:40 PM: Executing preload_measurement_lab.sql ...
+03/11/2021 03:26:04 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:24s
+03/12/2021 09:45:51 AM: Process to execute preload measurement (lab) is started.
+03/12/2021 09:45:51 AM: Executing preload_measurement_lab.sql ...
+03/12/2021 09:46:10 AM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:19s
+03/12/2021 09:51:25 AM: Process to execute preload measurement (painscale) is started.
+03/12/2021 09:52:04 AM: Process to execute preload measurement (pain) is started.
+03/12/2021 09:52:04 AM: Executing preload_measurement_painscale.sql ...
+03/12/2021 09:52:31 AM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:26s
+03/12/2021 10:19:16 AM: Process to execute preload measurement (pain) is started.
+03/12/2021 10:19:16 AM: Executing preload_measurement_painscale.sql ...
+03/12/2021 10:19:44 AM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:28s
+03/12/2021 11:20:55 AM: Process to execute preload measurement (pain) is started.
+03/12/2021 11:20:55 AM: Executing preload_measurement_painscale.sql ...
+03/12/2021 11:21:04 AM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:09s
+03/12/2021 11:29:49 AM: Process to execute preload measurement (qtcb) is started.
+03/12/2021 11:29:49 AM: Executing preload_measurement_qtcb.sql ...
+03/12/2021 11:29:50 AM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:01s
+03/12/2021 11:39:35 AM: Process to execute preload measurement (res_dev) is started.
+03/12/2021 11:39:35 AM: Executing preload_measurement_res_device.sql ...
+03/12/2021 11:41:00 AM: Process to execute preload(measurement) is completed. Elapsed time: 00h:01m:24s
+03/12/2021 11:55:27 AM: Process to execute preload measurement (res_dev) is started.
+03/12/2021 11:55:27 AM: Executing preload_measurement_res_device.sql ...
+03/12/2021 11:55:39 AM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:12s
+03/12/2021 11:56:02 AM: Process to execute preload measurement (res_etco2) is started.
+03/12/2021 11:56:02 AM: Executing preload_measurement_res_etco2.sql ...
+03/12/2021 11:56:18 AM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:16s
+03/12/2021 12:01:37 PM: Process to execute preload measurement (res_fio2) is started.
+03/12/2021 12:01:37 PM: Executing preload_measurement_res_fio2.sql ...
+03/12/2021 12:01:43 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:06s
+03/12/2021 12:22:04 PM: Process to execute preload measurement (res_gcs) is started.
+03/12/2021 12:22:04 PM: Executing preload_measurement_res_gcs.sql ...
+03/12/2021 12:22:15 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:11s
+03/12/2021 12:26:23 PM: Process to execute preload measurement (res_gcs) is started.
+03/12/2021 12:26:23 PM: Executing preload_measurement_res_gcs.sql ...
+03/12/2021 12:26:24 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:01s
+03/12/2021 12:27:14 PM: Process to execute stage_table(measurement, res_gcs) is started.
+03/12/2021 12:30:49 PM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:03m:34s
+03/12/2021 12:30:49 PM: Process to execute preload measurement (res_gcs) is started.
+03/12/2021 12:30:49 PM: Executing preload_measurement_res_gcs.sql ...
+03/12/2021 12:30:58 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:09s
+03/12/2021 12:51:26 PM: Process to execute preload measurement (res_o2) is started.
+03/12/2021 12:51:26 PM: Executing preload_measurement_res_o2.sql ...
+03/12/2021 12:51:34 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:08s
+03/12/2021 12:55:12 PM: Process to execute preload measurement (res_peep) is started.
+03/12/2021 12:55:12 PM: Executing preload_measurement_res_peep.sql ...
+03/12/2021 12:55:14 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:02s
+03/12/2021 01:00:47 PM: Process to execute preload measurement (res_pip) is started.
+03/12/2021 01:00:47 PM: Executing preload_measurement_res_pip.sql ...
+03/12/2021 01:01:30 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:43s
+03/12/2021 01:16:51 PM: Process to execute preload measurement (res_resp) is started.
+03/12/2021 01:16:51 PM: Executing preload_measurement_res_resp.sql ...
+03/12/2021 01:17:47 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:56s
+03/12/2021 01:22:11 PM: Process to execute preload measurement (res_spo2) is started.
+03/12/2021 01:22:11 PM: Executing preload_measurement_res_spo2.sql ...
+03/12/2021 01:22:36 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:25s
+03/12/2021 01:24:08 PM: Process to execute preload measurement (res_tidal) is started.
+03/12/2021 01:24:08 PM: Executing preload_measurement_res_tidal.sql ...
+03/12/2021 01:25:36 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:01m:28s
+03/12/2021 01:48:18 PM: Process to execute preload measurement (res_tidal) is started.
+03/12/2021 01:48:18 PM: Executing preload_measurement_res_tidal.sql ...
+03/12/2021 01:48:55 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:37s
+03/12/2021 02:15:16 PM: Process to execute preload measurement (res_vent) is started.
+03/12/2021 02:15:17 PM: Executing preload_measurement_res_vent.sql ...
+03/12/2021 02:15:24 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:08s
+03/12/2021 02:17:54 PM: Process to execute preload measurement (res_vent) is started.
+03/12/2021 02:17:54 PM: Executing preload_measurement_res_vent.sql ...
+03/12/2021 02:18:00 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:06s
+03/12/2021 02:19:24 PM: Process to execute preload measurement (rothman) is started.
+03/12/2021 02:19:24 PM: Executing preload_measurement_rothman.sql ...
+03/12/2021 02:21:40 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:02m:15s
+03/12/2021 02:23:31 PM: Process to execute preload measurement (sofa) is started.
+03/12/2021 02:23:31 PM: Executing preload_measurement_sofa.sql ...
+03/12/2021 02:23:44 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:13s
+03/12/2021 02:28:36 PM: Process to execute preload measurement (sofa) is started.
+03/12/2021 02:28:36 PM: Executing preload_measurement_sofa.sql ...
+03/12/2021 02:28:49 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:13s
+03/12/2021 02:34:37 PM: Process to execute preload measurement (sofa) is started.
+03/12/2021 02:34:37 PM: Executing preload_measurement_sofa.sql ...
+03/12/2021 02:34:54 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:17s
+03/12/2021 02:35:40 PM: Process to execute preload measurement (sofa) is started.
+03/12/2021 02:35:40 PM: Executing preload_measurement_sofa.sql ...
+03/12/2021 02:35:56 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:16s
+03/12/2021 02:38:06 PM: Process to execute preload measurement (temp) is started.
+03/12/2021 02:38:06 PM: Executing preload_measurement_temp.sql ...
+03/12/2021 02:38:42 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:36s
+03/12/2021 02:41:04 PM: Process to execute preload measurement (weight) is started.
+03/12/2021 02:41:04 PM: Executing preload_measurement_weight.sql ...
+03/12/2021 02:41:15 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:11s
+03/12/2021 02:43:44 PM: Process to execute preload measurement (icu) is started.
+03/12/2021 02:44:25 PM: Process to execute preload observation (icu) is started.
+03/12/2021 02:44:25 PM: Executing preload_observation_icu.sql ...
+03/12/2021 02:44:27 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:02s
+03/12/2021 02:47:32 PM: Process to execute preload observation (lda) is started.
+03/12/2021 02:47:32 PM: Executing preload_observation_lda.sql ...
+03/12/2021 02:47:35 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:03s
+03/12/2021 02:56:36 PM: Process to execute preload observation (lda) is started.
+03/12/2021 02:56:36 PM: Executing preload_observation_lda.sql ...
+03/12/2021 02:56:40 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:04s
+03/12/2021 02:58:23 PM: Process to execute preload observation (payer) is started.
+03/12/2021 02:58:23 PM: Executing preload_observation_payer.sql ...
+03/12/2021 02:58:28 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:05s
+03/12/2021 02:59:29 PM: Process to execute preload observation (smoking) is started.
+03/12/2021 02:59:29 PM: Executing preload_observation_smoking.sql ...
+03/12/2021 02:59:35 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:06s
+03/12/2021 03:02:03 PM: Process to execute preload observation (zipcode) is started.
+03/12/2021 03:02:03 PM: Executing preload_observation_zipcode.sql ...
+03/12/2021 03:02:09 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:06s
+03/15/2021 08:59:08 AM: Process to execute stage_table(person, None) is started.
+03/15/2021 08:59:57 AM: Process to execute stage_table(person) is completed. Elapsed time: 00h:00m:49s
+03/15/2021 08:59:57 AM: Process to execute stage_table(death, None) is started.
+03/15/2021 08:59:58 AM: Process to execute stage_table(death) is completed. Elapsed time: 00h:00m:01s
+03/15/2021 08:59:58 AM: Process to execute stage_table(condition_occurrence, None) is started.
+03/15/2021 09:02:09 AM: Process to execute stage_table(condition_occurrence) is completed. Elapsed time: 00h:02m:10s
+03/15/2021 09:02:09 AM: Process to execute stage_table(procedure_occurrence, icd) is started.
+03/15/2021 09:02:41 AM: Process to execute stage_table(procedure_occurrence) is completed. Elapsed time: 00h:00m:32s
+03/15/2021 09:02:41 AM: Process to execute stage_table(procedure_occurrence, cpt) is started.
+03/15/2021 09:03:25 AM: Process to execute stage_table(procedure_occurrence) is completed. Elapsed time: 00h:00m:44s
+03/15/2021 09:03:25 AM: Process to execute stage_table(drug_exposure, order) is started.
+03/15/2021 09:04:51 AM: Process to execute stage_table(drug_exposure) is completed. Elapsed time: 00h:01m:26s
+03/15/2021 09:04:51 AM: Process to execute stage_table(drug_exposure, admin) is started.
+03/15/2021 09:07:29 AM: Process to execute stage_table(drug_exposure) is completed. Elapsed time: 00h:02m:38s
+03/15/2021 09:07:29 AM: Process to execute stage_table(measurement, heart_rate) is started.
+03/15/2021 09:35:41 AM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:28m:11s
+03/15/2021 09:35:41 AM: Process to execute stage_table(measurement, height) is started.
+03/15/2021 09:37:33 AM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:01m:52s
+03/15/2021 09:37:33 AM: Process to execute stage_table(measurement, lab) is started.
+03/15/2021 09:39:08 AM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:01m:35s
+03/15/2021 09:39:08 AM: Process to execute stage_table(measurement, pain) is started.
+03/15/2021 09:42:46 AM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:03m:37s
+03/15/2021 09:42:46 AM: Process to execute stage_table(measurement, qtcb) is started.
+03/15/2021 09:42:52 AM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:00m:06s
+03/15/2021 09:42:52 AM: Process to execute stage_table(measurement, res_dev) is started.
+03/15/2021 09:52:42 AM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:09m:50s
+03/15/2021 09:52:42 AM: Process to execute stage_table(measurement, res_etco2) is started.
+03/15/2021 09:57:10 AM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:04m:28s
+03/15/2021 09:57:10 AM: Process to execute stage_table(measurement, res_fio2) is started.
+03/15/2021 09:59:41 AM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:02m:31s
+03/15/2021 09:59:41 AM: Process to execute stage_table(measurement, res_gcs) is started.
+03/15/2021 10:02:43 AM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:03m:02s
+03/15/2021 10:02:44 AM: Process to execute stage_table(measurement, res_o2) is started.
+03/15/2021 10:05:11 AM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:02m:27s
+03/15/2021 10:05:11 AM: Process to execute stage_table(measurement, res_peep) is started.
+03/15/2021 10:06:48 AM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:01m:37s
+03/15/2021 10:06:48 AM: Process to execute stage_table(measurement, res_pip) is started.
+03/15/2021 10:14:24 AM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:07m:36s
+03/15/2021 10:14:24 AM: Process to execute stage_table(measurement, res_resp) is started.
+03/15/2021 10:29:36 AM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:15m:12s
+03/15/2021 10:29:36 AM: Process to execute stage_table(measurement, res_spo2) is started.
+03/15/2021 10:38:26 AM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:08m:49s
+03/15/2021 10:38:26 AM: Process to execute stage_table(measurement, res_tidal) is started.
+03/15/2021 10:41:20 AM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:02m:54s
+03/15/2021 10:41:20 AM: Process to execute stage_table(measurement, res_vent) is started.
+03/15/2021 10:42:58 AM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:01m:37s
+03/15/2021 10:42:58 AM: Process to execute stage_table(measurement, rothman) is started.
+03/15/2021 10:53:02 AM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:10m:04s
+03/15/2021 10:53:02 AM: Process to execute stage_table(measurement, sofa) is started.
+03/15/2021 11:44:30 AM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:51m:28s
+03/15/2021 11:44:30 AM: Process to execute stage_table(measurement, temp) is started.
+03/15/2021 11:50:35 AM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:06m:04s
+03/15/2021 11:50:35 AM: Process to execute stage_table(measurement, weight) is started.
+03/15/2021 11:52:30 AM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:01m:55s
+03/15/2021 11:52:30 AM: Process to execute stage_table(observation, icu) is started.
+03/15/2021 11:52:35 AM: Process to execute stage_table(observation) is completed. Elapsed time: 00h:00m:05s
+03/15/2021 11:52:35 AM: Process to execute stage_table(observation, lda) is started.
+03/15/2021 11:52:40 AM: Process to execute stage_table(observation) is completed. Elapsed time: 00h:00m:05s
+03/15/2021 11:52:40 AM: Process to execute stage_table(observation, vent) is started.
+03/15/2021 11:52:45 AM: Process to execute stage_table(observation) is completed. Elapsed time: 00h:00m:05s
+03/15/2021 11:52:45 AM: Process to execute stage_table(observation, payer) is started.
+03/15/2021 11:53:14 AM: Process to execute stage_table(observation) is completed. Elapsed time: 00h:00m:29s
+03/15/2021 11:53:14 AM: Process to execute stage_table(observation, smoking) is started.
+03/15/2021 11:53:34 AM: Process to execute stage_table(observation) is completed. Elapsed time: 00h:00m:20s
+03/15/2021 11:53:34 AM: Process to execute stage_table(observation, zipcode) is started.
+03/15/2021 11:53:51 AM: Process to execute stage_table(observation) is completed. Elapsed time: 00h:00m:17s
+03/15/2021 11:53:51 AM: Process to execute stage_table(visit_occurrence, None) is started.
+03/15/2021 11:54:12 AM: Process to execute stage_table(visit_occurrence) is completed. Elapsed time: 00h:00m:21s
+03/15/2021 11:55:59 AM: Updating person ...
+03/15/2021 11:56:09 AM: Process to execute update_mappings(person) is completed. Elapsed time: 00h:00m:10s
+03/15/2021 11:56:09 AM: Updating visit_occurrence ...
+03/15/2021 11:56:15 AM: Process to execute update_mappings(visit_occurrence) is completed. Elapsed time: 00h:00m:06s
+03/15/2021 11:56:15 AM: Process to execute preload condition_occurrence (all) is started.
+03/15/2021 11:56:15 AM: Executing preload_condition.sql ...
+03/15/2021 11:58:04 AM: Process to execute preload(condition_occurrence) is completed. Elapsed time: 00h:01m:49s
+03/15/2021 11:58:04 AM: Process to execute preload procedure_occurrence (icd) is started.
+03/15/2021 11:58:04 AM: Executing preload_procedure_icd.sql ...
+03/15/2021 11:58:07 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:03s
+03/15/2021 11:58:07 AM: Process to execute preload procedure_occurrence (cpt) is started.
+03/15/2021 11:58:07 AM: Executing preload_procedure_cpt.sql ...
+03/15/2021 11:58:19 AM: Process to execute preload(procedure_occurrence) is completed. Elapsed time: 00h:00m:12s
+03/15/2021 11:58:19 AM: Process to execute preload drug_exposure (order) is started.
+03/15/2021 11:58:19 AM: Executing preload_drug_order.sql ...
+03/15/2021 11:58:35 AM: Process to execute preload(drug_exposure) is completed. Elapsed time: 00h:00m:16s
+03/15/2021 11:58:35 AM: Process to execute preload drug_exposure (admin) is started.
+03/15/2021 11:58:35 AM: Executing preload_drug_admin.sql ...
+03/15/2021 11:58:57 AM: Process to execute preload(drug_exposure) is completed. Elapsed time: 00h:00m:22s
+03/15/2021 11:58:57 AM: Process to execute preload measurement (heart_rate) is started.
+03/15/2021 11:58:57 AM: Executing preload_measurement_heartrate.sql ...
+03/15/2021 12:02:21 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:03m:23s
+03/15/2021 12:02:21 PM: Process to execute preload measurement (height) is started.
+03/15/2021 12:02:21 PM: Executing preload_measurement_height.sql ...
+03/15/2021 12:02:28 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:07s
+03/15/2021 12:02:28 PM: Process to execute preload measurement (lab) is started.
+03/15/2021 12:02:28 PM: Executing preload_measurement_lab.sql ...
+03/15/2021 12:02:56 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:28s
+03/15/2021 12:02:56 PM: Process to execute preload measurement (pain) is started.
+03/15/2021 12:02:56 PM: Executing preload_measurement_painscale.sql ...
+03/15/2021 12:03:09 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:13s
+03/15/2021 12:03:09 PM: Process to execute preload measurement (qtcb) is started.
+03/15/2021 12:03:09 PM: Executing preload_measurement_qtcb.sql ...
+03/15/2021 12:03:12 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:03s
+03/15/2021 12:03:12 PM: Process to execute preload measurement (res_dev) is started.
+03/15/2021 12:03:12 PM: Executing preload_measurement_res_device.sql ...
+03/15/2021 12:03:31 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:19s
+03/15/2021 12:03:31 PM: Process to execute preload measurement (res_etco2) is started.
+03/15/2021 12:03:31 PM: Executing preload_measurement_res_etco2.sql ...
+03/15/2021 12:03:51 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:20s
+03/15/2021 12:03:51 PM: Process to execute preload measurement (res_fio2) is started.
+03/15/2021 12:03:51 PM: Executing preload_measurement_res_fio2.sql ...
+03/15/2021 12:04:00 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:09s
+03/15/2021 12:04:00 PM: Process to execute preload measurement (res_gcs) is started.
+03/15/2021 12:04:00 PM: Executing preload_measurement_res_gcs.sql ...
+03/15/2021 12:04:08 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:08s
+03/15/2021 12:04:08 PM: Process to execute preload measurement (res_o2) is started.
+03/15/2021 12:04:08 PM: Executing preload_measurement_res_o2.sql ...
+03/15/2021 12:04:15 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:07s
+03/15/2021 12:04:15 PM: Process to execute preload measurement (res_peep) is started.
+03/15/2021 12:04:15 PM: Executing preload_measurement_res_peep.sql ...
+03/15/2021 12:04:20 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:05s
+03/15/2021 12:04:20 PM: Process to execute preload measurement (res_pip) is started.
+03/15/2021 12:04:20 PM: Executing preload_measurement_res_pip.sql ...
+03/15/2021 12:05:12 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:51s
+03/15/2021 12:05:12 PM: Process to execute preload measurement (res_resp) is started.
+03/15/2021 12:05:12 PM: Executing preload_measurement_res_resp.sql ...
+03/15/2021 12:06:04 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:52s
+03/15/2021 12:06:04 PM: Process to execute preload measurement (res_spo2) is started.
+03/15/2021 12:06:04 PM: Executing preload_measurement_res_spo2.sql ...
+03/15/2021 12:06:35 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:31s
+03/15/2021 12:06:35 PM: Process to execute preload measurement (res_tidal) is started.
+03/15/2021 12:06:35 PM: Executing preload_measurement_res_tidal.sql ...
+03/15/2021 12:06:45 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:10s
+03/15/2021 12:06:45 PM: Process to execute preload measurement (res_vent) is started.
+03/15/2021 12:06:45 PM: Executing preload_measurement_res_vent.sql ...
+03/15/2021 12:06:49 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:04s
+03/15/2021 12:06:49 PM: Process to execute preload measurement (rothman) is started.
+03/15/2021 12:06:49 PM: Executing preload_measurement_rothman.sql ...
+03/15/2021 12:08:49 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:02m:00s
+03/15/2021 12:08:49 PM: Process to execute preload measurement (sofa) is started.
+03/15/2021 12:08:49 PM: Executing preload_measurement_sofa.sql ...
+03/15/2021 12:09:13 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:23s
+03/15/2021 12:09:13 PM: Process to execute preload measurement (temp) is started.
+03/15/2021 12:09:13 PM: Executing preload_measurement_temp.sql ...
+03/15/2021 12:09:33 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:20s
+03/15/2021 12:09:33 PM: Process to execute preload measurement (weight) is started.
+03/15/2021 12:09:33 PM: Executing preload_measurement_weight.sql ...
+03/15/2021 12:09:37 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:04s
+03/15/2021 12:09:37 PM: Process to execute preload observation (icu) is started.
+03/15/2021 12:09:37 PM: Executing preload_observation_icu.sql ...
+03/15/2021 12:09:39 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:02s
+03/15/2021 12:09:39 PM: Process to execute preload observation (lda) is started.
+03/15/2021 12:09:39 PM: Executing preload_observation_lda.sql ...
+03/15/2021 12:09:44 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:05s
+03/15/2021 12:09:44 PM: Process to execute preload observation (vent) is started.
+03/15/2021 12:09:44 PM: Executing preload_observation_vent.sql ...
+03/15/2021 12:09:46 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:02s
+03/15/2021 12:09:46 PM: Process to execute preload observation (payer) is started.
+03/15/2021 12:09:46 PM: Executing preload_observation_payer.sql ...
+03/15/2021 12:09:58 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:12s
+03/15/2021 12:09:58 PM: Process to execute preload observation (smoking) is started.
+03/15/2021 12:09:58 PM: Executing preload_observation_smoking.sql ...
+03/15/2021 01:25:52 PM: Process to execute preload observation (icu) is started.
+03/15/2021 01:25:52 PM: Executing preload_observation_icu.sql ...
+03/15/2021 01:25:53 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:01s
+03/15/2021 01:25:53 PM: Process to execute preload observation (lda) is started.
+03/15/2021 01:25:53 PM: Executing preload_observation_lda.sql ...
+03/15/2021 01:25:56 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:03s
+03/15/2021 01:25:56 PM: Process to execute preload observation (vent) is started.
+03/15/2021 01:25:56 PM: Executing preload_observation_vent.sql ...
+03/15/2021 01:25:57 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:01s
+03/15/2021 01:25:57 PM: Process to execute preload observation (payer) is started.
+03/15/2021 01:25:57 PM: Executing preload_observation_payer.sql ...
+03/15/2021 01:26:02 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:05s
+03/15/2021 01:26:02 PM: Process to execute preload observation (smoking) is started.
+03/15/2021 01:26:02 PM: Executing preload_observation_smoking.sql ...
+03/15/2021 01:26:07 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:05s
+03/15/2021 01:26:07 PM: Process to execute preload observation (zipcode) is started.
+03/15/2021 01:26:07 PM: Executing preload_observation_zipcode.sql ...
+03/15/2021 01:26:15 PM: Process to execute preload(observation) is completed. Elapsed time: 00h:00m:08s
+03/15/2021 01:26:45 PM: Process to execute load_table(person) is started.
+03/15/2021 01:26:51 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:06s
+03/15/2021 01:26:51 PM: Process to execute load_table(visit_occurrence) is started.
+03/15/2021 01:26:58 PM: Process to execute load_table(visit_occurrence) is completed. Elapsed time: 00h:00m:07s
+03/15/2021 01:26:58 PM: Process to execute load_table(death) is started.
+03/15/2021 01:26:59 PM: Process to execute load_table(death) is completed. Elapsed time: 00h:00m:01s
+03/15/2021 01:26:59 PM: Process to execute load_table(condition_occurrence) is started.
+03/15/2021 01:27:30 PM: Process to execute load_table(condition_occurrence) is completed. Elapsed time: 00h:00m:31s
+03/15/2021 01:27:30 PM: Process to execute load_table(procedure_occurrence) is started.
+03/15/2021 01:27:42 PM: Process to execute load_table(procedure_occurrence) is completed. Elapsed time: 00h:00m:12s
+03/15/2021 01:27:42 PM: Process to execute load_table(drug_exposure) is started.
+03/15/2021 01:29:24 PM: Process to execute load_table(drug_exposure) is completed. Elapsed time: 00h:01m:41s
+03/15/2021 01:29:24 PM: Process to execute load_table(measurement) is started.
+03/15/2021 01:35:34 PM: Process to execute load_table(measurement) is completed. Elapsed time: 00h:06m:10s
+03/15/2021 01:35:34 PM: Process to execute load_table(observation) is started.
+03/15/2021 01:36:14 PM: Process to execute load_table(observation) is completed. Elapsed time: 00h:00m:40s
+03/15/2021 01:36:14 PM: Process to execute load_table(provider) is started.
+03/15/2021 01:36:30 PM: Process to execute load_table(provider) is completed. Elapsed time: 00h:00m:16s
+03/15/2021 01:36:30 PM: Process to execute load_table(care_site) is started.
+03/15/2021 01:36:31 PM: Process to execute load_table(care_site) is completed. Elapsed time: 00h:00m:01s
+03/15/2021 01:36:31 PM: Process to execute load_table(location) is started.
+03/15/2021 01:36:32 PM: Process to execute load_table(location) is completed. Elapsed time: 00h:00m:01s
+03/15/2021 01:52:54 PM: Process to execute load_table(person) is started.
+03/15/2021 01:52:57 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:03s
+03/15/2021 01:54:19 PM: Process to execute load_table(person) is started.
+03/15/2021 01:54:23 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:04s
+03/15/2021 01:59:02 PM: Updating person ...
+03/15/2021 01:59:05 PM: Process to execute update_mappings(person) is completed. Elapsed time: 00h:00m:03s
+03/15/2021 01:59:05 PM: Updating visit_occurrence ...
+03/15/2021 01:59:23 PM: Process to execute update_mappings(visit_occurrence) is completed. Elapsed time: 00h:00m:18s
+03/15/2021 02:35:01 PM: Process to execute stage_table(person, None) is started.
+03/15/2021 02:35:29 PM: Process to execute stage_table(person) is completed. Elapsed time: 00h:00m:27s
+03/16/2021 11:39:36 AM: Process to execute load_table(person) is started.
+03/16/2021 11:39:42 AM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:06s

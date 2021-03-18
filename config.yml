@@ -24,7 +24,7 @@ load:
     order: Medication orders
     admin: Medication administration
   measurement: 
-    bp: Arterial blood presure
+    # bp: Arterial blood presure
     heart_rate: Heart rate
     height: Height
     lab: Laboratory results

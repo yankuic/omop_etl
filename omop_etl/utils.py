@@ -8,6 +8,8 @@ import logging
 from contextlib import contextmanager
 from functools import wraps
 
+from sqlalchemy.exc import SQLAlchemyError
+
 @contextmanager
 def timeitc(name=''):
     """Return elapsed time to run code block."""
@@ -61,7 +63,7 @@ def timeitd(f):
             done = True
             spin_thread.join()
 
-        except (KeyboardInterrupt, AssertionError):
+        except (KeyboardInterrupt, AssertionError, SQLAlchemyError):
             done = True
             raise
 
