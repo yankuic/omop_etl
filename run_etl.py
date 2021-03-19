@@ -16,7 +16,7 @@ if __name__ == "__main__":
 
     with timeitc('Processing'):
 
-        ## Pull patient cohort.
+        ## Get patient cohort.
 
         # store.truncate('cohort','PersonList')
         # bo_q = store.get_bo_query('cohort_COVID_Broad')
@@ -54,17 +54,17 @@ if __name__ == "__main__":
 
         ##Load 
         ## Load person and visit_occurrence before all others.
-        # print(load.load_table('person'))
-        # print(load.load_table('visit_occurrence'))
-        # print(load.load_table('death'))
-        # print(load.load_table('condition_occurrence'))
-        # print(load.load_table('procedure_occurrence'))
+        # print(load.load_table('person', deid=False))
+        # print(load.load_table('visit_occurrence', deid=False))
+        # print(load.load_table('death', deid=False))
+        # print(load.load_table('condition_occurrence', deid=False))
+        # print(load.load_table('procedure_occurrence', deid=False))
         # print(load.load_table('drug_exposure'))
-        # print(load.load_table('measurement'))
-        # print(load.load_table('observation'))
-        # print(load.load_table('provider'))
-        # print(load.load_table('care_site'))
-        # print(load.load_table('location'))
+        # print(load.load_table('measurement', deid=False))
+        # print(load.load_table('observation', deid=False))
+        # print(load.load_table('provider', deid=False))
+        # print(load.load_table('care_site', deid=False))
+        # print(load.load_table('location', deid=False))
 
         q = read_sql('./omop_etl/sql/postprocessing.sql')
         print(store.execute(q))

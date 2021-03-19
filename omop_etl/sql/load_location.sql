@@ -1,12 +1,12 @@
 insert into dbo.location with (tablock)
 select a.[location_id]
-      ,[address_1]
-      ,[address_2]
+      ,[address_1] @SetNULL
+      ,[address_2] @SetNULL
       ,[city]
       ,[state]
       ,[zip]
       ,[county]
-      ,[location_source_value]
+      ,[location_source_value] @SetNULL
 from xref.location a 
 join (
     select distinct location_id

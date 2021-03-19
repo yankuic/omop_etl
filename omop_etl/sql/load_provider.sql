@@ -1,13 +1,13 @@
 insert into dbo.provider with (tablock)
 select a.[provider_id]
-      ,[provider_name]
-      ,[NPI]
-      ,[DEA]
+      ,[provider_name] @SetNULL
+      ,[npi] @SetNULL
+      ,[dea] @SetNULL
       ,[specialty_concept_id]
       ,[care_site_id]
       ,[year_of_birth]
       ,[gender_concept_id]
-      ,[provider_source_value]
+      ,[provider_source_value] @SetNULL
       ,[specialty_source_value]
       ,[specialty_source_concept_id]
       ,[gender_source_value]

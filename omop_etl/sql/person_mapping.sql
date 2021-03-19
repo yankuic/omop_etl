@@ -19,10 +19,10 @@ BEGIN
 						else a.MERGE_IND 
 					  end,
 		a.MERGE_DT = B.LOAD_DT
-	FROM [xref].[PERSON_MAPPING] a
+	FROM xref.PERSON_MAPPING a
 	JOIN DWS_PROD.dbo.PATIENT_ID_MERGE_EVENT b
 	ON a.PATIENT_KEY = b.PREV_PATNT_KEY
-	LEFT OUTER JOIN [xref].[PERSON_MAPPING] c
+	LEFT OUTER JOIN xref.PERSON_MAPPING c
 	ON b.PATNT_KEY = c.PATIENT_KEY
 END
 
@@ -32,8 +32,8 @@ Fix any where two separate patnt_keys merged into one new
 */
 UPDATE B
 SET MERGE_IND = 'Y'
-FROM [xref].[PERSON_MAPPING] A
-JOIN [xref].[PERSON_MAPPING] B
+FROM xref.PERSON_MAPPING A
+JOIN xref.PERSON_MAPPING B
 ON A.PATIENT_KEY = B.PATIENT_KEY
 WHERE A.MERGE_IND = 'N'
 AND B.MERGE_IND = 'N'
@@ -42,13 +42,13 @@ AND A.PERSON_ID > B.PERSON_ID
 /*
 Deactivate merged patnt_keys
 */
-update [xref].[PERSON_MAPPING]
+update xref.PERSON_MAPPING
 set ACTIVE_IND = 'N'
 
 update b
 set ACTIVE_IND = 'Y'
-from [stage].[PERSON] a
-join [xref].[PERSON_MAPPING] b
+from stage.PERSON a
+join xref.PERSON_MAPPING b
 on a.PATIENT_KEY = b.PATIENT_KEY
 where b.MERGE_IND = 'N'
 
@@ -57,25 +57,30 @@ SET NOCOUNT OFF;
 /*
 Insert new patients into patient_mapping
 */
+update xref.person_mapping
+set date_shift = ceiling(30-59*rand(checksum(newid())))
+
 insert into xref.person_mapping (
 	patient_key
+	,date_shift
 	,load_dt
 	,merge_ind
 	,merge_dt
 	,active_ind
 )
 select patient_key
-		,load_dt = getdate()
-		,merge_ind = 'N'
-		,merge_dt = NULL
-		,active_ind = 'Y'
+	,date_shift = ceiling(30-59*rand(checksum(newid())))
+	,load_dt = getdate()
+	,merge_ind = 'N'
+	,merge_dt = NULL
+	,active_ind = 'Y'
 	from (
-	select distinct
-		a.patient_key
-		from [stage].person a
-		left join [xref].person_mapping b
-		on a.patient_key = b.patient_key
-	where b.patient_key is null
+		select distinct
+			a.patient_key
+			from [stage].person a
+			left join [xref].person_mapping b
+			on a.patient_key = b.patient_key
+		where b.patient_key is null
 ) x
 
 

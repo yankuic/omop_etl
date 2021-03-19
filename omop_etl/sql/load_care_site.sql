@@ -1,10 +1,10 @@
 insert into dbo.care_site with (tablock)
 select a.[care_site_id]
-      ,[care_site_name]
+      ,[care_site_name] @SetNULL
       ,[place_of_service_concept_id]
       ,[location_id]
-      ,[care_site_source_value]
-      ,[place_of_service_source_value]
+      ,[care_site_source_value] @SetNULL
+      ,[place_of_service_source_value] @SetNULL
 from xref.care_site a
 join (
     select distinct care_site_id 

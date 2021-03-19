@@ -15,12 +15,12 @@ insert into dbo.condition_occurrence with (tablock) (
       ,[condition_status_source_value]
       ,[condition_status_concept_id]
 )
-select [person_id]
+select a.person_id
       ,[condition_concept_id]
-      ,[condition_start_date]
-      ,[condition_start_datetime]
-      ,[condition_end_date]
-      ,[condition_end_datetime]
+      ,condition_start_date = dateadd(day, @DateShift, a.condition_start_date)
+      ,condition_start_datetime = dateadd(day, @DateShift, a.condition_start_datetime)
+      ,condition_end_date = dateadd(day, @DateShift, a.condition_end_date)
+      ,condition_end_datetime = dateadd(day, @DateShift, a.condition_end_datetime)
       ,[condition_type_concept_id]
       ,[stop_reason]
       ,[provider_id]
@@ -30,4 +30,7 @@ select [person_id]
       ,[condition_source_concept_id]
       ,[condition_status_source_value]
       ,[condition_status_concept_id]
-  from [DWS_OMOP].[preload].[condition_occurrence]
+from [preload].[condition_occurrence] a
+join xref.person_mapping b 
+on a.person_id = b.person_id 
+where b.active_ind = 'Y'
