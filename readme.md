@@ -63,3 +63,15 @@ The following query return the codes from condition_occurrence mapped to two or 
 
 **Procedure ICD codes**. Procedure ICD0PCS codes are standard in OMOP.
 
+## OHDSI Achilles
+
+Some debugging is needed before running Achilles for the first time.
+
+- Correct column name in R installation\library\Achilles\sql\sql_server\validate_schema.sql, qualifier_source_value in line 355 to modifier_source_value.
+
+- Schema validation does not detect if table specimen is missing. This table is needed for analysis 1900. Make sure the table exists in omop cdm schema.
+
+- Required dependencies to run achilles dashboard:
+    - shiny
+    - shinydashboard
+    - tidyr

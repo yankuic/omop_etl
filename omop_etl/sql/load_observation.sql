@@ -17,10 +17,10 @@ insert into dbo.observation with (tablock) (
     ,[unit_source_value]
     ,[qualifier_source_value]
 )
-select [person_id]
+select a.person_id
       ,[observation_concept_id]
-      ,[observation_date]
-      ,[observation_datetime]
+      ,[observation_date] = dateadd(day, @DateShift, a.observation_date)
+      ,[observation_datetime] = dateadd(day, @DateShift, a.observation_datetime)
       ,[observation_type_concept_id]
       ,[value_as_number]
       ,[value_as_string]
@@ -34,4 +34,7 @@ select [person_id]
       ,[observation_source_concept_id]
       ,[unit_source_value]
       ,[qualifier_source_value]
-from preload.observation
+from preload.observation a 
+join xref.person_mapping b 
+on a.person_id = b.person_id 
+where b.active_ind = 'Y'

@@ -1,13 +1,12 @@
-/****** Script for SelectTopNRows command from SSMS  ******/
 truncate table dbo.person
 insert into dbo.person 
 select distinct 
       b.[person_id]
       ,[gender_concept_id] = g.target_concept_id
-      ,[year_of_birth] = YEAR(a.patnt_birth_datetime)
-      ,[month_of_birth] = MONTH(a.patnt_birth_datetime)
-      ,[day_of_birth] = DAY(a.patnt_birth_datetime)
-      ,[birth_datetime] = a.patnt_birth_datetime
+      ,[year_of_birth] = YEAR(dateadd(day, @DateShift, a.patnt_birth_datetime))
+      ,[month_of_birth] = MONTH(dateadd(day, @DateShift, a.patnt_birth_datetime))
+      ,[day_of_birth] = DAY(dateadd(day, @DateShift, a.patnt_birth_datetime))
+      ,[birth_datetime] = dateadd(day, @DateShift, a.patnt_birth_datetime)
       ,[race_concept_id] = h.target_concept_id
       ,[ethnicity_concept_id] = f.target_concept_id
       ,[location_id] = e.location_id
@@ -36,6 +35,4 @@ on a.SEX = g.source_code and g.source_vocabulary_id = 'sex'
 left join xref.source_to_concept_map h
 on a.RACE = h.source_code and h.source_vocabulary_id = 'race'
 where a.patnt_birth_datetime is not null 
-and h.target_concept_id is not null 
-and f.target_concept_id is not null 
 and b.active_ind = 'Y'

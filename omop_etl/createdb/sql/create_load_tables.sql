@@ -1,5 +1,20 @@
 USE DWS_OMOP
 
+CREATE TABLE [xref].[person_mapping](
+	[person_id] [int] IDENTITY(1,1) NOT NULL,
+	[patient_key] [int] NULL,
+	[date_shift][int] NULL,
+	[load_dt] [datetime2](7) NULL,
+	[merge_ind] [varchar](1) NULL,
+	[merge_dt] [datetime2](7) NULL,
+	[active_ind] [varchar](1) NULL,
+ CONSTRAINT [xpk_person_mapping] PRIMARY KEY CLUSTERED 
+(
+	[person_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [fg_user1]
+) ON [fg_user1]
+GO
+
 drop table if exists [xref].[visit_occurrence_mapping]
 create table [xref].[visit_occurrence_mapping](
 	[visit_occurrence_id] [int] identity(1,1) not null,

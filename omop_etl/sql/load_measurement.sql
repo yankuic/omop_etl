@@ -19,10 +19,10 @@ insert into dbo.measurement with (tablock) (
     ,unit_source_value
     ,value_source_value
 )
-select person_id
+select a.person_id
     ,measurement_concept_id
-    ,measurement_date
-    ,measurement_datetime
+    ,measurement_date = dateadd(day, @DateShift, a.measurement_date)
+    ,measurement_datetime = dateadd(day, @DateShift, a.measurement_datetime)
     ,measurement_time
     ,measurement_type_concept_id
     ,operator_concept_id
@@ -38,4 +38,6 @@ select person_id
     ,measurement_source_concept_id
     ,unit_source_value
     ,value_source_value
-from preload.measurement 
+from preload.measurement a 
+join xref.person_mapping b 
+on a.person_id = b.person_id 
