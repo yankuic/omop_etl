@@ -32,8 +32,8 @@ select [person_id] = b.person_id
 from stage.drug_order a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
-left join xref.provider c 
-on c.provider_source_value = a.MED_ORDER_AUTH_PROV_KEY
+left join xref.provider_mapping c 
+on c.providr_key = a.MED_ORDER_AUTH_PROV_KEY
 left join xref.concept d
 on a.RXNORM_CODE = d.concept_code and d.vocabulary_id like 'rxnorm%'
 join xref.concept_relationship e

@@ -27,8 +27,8 @@ select distinct
 from stage.measurement_res_device a 
 join xref.person_mapping b
 on a.patient_key = b.patient_key
-left join xref.provider c 
-on c.provider_source_value = isnull(a.Attending_Provider, a.Visit_Provider)
+left join xref.provider_mapping c 
+on c.providr_key = isnull(a.Attending_Provider, a.Visit_Provider)
 left join xref.source_to_concept_map d 
 on source_code = 'RESP DEVICE' and source_vocabulary_id = 'Flowsheet'
 left join xref.visit_occurrence_mapping e 

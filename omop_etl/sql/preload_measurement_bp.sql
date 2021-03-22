@@ -23,8 +23,8 @@ select person_id = b.person_id
 from stage.measurement_bp a 
 join xref.person_mapping b
 on a.patient_key = b.patient_key
-left join xref.provider c 
-on c.provider_source_value = isnull(a.Attending_Provider, Visit_Provider)
+left join xref.provider_mapping c 
+on c.providr_key = isnull(a.Attending_Provider, Visit_Provider)
 left join xref.source_to_concept_map d 
 on d.source_code = 'BP - Art Line SBP'
 left join xref.visit_occurrence_mapping e 
@@ -54,8 +54,8 @@ select person_id = b.person_id
 from stage.measurement_bp a 
 join xref.person_mapping b
 on a.patient_key = b.patient_key
-left join xref.provider c 
-on c.provider_source_value = isnull(a.Attending_Provider, Visit_Provider)
+left join xref.provider_mapping c 
+on c.providr_key = isnull(a.Attending_Provider, Visit_Provider)
 left join xref.source_to_concept_map d 
 on d.source_code = 'BP - Art Line DBP'
 left join xref.visit_occurrence_mapping e 

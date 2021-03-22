@@ -22,10 +22,10 @@ select distinct
 from stage.person a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
-left join xref.provider c
-on a.PATIENT_REPORTED_PCP_PROV_KEY = c.provider_source_value
-left join xref.care_site d
-on cast(a.dept_id as varchar(50)) = d.care_site_source_value
+left join xref.provider_mapping c
+on a.PATIENT_REPORTED_PCP_PROV_KEY = c.providr_key
+left join xref.care_site_mapping d
+on a.dept_id = d.dept_id
 left join xref.location e
 on a.addr_key = e.location_source_value
 left join xref.source_to_concept_map f 

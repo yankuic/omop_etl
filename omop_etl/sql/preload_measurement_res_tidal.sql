@@ -57,8 +57,8 @@ select person_id = b.person_id
 from #measurement_res_tidal a 
 join xref.person_mapping b
 on a.patient_key = b.patient_key
-left join xref.provider c 
-on c.provider_source_value = a.provider
+left join xref.provider_mapping c 
+on c.providr_key = a.provider
 left join xref.source_to_concept_map d 
 on source_code = a.tidal_measure and source_vocabulary_id = 'Flowsheet'
 left join xref.visit_occurrence_mapping e 

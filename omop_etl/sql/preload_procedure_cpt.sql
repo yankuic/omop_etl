@@ -17,8 +17,8 @@ select distinct
 from [stage].[procedure_cpt] a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
-left join xref.provider c
-on a.providr_key = c.provider_source_value
+left join xref.provider_mapping c
+on a.providr_key = c.providr_key
 left join xref.concept d 
 on d.concept_code = a.CPT_CD and d.vocabulary_id = 'CPT4'
 left join xref.concept_relationship e 
