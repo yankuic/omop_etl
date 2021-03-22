@@ -37,8 +37,8 @@ select distinct
 from stage.condition a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
-left join xref.provider c
-on a.providr_key = c.provider_source_value
+left join xref.provider_mapping c
+on a.providr_key = c.providr_key
 left join xref.concept d
 on a.diag_cd_decml = d.concept_code and a.icd_type + 'CM' = d.vocabulary_id
 left join xref.concept_relationship e
@@ -67,8 +67,8 @@ select distinct
 from stage.condition a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
-left join xref.provider c
-on a.providr_key = c.provider_source_value
+left join xref.provider_mapping c
+on a.providr_key = c.providr_key
 join #icd d
 on a.diag_cd_decml = d.concept_code and a.icd_type = d.vocabulary_id
 left join xref.concept_relationship e

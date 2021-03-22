@@ -57,8 +57,8 @@ SET NOCOUNT OFF;
 /*
 Insert new patients into patient_mapping
 */
-update xref.person_mapping
-set date_shift = ceiling(30-59*rand(checksum(newid())))
+-- update xref.person_mapping
+-- set date_shift = ceiling(30-59*rand(checksum(newid())))
 
 insert into xref.person_mapping (
 	patient_key

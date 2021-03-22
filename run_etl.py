@@ -43,6 +43,7 @@ if __name__ == "__main__":
 
         # print(load.update_mappings('person'))
         # print(load.update_mappings('visit_occurrence'))
+        #TODO: map location, provider, care_site
 
         ## Preload
 
@@ -52,8 +53,8 @@ if __name__ == "__main__":
         # load.full_preload('measurement')
         # load.full_preload('observation')
 
-        ##Load 
-        ## Load person and visit_occurrence before all others.
+        #Load 
+        # Load person and visit_occurrence before all others.
         # print(load.load_table('person', deid=False))
         # print(load.load_table('visit_occurrence', deid=False))
         # print(load.load_table('death', deid=False))
@@ -63,8 +64,8 @@ if __name__ == "__main__":
         # print(load.load_table('measurement', deid=False))
         # print(load.load_table('observation', deid=False))
         # print(load.load_table('provider', deid=False))
-        # print(load.load_table('care_site', deid=False))
+        print(load.load_table('care_site', deid=False))
         # print(load.load_table('location', deid=False))
 
-        q = read_sql('./omop_etl/sql/postprocessing.sql')
-        print(store.execute(q))
+        # q = read_sql('./omop_etl/sql/postprocessing.sql')
+        # print(store.execute(q))

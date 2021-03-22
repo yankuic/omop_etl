@@ -21,8 +21,8 @@ join xref.visit_occurrence_mapping b
 on a.patnt_encntr_key = b.patnt_encntr_key
 join xref.person_mapping c
 on a.patient_key = c.patient_key
-join xref.provider d
-on a.VISIT_PROVIDER = d.provider_source_value
+join xref.provider_mapping d
+on a.VISIT_PROVIDER = d.providr_key
 left join xref.source_to_concept_map e 
 on a.ADMIT_SOURCES = e.source_code and e.source_vocabulary_id = 'Admit Source'
 left join xref.source_to_concept_map f 

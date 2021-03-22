@@ -27,8 +27,8 @@ select distinct
 from stage.measurement_lab a 
 join xref.person_mapping b
 on a.patient_key = b.patient_key
-left join xref.provider c 
-on c.provider_source_value = a.Attending_Provider
+left join xref.provider_mapping c 
+on c.providr_key = a.Attending_Provider
 left join xref.concept d 
 on a.INFERRED_LOINC_CODE = d.concept_code and d.vocabulary_id = 'LOINC'
 left join xref.concept_relationship e
