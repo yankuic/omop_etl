@@ -1,4 +1,4 @@
-insert into dbo.measurement with (tablock) (
+insert into @Schema.measurement with (tablock) (
      person_id
     ,measurement_concept_id
     ,measurement_date

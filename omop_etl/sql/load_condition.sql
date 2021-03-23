@@ -1,4 +1,4 @@
-insert into dbo.condition_occurrence with (tablock) (
+insert into @Schema.condition_occurrence with (tablock) (
        [person_id]
       ,[condition_concept_id]
       ,[condition_start_date]

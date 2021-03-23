@@ -1,4 +1,4 @@
-insert into dbo.visit_occurrence with (tablock)
+insert into @Schema.visit_occurrence with (tablock)
 select visit_occurrence_id = b.visit_occurrence_id
       ,person_id = c.person_id
       ,visit_concept_id = g.target_concept_id

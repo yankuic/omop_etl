@@ -1,5 +1,5 @@
 truncate table dbo.person
-insert into dbo.person 
+insert into @Schema.person 
 select distinct 
       b.[person_id]
       ,[gender_concept_id] = g.target_concept_id

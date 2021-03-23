@@ -145,18 +145,22 @@ class Loader:
                 print(self.preload(table))
 
     @timeitd
-    def load_table(self, table, deid=True):
+    def load_table(self, table, deid=False):
         """Execute load sql query."""
         logging.info(f'Process to execute load_table({table}) is started.')
-        self.store.truncate('dbo', table)
+    
         load_file = LOAD[table]
         q = read_sql(self.sql_path + load_file)
 
         if deid:
             q = q.replace('@DateShift','date_shift')
             q = q.replace('@SetNULL', '= NULL')
+            q = q.replace('@Schema','deid')
+            self.store.truncate('deid', table)
         else: 
             q = q.replace('@DateShift','0')
             q = q.replace('@SetNULL', '')
+            q = q.replace('@Schema','dbo')
+            self.store.truncate('dbo', table)
 
         return self.store.execute(q)

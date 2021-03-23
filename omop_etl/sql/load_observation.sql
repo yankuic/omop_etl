@@ -1,4 +1,4 @@
-insert into dbo.observation with (tablock) (
+insert into @Schema.observation with (tablock) (
     [person_id]
     ,[observation_concept_id]
     ,[observation_date]
