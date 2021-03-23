@@ -1,4 +1,5 @@
 insert into @Schema.drug_exposure with (tablock) (
+      @TableId
        person_id
       ,drug_concept_id
       ,drug_exposure_start_date
@@ -22,7 +23,8 @@ insert into @Schema.drug_exposure with (tablock) (
       ,route_source_value
       ,dose_unit_source_value 
 )
-select a.person_id
+select @TableId 
+      a.person_id
       ,drug_concept_id
       ,drug_exposure_start_date = dateadd(day, @DateShift, a.drug_exposure_start_date)
       ,drug_exposure_start_datetime = dateadd(day, @DateShift, a.drug_exposure_start_datetime)
@@ -44,7 +46,7 @@ select a.person_id
       ,drug_source_concept_id
       ,route_source_value
       ,dose_unit_source_value 
-from preload.drug_exposure a 
+from @FromSchema.drug_exposure a 
 join xref.person_mapping b
 on a.person_id = b.person_id 
 where b.active_ind = 'Y'
