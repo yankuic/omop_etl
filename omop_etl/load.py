@@ -64,13 +64,14 @@ PRELOAD = {
 LOAD = {
     'person': 'load_person.sql',
     'death': 'load_death.sql',
+    'visit_occurrence': 'load_visit_occurrence.sql',
+    'observation_period': 'load_observation_period.sql',
     'condition_occurrence': 'load_condition.sql',
     'procedure_occurrence': 'load_procedure.sql',
     'drug_exposure': 'load_drug_exposure.sql',
     'measurement': 'load_measurement.sql',
     'observation': 'load_observation.sql',
-    'visit_occurrence': 'load_visit_occurrence.sql',
-    # populate these tables at the end and in order: provider, care_site, location
+    # Load these tables at the end and in order: provider, care_site, location
     'provider': 'load_provider.sql',
     'care_site': 'load_care_site.sql',
     'location': 'load_location.sql'
@@ -153,14 +154,18 @@ class Loader:
         q = read_sql(self.sql_path + load_file)
 
         if deid:
-            q = q.replace('@DateShift','date_shift')
-            q = q.replace('@SetNULL', '= NULL')
-            q = q.replace('@Schema','deid')
+            q = q.replace('@DateShift','date_shift')\
+                .replace('@SetNULL', '= NULL')\
+                .replace('@Schema','deid')\
+                .replace('@TableId', f'{table}_id,')\
+                .replace('@FromSchema','dbo')
             self.store.truncate('deid', table)
         else: 
-            q = q.replace('@DateShift','0')
-            q = q.replace('@SetNULL', '')
-            q = q.replace('@Schema','dbo')
+            q = q.replace('@DateShift','0')\
+                .replace('@SetNULL', '')\
+                .replace('@Schema','dbo')\
+                .replace('@TableId', '')\
+                .replace('@FromSchema','preload')
             self.store.truncate('dbo', table)
 
         return self.store.execute(q)
