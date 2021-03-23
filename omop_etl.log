@@ -784,3 +784,83 @@
 03/22/2021 12:33:50 PM: Process to execute load_table(care_site) is started.
 03/22/2021 12:34:49 PM: Process to execute load_table(care_site) is started.
 03/22/2021 12:34:50 PM: Process to execute load_table(care_site) is completed. Elapsed time: 00h:00m:01s
+03/22/2021 02:49:46 PM: Process to execute load_table(person) is started.
+03/22/2021 02:57:40 PM: Process to execute load_table(person) is started.
+03/22/2021 02:57:42 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:02s
+03/22/2021 02:57:42 PM: Process to execute load_table(visit_occurrence) is started.
+03/22/2021 02:57:47 PM: Process to execute load_table(visit_occurrence) is completed. Elapsed time: 00h:00m:05s
+03/22/2021 02:57:47 PM: Process to execute load_table(death) is started.
+03/22/2021 02:57:48 PM: Process to execute load_table(death) is completed. Elapsed time: 00h:00m:01s
+03/22/2021 02:57:48 PM: Process to execute load_table(condition_occurrence) is started.
+03/22/2021 02:58:41 PM: Process to execute load_table(condition_occurrence) is completed. Elapsed time: 00h:00m:53s
+03/22/2021 02:58:41 PM: Process to execute load_table(procedure_occurrence) is started.
+03/22/2021 02:59:00 PM: Process to execute load_table(procedure_occurrence) is completed. Elapsed time: 00h:00m:19s
+03/22/2021 02:59:00 PM: Process to execute load_table(drug_exposure) is started.
+03/22/2021 03:01:17 PM: Process to execute load_table(drug_exposure) is completed. Elapsed time: 00h:02m:16s
+03/22/2021 03:01:17 PM: Process to execute load_table(measurement) is started.
+03/22/2021 03:12:12 PM: Process to execute load_table(measurement) is completed. Elapsed time: 00h:10m:55s
+03/22/2021 03:12:12 PM: Process to execute load_table(observation) is started.
+03/22/2021 03:13:20 PM: Process to execute load_table(observation) is completed. Elapsed time: 00h:01m:08s
+03/22/2021 03:13:20 PM: Process to execute load_table(provider) is started.
+03/22/2021 03:29:29 PM: Process to execute load_table(person) is started.
+03/22/2021 03:29:31 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:02s
+03/22/2021 03:29:31 PM: Process to execute load_table(visit_occurrence) is started.
+03/22/2021 03:29:36 PM: Process to execute load_table(visit_occurrence) is completed. Elapsed time: 00h:00m:05s
+03/22/2021 03:29:36 PM: Process to execute load_table(death) is started.
+03/22/2021 03:29:37 PM: Process to execute load_table(death) is completed. Elapsed time: 00h:00m:01s
+03/22/2021 03:29:37 PM: Process to execute load_table(condition_occurrence) is started.
+03/22/2021 03:30:29 PM: Process to execute load_table(condition_occurrence) is completed. Elapsed time: 00h:00m:52s
+03/22/2021 03:30:29 PM: Process to execute load_table(procedure_occurrence) is started.
+03/22/2021 03:30:47 PM: Process to execute load_table(procedure_occurrence) is completed. Elapsed time: 00h:00m:18s
+03/22/2021 03:30:47 PM: Process to execute load_table(drug_exposure) is started.
+03/22/2021 03:32:53 PM: Process to execute load_table(drug_exposure) is completed. Elapsed time: 00h:02m:05s
+03/22/2021 03:32:53 PM: Process to execute load_table(measurement) is started.
+03/22/2021 03:42:11 PM: Process to execute load_table(measurement) is completed. Elapsed time: 00h:09m:18s
+03/22/2021 03:42:11 PM: Process to execute load_table(observation) is started.
+03/22/2021 03:43:14 PM: Process to execute load_table(observation) is completed. Elapsed time: 00h:01m:03s
+03/22/2021 03:43:14 PM: Process to execute load_table(provider) is started.
+03/22/2021 04:32:52 PM: Process to execute load_table(provider) is started.
+03/22/2021 04:33:06 PM: Process to execute load_table(provider) is completed. Elapsed time: 00h:00m:14s
+03/22/2021 04:33:06 PM: Process to execute load_table(care_site) is started.
+03/22/2021 04:33:07 PM: Process to execute load_table(care_site) is completed. Elapsed time: 00h:00m:01s
+03/22/2021 04:33:07 PM: Process to execute load_table(location) is started.
+03/22/2021 04:35:57 PM: Process to execute load_table(location) is started.
+03/22/2021 04:35:58 PM: Process to execute load_table(location) is completed. Elapsed time: 00h:00m:01s
+03/22/2021 04:37:45 PM: Process to execute load_table(person) is started.
+03/22/2021 04:37:50 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:05s
+03/22/2021 04:37:50 PM: Process to execute load_table(visit_occurrence) is started.
+03/22/2021 04:37:55 PM: Process to execute load_table(visit_occurrence) is completed. Elapsed time: 00h:00m:05s
+03/22/2021 04:37:55 PM: Process to execute load_table(death) is started.
+03/22/2021 04:37:56 PM: Process to execute load_table(death) is completed. Elapsed time: 00h:00m:01s
+03/22/2021 04:37:56 PM: Process to execute load_table(condition_occurrence) is started.
+03/22/2021 04:38:49 PM: Process to execute load_table(condition_occurrence) is completed. Elapsed time: 00h:00m:53s
+03/22/2021 04:38:49 PM: Process to execute load_table(procedure_occurrence) is started.
+03/22/2021 04:39:08 PM: Process to execute load_table(procedure_occurrence) is completed. Elapsed time: 00h:00m:19s
+03/22/2021 04:39:08 PM: Process to execute load_table(drug_exposure) is started.
+03/22/2021 04:41:11 PM: Process to execute load_table(drug_exposure) is completed. Elapsed time: 00h:02m:03s
+03/22/2021 04:41:11 PM: Process to execute load_table(measurement) is started.
+03/22/2021 04:52:27 PM: Process to execute load_table(measurement) is completed. Elapsed time: 00h:11m:15s
+03/22/2021 04:52:27 PM: Process to execute load_table(observation) is started.
+03/22/2021 04:53:33 PM: Process to execute load_table(observation) is completed. Elapsed time: 00h:01m:06s
+03/22/2021 04:53:33 PM: Process to execute load_table(provider) is started.
+03/22/2021 05:01:39 PM: Process to execute load_table(provider) is started.
+03/22/2021 05:02:47 PM: Process to execute load_table(provider) is started.
+03/22/2021 05:03:07 PM: Process to execute load_table(provider) is completed. Elapsed time: 00h:00m:20s
+03/22/2021 05:03:07 PM: Process to execute load_table(care_site) is started.
+03/22/2021 05:03:08 PM: Process to execute load_table(care_site) is completed. Elapsed time: 00h:00m:01s
+03/22/2021 05:03:08 PM: Process to execute load_table(location) is started.
+03/22/2021 05:03:49 PM: Process to execute load_table(location) is started.
+03/22/2021 05:03:50 PM: Process to execute load_table(location) is completed. Elapsed time: 00h:00m:01s
+03/22/2021 05:08:12 PM: Process to execute load_table(location) is started.
+03/22/2021 05:10:22 PM: Process to execute load_table(location) is started.
+03/22/2021 05:10:23 PM: Process to execute load_table(location) is completed. Elapsed time: 00h:00m:01s
+03/22/2021 05:10:23 PM: Process to execute load_table(location) is started.
+03/22/2021 05:10:24 PM: Process to execute load_table(location) is completed. Elapsed time: 00h:00m:01s
+03/22/2021 05:16:25 PM: Process to execute load_table(person) is started.
+03/22/2021 05:16:28 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:03s
+03/22/2021 05:16:28 PM: Process to execute load_table(location) is started.
+03/22/2021 05:16:29 PM: Process to execute load_table(location) is completed. Elapsed time: 00h:00m:01s
+03/22/2021 05:16:29 PM: Process to execute load_table(location) is started.
+03/22/2021 05:16:31 PM: Process to execute load_table(location) is completed. Elapsed time: 00h:00m:02s
+03/22/2021 05:33:36 PM: Process to execute load_table(death) is started.
+03/22/2021 05:33:37 PM: Process to execute load_table(death) is completed. Elapsed time: 00h:00m:01s

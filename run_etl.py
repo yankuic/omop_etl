@@ -55,17 +55,34 @@ if __name__ == "__main__":
 
         #Load 
         # Load person and visit_occurrence before all others.
-        # print(load.load_table('person', deid=False))
-        # print(load.load_table('visit_occurrence', deid=False))
-        # print(load.load_table('death', deid=False))
-        # print(load.load_table('condition_occurrence', deid=False))
-        # print(load.load_table('procedure_occurrence', deid=False))
+        # print(load.load_table('person'))
+        # print(load.load_table('visit_occurrence'))
+        # print(load.load_table('death'))
+        # print(load.load_table('condition_occurrence'))
+        # print(load.load_table('procedure_occurrence'))
         # print(load.load_table('drug_exposure'))
-        # print(load.load_table('measurement', deid=False))
-        # print(load.load_table('observation', deid=False))
-        # print(load.load_table('provider', deid=False))
-        print(load.load_table('care_site', deid=False))
-        # print(load.load_table('location', deid=False))
+        # print(load.load_table('measurement'))
+        # print(load.load_table('observation'))
+        # print(load.load_table('provider'))
+        # print(load.load_table('care_site'))
+        # print(load.load_table('location'))
 
         # q = read_sql('./omop_etl/sql/postprocessing.sql')
-        # print(store.execute(q))
+        # print(store.execute(q.replace('@Schema','dbo')))
+
+        #Load deid
+        # Load person and visit_occurrence before all others.
+        # print(load.load_table('person', deid=True))
+        # print(load.load_table('visit_occurrence', deid=True))
+        # print(load.load_table('death', deid=True))
+        # print(load.load_table('condition_occurrence', deid=True))
+        # print(load.load_table('procedure_occurrence', deid=True))
+        # print(load.load_table('drug_exposure',deid=True))
+        # print(load.load_table('measurement', deid=True))
+        # print(load.load_table('observation', deid=True))
+        # print(load.load_table('provider', deid=True))
+        # print(load.load_table('care_site', deid=True))
+        # print(load.load_table('location', deid=True))
+
+        q = read_sql('./omop_etl/sql/postprocessing.sql')
+        print(store.execute(q.replace('@Schema','deid')))

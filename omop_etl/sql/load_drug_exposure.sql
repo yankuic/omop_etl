@@ -1,4 +1,4 @@
-insert into dbo.drug_exposure with (tablock) (
+insert into @Schema.drug_exposure with (tablock) (
        person_id
       ,drug_concept_id
       ,drug_exposure_start_date

@@ -1,6 +1,6 @@
 
 truncate table dbo.death
-insert into dbo.death
+insert into @Schema.death
 select b.[person_id]
       ,[death_date] = dateadd(day, @DateShift, ISNULL(a.PATNT_DTH_DATE, a.PATNT_SSN_DTH_DATE))
       ,[death_datetime] = dateadd(day, @DateShift, ISNULL(a.PATNT_DTH_DATE, a.PATNT_SSN_DTH_DATE))

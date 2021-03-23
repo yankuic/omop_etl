@@ -2,7 +2,7 @@
 SET NOCOUNT ON;
 
 /* Measurement -> observation*/
-insert into dbo.observation (
+insert into @Schema.observation (
 	[person_id]
 	,[observation_concept_id]
 	,[observation_date]
@@ -38,20 +38,20 @@ select person_id
 	,observation_source_concept_id = a.measurement_source_concept_id
 	,unit_source_value = a.unit_source_value
 	,qualifier_source_value = NULL
-FROM dbo.measurement a
+FROM @Schema.measurement a
 join xref.concept b
 on a.measurement_concept_id = b.concept_id
 where b.domain_id = 'Observation'
 
 delete a
-from dbo.measurement a
+from @Schema.measurement a
 join xref.concept b
 on a.measurement_concept_id = b.concept_id
 where b.domain_id = 'Observation'
 
 
 /*Procedure -> Measurement*/
-insert into dbo.measurement (
+insert into @Schema.measurement (
 	[person_id]
 	,[measurement_concept_id]
 	,[measurement_date]
@@ -91,20 +91,20 @@ select person_id
 	,measurement_source_concept_id = a.procedure_source_concept_id
 	,unit_source_value = NULL
 	,value_source_value = NULL
-from dbo.procedure_occurrence a
+from @Schema.procedure_occurrence a
 join xref.concept b
 on a.procedure_concept_id = b.concept_id
 where b.domain_id = 'Measurement'
 
 delete a
-from dbo.procedure_occurrence a
+from @Schema.procedure_occurrence a
 join xref.concept b
 on a.procedure_concept_id = b.concept_id
 where b.domain_id = 'Measurement'
 
 
 /* Procedure occurrence -> Observation*/
-insert into dbo.observation (
+insert into @Schema.observation (
 	[person_id]
 	,[observation_concept_id]
 	,[observation_date]
@@ -140,20 +140,20 @@ select person_id
 	,observation_source_concept_id = a.procedure_source_concept_id
 	,unit_source_value = NULL
 	,qualifier_source_value = NULL
-from dbo.procedure_occurrence a
+from @Schema.procedure_occurrence a
 join xref.concept b
 on a.procedure_concept_id = b.concept_id
 where b.domain_id = 'Observation'
 
 delete a
-from dbo.procedure_occurrence a
+from @Schema.procedure_occurrence a
 join xref.concept b
 on a.procedure_concept_id = b.concept_id
 where b.domain_id = 'Observation'
 
 
 /*Procedure occurrence -> Drug exposure*/
-insert into dbo.drug_exposure (
+insert into @Schema.drug_exposure (
 	[person_id]
 	,[drug_concept_id]
 	,[drug_exposure_start_date]
@@ -199,20 +199,20 @@ select person_id
       ,drug_source_concept_id = a.procedure_source_concept_id
       ,route_source_value = NULL
       ,dose_unit_source_value = NULL
-from dbo.procedure_occurrence a 
+from @Schema.procedure_occurrence a 
 join xref.concept b 
 on a.procedure_concept_id = b.concept_id
 where b.domain_id = 'Drug'
 
 delete a
-from dbo.procedure_occurrence a 
+from @Schema.procedure_occurrence a 
 join xref.concept b 
 on a.procedure_concept_id = b.concept_id
 where b.domain_id = 'Drug'
 
 
 /*Procedure occurrence -> Device exposure*/
-insert into dbo.device_exposure (
+insert into @Schema.device_exposure (
        [person_id]
       ,[device_concept_id]
       ,[device_exposure_start_date]
@@ -242,20 +242,20 @@ select person_id = a.person_id
       ,visit_detail_id = NULL
       ,device_source_value = a.procedure_source_value
       ,device_source_concept_id = a.procedure_source_concept_id
-from dbo.procedure_occurrence a 
+from @Schema.procedure_occurrence a 
 join xref.concept b 
 on a.procedure_concept_id = b.concept_id 
 where b.domain_id = 'Device'
 
 delete a
-from dbo.procedure_occurrence a 
+from @Schema.procedure_occurrence a 
 join xref.concept b 
 on a.procedure_concept_id = b.concept_id 
 where b.domain_id = 'Device'
 
 
 /*Observation -> Measurement*/
-insert into dbo.measurement (
+insert into @Schema.measurement (
 	[person_id]
 	,[measurement_concept_id]
 	,[measurement_date]
@@ -295,20 +295,20 @@ select person_id
 	,measurement_source_concept_id = a.observation_source_concept_id
 	,unit_source_value = NULL
 	,value_source_value = a.value_as_string
-from dbo.observation a
+from @Schema.observation a
 join xref.concept b
 on a.observation_concept_id = b.concept_id
 where b.domain_id = 'Measurement'
 
 delete a
-from dbo.observation a
+from @Schema.observation a
 join xref.concept b
 on a.observation_concept_id = b.concept_id
 where b.domain_id = 'Measurement'
 
 
 /*Observation -> Condition occurrence*/
-insert into dbo.condition_occurrence (
+insert into @Schema.condition_occurrence (
 	[person_id]
 	,[condition_concept_id]
 	,[condition_start_date]
@@ -340,20 +340,20 @@ select person_id
 	,condition_source_concept_id = a.observation_source_concept_id
 	,condition_status_source_value = NULL
 	,condition_status_concept_id = NULL
- FROM dbo.observation a
+ FROM @Schema.observation a
  join xref.concept b
  on a.observation_concept_id = b.concept_id
 where b.domain_id = 'Condition'
 
 delete a
-from dbo.observation a
+from @Schema.observation a
 join xref.concept b
 on a.observation_concept_id = b.concept_id
 where b.domain_id = 'Condition'
 
 
 /*Condition occurrence -> Measurement*/
-insert into dbo.measurement (
+insert into @Schema.measurement (
 	[person_id]
 	,[measurement_concept_id]
 	,[measurement_date]
@@ -393,20 +393,20 @@ select person_id
 	,measurement_source_concept_id = a.condition_source_concept_id
 	,unit_source_value = NULL
 	,value_source_value = NULL
-from dbo.condition_occurrence a
+from @Schema.condition_occurrence a
  join xref.concept b
  on a.condition_concept_id = b.concept_id
 where b.domain_id = 'Measurement'
 
 delete a
-from dbo.condition_occurrence a
+from @Schema.condition_occurrence a
 join xref.concept b
 on a.condition_concept_id = b.concept_id
 where b.domain_id = 'Measurement'
 
 
 /*Condition occurrence -> Observation*/
-insert into dbo.observation (
+insert into @Schema.observation (
 	[person_id]
 	,[observation_concept_id]
 	,[observation_date]
@@ -442,20 +442,20 @@ select person_id
 	,observation_source_concept_id = a.condition_source_concept_id
 	,unit_source_value = NULL
 	,qualifier_source_value = NULL
- FROM dbo.condition_occurrence a
+ FROM @Schema.condition_occurrence a
  join xref.concept b
  on a.condition_concept_id = b.concept_id
 where b.domain_id = 'Observation'
 
 delete a
-from dbo.condition_occurrence a
+from @Schema.condition_occurrence a
 join xref.concept b
 on a.condition_concept_id = b.concept_id
 where b.domain_id = 'Observation'
 
 
 /*Condition occurrence -> Procedure occurrence*/
-insert into dbo.procedure_occurrence (
+insert into @Schema.procedure_occurrence (
 	[person_id]
 	,[procedure_concept_id]
 	,[procedure_date]
@@ -483,13 +483,13 @@ select person_id
 	,procedure_source_value = a.condition_source_value
 	,procedure_source_concept_id = a.condition_source_concept_id
 	,modifier_source_value = NULL
-from dbo.condition_occurrence a
+from @Schema.condition_occurrence a
 join xref.concept b
 on a.condition_concept_id = b.concept_id
 where b.domain_id = 'Procedure'
 
 delete a
-from dbo.condition_occurrence a
+from @Schema.condition_occurrence a
 join xref.concept b
 on a.condition_concept_id = b.concept_id
 where b.domain_id = 'Procedure'

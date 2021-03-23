@@ -1,4 +1,4 @@
-insert into dbo.procedure_occurrence with (tablock) (
+insert into @Schema.procedure_occurrence with (tablock) (
     [person_id]
     ,[procedure_concept_id]
     ,[procedure_date]
