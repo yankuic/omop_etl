@@ -29,7 +29,7 @@ if __name__ == "__main__":
 
         # print(store.execute(cohort_q))
 
-        ## Stage all tables
+        # # Stage all tables
 
         # for t in load_conf.keys():
         #     if load_conf[t]:
@@ -39,14 +39,16 @@ if __name__ == "__main__":
         #         if t not in ('provider','care_site','location'): 
         #             print(stage.stage_table(t))
         # print(stage.stage_table('person'))
-        ## Update mapping tables before pre/loading
+        
+        # print(stage.stage_table('measurement', 'bp'))
+
+        # Update mapping tables before pre/loading
 
         # print(load.update_mappings('person'))
         # print(load.update_mappings('visit_occurrence'))
-        #TODO: map location, provider, care_site
 
         ## Preload
-
+        print(load.preload('measurement', 'bp'))
         # load.full_preload('condition_occurrence')
         # load.full_preload('procedure_occurrence')
         # load.full_preload('drug_exposure')
@@ -57,7 +59,7 @@ if __name__ == "__main__":
         # Load person and visit_occurrence before all others.
         # print(load.load_table('person'))
         # print(load.load_table('visit_occurrence'))
-        print(load.load_table('observation_period'))
+        # print(load.load_table('observation_period'))
         # print(load.load_table('death'))
         # print(load.load_table('condition_occurrence'))
         # print(load.load_table('procedure_occurrence'))
@@ -68,20 +70,20 @@ if __name__ == "__main__":
         # print(load.load_table('care_site'))
         # print(load.load_table('location'))
 
+        # Move records by domain
         # q = read_sql('./omop_etl/sql/postprocessing.sql')
         # print(store.execute(q.replace('@Schema','dbo')))
 
         #Load deid
-        # Load person and visit_occurrence before all others.
-        # print(load.load_table('person', deid=True))
-        # print(load.load_table('visit_occurrence', deid=True))
-        # print(load.load_table('observation_period', deid=True))
-        # print(load.load_table('death', deid=True))
-        # print(load.load_table('condition_occurrence', deid=True))
-        # print(load.load_table('procedure_occurrence', deid=True))
-        # print(load.load_table('drug_exposure',deid=True))
-        # print(load.load_table('measurement', deid=True))
-        # print(load.load_table('observation', deid=True))
-        # print(load.load_table('provider', deid=True))
-        # print(load.load_table('care_site', deid=True))
-        # print(load.load_table('location', deid=True))
+        # q = read_sql('./omop_etl/sql/deid.sql')
+        # q = q.replace('@SetNULL','= NULL')\
+        #      .replace('@DateShift','date_shift')\
+        #      .format('birth_datetime_deid','zipcode_deid') 
+        # print(store.execute(q))
+
+        #Load limited
+        # q = read_sql('./omop_etl/sql/deid.sql')
+        # q = q.replace('@SetNULL','')\
+        #      .replace('@DateShift','0')\
+        #      .format('birth_datetime','zipcode')
+        # print(store.execute(q))

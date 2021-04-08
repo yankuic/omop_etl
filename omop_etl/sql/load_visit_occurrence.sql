@@ -1,11 +1,11 @@
-insert into @Schema.visit_occurrence with (tablock)
+insert into dbo.visit_occurrence with (tablock)
 select visit_occurrence_id = b.visit_occurrence_id
       ,person_id = c.person_id
       ,visit_concept_id = g.target_concept_id
-      ,visit_start_date = dateadd(day, @DateShift, a.ENCOUNTER_EFFECTIVE_DATE)
-      ,visit_start_datetime = dateadd(day, @DateShift, a.ENCOUNTER_EFFECTIVE_DATE)
-      ,visit_end_date = dateadd(day, @DateShift, isnull(a.DISCHG_DATE, a.ENCOUNTER_EFFECTIVE_DATE))
-      ,visit_end_datetime = dateadd(day, @DateShift, isnull(a.DISCHG_DATETIME, a.ENCOUNTER_EFFECTIVE_DATE))
+      ,visit_start_date = a.ENCOUNTER_EFFECTIVE_DATE
+      ,visit_start_datetime = a.ENCOUNTER_EFFECTIVE_DATE
+      ,visit_end_date = isnull(a.DISCHG_DATE, a.ENCOUNTER_EFFECTIVE_DATE)
+      ,visit_end_datetime = isnull(a.DISCHG_DATETIME, a.ENCOUNTER_EFFECTIVE_DATE)
       ,visit_type_concept_id = 32817
       ,provider_id = d.provider_id
       ,care_site_id = NULL
@@ -29,6 +29,7 @@ left join xref.source_to_concept_map f
 on a.DISCHG_DISPOSITION = f.source_code and f.source_vocabulary_id = 'Discharge Dis'
 join xref.source_to_concept_map g
 on a.PATIENT_TYPE = g.source_code and g.source_vocabulary_id = 'Patient Type'
---left join xref.care_site --Scotts need to look into mapping between provider and care_site.
+-- left join xref.care_site_mapping h
+-- on h.dept_id = a.dept_id
 where a.DISCHG_DATE is not null 
 or (a.DISCHG_DATE is null and a.PATIENT_TYPE not in ('OUTPATIENT', 'INPATIENT'))

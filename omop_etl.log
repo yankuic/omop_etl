@@ -881,3 +881,139 @@
 03/23/2021 02:44:55 PM: Process to execute load_table(observation_period) is completed. Elapsed time: 00h:00m:01s
 03/23/2021 02:45:28 PM: Process to execute load_table(observation_period) is started.
 03/23/2021 02:45:30 PM: Process to execute load_table(observation_period) is completed. Elapsed time: 00h:00m:02s
+03/29/2021 03:44:40 PM: Process to execute load_table(person) is started.
+03/29/2021 03:46:06 PM: Process to execute load_table(person) is started.
+03/29/2021 03:47:05 PM: Process to execute load_table(person) is started.
+03/29/2021 03:47:09 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:04s
+03/29/2021 03:54:47 PM: Process to execute load_table(person) is started.
+03/29/2021 03:55:31 PM: Process to execute load_table(person) is started.
+03/29/2021 03:55:36 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:05s
+03/29/2021 04:01:11 PM: Process to execute load_table(person) is started.
+03/29/2021 04:02:21 PM: Process to execute load_table(person) is started.
+03/29/2021 04:02:25 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:04s
+03/29/2021 04:02:44 PM: Process to execute load_table(person) is started.
+03/29/2021 04:06:20 PM: Process to execute load_table(person) is started.
+03/29/2021 04:06:24 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:04s
+03/29/2021 04:06:43 PM: Process to execute load_table(person) is started.
+03/29/2021 04:09:21 PM: Process to execute load_table(person) is started.
+03/29/2021 04:09:25 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:04s
+04/02/2021 02:45:28 PM: Process to execute load_table(person) is started.
+04/02/2021 02:47:05 PM: Process to execute load_table(person) is started.
+04/02/2021 02:48:30 PM: Process to execute load_table(person) is started.
+04/02/2021 02:48:32 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:02s
+04/02/2021 02:48:32 PM: Process to execute load_table(visit_occurrence) is started.
+04/02/2021 02:48:41 PM: Process to execute load_table(visit_occurrence) is completed. Elapsed time: 00h:00m:09s
+04/02/2021 02:48:41 PM: Process to execute load_table(observation_period) is started.
+04/02/2021 02:48:42 PM: Process to execute load_table(observation_period) is completed. Elapsed time: 00h:00m:01s
+04/02/2021 02:48:42 PM: Process to execute load_table(death) is started.
+04/02/2021 02:48:43 PM: Process to execute load_table(death) is completed. Elapsed time: 00h:00m:01s
+04/02/2021 02:48:43 PM: Process to execute load_table(condition_occurrence) is started.
+04/02/2021 03:04:21 PM: Process to execute load_table(person) is started.
+04/02/2021 03:04:25 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:04s
+04/02/2021 03:04:25 PM: Process to execute load_table(visit_occurrence) is started.
+04/02/2021 03:04:37 PM: Process to execute load_table(visit_occurrence) is completed. Elapsed time: 00h:00m:12s
+04/02/2021 03:04:37 PM: Process to execute load_table(observation_period) is started.
+04/02/2021 03:04:39 PM: Process to execute load_table(observation_period) is completed. Elapsed time: 00h:00m:02s
+04/02/2021 03:04:39 PM: Process to execute load_table(death) is started.
+04/02/2021 03:04:40 PM: Process to execute load_table(death) is completed. Elapsed time: 00h:00m:01s
+04/02/2021 03:04:40 PM: Process to execute load_table(condition_occurrence) is started.
+04/02/2021 03:05:12 PM: Process to execute load_table(condition_occurrence) is completed. Elapsed time: 00h:00m:32s
+04/02/2021 03:05:12 PM: Process to execute load_table(procedure_occurrence) is started.
+04/02/2021 03:18:08 PM: Process to execute load_table(person) is started.
+04/02/2021 03:18:11 PM: Process to execute load_table(person) is completed. Elapsed time: 00h:00m:03s
+04/02/2021 03:18:11 PM: Process to execute load_table(visit_occurrence) is started.
+04/02/2021 03:18:19 PM: Process to execute load_table(visit_occurrence) is completed. Elapsed time: 00h:00m:08s
+04/02/2021 03:18:19 PM: Process to execute load_table(observation_period) is started.
+04/02/2021 03:18:20 PM: Process to execute load_table(observation_period) is completed. Elapsed time: 00h:00m:01s
+04/02/2021 03:18:20 PM: Process to execute load_table(death) is started.
+04/02/2021 03:18:21 PM: Process to execute load_table(death) is completed. Elapsed time: 00h:00m:01s
+04/02/2021 03:18:21 PM: Process to execute load_table(condition_occurrence) is started.
+04/02/2021 03:18:52 PM: Process to execute load_table(condition_occurrence) is completed. Elapsed time: 00h:00m:31s
+04/02/2021 03:18:52 PM: Process to execute load_table(procedure_occurrence) is started.
+04/02/2021 03:19:05 PM: Process to execute load_table(procedure_occurrence) is completed. Elapsed time: 00h:00m:13s
+04/02/2021 03:19:05 PM: Process to execute load_table(drug_exposure) is started.
+04/02/2021 03:19:59 PM: Process to execute load_table(procedure_occurrence) is started.
+04/02/2021 03:20:13 PM: Process to execute load_table(procedure_occurrence) is completed. Elapsed time: 00h:00m:14s
+04/02/2021 03:20:13 PM: Process to execute load_table(drug_exposure) is started.
+04/02/2021 03:20:50 PM: Process to execute load_table(procedure_occurrence) is started.
+04/02/2021 03:21:03 PM: Process to execute load_table(procedure_occurrence) is completed. Elapsed time: 00h:00m:13s
+04/02/2021 03:21:03 PM: Process to execute load_table(drug_exposure) is started.
+04/02/2021 03:22:07 PM: Process to execute load_table(procedure_occurrence) is started.
+04/02/2021 03:22:19 PM: Process to execute load_table(procedure_occurrence) is completed. Elapsed time: 00h:00m:12s
+04/02/2021 03:22:19 PM: Process to execute load_table(drug_exposure) is started.
+04/02/2021 03:24:01 PM: Process to execute load_table(drug_exposure) is completed. Elapsed time: 00h:01m:42s
+04/02/2021 03:24:01 PM: Process to execute load_table(measurement) is started.
+04/02/2021 03:24:54 PM: Process to execute load_table(measurement) is started.
+04/02/2021 03:31:25 PM: Process to execute load_table(measurement) is completed. Elapsed time: 00h:06m:30s
+04/02/2021 03:31:25 PM: Process to execute load_table(observation) is started.
+04/02/2021 04:05:54 PM: Process to execute load_table(observation) is started.
+04/02/2021 04:06:36 PM: Process to execute load_table(observation) is completed. Elapsed time: 00h:00m:42s
+04/02/2021 04:06:36 PM: Process to execute load_table(provider) is started.
+04/02/2021 04:06:58 PM: Process to execute load_table(provider) is completed. Elapsed time: 00h:00m:22s
+04/02/2021 04:06:58 PM: Process to execute load_table(care_site) is started.
+04/02/2021 04:06:59 PM: Process to execute load_table(care_site) is completed. Elapsed time: 00h:00m:01s
+04/02/2021 04:06:59 PM: Process to execute load_table(location) is started.
+04/02/2021 04:07:02 PM: Process to execute load_table(location) is completed. Elapsed time: 00h:00m:03s
+04/02/2021 04:23:16 PM: Process to execute stage_table(person, None) is started.
+04/02/2021 04:23:39 PM: Process to execute stage_table(person) is completed. Elapsed time: 00h:00m:23s
+04/02/2021 04:23:39 PM: Process to execute stage_table(death, None) is started.
+04/02/2021 04:23:41 PM: Process to execute stage_table(death) is completed. Elapsed time: 00h:00m:02s
+04/02/2021 04:23:41 PM: Process to execute stage_table(condition_occurrence, None) is started.
+04/02/2021 04:26:31 PM: Process to execute stage_table(condition_occurrence) is completed. Elapsed time: 00h:02m:49s
+04/02/2021 04:26:31 PM: Process to execute stage_table(procedure_occurrence, icd) is started.
+04/02/2021 04:27:38 PM: Process to execute stage_table(procedure_occurrence) is completed. Elapsed time: 00h:01m:07s
+04/02/2021 04:27:38 PM: Process to execute stage_table(procedure_occurrence, cpt) is started.
+04/02/2021 04:28:24 PM: Process to execute stage_table(procedure_occurrence) is completed. Elapsed time: 00h:00m:46s
+04/02/2021 04:28:24 PM: Process to execute stage_table(drug_exposure, order) is started.
+04/02/2021 04:29:29 PM: Process to execute stage_table(drug_exposure) is completed. Elapsed time: 00h:01m:05s
+04/02/2021 04:29:29 PM: Process to execute stage_table(drug_exposure, admin) is started.
+04/02/2021 04:32:22 PM: Process to execute stage_table(drug_exposure) is completed. Elapsed time: 00h:02m:53s
+04/02/2021 04:32:22 PM: Process to execute stage_table(measurement, bp) is started.
+04/02/2021 05:52:38 PM: Process to execute stage_table(measurement) is completed. Elapsed time: 01h:20m:16s
+04/02/2021 05:52:38 PM: Process to execute stage_table(measurement, heart_rate) is started.
+04/02/2021 07:21:29 PM: Process to execute stage_table(measurement) is completed. Elapsed time: 01h:28m:50s
+04/02/2021 07:21:29 PM: Process to execute stage_table(measurement, height) is started.
+04/02/2021 07:29:45 PM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:08m:16s
+04/02/2021 07:29:45 PM: Process to execute stage_table(measurement, lab) is started.
+04/02/2021 07:34:45 PM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:04m:59s
+04/02/2021 07:34:45 PM: Process to execute stage_table(measurement, pain) is started.
+04/02/2021 07:48:49 PM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:14m:04s
+04/02/2021 07:48:49 PM: Process to execute stage_table(measurement, qtcb) is started.
+04/02/2021 07:48:59 PM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:00m:09s
+04/02/2021 07:48:59 PM: Process to execute stage_table(measurement, res_dev) is started.
+04/02/2021 07:54:19 PM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:05m:20s
+04/02/2021 07:54:19 PM: Process to execute stage_table(measurement, res_etco2) is started.
+04/02/2021 08:00:38 PM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:06m:19s
+04/02/2021 08:00:38 PM: Process to execute stage_table(measurement, res_fio2) is started.
+04/02/2021 08:09:25 PM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:08m:46s
+04/02/2021 08:09:25 PM: Process to execute stage_table(measurement, res_gcs) is started.
+04/02/2021 08:19:45 PM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:10m:19s
+04/02/2021 08:19:45 PM: Process to execute stage_table(measurement, res_o2) is started.
+04/05/2021 02:40:00 PM: Process to execute stage_table(measurement, res_o2) is started.
+04/06/2021 12:12:59 PM: Process to execute stage_table(measurement, res_o2) is started.
+04/06/2021 01:53:50 PM: Process to execute stage_table(measurement, res_o2) is started.
+04/06/2021 02:00:00 PM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:06m:09s
+04/06/2021 04:09:04 PM: Process to execute stage_table(measurement, height) is started.
+04/06/2021 04:12:53 PM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:03m:49s
+04/07/2021 12:21:08 PM: Process to execute stage_table(measurement, bp) is started.
+04/07/2021 12:27:07 PM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:05m:58s
+04/07/2021 12:35:11 PM: Process to execute stage_table(measurement, bp) is started.
+04/07/2021 12:41:12 PM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:06m:00s
+04/07/2021 01:22:59 PM: Process to execute stage_table(measurement, bp) is started.
+04/07/2021 01:30:44 PM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:07m:44s
+04/07/2021 01:55:49 PM: Process to execute stage_table(measurement, bp) is started.
+04/07/2021 02:02:05 PM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:06m:15s
+04/07/2021 04:45:20 PM: Process to execute stage_table(measurement, bp) is started.
+04/07/2021 04:50:36 PM: Process to execute stage_table(measurement) is completed. Elapsed time: 00h:05m:16s
+04/07/2021 05:05:01 PM: Process to execute preload measurement (bp) is started.
+04/07/2021 05:05:01 PM: Executing preload_measurement_bp.sql ...
+04/07/2021 05:05:42 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:41s
+04/07/2021 05:06:17 PM: Process to execute preload measurement (bp) is started.
+04/07/2021 05:06:17 PM: Executing preload_measurement_bp.sql ...
+04/07/2021 05:07:12 PM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:55s
+04/08/2021 09:18:42 AM: Process to execute preload measurement (bp) is started.
+04/08/2021 09:18:42 AM: Executing preload_measurement_bp.sql ...
+04/08/2021 09:21:02 AM: Process to execute preload(measurement) is completed. Elapsed time: 00h:02m:20s
+04/08/2021 09:22:59 AM: Process to execute preload measurement (bp) is started.
+04/08/2021 09:22:59 AM: Executing preload_measurement_bp.sql ...
+04/08/2021 09:23:52 AM: Process to execute preload(measurement) is completed. Elapsed time: 00h:00m:53s

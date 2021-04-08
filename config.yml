@@ -8,11 +8,9 @@ datastore:
   mtd:
     server: edw.shands.ufl.edu
     database: DWS_METADATA
-
 date_range:
-  start_date: 01/01/2020
-  end_date: 1/14/2021
-
+  start_date: 01/01/2012
+  end_date: 12/31/2020
 load:
   person:
   death:
@@ -24,7 +22,7 @@ load:
     order: Medication orders
     admin: Medication administration
   measurement: 
-    # bp: Arterial blood presure
+    bp: Arterial blood presure
     heart_rate: Heart rate
     height: Height
     lab: Laboratory results

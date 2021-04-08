@@ -2,6 +2,12 @@
 
 ## Description
 
+- Vocabulary tables are in xref schema.
+- Mapping tables are in xref schema.
+- Raw data are in stage schema.
+- Pre-processed data is in preload schema.
+- Postprocessed tables are in dbo schema.
+
 ## Release notes
 
 ## Install
@@ -82,3 +88,4 @@ Some debugging is needed before running Achilles for the first time.
   - shiny
   - shinydashboard
   - tidyr
+   
