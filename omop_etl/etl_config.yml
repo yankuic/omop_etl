@@ -1,3 +1,99 @@
+#stage 
+stage:
+  condition_occurrence: CONDITION
+  death: DEATH
+  drug_exposure:
+    admin: DRUG_ADMIN
+    order: DRUG_ORDER
+  measurement:
+    bp: MEASUREMENT_BP
+    heart_rate: MEASUREMENT_HeartRate
+    height: MEASUREMENT_Height
+    lab: MEASUREMENT_LAB
+    lda: MEASUREMENT_LDA
+    pain: MEASUREMENT_PainScale
+    qtcb: MEASUREMENT_QTCB
+    res_dev: MEASUREMENT_Res_Device
+    res_etco2: MEASUREMENT_Res_ETCO2
+    res_fio2: MEASUREMENT_Res_FIO2
+    res_gcs: MEASUREMENT_Res_GCS
+    res_o2: MEASUREMENT_Res_O2
+    res_peep: MEASUREMENT_Res_PEEP
+    res_pip: MEASUREMENT_Res_PIP
+    res_resp: MEASUREMENT_Res_RESP
+    res_spo2: MEASUREMENT_Res_SPO2
+    res_tidal: MEASUREMENT_Res_Tidal
+    res_vent: MEASUREMENT_Res_Vent
+    rothman: MEASUREMENT_Rothman
+    sofa: MEASUREMENT_SOFA
+    temp: MEASUREMENT_Temp
+    weight: MEASUREMENT_Weight
+  observation:
+    icu: OBSERVATION_ICU
+    lda: OBSERVATION_LDA
+    payer: OBSERVATION_Payer
+    smoking: OBSERVATION_Smoking
+    vent: OBSERVATION_Vent
+    zipcode: OBSERVATION_Zipcode
+  person: PERSON
+  procedure_occurrence:
+    cpt: PROCEDURE_CPT
+    icd: PROCEDURE_ICD
+  visit_occurrence: VISIT
+#load 
+mapping:
+  person: person_mapping.sql
+  visit_occurrence: visit_occurrence_mapping.sql
+preload:
+  condition_occurrence: preload_condition.sql
+  drug_exposure:
+    admin: preload_drug_admin.sql
+    order: preload_drug_order.sql
+  measurement:
+    bp: preload_measurement_bp.sql
+    heart_rate: preload_measurement_heartrate.sql
+    height: preload_measurement_height.sql
+    lab: preload_measurement_lab.sql
+    pain: preload_measurement_painscale.sql
+    qtcb: preload_measurement_qtcb.sql
+    res_dev: preload_measurement_res_device.sql
+    res_etco2: preload_measurement_res_etco2.sql
+    res_fio2: preload_measurement_res_fio2.sql
+    res_gcs: preload_measurement_res_gcs.sql
+    res_o2: preload_measurement_res_o2.sql
+    res_peep: preload_measurement_res_peep.sql
+    res_pip: preload_measurement_res_pip.sql
+    res_resp: preload_measurement_res_resp.sql
+    res_spo2: preload_measurement_res_spo2.sql
+    res_tidal: preload_measurement_res_tidal.sql
+    res_vent: preload_measurement_res_vent.sql
+    rothman: preload_measurement_rothman.sql
+    sofa: preload_measurement_sofa.sql
+    temp: preload_measurement_temp.sql
+    weight: preload_measurement_weight.sql
+  observation:
+    icu: preload_observation_icu.sql
+    lda: preload_observation_lda.sql
+    payer: preload_observation_payer.sql
+    smoking: preload_observation_smoking.sql
+    vent: preload_observation_vent.sql
+    zipcode: preload_observation_zipcode.sql
+  procedure_occurrence:
+    cpt: preload_procedure_cpt.sql
+    icd: preload_procedure_icd.sql
+  care_site: load_care_site.sql
+  condition_occurrence: load_condition.sql
+load:
+  death: load_death.sql
+  drug_exposure: load_drug_exposure.sql
+  location: load_location.sql
+  measurement: load_measurement.sql
+  observation: load_observation.sql
+  observation_period: load_observation_period.sql
+  person: load_person.sql
+  procedure_occurrence: load_procedure.sql
+  provider: load_provider.sql
+  visit_occurrence: load_visit_occurrence.sql
 # Column aliases
 aliases:
   CONDITION:

@@ -8,6 +8,7 @@ from sqlalchemy import create_engine
 import sqlparse
 from sqlparse.sql import Identifier, Function, Operation, Case
 
+from omop_etl.utils import search
 
 def read_sql(filepath):
     """[summary].
@@ -29,10 +30,35 @@ def read_sql(filepath):
 
 
 def format_bo_sql(sqlstring:str, table_name:str, database:str='DWS_OMOP', schema:str='cohort', aliases:list=None):
-    """Insert INTO {table_name} right before first FROM clause."""
+    """Refactor BO Query."""
     assert len(sqlstring) > 0, 'Empty string passed.'
 
+    def flatten(nested_list):
+        return [i for sbl in nested_list for i in sbl]
+
+    def replace_cast_with_try_convert(parsed):    
+        for token in parsed.tokens:
+            if isinstance(token, sqlparse.sql.IdentifierList) or isinstance(token, sqlparse.sql.Where):
+                items = [item for item in token if search('cast', item.value)]
+
+                for item in items:
+                    if isinstance(item, sqlparse.sql.Function):
+                        col, dtype = flatten([[i.value.split('as') for i in p if isinstance(i, sqlparse.sql.Identifier)] 
+                                             for p in item if isinstance(p, sqlparse.sql.Parenthesis)])[0]
+                        item.value = f'try_convert({dtype},{col})'
+                    else:
+                        fun_list = flatten([[a for a in i if isinstance(a, sqlparse.sql.Function)] 
+                                             for i in item if search('cast', i.value)])
+                        for fun in fun_list:
+                            col, dtype = flatten([[i.value.split('as') for i in p if isinstance(i, sqlparse.sql.Identifier)] 
+                                                 for p in fun if isinstance(p, sqlparse.sql.Parenthesis)][0])
+                            item.value = item.value.replace(fun.value, f'try_convert({dtype},{col})')
+
+                token.value = ''.join(item.value for item in token)
+
     parsed = sqlparse.parse(sqlstring)[0]
+    replace_cast_with_try_convert(parsed)
+
     idx = [parsed.token_index(t) for t in parsed if t.is_keyword and t.value == 'FROM'][0]
     columns = parsed.token_prev(idx)[1]
 

@@ -7,8 +7,45 @@ import datetime
 import logging
 from contextlib import contextmanager
 from functools import wraps
-
+import re
+import numpy as np
 from sqlalchemy.exc import SQLAlchemyError
+
+def search(pattern, string, *args):
+    """Return True if pattern is found in string."""
+    try:
+        if re.search(pattern, string, *args):
+            return True
+        else:
+            return False
+
+    except TypeError:
+        return False
+
+def find(pattern, values, ignore_case=True):
+    """Search pattern in list.
+    
+    Arguments:
+        pattern {str, list} -- [description]
+        values {list/array} -- List/array of strings.
+    
+    Returns:
+        [numpy array] -- array
+
+    """
+    arg = None
+    if ignore_case: 
+        arg = re.IGNORECASE
+
+    if isinstance(pattern, list):
+        array = []
+        for p in pattern:
+            array.append(list(map(lambda x: search(p, x, arg), values)))
+            # np.array(array)
+        return np.max(array, 0)
+
+    else:
+        return np.array(list(map(lambda x: search(pattern, x, arg), values)))
 
 @contextmanager
 def timeitc(name=''):

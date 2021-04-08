@@ -1,9 +1,8 @@
 
-truncate table dbo.death
-insert into @Schema.death
+insert into dbo.death
 select b.[person_id]
-      ,[death_date] = dateadd(day, @DateShift, ISNULL(a.PATNT_DTH_DATE, a.PATNT_SSN_DTH_DATE))
-      ,[death_datetime] = dateadd(day, @DateShift, ISNULL(a.PATNT_DTH_DATE, a.PATNT_SSN_DTH_DATE))
+      ,[death_date] = ISNULL(a.PATNT_DTH_DATE, a.PATNT_SSN_DTH_DATE)
+      ,[death_datetime] = ISNULL(a.PATNT_DTH_DATE, a.PATNT_SSN_DTH_DATE)
       ,[death_type_concept_id] = CASE WHEN a.PATNT_DTH_DATE IS NULL THEN 32885 ELSE 32817 END
       ,[cause_concept_id] = 0
       ,[cause_source_value] = NULL

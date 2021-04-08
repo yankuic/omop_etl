@@ -6,12 +6,12 @@ SELECT patient_key
       ,respiratory_date
       ,respiratory_datetime
       ,provider = isnull(attending_provider,visit_provider)
-	  ,etco2_measure
-	  ,etco2_value
+	    ,etco2_measure
+	    ,etco2_value
   INTO #measurement_res_etco2
   FROM [DWS_OMOP].[stage].[MEASUREMENT_Res_ETCO2]
   unpivot (
-	etco2_value for etco2_measure in (etco2,etco2_oral_nasal) 
+	    etco2_value for etco2_measure in (etco2, etco2_oral_nasal) 
   ) pv;
 
 SET NOCOUNT OFF;

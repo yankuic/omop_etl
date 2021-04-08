@@ -1,5 +1,4 @@
-insert into @Schema.measurement with (tablock) (
-    @TableId
+insert into dbo.measurement with (tablock) (
      person_id
     ,measurement_concept_id
     ,measurement_date
@@ -20,11 +19,10 @@ insert into @Schema.measurement with (tablock) (
     ,unit_source_value
     ,value_source_value
 )
-select @TableId 
-    a.person_id
+select person_id
     ,measurement_concept_id
-    ,measurement_date = dateadd(day, @DateShift, a.measurement_date)
-    ,measurement_datetime = dateadd(day, @DateShift, a.measurement_datetime)
+    ,measurement_date
+    ,measurement_datetime
     ,measurement_time
     ,measurement_type_concept_id
     ,operator_concept_id
@@ -40,6 +38,4 @@ select @TableId
     ,measurement_source_concept_id
     ,unit_source_value
     ,value_source_value
-from @FromSchema.measurement a 
-join xref.person_mapping b 
-on a.person_id = b.person_id 
+from preload.measurement

@@ -10,73 +10,22 @@ import pandas as pd
 from omop_etl.datastore import DataStore, format_bo_sql
 from omop_etl.utils import timeitd
 
-STAGE = {
-    'person': 'PERSON',
-    'death': 'DEATH',
-    'visit_occurrence': 'VISIT',
-    'condition_occurrence': 'CONDITION',
-    'procedure_occurrence': {
-        'cpt': 'PROCEDURE_CPT',
-        'icd': 'PROCEDURE_ICD'
-    },
-    'drug_exposure': {
-        'order': 'DRUG_ORDER', 
-        'admin': 'DRUG_ADMIN'
-    },
-    'measurement': {
-        'bp': 'MEASUREMENT_BP',
-        'heart_rate': 'MEASUREMENT_HeartRate',
-        'lab': 'MEASUREMENT_LAB',
-        'lda': 'MEASUREMENT_LDA',
-        'pain': 'MEASUREMENT_PainScale',
-        'qtcb': 'MEASUREMENT_QTCB',
-        'rothman': 'MEASUREMENT_Rothman',
-        'sofa': 'MEASUREMENT_SOFA',
-        'temp': 'MEASUREMENT_Temp',
-        'weight': 'MEASUREMENT_Weight',
-        'height': 'MEASUREMENT_Height',
-        'res_dev': 'MEASUREMENT_Res_Device',
-        'res_etco2': 'MEASUREMENT_Res_ETCO2', 
-        'res_fio2': 'MEASUREMENT_Res_FIO2',
-        'res_gcs': 'MEASUREMENT_Res_GCS',
-        'res_o2': 'MEASUREMENT_Res_O2',
-        'res_peep': 'MEASUREMENT_Res_PEEP',
-        'res_pip': 'MEASUREMENT_Res_PIP',
-        'res_resp': 'MEASUREMENT_Res_RESP',
-        'res_spo2': 'MEASUREMENT_Res_SPO2',
-        'res_tidal': 'MEASUREMENT_Res_Tidal',
-        'res_vent': 'MEASUREMENT_Res_Vent'
-    },
-    'observation': {
-        'icu': 'OBSERVATION_ICU',
-        'payer': 'OBSERVATION_Payer',
-        'smoking': 'OBSERVATION_Smoking',
-        'zipcode': 'OBSERVATION_Zipcode',
-        'vent': 'OBSERVATION_Vent',
-        'lda': 'OBSERVATION_LDA',
-    }
-}
+CONFIG = 'omop_etl/etl_config.yml'
+with open(CONFIG) as f:
+    yml = yaml.safe_load(f)
 
-################################################
-#   Read and execute SQL query from metadata   #
-################################################
+ALIASES = yml['aliases']
+STAGE = yml['stage']
 
 class Stager:
     def __init__(self, config_file):  
-        with open('omop_etl/stage_config.yml') as f:
-            yml = yaml.safe_load(f)
-
         self.store = DataStore(config_file)
-        self.aliases = yml['aliases']
         self.bo_queries = self.store.get_bo_query('omop')
         self.start_date = self.store.config_param['date_range']['start_date']
         self.end_date = self.store.config_param['date_range']['end_date']
 
     def gen_stage_query(self, table, subset=None):
-        """Generate stage query from BO."""
-    #     #############################
-    #     #   Create Stored Procedure #
-    #     #############################
+        """Generate stage query from BO."""        
         assert table in STAGE.keys(), f'{table} is not a valid table name.'
         
         if subset: 
@@ -85,7 +34,7 @@ class Stager:
         else: 
             dp_name = STAGE[table]
 
-        col_aliases= self.aliases[dp_name]
+        col_aliases= ALIASES[dp_name]
 
         sql_query = format_bo_sql(self.bo_queries[dp_name], dp_name, schema='stage', aliases=col_aliases)
         patient_id = "select PATIENT_KEY from DWS_OMOP.cohort.PersonList"
@@ -97,9 +46,6 @@ class Stager:
 
         return f"EXECUTE ('USE DWS_PROD;\n {sql_query}')" 
 
-    #################################
-    #   Exexcute Stored Procedure   #
-    #################################
     @timeitd
     def stage_table(self, table, subset=None):
         """Execute stage bo query."""
@@ -107,14 +53,8 @@ class Stager:
 
         execute_sp = self.gen_stage_query(table, subset)
         return self.store.execute(execute_sp)
-
-        # execute_sp = "execute ('use [DWS_PROD]; {}')".format(log_sp)
-
-        # con = self.omop_eng.connect()
-        # con.execute(execute_sp)
-        # tran_con = con.begin()
-        # tran_con.commit()
     
+
 def log(dp, sql_query, rows):
 
     start_date = store.config_param['date_range']['start_date']
@@ -143,6 +83,7 @@ def log(dp, sql_query, rows):
     # Read out the SQL query and put in a dataframe
     with store.connection() as con:
         query_log = pd.read_sql(query, con)
+        
     SCHEMA_NAME = query_log.loc[query_log.TABLE_NAME.str.upper() == dp.upper(), 'SCHEMA_NAME'].item()
     CREATE_DATE = query_log.loc[query_log.TABLE_NAME.str.upper() == dp.upper(), 'CREATE_DATE'].item()
     MODIFY_DATE = query_log.loc[query_log.TABLE_NAME.str.upper() == dp.upper(), 'MODIFY_DATE'].item()
@@ -154,7 +95,7 @@ def log(dp, sql_query, rows):
     VALUES ("{0}",
         "{1}",
         "{2}",
-        {3},
+         {3},
         "{4}",
         "{5}",
         "{6}",

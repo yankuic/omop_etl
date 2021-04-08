@@ -1,4 +1,4 @@
-insert into @Schema.care_site with (tablock) (
+insert into dbo.care_site with (tablock) (
       [care_site_id]
       ,[care_site_name] 
       ,[location_id]
