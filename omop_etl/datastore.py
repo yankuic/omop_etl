@@ -106,7 +106,7 @@ class DataStore:
     Arguments:
         store_name {str} -- Connection shortcut (omop, mtd).
         database {str} -- Database name (default: None). If database is None the datastore default database is passed to the connection string.
-        config_file {str} --YAML file with project configuration parameters.
+        config_file {str} -- YAML file with project configuration parameters.
         *args {any} -- Additional arguments for sqlalchemy.create_engine.
 
     """

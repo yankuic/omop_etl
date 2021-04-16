@@ -14,3 +14,4 @@ def format_insert_sql(table_list):
 
     return q
 
+   

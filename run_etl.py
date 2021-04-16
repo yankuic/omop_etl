@@ -48,7 +48,7 @@ if __name__ == "__main__":
         # print(load.update_mappings('visit_occurrence'))
 
         ## Preload
-        print(load.preload('measurement', 'bp'))
+        # print(load.preload('measurement', 'bp'))
         # load.full_preload('condition_occurrence')
         # load.full_preload('procedure_occurrence')
         # load.full_preload('drug_exposure')
@@ -71,15 +71,15 @@ if __name__ == "__main__":
         # print(load.load_table('location'))
 
         # Move records by domain
-        # q = read_sql('./omop_etl/sql/postprocessing.sql')
-        # print(store.execute(q.replace('@Schema','dbo')))
+        q = read_sql('./omop_etl/sql/postprocessing.sql')
+        print(store.execute(q.replace('@Schema','dbo')))
 
         #Load deid
-        # q = read_sql('./omop_etl/sql/deid.sql')
-        # q = q.replace('@SetNULL','= NULL')\
-        #      .replace('@DateShift','date_shift')\
-        #      .format('birth_datetime_deid','zipcode_deid') 
-        # print(store.execute(q))
+        q = read_sql('./omop_etl/sql/deid.sql')
+        q = q.replace('@SetNULL','= NULL')\
+             .replace('@DateShift','date_shift')\
+             .format('birth_datetime_deid','zipcode_deid') 
+        print(store.execute(q))
 
         #Load limited
         # q = read_sql('./omop_etl/sql/deid.sql')

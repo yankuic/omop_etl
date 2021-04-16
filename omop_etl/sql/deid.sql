@@ -245,6 +245,28 @@ join xref.person_mapping b
 on a.person_id = b.person_id
 
 
+truncate table hipaa.device_exposure
+insert into hipaa.device_exposure with (tablock)
+select device_exposure_id
+      ,a.person_id
+      ,[device_concept_id]
+      ,[device_exposure_start_date] = dateadd(day, @DateShift, a.device_exposure_start_date)
+      ,[device_exposure_start_datetime] = dateadd(day, @DateShift, a.device_exposure_start_datetime)
+      ,[device_exposure_end_date] = dateadd(day, @DateShift, a.device_exposure_end_date)
+      ,[device_exposure_end_datetime] = dateadd(day, @DateShift, a.device_exposure_end_datetime)
+      ,[device_type_concept_id]
+      ,[unique_device_id]
+      ,[quantity]
+      ,[provider_id]
+      ,[visit_occurrence_id]
+      ,[visit_detail_id]
+      ,[device_source_value]
+      ,[device_source_concept_id]
+from dbo.device_exposure a 
+join xref.person_mapping b
+on a.person_id = b.person_id
+
+
 truncate table hipaa.provider
 insert into hipaa.provider with (tablock) 
 select [provider_id]

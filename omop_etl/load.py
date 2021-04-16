@@ -16,7 +16,7 @@ LOAD = yml['load']
 
 
 class Loader:
-    """Load data into OMOP confomant tables.
+    """Load data into OMOP tables.
 
     Args:
         config_file (file): YAML file with project configuration parameters.
@@ -82,6 +82,14 @@ class Loader:
             else:
                 print(f"Processing table: {table}")
                 print(self.preload(table))
+
+    def load_hipaa(self, dataset='deid'):
+        """Generate hipaa compliant dataset: de-identified, limited.
+
+        Args:
+            dataset (str, optional): [description]. Defaults to 'deid'.
+        """
+        ...
 
     @timeitd
     def load_table(self, table):
