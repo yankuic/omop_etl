@@ -1,7 +1,7 @@
 insert into preload.measurement with (tablock)
 select distinct 
       person_id = b.person_id
-      ,measurement_concept_id = isnull(d.target_concept_id,0)
+      ,measurement_concept_id = isnull(d.target_concept_id, 0)
       ,measurement_date = a.HEIGHT_DATE
       ,measurement_datetime = a.HEIGHT_DATETIME
       ,measurement_time = CAST(a.HEIGHT_DATETIME as TIME)
@@ -16,7 +16,7 @@ select distinct
       ,visit_occurrence_id = e.visit_occurrence_id
       ,visit_detail_id = NULL
       ,measurement_source_value = d.source_code
-      ,measurement_source_concept_id = isnull(d.source_concept_id,0)
+      ,measurement_source_concept_id = isnull(d.source_concept_id, 0)
       ,unit_source_value = 'cm'
       ,value_source_value = a.HEIGHT_CM
       ,source_table = 'measurement_height'
