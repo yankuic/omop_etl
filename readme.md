@@ -10,13 +10,46 @@
 
 ## Release notes
 
+v0
+
+Hi Gigi,
+
+We have completed the first refresh of the de-identified covid omop dataset with the new OMOP pipeline. I'm currently exporting the data to csv files but you can access the deid dataset from management studio. The tables ares stored in schema dws_omop.hipaa.*
+
+Please note that this is an imperfect dataset. We still need to run a bunch of validation tests, plus characterizations with Achilles and the OMOP data quality dashboard.
+
+We were expecting to have results for achilles today, but the application failed in analysis 2000. In the mean time, we have some descriptive statistics for each table in schema ...
+
+Some improvements in this release:
+
+1. We've added the BO blood pressure measures missing in previous releases:
+
+    - BP non-invasive.
+    - BP
+    - CVP
+
+2. Zipcode dates ...
+
+Work in progress and pending issues:
+
+1. We don't have info on the method used for a buch of BP measures. Column BP from BO includes invasive and non-invasive methods. For some records we can retrieve the method used using the column BP_Method, but most rows don't have this info (BP_Method=NULL). Is there another way to determine the method used? If this is not possible, should we map BP values for which we do not know the method to concepts systolic blood pressure (concept id 4154790) and diastolic blood pressure (concept id 4152194)?
+
+2. Run our usual validation scripts and complete characterization with Achilles and OMO dq dashboard.
+
+3. Update vocabulary tables. We have a script to automatically download the vocabularies from athena and then load the csv files into omop database. However, we did not updated the tables since we cannot retrieve CPT4 codes. The NIH changed their api and rendered athena's script to download CP4 codes unusable. We'll need to wait for ohdsi to update their code or come up with our own solution.
+
+4. Data guide. We are working on a data guide similar to what we already have for UFH i2b2. We are still in an early stage, but I expect things will speed up as we move to the validation phase.
+
+Have fun with the data and let mus know if you have any questions.
+
+Yankuic
+
 ## Install
 
 - How to install from distribution file.
 
 Create new project.
-    - 
-    - create conf.yml file with project env info.
+    - create config.yml file with project env info.
     - generates project structure for log files, reports, etc.
 
 ## Instructions for users
@@ -35,10 +68,9 @@ Create new project.
 
 ## ToDo
 
-- Implement setup.py
-- Implement multiprocessing to execute queries.
-
-- Test procedure_occurrence with date earlier than 2018. Check ICD9Proc mappings and row counts.
+- [ ] Implement setup.py
+- [ ] Implement multiprocessing to execute queries.
+- [ ] Test procedure_occurrence with date earlier than 2018. Check ICD9Proc mappings and row counts.
 
 ## Vocabulary mapping
 
@@ -88,4 +120,5 @@ Some debugging is needed before running Achilles for the first time.
   - shiny
   - shinydashboard
   - tidyr
-   
+
+- Achilles bug: fails to run heel on multithreading.

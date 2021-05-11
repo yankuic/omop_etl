@@ -1,51 +1,57 @@
 /****** Script for SelectTopNRows command from SSMS  ******/
 SELECT TOP (1000) a.person_id
       ,date_shift
-	  ,DATEDIFF(day, c.patnt_birth_datetime, birth_datetime) [datediff]
-      ,[year_of_birth]
-      ,[month_of_birth]
-      ,[day_of_birth]
-      ,[birth_datetime]
-	  ,c.patnt_birth_datetime
+	  ,DATEDIFF(day, c.birth_datetime, a.birth_datetime) [datediff]
+      ,a.[year_of_birth]
+      ,a.[month_of_birth]
+      ,a.[day_of_birth]
+      ,c.[birth_datetime]
   FROM [DWS_OMOP].[dbo].[person] a
   join xref.person_mapping b
   on a.person_id = b.person_id
-  join stage.[PERSON] c
-  on b.patient_key = c.patient_key
+  join hipaa.[PERSON] c
+  on b.person_id = c.person_id
 
   /****** Script for SelectTopNRows command from SSMS  ******/
 SELECT TOP (1000) a.[visit_occurrence_id]
       ,a.[person_id]
+	  ,d.person_id
 	  ,date_shift
-	  ,DATEDIFF(day, d.encounter_effective_date, visit_start_date) [start_datediff]
-	  ,DATEDIFF(day, d.[dischg_date], visit_end_date) [end_datediff]
-      ,[visit_start_date]
-	  ,d.encounter_effective_date
-      ,[visit_start_datetime]
-      ,[visit_end_date]
-      ,[visit_end_datetime]
-	  ,d.[dischg_date]
+	  ,DATEDIFF(day, a.visit_start_date, d.visit_start_date) diff
+      ,a.[visit_start_date]
+	  ,d.[visit_start_date]
   FROM [DWS_OMOP].[dbo].[visit_occurrence] a
   join xref.person_mapping b 
   on a.person_id = b.person_id 
-  join xref.visit_occurrence_mapping c
-  on a.visit_occurrence_id = c.visit_occurrence_id
-  join stage.VISIT d
-  on c.patnt_encntr_key = d.patnt_encntr_key
+  join hipaa.[visit_occurrence] d
+  on a.visit_occurrence_id = d.visit_occurrence_id
 
 /****** Script for SelectTopNRows command from SSMS  ******/
 SELECT TOP (1000) a.person_id
 	  ,date_shift 
-	  ,datediff(day, c.patnt_dth_date, a.death_date)
-	  ,datediff(day, a.death_date, c.patnt_ssn_dth_date)
+	  ,datediff(day, c.death_date, a.death_date)
 	  ,a.death_date
-	  ,c.patnt_dth_date
-	  ,c.patnt_ssn_dth_date
+	  ,c.death_date
   FROM [DWS_OMOP].[dbo].[death] a
   join xref.person_mapping b
   on a.person_id = b.person_id
-  join stage.DEATH c
-  on b.patient_key = c.patient_key
+  join hipaa.DEATH c
+  on a.person_id = c.person_id
+
+SELECT TOP (1000) a.condition_occurrence_id
+    ,a.person_id
+	,c.person_id
+	,a.visit_occurrence_id
+	,c.visit_occurrence_id
+	,b.date_shift 
+	,datediff(day, c.condition_start_date, a.condition_start_date)
+	,a.condition_start_date
+	,c.condition_start_date
+FROM dbo.condition_occurrence a
+join xref.person_mapping b
+on a.person_id = b.person_id
+join hipaa.condition_occurrence c
+on a.condition_occurrence_id = c.condition_occurrence_id
 
 /****** Script for SelectTopNRows command from SSMS  ******/
 SELECT TOP (1000) [condition_occurrence_id]
@@ -136,7 +142,21 @@ and a.value_as_number = b.value_as_number
 and a.measurement_source_value = b.measurement_source_value
 and a.measurement_datetime = b.new_date
 
+
 /****** Script for SelectTopNRows command from SSMS  ******/
+SELECT TOP (1000) a.[observation_period_id]
+      ,a.person_id
+	  ,b.date_shift
+	  ,datediff(day, c.observation_period_start_date, a.observation_period_start_date) start_datediff
+	  ,a.observation_period_start_date
+	  ,c.observation_period_start_date
+FROM [DWS_OMOP].[dbo].[observation_period] a
+join xref.person_mapping b
+on b.person_id = a.person_id
+join hipaa.observation_period c
+on a.observation_period_id = c.observation_period_id
+
+
 SELECT TOP (1000) [observation_id]
       ,a.person_id
 	  ,b.person_id

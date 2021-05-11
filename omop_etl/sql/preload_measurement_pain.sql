@@ -1,29 +1,14 @@
-SET NOCOUNT ON;
 
-drop table if exists #measurement_painscale
-SELECT [patient_key]
-      ,[patnt_encntr_key]
-      ,[pain_date]
-      ,[pain_datetime]
-      ,[provider] = isnull([attending_provider],[visit_provider]) 
-	    ,(case when pain_scale = 'pain_jax' then 'PAIN SCALE - Jax'
-          when pain_scale = 'pain_peds_wong_baker' then 'PAIN SCALE - Peds Wong-Baker'
-          when pain_scale = 'pain_uf_dvprs' then 'PAIN SCALE - UF DVPRS'
-          else NULL
-		   end) pain_scale
-	    ,pain_score
-  INTO #measurement_painscale
-  FROM [DWS_OMOP].[stage].[MEASUREMENT_PainScale]
-  UNPIVOT (
-    pain_score for pain_scale in (
-       [pain_uf_dvprs] 
-      ,[pain_peds_wong_baker]
-      ,[pain_jax]
-	)
-) pv;
-
-SET NOCOUNT OFF;
-
+;with painscale as (
+  SELECT [patient_key]
+        ,[patnt_encntr_key]
+        ,[pain_date]
+        ,[pain_datetime]
+        ,[provider] = isnull([attending_provider],[visit_provider])
+        ,pain_scale = 'PAIN SCALE - UF DVPRS'
+        ,pain_score = pain_uf_dvprs
+    FROM [DWS_OMOP].[stage].[MEASUREMENT_PainScale]
+) 
 insert into preload.measurement with (tablock)
 select person_id = b.person_id
     ,measurement_concept_id = isnull(d.target_concept_id, 0)
@@ -45,7 +30,7 @@ select person_id = b.person_id
     ,unit_source_value = '{score}'
     ,value_source_value = a.pain_scale
     ,source_table = 'measurement_painscale'
-from #measurement_painscale a 
+from painscale a 
 join xref.person_mapping b
 on a.patient_key = b.patient_key
 left join xref.provider_mapping c 

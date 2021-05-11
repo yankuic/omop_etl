@@ -19,7 +19,7 @@ insert into dbo.measurement with (tablock) (
     ,unit_source_value
     ,value_source_value
 )
-select person_id
+select distinct person_id
     ,measurement_concept_id
     ,measurement_date
     ,measurement_datetime

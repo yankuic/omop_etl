@@ -1,21 +1,3 @@
-SET NOCOUNT ON;
-
-drop table if exists #measurement_res_etco2
-SELECT patient_key
-      ,patnt_encntr_key
-      ,respiratory_date
-      ,respiratory_datetime
-      ,provider = isnull(attending_provider,visit_provider)
-	    ,etco2_measure
-	    ,etco2_value
-  INTO #measurement_res_etco2
-  FROM [DWS_OMOP].[stage].[MEASUREMENT_Res_ETCO2]
-  unpivot (
-	    etco2_value for etco2_measure in (etco2, etco2_oral_nasal) 
-  ) pv;
-
-SET NOCOUNT OFF;
-
 insert into preload.measurement with (tablock)
 select distinct 
     person_id = b.person_id
@@ -25,7 +7,7 @@ select distinct
     ,measurement_time = CAST(a.Respiratory_Datetime as TIME)
     ,measurement_type_concept_id = 32817
     ,operator_concept_id = NULL
-    ,value_as_number = a.etco2_value
+    ,value_as_number = a.etco2
     ,value_as_concept_id = NULL
     ,unit_concept_id = 0
     ,range_low = NULL
@@ -36,13 +18,13 @@ select distinct
     ,measurement_source_value = d.source_code
     ,measurement_source_concept_id = d.source_concept_id
     ,unit_source_value = 'mmHg'
-    ,value_source_value = a.etco2_measure
+    ,value_source_value = 'etco2'
     ,source_table = 'measurement_res_etco2'
-from #measurement_res_etco2 a 
+from stage.MEASUREMENT_Res_ETCO2 a 
 join xref.person_mapping b
 on a.patient_key = b.patient_key
 left join xref.provider_mapping c 
-on c.providr_key = a.provider
+on c.providr_key = isnull(attending_provider, visit_provider)
 left join xref.source_to_concept_map d 
 on source_code = 'ETCO2' and source_vocabulary_id = 'Flowsheet'
 left join xref.visit_occurrence_mapping e 
