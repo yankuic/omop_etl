@@ -11,7 +11,7 @@ select [person_id] = b.person_id
       ,[stop_reason] = NULL
       ,[refills] = NULL
       ,[quantity] = (case when isnumeric(a.TOTAL_DOSE_CHAR) = 0 
-                          then SUBSTRING(a.TOTAL_DOSE_CHAR, PATINDEX('%[0-9]%', a.TOTAL_DOSE_CHAR), PATINDEX('%[a-z]%', a.TOTAL_DOSE_CHAR)-1) 
+                          then REPLACE(SUBSTRING(a.TOTAL_DOSE_CHAR, PATINDEX('%[0-9]%', a.TOTAL_DOSE_CHAR), PATINDEX('%[ a-z]%', a.TOTAL_DOSE_CHAR)-1), ',','') 
                           else a.TOTAL_DOSE_CHAR
                      end) 
       ,[days_supply] = NULL
@@ -30,7 +30,7 @@ from stage.drug_admin a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
 left join xref.provider_mapping c 
-on c.providr_key = a.MED_ORDER_AUTH_PROV_KEY
+on c.providr_key = a.provider_key
 left join xref.concept d
 on a.RXNORM_CODE = d.concept_code and d.vocabulary_id like 'rxnorm%'
 left join xref.concept_relationship e

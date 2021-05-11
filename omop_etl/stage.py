@@ -35,7 +35,7 @@ class Stager:
             dp_name = STAGE[table]
 
         col_aliases= ALIASES[dp_name]
-
+        # print(dp_name)
         sql_query = format_bo_sql(self.bo_queries[dp_name], dp_name, schema='stage', aliases=col_aliases)
         patient_id = "select PATIENT_KEY from DWS_OMOP.cohort.PersonList"
         sql_query = sql_query.replace("12345678", patient_id)

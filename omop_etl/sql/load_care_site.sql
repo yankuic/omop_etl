@@ -6,9 +6,9 @@ insert into dbo.care_site with (tablock) (
 )
 select distinct 
     care_site_id
-    ,dept_name @SetNULL
+    ,dept_name 
     ,location_id
-    ,dept_id @SetNULL
+    ,dept_id 
 from (
     select b.[care_site_id]
         ,a.[dept_name]

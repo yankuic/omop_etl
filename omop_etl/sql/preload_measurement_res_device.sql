@@ -22,7 +22,7 @@ select distinct
       ,measurement_source_concept_id = d.source_concept_id
       ,unit_source_value = NULL
       --explicit truncation to avoid truncation warning
-      ,value_source_value = left(a.Respiratory_Device,50)
+      ,value_source_value = left(a.Respiratory_Device, 50)
       ,source_table = 'measurement_res_device'
 from stage.measurement_res_device a 
 join xref.person_mapping b

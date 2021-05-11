@@ -1,4 +1,4 @@
-#stage 
+#Stage BO dp names
 stage:
   condition_occurrence: CONDITION
   death: DEATH
@@ -6,24 +6,43 @@ stage:
     admin: DRUG_ADMIN
     order: DRUG_ORDER
   measurement:
-    bp: MEASUREMENT_BP
+    bp: MEASUREMENT_BP_BP
+    bp_artline: MEASUREMENT_BP_ArterialLine
+    bp_noninvasive: MEASUREMENT_BP_BP_NonInvasive
+    bp_cvp: MEASUREMENT_BP_CVP
+    bp_cvp_mean: MEASUREMENT_BP_CVP_mean
+    bp_map_artline: MEASUREMENT_BP_MAP_A_line
+    bp_map_cuff: MEASUREMENT_BP_MAP_Cuff
+    bp_map_noninvasive: MEASUREMENT_BP_MAP_NonINvasive
+    bp_pap_mean: MEASUREMENT_BP_PAP_mean
     heart_rate: MEASUREMENT_HeartRate
     height: MEASUREMENT_Height
     lab: MEASUREMENT_LAB
     lda: MEASUREMENT_LDA
     pain: MEASUREMENT_PainScale
+    pain_jax: MEASUREMENT_PainScale_JAX
+    pain_peds: MEASUREMENT_PainScale_Peds
     qtcb: MEASUREMENT_QTCB
     res_dev: MEASUREMENT_Res_Device
     res_etco2: MEASUREMENT_Res_ETCO2
+    res_etco2_on: MEASUREMENT_Res_ETCO2_NO
     res_fio2: MEASUREMENT_Res_FIO2
     res_gcs: MEASUREMENT_Res_GCS
+    res_gcs_peds: MEASUREMENT_Res_GCS_Peds
     res_o2: MEASUREMENT_Res_O2
+    res_o2_ml: MEASUREMENT_Res_O2_mL
     res_peep: MEASUREMENT_Res_PEEP
     res_pip: MEASUREMENT_Res_PIP
     res_resp: MEASUREMENT_Res_RESP
+    res_resp_adultmech: MEASUREMENT_Res_RESP_AdultMech
+    res_resp_adultspont: MEASUREMENT_Res_RESP_AdultSpont
+    res_resp_pedsmech: MEASUREMENT_Res_RESP_PedsMech
+    res_resp_pedsspont: MEASUREMENT_Res_RESP_PedsSpont
     res_spo2: MEASUREMENT_Res_SPO2
     res_tidal: MEASUREMENT_Res_Tidal
+    res_tidal_exhaled: MEASUREMENT_Res_TidalExhaled
     res_vent: MEASUREMENT_Res_Vent
+    res_vent_peds: MEASUREMENT_Res_VentPeds
     rothman: MEASUREMENT_Rothman
     sofa: MEASUREMENT_SOFA
     temp: MEASUREMENT_Temp
@@ -40,6 +59,10 @@ stage:
     cpt: PROCEDURE_CPT
     icd: PROCEDURE_ICD
   visit_occurrence: VISIT
+stage_hs:
+  provider: stage_provider.sql
+  care_site: stage_care_site.sql
+  location: stage_location.sql
 #load 
 mapping:
   person: person_mapping.sql
@@ -51,22 +74,41 @@ preload:
     order: preload_drug_order.sql
   measurement:
     bp: preload_measurement_bp.sql
+    bp_artline: preload_measurement_bp_artline.sql
+    bp_noninvasive: preload_measurement_bp_noninvasive.sql
+    bp_cvp: preload_measurement_bp_cvp.sql
+    bp_cvp_mean: preload_measurement_bp_cvp_mean.sql
+    bp_map_artline: preload_measurement_bp_map_artline.sql
+    bp_map_noninvasive: preload_measurement_bp_map_noninvasive.sql
+    bp_map_cuff: preload_measurement_bp_map_cuff.sql
+    bp_pap_mean: preload_measurement_bp_pap_mean.sql
     heart_rate: preload_measurement_heartrate.sql
     height: preload_measurement_height.sql
     lab: preload_measurement_lab.sql
-    pain: preload_measurement_painscale.sql
+    pain: preload_measurement_pain.sql
+    pain_jax: preload_measurement_pain_jax.sql
+    pain_peds: preload_measurement_pain_peds.sql
     qtcb: preload_measurement_qtcb.sql
     res_dev: preload_measurement_res_device.sql
     res_etco2: preload_measurement_res_etco2.sql
+    res_etco2_on: preload_measurement_res_etco2_on.sql
     res_fio2: preload_measurement_res_fio2.sql
     res_gcs: preload_measurement_res_gcs.sql
+    res_gcs_peds: preload_measurement_res_gcs_peds.sql
     res_o2: preload_measurement_res_o2.sql
+    res_o2_ml: preload_measurement_res_o2_ml.sql
     res_peep: preload_measurement_res_peep.sql
     res_pip: preload_measurement_res_pip.sql
     res_resp: preload_measurement_res_resp.sql
+    res_resp_adultmech: preload_measurement_res_resp_adultmech.sql
+    res_resp_adultspont: preload_measurement_res_resp_adultspont.sql
+    res_resp_pedsmech: preload_measurement_res_resp_pedsmech.sql
+    res_resp_pedsspont: preload_measurement_res_resp_pedsspont.sql
     res_spo2: preload_measurement_res_spo2.sql
     res_tidal: preload_measurement_res_tidal.sql
+    res_tidal_exhaled: preload_measurement_res_tidal_exhaled.sql
     res_vent: preload_measurement_res_vent.sql
+    res_vent_peds: preload_measurement_res_vent_peds.sql
     rothman: preload_measurement_rothman.sql
     sofa: preload_measurement_sofa.sql
     temp: preload_measurement_temp.sql
@@ -81,19 +123,19 @@ preload:
   procedure_occurrence:
     cpt: preload_procedure_cpt.sql
     icd: preload_procedure_icd.sql
-  care_site: load_care_site.sql
-  condition_occurrence: load_condition.sql
 load:
+  person: load_person.sql
+  visit_occurrence: load_visit_occurrence.sql
   death: load_death.sql
+  condition_occurrence: load_condition.sql
   drug_exposure: load_drug_exposure.sql
-  location: load_location.sql
   measurement: load_measurement.sql
   observation: load_observation.sql
   observation_period: load_observation_period.sql
-  person: load_person.sql
   procedure_occurrence: load_procedure.sql
   provider: load_provider.sql
-  visit_occurrence: load_visit_occurrence.sql
+  care_site: load_care_site.sql
+  location: load_location.sql
 # Column aliases
 aliases:
   CONDITION:
@@ -114,12 +156,13 @@ aliases:
   - patient_key
   - mar_action
   - rxnorm_code
+  - med_name
   - med_order_route
   - taken_date
   - taken_datetime
   - total_dose_char
   - med_dose_unit_desc
-  - med_order_auth_prov_key
+  - provider_key
   - patnt_encntr_key
   DRUG_ORDER:
   - patient_key
@@ -130,27 +173,83 @@ aliases:
   - med_order_discrete_dose
   - med_order_discrete_dose_unit
   - rxnorm_code
+  - med_name
   - med_order_qty
   - med_order_refills
   - med_order_route
   - med_order_sig
-  - med_order_auth_prov_key
+  - provider_key
   - patnt_encntr_key
-  MEASUREMENT_BP:
+  MEASUREMENT_BP_ArterialLine:
+  - patient_key
+  - patnt_encntr_key
+  - bp_date
+  - bp_datetime
+  - bp_artline
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_BP_BP_NonInvasive:
+  - patient_key
+  - patnt_encntr_key
+  - bp_date
+  - bp_datetime
+  - bp_noninvasive
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_BP_BP:
   - patient_key
   - patnt_encntr_key
   - bp_date
   - bp_datetime
   - bp
-  # - systolic
-  # - diastolic
-  - bp_non_invasive
-  - arterial_line
-  - cvp
+  - bp_method
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_BP_CVP_mean:
+  - patient_key
+  - patnt_encntr_key
+  - bp_date
+  - bp_datetime
   - cvp_mean
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_BP_CVP:
+  - patient_key
+  - patnt_encntr_key
+  - bp_date
+  - bp_datetime
+  - cvp
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_BP_MAP_A_line:
+  - patient_key
+  - patnt_encntr_key
+  - bp_date
+  - bp_datetime
   - map_a_line
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_BP_MAP_Cuff:
+  - patient_key
+  - patnt_encntr_key
+  - bp_date
+  - bp_datetime
   - map_cuff
-  - map_non_invasive
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_BP_MAP_NonINvasive:
+  - patient_key
+  - patnt_encntr_key
+  - bp_date
+  - bp_datetime
+  - map_noninvasive
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_BP_PAP_mean:
+  - patient_key
+  - patnt_encntr_key
+  - bp_date
+  - bp_datetime
   - pap_mean
   - attending_provider
   - visit_provider
@@ -167,7 +266,6 @@ aliases:
   - patnt_encntr_key
   - height_date
   - height_datetime
-  - height_inch
   - height_cm
   - attending_provider
   - visit_provider
@@ -192,8 +290,22 @@ aliases:
   - pain_date
   - pain_datetime
   - pain_uf_dvprs 
-  - pain_peds_wong_baker
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_PainScale_JAX:
+  - patient_key
+  - patnt_encntr_key
+  - pain_date
+  - pain_datetime
   - pain_jax
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_PainScale_Peds:
+  - patient_key
+  - patnt_encntr_key
+  - pain_date
+  - pain_datetime
+  - pain_peds
   - attending_provider
   - visit_provider
   MEASUREMENT_QTCB:
@@ -218,7 +330,14 @@ aliases:
   - respiratory_date
   - respiratory_datetime
   - etco2
-  - etco2_oral_nasal
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_ETCO2_NO:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - etco2_no
   - attending_provider
   - visit_provider
   MEASUREMENT_Res_FIO2:
@@ -229,22 +348,36 @@ aliases:
   - fio2
   - attending_provider
   - visit_provider
-  MEASUREMENT_Res_GCS:
+  MEASUREMENT_Res_GCS_Peds:
   - patient_key
   - patnt_encntr_key
   - respiratory_date
   - respiratory_datetime
   - glasgow_coma_peds_score
+  - attending_provider
+  - visit_provider    
+  MEASUREMENT_Res_GCS:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
   - glasgow_coma_adult_score
   - attending_provider
   - visit_provider
+  MEASUREMENT_Res_O2_mL:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - o2_mlmin
+  - attending_provider
+  - visit_provider    
   MEASUREMENT_Res_O2:
   - patient_key
   - patnt_encntr_key
   - respiratory_date
   - respiratory_datetime
   - o2_lmin
-  - o2_mlmin
   - attending_provider
   - visit_provider
   MEASUREMENT_Res_PEEP:
@@ -263,26 +396,46 @@ aliases:
   - pip
   - attending_provider
   - visit_provider
+  MEASUREMENT_Res_RESP_AdultMech:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - adult_mech_resp_rate    
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_RESP_AdultSpont:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - adult_spont_resp_rate    
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_RESP_PedsMech:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - peds_mech_resp_rate    
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_RESP_PedsSpont:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - peds_spont_resp_rate    
+  - attending_provider
+  - visit_provider
   MEASUREMENT_Res_RESP:
   - patient_key
   - patnt_encntr_key
   - respiratory_date
   - respiratory_datetime
-  - adult_mech_resp_rate
-  - adult_spont_resp_rate
-  - peds_mech_resp_rate
-  - peds_spont_resp_rate
-  - respiratory_device
   - respiratory_rate
   - attending_provider
   - visit_provider
-  - adult_vent_model
-  - adult_vent_start_time
-  - adult_vent_end_time
-  - peds_vent_mode
-  - peds_vent_start_time
-  - peds_vent_end_time
-  - encounter_number_csn
   MEASUREMENT_Res_SPO2:
   - patient_key
   - patnt_encntr_key
@@ -297,6 +450,13 @@ aliases:
   - respiratory_date
   - respiratory_datetime
   - tidal_volume
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_TidalExhaled:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
   - tidal_volume_exhaled
   - attending_provider
   - visit_provider
@@ -305,8 +465,19 @@ aliases:
   - patnt_encntr_key
   - respiratory_date
   - respiratory_datetime
-  - peds_vent_mode
   - adult_vent_mode
+  - respiratory_vent_bgn
+  - respiratory_vent_end
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_VentPeds:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - peds_vent_mode
+  - respiratory_vent_bgn
+  - respiratory_vent_end
   - attending_provider
   - visit_provider
   MEASUREMENT_Rothman:
@@ -335,7 +506,6 @@ aliases:
   - patnt_encntr_key
   - vitals_date
   - vitals_datetime
-  - temp_farenheit
   - temp_celsius
   - attending_provider
   - visit_provider
@@ -345,7 +515,6 @@ aliases:
   - weight_date
   - weight_datetime
   - weight_kgs
-  - weight_lbs
   - attending_provider
   - visit_provider
   OBSERVATION_ICU:
@@ -425,8 +594,9 @@ aliases:
   - patient_type
   - dischg_date
   - dischg_datetime
-  - encounter_status
   - admit_sources
   - dischg_disposition
   - patnt_encntr_key
+  - attending_provider
   - visit_provider
+  - dept_id

@@ -14,7 +14,7 @@ select [person_id] = b.person_id
                         when try_convert(INT, a.MED_ORDER_QTY) is null
                           -- or try_convert(NUMERIC(18,4), a.MED_ORDER_QTY) is null 
                           -- or try_convert(FLOAT, a.MED_ORDER_QTY) is null 
-                        then SUBSTRING(a.MED_ORDER_QTY, PATINDEX('%[0-9]%', a.MED_ORDER_QTY), PATINDEX('%[a-z]%', a.MED_ORDER_QTY)-1)
+                        then REPLACE(SUBSTRING(a.MED_ORDER_QTY, PATINDEX('%[0-9]%', a.MED_ORDER_QTY), PATINDEX('%[ a-z]%', a.MED_ORDER_QTY)-1), ',', '')
                         else a.MED_ORDER_QTY
                      end)
       ,[days_supply] = NULL
@@ -33,7 +33,7 @@ from stage.drug_order a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
 left join xref.provider_mapping c 
-on c.providr_key = a.MED_ORDER_AUTH_PROV_KEY
+on c.providr_key = a.provider_key
 left join xref.concept d
 on a.RXNORM_CODE = d.concept_code and d.vocabulary_id like 'rxnorm%'
 join xref.concept_relationship e

@@ -1,7 +1,7 @@
 insert into preload.observation with (tablock)
 select distinct 
       person_id = b.person_id
-      ,observation_concept_id = isnull(d.target_concept_id,0)
+      ,observation_concept_id = isnull(d.target_concept_id, 0)
       ,observation_date = cast(a.ENCOUNTER_EFFECTIVE_DATE as date)
       ,observation_datetime = a.ENCOUNTER_EFFECTIVE_DATE
       ,observation_type_concept_id = 32817
@@ -17,7 +17,7 @@ select distinct
       ,visit_occurrence_id = e.visit_occurrence_id
       ,visit_detail_id = NULL
       ,observation_source_value = d.source_code
-      ,observation_source_concept_id = isnull(d.source_concept_id,0)
+      ,observation_source_concept_id = isnull(d.source_concept_id, 0)
       ,unit_source_value = NULL
       ,qualifier_source_value = NULL
       ,source_table = 'observation_vent'

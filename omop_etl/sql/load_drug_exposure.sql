@@ -22,7 +22,7 @@ insert into dbo.drug_exposure with (tablock) (
       ,route_source_value
       ,dose_unit_source_value 
 )
-select person_id
+select distinct person_id
       ,drug_concept_id
       ,drug_exposure_start_date
       ,drug_exposure_start_datetime

@@ -33,26 +33,40 @@ def format_bo_sql(sqlstring:str, table_name:str, database:str='DWS_OMOP', schema
     """Refactor BO Query."""
     assert len(sqlstring) > 0, 'Empty string passed.'
 
-    def flatten(nested_list):
-        return [i for sbl in nested_list for i in sbl]
+    def flatten(lst):
+        for el in lst:
+            if isinstance(el, list):  
+                # recurse
+                yield from flatten(el)
+            else:
+                # generate
+                yield el
+
+    def get_function(item):
+        if isinstance(item, (sqlparse.sql.Parenthesis, sqlparse.sql.Operation)):
+            return list(filter(None, [get_function(i) for i in item]))
+        elif isinstance(item, sqlparse.sql.Function):
+            return item
 
     def replace_cast_with_try_convert(parsed):    
         for token in parsed.tokens:
-            if isinstance(token, sqlparse.sql.IdentifierList) or isinstance(token, sqlparse.sql.Where):
+            if isinstance(token, (sqlparse.sql.IdentifierList, sqlparse.sql.Where)):
                 items = [item for item in token if search('cast', item.value)]
 
                 for item in items:
                     if isinstance(item, sqlparse.sql.Function):
-                        col, dtype = flatten([[i.value.split('as') for i in p if isinstance(i, sqlparse.sql.Identifier)] 
-                                             for p in item if isinstance(p, sqlparse.sql.Parenthesis)])[0]
-                        item.value = f'try_convert({dtype},{col})'
+                        fun_list = flatten([get_function(item)])
+                        # print(fun_list)
+
                     else:
-                        fun_list = flatten([[a for a in i if isinstance(a, sqlparse.sql.Function)] 
-                                             for i in item if search('cast', i.value)])
-                        for fun in fun_list:
-                            col, dtype = flatten([[i.value.split('as') for i in p if isinstance(i, sqlparse.sql.Identifier)] 
-                                                 for p in fun if isinstance(p, sqlparse.sql.Parenthesis)][0])
-                            item.value = item.value.replace(fun.value, f'try_convert({dtype},{col})')
+                        fun_list = flatten(list(filter(None, [get_function(i) for i in item])))
+                        # print(fun_list)
+
+                    for fun in fun_list:
+                        col, dtype = flatten([[i.value.split(' as ') for i in p if isinstance(i, sqlparse.sql.Identifier)] 
+                                                for p in fun if isinstance(p, sqlparse.sql.Parenthesis)][0])
+                        # print(fun)
+                        item.value = item.value.replace(fun.value, f'try_convert({dtype},{col})')
 
                 token.value = ''.join(item.value for item in token)
 

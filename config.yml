@@ -22,23 +22,41 @@ load:
     order: Medication orders
     admin: Medication administration
   measurement: 
-    bp: Arterial blood presure
+    bp: Arterial blood pressure
+    bp_artline:
+    bp_noninvasive:
+    bp_cvp: 
+    bp_cvp_mean: 
+    bp_map_artline: 
+    bp_map_cuff: 
+    bp_map_noninvasive: 
+    bp_pap_mean: 
     heart_rate: Heart rate
     height: Height
     lab: Laboratory results
     pain: Pain scale
+    pain_jax: 
+    pain_peds: 
     qtcb: Q-T interval corrected Bazett
     res_dev: Respiratory device
     res_etco2: Carbon dioxide [Partial pressure] in Exhaled gas at end expiration
     res_fio2: Inhaled oxygen concentration
     res_gcs: Glasgow coma score total
+    res_gcs_peds: 
     res_o2: Inhaled oxygen flow rate
+    res_o2_ml: 
     res_peep: PEEP Respiratory system
     res_pip: Peak inspiratory pressure
     res_resp: Breath rate spontaneous, mechanical, and respiratory rate
+    res_resp_adultmech: 
+    res_resp_adultspont: 
+    res_resp_pedsmech: 
+    res_resp_pedsspont: 
     res_spo2: Oxygen saturation in arterial blood by pulse oximetry
-    res_tidal: Tidal volume setting and volume.exhaled maximum ventilator alarm
-    res_vent: Ventilation mode 
+    res_tidal: Tidal volume setting 
+    res_tidal_exhaled: Volume exhaled maximum ventilator alarm
+    res_vent: Ventilation mode adults
+    res_vent_peds: Ventilation mode pediatric
     rothman: Rothman index calculated
     sofa: Sequential organ failure assessment score
     temp: Body temperature

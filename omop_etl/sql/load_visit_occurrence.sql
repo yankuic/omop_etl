@@ -21,15 +21,15 @@ join xref.visit_occurrence_mapping b
 on a.patnt_encntr_key = b.patnt_encntr_key
 join xref.person_mapping c
 on a.patient_key = c.patient_key
-join xref.provider_mapping d
-on a.VISIT_PROVIDER = d.providr_key
+left join xref.provider_mapping d
+on d.providr_key = isnull(a.attending_provider, a.VISIT_PROVIDER)
 left join xref.source_to_concept_map e 
 on a.ADMIT_SOURCES = e.source_code and e.source_vocabulary_id = 'Admit Source'
 left join xref.source_to_concept_map f 
 on a.DISCHG_DISPOSITION = f.source_code and f.source_vocabulary_id = 'Discharge Dis'
-join xref.source_to_concept_map g
+left join xref.source_to_concept_map g
 on a.PATIENT_TYPE = g.source_code and g.source_vocabulary_id = 'Patient Type'
--- left join xref.care_site_mapping h
--- on h.dept_id = a.dept_id
+left join xref.care_site_mapping h
+on h.dept_id = a.dept_id
 where a.DISCHG_DATE is not null 
 or (a.DISCHG_DATE is null and a.PATIENT_TYPE not in ('OUTPATIENT', 'INPATIENT'))
