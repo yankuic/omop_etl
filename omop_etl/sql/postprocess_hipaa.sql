@@ -1,6 +1,6 @@
 set NOCOUNT on;
 
-truncate table hipaa.person
+drop table if exists hipaa.person
 ;with shifted as (
     select a.person_id
         ,(case 
@@ -13,7 +13,6 @@ truncate table hipaa.person
     on a.person_id = b.person_id
     where b.active_ind = 'Y'
 )
-insert into hipaa.person 
 select distinct 
        a.[person_id]
       ,[gender_concept_id]
@@ -33,13 +32,13 @@ select distinct
       ,[race_source_concept_id]
       ,[ethnicity_source_value]
       ,[ethnicity_source_concept_id]
+into hipaa.person 
 from dbo.person a
 join shifted b 
 on a.person_id = b.person_id
 
 
-truncate table hipaa.death 
-insert into hipaa.death
+drop table if exists hipaa.death 
 select a.[person_id]
       ,[death_date] = dateadd(day, @DateShift, a.death_date)
       ,[death_datetime] = dateadd(day, @DateShift, a.death_datetime)
@@ -47,13 +46,13 @@ select a.[person_id]
       ,[cause_concept_id] 
       ,[cause_source_value]
       ,[cause_source_concept_id] 
+into hipaa.death
 from dbo.death a
 join xref.person_mapping b
 on a.person_id = b.person_id
 
 
-truncate table hipaa.visit_occurrence
-insert into hipaa.visit_occurrence with (tablock)
+drop table if exists hipaa.visit_occurrence
 select visit_occurrence_id 
       ,a.person_id 
       ,visit_concept_id
@@ -71,13 +70,13 @@ select visit_occurrence_id
       ,discharge_to_concept_id
       ,discharge_to_source_value
       ,preceding_visit_occurrence_id 
+into hipaa.visit_occurrence
 from dbo.visit_occurrence a 
 join xref.person_mapping b 
 on a.person_id = b.person_id
 
 
-truncate table hipaa.condition_occurrence
-insert into hipaa.condition_occurrence with (tablock)
+drop table if exists hipaa.condition_occurrence
 select [condition_occurrence_id]
       ,a.person_id
       ,[condition_concept_id]
@@ -94,14 +93,14 @@ select [condition_occurrence_id]
       ,[condition_source_concept_id]
       ,[condition_status_source_value]
       ,[condition_status_concept_id]
+into hipaa.condition_occurrence
 from [dbo].[condition_occurrence] a
 join xref.person_mapping b 
 on a.person_id = b.person_id 
 where b.active_ind = 'Y'
 
 
-truncate table hipaa.procedure_occurrence
-insert into hipaa.procedure_occurrence with (tablock) 
+drop table if exists hipaa.procedure_occurrence
 select procedure_occurrence_id
     ,a.person_id
     ,[procedure_concept_id]
@@ -116,14 +115,14 @@ select procedure_occurrence_id
     ,[procedure_source_value]
     ,[procedure_source_concept_id]
     ,[modifier_source_value]
+into hipaa.procedure_occurrence
 from dbo.procedure_occurrence a 
 join xref.person_mapping b
 on a.person_id = b.person_id
 where b.active_ind = 'Y'
 
 
-truncate table hipaa.drug_exposure
-insert into hipaa.drug_exposure with (tablock) 
+drop table if exists hipaa.drug_exposure
 select drug_exposure_id 
       ,a.person_id
       ,drug_concept_id
@@ -147,14 +146,14 @@ select drug_exposure_id
       ,drug_source_concept_id
       ,route_source_value
       ,dose_unit_source_value 
+into hipaa.drug_exposure
 from dbo.drug_exposure a 
 join xref.person_mapping b
 on a.person_id = b.person_id 
 where b.active_ind = 'Y'
 
 
-truncate table hipaa.measurement
-insert into hipaa.measurement with (tablock)
+drop table if exists hipaa.measurement
 select measurement_id
     ,a.person_id
     ,measurement_concept_id
@@ -175,12 +174,13 @@ select measurement_id
     ,measurement_source_concept_id
     ,unit_source_value
     ,value_source_value
+into hipaa.measurement
 from dbo.measurement a 
 join xref.person_mapping b 
 on a.person_id = b.person_id 
 
 
-truncate table hipaa.observation
+drop table if exists hipaa.observation
 select distinct 
     zipcode = value_as_string
     ,(case 
@@ -200,11 +200,10 @@ join (
     select left(value_as_string,3) zip3, count(distinct person_id) n_patients
     from dbo.observation
     where observation_source_value = 'zipcode'
-    group by left(value_as_string,3)
+    group by left(value_as_string, 3)
 ) y on left(x.value_as_string,3) = y.zip3
 where observation_source_value = 'zipcode'
 
-insert into hipaa.observation with (tablock)
 select a.observation_id
     ,a.person_id
     ,[observation_concept_id]
@@ -223,6 +222,7 @@ select a.observation_id
     ,[observation_source_concept_id]
     ,[unit_source_value]
     ,[qualifier_source_value]
+into hipaa.observation
 from dbo.observation a
 join xref.person_mapping b 
 on a.person_id = b.person_id 
@@ -233,20 +233,19 @@ where b.active_ind = 'Y'
 drop table if exists #zipcode
 
 
-truncate table hipaa.observation_period
-insert into hipaa.observation_period with(tablock)
+drop table if exists hipaa.observation_period
 SELECT observation_period_id
 	  ,a.[person_id]
       ,[observation_period_start_date] = dateadd(day,@DateShift, a.observation_period_start_date)
       ,[observation_period_end_date] = dateadd(day,@DateShift, a.observation_period_end_date)
-      ,[period_type_concept_id] 
+      ,[period_type_concept_id]
+into hipaa.observation_period 
 from dbo.observation_period a 
 join xref.person_mapping b 
 on a.person_id = b.person_id
 
 
-truncate table hipaa.device_exposure
-insert into hipaa.device_exposure with (tablock)
+drop table if exists hipaa.device_exposure
 select device_exposure_id
       ,a.person_id
       ,[device_concept_id]
@@ -262,13 +261,13 @@ select device_exposure_id
       ,[visit_detail_id]
       ,[device_source_value]
       ,[device_source_concept_id]
+into hipaa.device_exposure 
 from dbo.device_exposure a 
 join xref.person_mapping b
 on a.person_id = b.person_id
 
 
-truncate table hipaa.provider
-insert into hipaa.provider with (tablock) 
+drop table if exists hipaa.provider
 select [provider_id]
       ,[provider_name] = NULL
       ,[npi] = NULL
@@ -282,11 +281,11 @@ select [provider_id]
       ,[specialty_source_concept_id]
       ,[gender_source_value]
       ,[gender_source_concept_id]
+into hipaa.provider
 from dbo.provider
 
 
-truncate table hipaa.location
-insert into hipaa.location with (tablock) 
+drop table if exists hipaa.location
 select location_id
     ,[address_1] = NULL
     ,[address_2] = NULL
@@ -295,17 +294,18 @@ select location_id
     ,[zip]
     ,[county]
     ,[location_source_value] = NULL
+into hipaa.location
 from dbo.location 
 
 
-truncate table hipaa.care_site
-insert into hipaa.care_site with (tablock)
+drop table if exists hipaa.care_site
 select care_site_id
     ,care_site_name = NULL
     ,place_of_service_concept_id
     ,location_id
     ,care_site_source_value = NULL
     ,place_of_service_source_value = NULL
+into hipaa.care_site
 from dbo.care_site 
 
 set NOCOUNT off;

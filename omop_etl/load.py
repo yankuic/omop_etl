@@ -1,102 +1,146 @@
 #coding=utf-8
-"""Methods for data post-processing."""
+"""Post-processing."""
 
 import logging
-import yaml
+import os
+import time 
+
+from omop_etl.bo import format_stage_query
 from omop_etl.utils import timeitd, timeitc
-from omop_etl.datastore import DataStore, read_sql
-
-CONFIG = 'omop_etl/etl_config.yml'
-with open(CONFIG) as f:
-    yml = yaml.safe_load(f) 
-
-MAPPING = yml['mapping']
-PRELOAD = yml['preload']
-LOAD = yml['load']
+from omop_etl.io import read_sql
+from omop_etl.datastore import DataStore
+from omop_etl.config import ETLConfig
 
 
-class Loader:
+class Loader(DataStore, ETLConfig):
     """Load data into OMOP tables.
-
-    Args:
-        config_file (file): YAML file with project configuration parameters.
-
     """
-    
     def __init__(self, config_file):
-        self.store = DataStore(config_file) 
-        self.engine = self.store.engine
-        self.sql_path = 'omop_etl/sql/'
-
-        try:
-            self.load_param = self.store.config_param['load']
-        except KeyError:
-            logging.error('Load parameters not found.')
-            raise
+        DataStore.__init__(self, config_file=config_file)
+        ETLConfig.__init__(self)
 
     @timeitd
-    def update_mappings(self, table):
-        """Load new records into mapping table."""
-        logging.info(f'Updating {table} ...')
-        try:
-            mapping_sql = MAPPING[table]
-            q = read_sql(self.sql_path + mapping_sql)
-            return self.store.execute(q)
-        except KeyError:
-            print(f'{table} is not registered as mapping table.')
+    def stage_hs_table(self, table, schema='stage'):
+        assert table in self.stage_hs.keys(), f'{table} is not a valid table name.'
+        self.truncate(schema, table)
+        filepath = os.path.join(self.sql_scripts_path, self.stage_hs[table])
+        q = read_sql(filepath) 
+
+        return self.execute(q)
 
     @timeitd
-    def preload(self, table, subset=None):
+    def stage_table(self, table, subset=None):
+        """Stage clinical data table."""
+        logging.info(f'Process to execute stage_table({table}, {subset}) is started.')
+        assert table in self.stage.keys(), f'{table} is not a valid table name.'
+        
+        if subset: 
+            assert subset in self.stage[table].keys(), f'{subset} is not a valid subset for {table}.'
+            dp_name = self.stage[table][subset]
+        else: 
+            dp_name = self.stage[table]
+            assert not isinstance(dp_name, (list, dict)), f'table {table} contain subsets, but none was specified.' 
+
+        col_aliases= self.aliases[dp_name]
+        start_date = self.config.start_date
+        end_date = self.config.end_date
+
+        with self.engine.connect() as con:
+            execute_sp = format_stage_query(self.config.bo_docname_stage, dp_name, start_date, end_date, con, aliases=col_aliases)
+            
+        return self.execute(execute_sp)
+
+    @timeitd
+    def preload_table(self, table, subset=None):
         """Execute preload sql query.
         
         Args:
             subset (str): Subset key (e.g. icd, cpt) or None. Default: None. 
         """
-        assert table in PRELOAD.keys(), f'{table} has no subset {subset}.'
+        assert isinstance(self.preload.get(table), dict), f'table {table} has no subsets.'
+        assert subset in self.preload[table].keys(), f'{table} has no subset key {subset}.'
+
         logging.info(f'Process to execute preload {table} ({subset or "all"}) is started.')
-        
-        if subset: 
-            assert subset in PRELOAD[table].keys(), f'{table} has no subset key {subset}.'
-            preload_file = PRELOAD[table][subset]
-            logging.info(f'Executing {preload_file} ...')
-            q = read_sql(self.sql_path + preload_file)
+        preload_file = self.preload[table][subset]
+        logging.info(f'Executing {preload_file} ...')
+        q = read_sql(os.path.join(self.sql_scripts_path, preload_file))
 
-        else:
-            assert not isinstance(PRELOAD[table], dict), f'{table} has no subsets'
-            preload_file = PRELOAD[table]
-            logging.info(f'Executing {preload_file} ...')
-            q = read_sql(self.sql_path + preload_file)
-                
-        return self.store.execute(q)
+        return self.execute(q)
 
-    def full_preload(self, table):
+    @timeitd
+    def update_mapping_table(self, table):
+        """Load new records into mapping table."""
+        logging.info(f'Updating {table} ...')
+
+        try:
+            mapping_sql = self.mapping[table]
+            q = read_sql(os.path.join(self.sql_scripts_path, mapping_sql))
+        except KeyError as e:
+            print(f'{table} is not registered as mapping table.')
+            raise e
+
+        return self.execute(q)
+            
+    @timeitd
+    def load_table(self, table):
+        """Execute load sql query."""
+        assert table in self.load.keys(), f'table name {table} is invalid.'
+        logging.info(f'Process to execute load_table({table}) is started.')
+    
+        load_file = self.load[table]
+        q = read_sql(os.path.join(self.sql_scripts_path, load_file))
+
+        return self.execute(q)
+
+    def preload_all_subsets(self, table):
         """Preload table with all subsets listed in the configuration file."""
         #read all tables/subsets from config 
         with timeitc(f'Processing {table}'):
-            self.store.truncate('preload', table)
-            if isinstance(PRELOAD[table], dict):
-                subsets = self.load_param[table]
+            self.truncate('preload', table)
+
+            if isinstance(self.preload[table], dict):
+                subsets = self.preload[table].keys()
                 print(f"Processing {table} subsets: {', '.join(subsets)}")
                 for s in subsets:
-                    print(self.preload(table, subset=s))
+                    print(self.preload_table(table, subset=s))
+
             else:
                 print(f"Processing table: {table}")
-                print(self.preload(table))
+                print(self.preload_table(table))
 
+    @timeitd
     def load_hipaa(self, dataset='deid'):
         """Generate hipaa compliant dataset: de-identified, limited.
 
         Args:
-            dataset (str, optional): [description]. Defaults to 'deid'.
+            dataset (str, optional): Options 'limited', 'deid'. Defaults to 'deid'.
         """
-        ...
+        script_file = self.postproc['hipaa']
+        q = read_sql(os.path.join(self.sql_scripts_path, script_file))
+        
+        with timeitc('Processing HIPAA dataset'):
+            ## Load deid
+            if dataset == 'deid':
+                q = q.replace('@SetNULL','= NULL')\
+                    .replace('@DateShift','date_shift')\
+                    .format('birth_datetime_deid','zipcode_deid') 
+
+            ## Load limited
+            if dataset == 'limited':
+                q = q.replace('@SetNULL','')\
+                    .replace('@DateShift','0')\
+                    .format('birth_datetime','zipcode')
+            
+            else:
+                print(f'Option {dataset} not recognized')
+                exit(1)
+
+            return self.execute(q)
 
     @timeitd
-    def load_table(self, table):
-        """Execute load sql query."""
-        logging.info(f'Process to execute load_table({table}) is started.')
-    
-        load_file = LOAD[table]
-        q = read_sql(self.sql_path + load_file)
-
-        return self.store.execute(q)
+    def fix_domains(self):
+        script_file = self.postproc['by_domain']
+        q = read_sql(os.path.join(self.sql_scripts_path, script_file))
+        
+        with timeitc('Moving records by domain'):
+            return self.execute(q)

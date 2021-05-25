@@ -100,7 +100,7 @@ def timeitd(f):
             done = True
             spin_thread.join()
 
-        except (KeyboardInterrupt, AssertionError, SQLAlchemyError):
+        except (KeyboardInterrupt, Exception):# AssertionError, SQLAlchemyError, AttributeError):
             done = True
             raise
 
