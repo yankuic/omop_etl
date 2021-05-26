@@ -3,9 +3,14 @@ Class template from: https://chase-seibert.github.io/blog/2014/03/21/python-mult
 """
 
 import sys
+import os
+import shutil
 import argparse
 
+import yaml
+
 from omop_etl.load import Loader
+from omop_etl.io import read_sql
 from omop_etl.utils import timeitc
 
 loader = Loader('config.yml')
@@ -13,12 +18,15 @@ MAPPING_TABLES = loader.mapping
 PRELOAD_TABLES = loader.preload
 LOAD_TABLES = loader.config.load
 POSTPRO = loader.postproc
+SCHEMA = loader.schema
 
 class ETLCli:
 
     def __init__(self):
         parser = argparse.ArgumentParser()
-        usage='''Add instructions'''
+        usage = '''
+        Add instructions here.
+        '''
         parser.add_argument('command', type=str, help='Enter command to run')
         args = parser.parse_args(sys.argv[1:2])
 
@@ -29,6 +37,76 @@ class ETLCli:
 
         # use dispatch pattern to invoke method with same name
         getattr(self, args.command)()
+
+
+    def create_project_schema(self):
+        #create omop tables and schemas
+        with timeitc('Creating project schema'):
+            loader.create_schema('cohort')
+            loader.create_schema('stage')
+            loader.create_schema('results')
+
+            for s in SCHEMA.keys():
+                print(f'Creating schema {s}')
+                script_file = os.path.join(loader.sql_scripts_path, SCHEMA[s])
+                sqlstring = read_sql(script_file)
+                print(loader.execute(sqlstring))
+
+        #TODO: borrow achilles queries to validate schema here.
+
+
+    def voc(self):
+        #download vocabulary
+        #load vocabulary into db
+        raise NotImplementedError
+
+
+    def new_project(self):
+        #create project directory if not exists
+        #copy template files into project directory
+        #   -if server and db are specified save info into config.yml
+        #   -save project name and project dir into config.yml
+        #if server and db are specified ask if user wants to create project schema.
+        parser = argparse.ArgumentParser('Create new OMOP project.')
+        parser.add_argument('-p', '--path', type=str, help='Project directory', required=True)
+        parser.add_argument('-n', '--name', type=str, help='Project name', required=True)
+        parser.add_argument('-s', '--server', type=str, help='SQL Server URL')
+        parser.add_argument('-db', '--database', type=str, help='Project database')
+
+        args = parser.parse_args(sys.argv[2:])
+
+        config_file = 'config.yml'
+        dirname = os.path.dirname(os.path.abspath(__file__))
+        template_path = os.path.join(dirname, 'templates')
+        config_template_path = os.path.join(template_path, config_file)
+        py_scripts = [f for f in os.listdir(template_path) if f.endswith('.py')]
+        project_path = os.path.join(args.path, args.name)
+
+        try:
+            os.mkdir(project_path)
+        except FileExistsError as e:
+            raise e
+
+        with open(config_template_path) as f:
+            config = yaml.safe_load(f)
+
+        config['project_info']['project_dir'] = project_path
+
+        if args.server:
+            config['db_connections']['omop']['server'] = args.server
+
+        if args.database:
+            config['db_connections']['omop']['database'] = args.database
+        
+        with open(os.path.join(project_path, config_file), 'w') as custom_config:
+            yaml.dump(config, custom_config, sort_keys=False)
+
+        for py in py_scripts:
+            o = os.path.join(template_path, py)
+            d = os.path.join(project_path, py)
+            shutil.copyfile(o, d)
+
+        print(f'New OMOP project created in {project_path}')
 
 
     def archive(self):

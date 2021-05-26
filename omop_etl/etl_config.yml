@@ -1,3 +1,10 @@
+# Schema scripts
+schema:
+  dbo: create_schema_dbo.sql
+  preload: create_schema_preload.sql
+  xref: create_schema_xref.sql
+  hipaa: create_schema_hipaa.sql
+  cohort: create_schema_cohort.sql
 #Stage BO dp names
 stage:
   condition_occurrence: CONDITION

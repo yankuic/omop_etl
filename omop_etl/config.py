@@ -6,6 +6,7 @@ import yaml
 
 FILEDIR = os.path.dirname(os.path.abspath(__file__))
 ETL_CONFIG = os.path.join(FILEDIR, 'etl_config.yml')
+SQL_PATH = os.path.join(FILEDIR, 'sql')
 
 class Config:
     def __init__(self, config_file):
@@ -60,13 +61,17 @@ class ProjectConfig(Config):
 
     @property
     def release_version(self):
-        release_info = self.get_property('release_info')
+        release_info = self.get_property('project_info')
         return release_info['version']
 
     @property
+    def project_dir(self):
+        project_info = self.get_property('project_info')
+        return project_info['project_dir']
+
+    @property
     def release_path(self):
-        release_info = self.get_property('release_info')
-        return os.path.join(release_info['output_path'], self.release_version)
+        return os.path.join(self.project_dir, 'data_release', self.release_version)
 
     @property
     def start_date(self):
@@ -94,6 +99,7 @@ class ETLConfig(Config):
     """
     def __init__(self, config_file=ETL_CONFIG):
         super(ETLConfig, self).__init__(config_file=config_file)
+        self.sql_scripts_path = SQL_PATH
 
     @property
     def stage(self):
@@ -128,5 +134,5 @@ class ETLConfig(Config):
         return self.get_property('postprocessing')
 
     @property
-    def sql_scripts_path(self):
-        return 'omop_etl/sql'
+    def schema(self):
+        return self.get_property('schema')

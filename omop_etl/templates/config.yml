@@ -1,16 +1,16 @@
 # Project configuration parameters
 # Items must follow format <item: subitem> OR <item:>
-release_info:
-  output_path: '//share.ahc.ufl.edu/share$/DSS/IDR_Projects/COVID-19/OMOP/data_releases/' 
-  version: 'v7'
+project_info:
+  project_dir: enter project directory
+  version: enter version
 
 date_range:
   start_date: 01/01/2012
   end_date: 12/31/2020
 
 bo_docs:
-  cohort: "cohort_COVID_Broad"
-  stage: "omop"
+  cohort: enter cohort bo document name
+  stage: omop
 
 load:
 # Comment line to ignore data elements under each omop table with sub-items.
@@ -79,7 +79,7 @@ load:
 db_connections: 
   omop:
     server: edw.shands.ufl.edu
-    database: DWS_OMOP 
+    database: enter database name
   bo_metadata:
     server: edw.shands.ufl.edu
     database: DWS_METADATA
