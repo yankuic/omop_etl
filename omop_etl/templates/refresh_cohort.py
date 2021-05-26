@@ -4,9 +4,7 @@ This script is a template. Some customizations may be needed to make it work for
 
 Usage:
  
-It can be run as a standalone script. 
-
-It can be run as an application command. 
+Add instructions here. 
 """
 
 from omop_etl.utils import timeitc

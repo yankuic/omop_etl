@@ -1,7 +1,7 @@
 # Project configuration parameters
 # Items must follow format <item: subitem> OR <item:>
-release_info:
-  output_path: '//share.***REMOVED***/COVID-19/OMOP/data_releases/' 
+project_info:
+  project_dir: '//share.***REMOVED***/COVID-19/OMOP/' 
   version: 'v7'
 
 date_range:
@@ -14,7 +14,7 @@ bo_docs:
 
 load:
 # Comment line to ignore data elements under each omop table with sub-items.
-# Note: Do not comment tables. At least one sub-item must be active.
+# Note: Do not comment tables. If table has subsets, at least one item must be active.
   person:
   death:
   visit_occurrence:
