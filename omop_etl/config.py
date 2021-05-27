@@ -3,10 +3,12 @@
 """
 import os
 import yaml
+import logging
 
 FILEDIR = os.path.dirname(os.path.abspath(__file__))
 ETL_CONFIG = os.path.join(FILEDIR, 'etl_config.yml')
 SQL_PATH = os.path.join(FILEDIR, 'sql')
+LOG_FILE = 'omop_etl.log'
 
 class Config:
     def __init__(self, config_file):
@@ -103,6 +105,16 @@ class ETLConfig(Config):
     def __init__(self, config_file=ETL_CONFIG):
         super(ETLConfig, self).__init__(config_file=config_file)
         self.sql_scripts_path = SQL_PATH
+
+        # Instantiate logger
+        logging.basicConfig(
+
+            filename=LOG_FILE, 
+            format='%(asctime)s: %(message)s', 
+            level=logging.INFO,
+            datefmt='%m/%d/%Y %I:%M:%S %p'
+
+        )
 
     @property
     def stage(self):

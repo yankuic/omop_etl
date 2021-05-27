@@ -2,7 +2,6 @@ e:\continuum\anaconda3\lib\site-packages\omop_etl-0.0.1-py3.7.egg\EGG-INFO\depen
 e:\continuum\anaconda3\lib\site-packages\omop_etl-0.0.1-py3.7.egg\EGG-INFO\entry_points.txt
 e:\continuum\anaconda3\lib\site-packages\omop_etl-0.0.1-py3.7.egg\EGG-INFO\not-zip-safe
 e:\continuum\anaconda3\lib\site-packages\omop_etl-0.0.1-py3.7.egg\EGG-INFO\PKG-INFO
-e:\continuum\anaconda3\lib\site-packages\omop_etl-0.0.1-py3.7.egg\EGG-INFO\requires.txt
 e:\continuum\anaconda3\lib\site-packages\omop_etl-0.0.1-py3.7.egg\EGG-INFO\SOURCES.txt
 e:\continuum\anaconda3\lib\site-packages\omop_etl-0.0.1-py3.7.egg\EGG-INFO\top_level.txt
 e:\continuum\anaconda3\lib\site-packages\omop_etl-0.0.1-py3.7.egg\omop_etl\bo.py
@@ -23,5 +22,3 @@ e:\continuum\anaconda3\lib\site-packages\omop_etl-0.0.1-py3.7.egg\omop_etl\__pyc
 e:\continuum\anaconda3\lib\site-packages\omop_etl-0.0.1-py3.7.egg\omop_etl\__pycache__\__init__.cpython-37.pyc
 E:\Continuum\anaconda3\Scripts\omop_etl-script.py
 E:\Continuum\anaconda3\Scripts\omop_etl.exe
-E:\Continuum\anaconda3\Scripts\f2py-script.py
-E:\Continuum\anaconda3\Scripts\f2py.exe
