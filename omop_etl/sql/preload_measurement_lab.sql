@@ -1,6 +1,3 @@
---bypass truncation warnings
--- SET ANSI_WARNINGS OFF
-
 insert into preload.measurement with (tablock)
 select distinct 
       person_id = b.person_id
@@ -37,5 +34,3 @@ left join xref.concept g
 on a.LAB_UNIT = g.concept_code and g.domain_id = 'Unit'
 left join xref.visit_occurrence_mapping h 
 on a.patnt_encntr_key = h.patnt_encntr_key
-
--- SET ANSI_WARNINGS ON

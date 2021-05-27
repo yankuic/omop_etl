@@ -1,3 +1,10 @@
+# Schema scripts
+schema:
+  dbo: create_schema_dbo.sql
+  preload: create_schema_preload.sql
+  xref: create_schema_xref.sql
+  hipaa: create_schema_hipaa.sql
+  cohort: create_schema_cohort.sql
 #Stage BO dp names
 stage:
   condition_occurrence: CONDITION
@@ -67,6 +74,9 @@ stage_hs:
 mapping:
   person: person_mapping.sql
   visit_occurrence: visit_occurrence_mapping.sql
+  provider: provider_mapping.sql
+  care_site: care_site_mapping.sql
+  location: location_mapping.sql
 preload:
   condition_occurrence: preload_condition.sql
   drug_exposure:
@@ -136,6 +146,9 @@ load:
   provider: load_provider.sql
   care_site: load_care_site.sql
   location: load_location.sql
+postprocessing:
+  by_domain: postprocess_by_domain.sql
+  hipaa: postprocess_hipaa.sql
 # Column aliases
 aliases:
   CONDITION:
@@ -600,3 +613,60 @@ aliases:
   - attending_provider
   - visit_provider
   - dept_id
+omop_vocabs:
+- JAX
+- Revenue Code
+- NAACCR
+- LOINC
+- ICDO3
+- NFC
+- Gender
+- MDC
+- SPL
+- CPT4
+- CCAM
+- OPS
+- Currency
+- ABMS
+- VA Product
+- MMI
+- MeSH
+- ICD10
+- MEDRT
+- VA Class
+- Medicare Specialty
+- OPCS4
+- OMOP Extension
+- NUCC
+- CVX
+- HES Specialty
+- HemOnc
+- SNOMED
+- NDC
+- dm+d
+- RxNorm Extension
+- ICD9Proc
+- CMS Place of Service
+- Race
+- ICD9CM
+- Supplier
+- Episode Type
+- ICD10PCS
+- PCORNet
+- ICD10CM
+- NCIt
+- Specimen Type
+- EphMRA ATC
+- Cancer Modifier
+- GCN_SEQNO
+- Provider
+- RxNorm
+- ATC
+- CTD
+- Ethnicity
+- GGR
+- HCPCS
+- APC
+- CIViC
+- DRG
+- NDFRT

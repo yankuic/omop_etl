@@ -14,6 +14,8 @@ Note that some diagnoses and procedures are classified as measurements in the OM
 
 BP measures include invasive (e.g. arterial line, central venous) and non-invasive methods (e.g. Cuff and automatic). BP values are reported in mmHg.
 
+Manual input and automatic input.
+
 The following BP measures are included:
 
 - Systolic blood pressure
@@ -36,6 +38,38 @@ The following BP measures are included:
   - Non-invasive mean blood pressure (Concept ID: 21492241)
     - MAP Cuff
     - MAP Non-invasive. Include automatic and manual methods.
+
+BP - mixed, there are inconsistency in which methods are included here.
+BP non-invasive
+Arterial line (invasive)
+MAP methods
+
+### Respiratory rates
+
+#### Mechanical vent
+
+- Adults. Adult mechs hasnt been used since 2017.
+- Pediatric. Since 2017 is being used for both. Now is same flowsheeet.
+
+Respiratory rate. Automatic input. Why sometimes spont and mech resp rate value pairs are incomplete?
+
+Mech rest rate is the set rate on the ventilator. A configuration value.
+
+Spont rate - Spontanous rate from patient, as reported by the ventilator.
+
+Machine delivered breaths vs actual spontaneous breaths from patient.
+
+Respiratory rate. Spontaneous respiration from patient without mechanical devices involved.
+
+Respiratory device. Look for mappings for value as concept id.
+
+If data on spont but not mech rate indicate a potential error.
+
+Respiratory device - map device types to omop concepts.
+
+Vent mode. Setting of ventilator control how machine supply air/oxygen.
+
+Units. Breaths per minute. 
 
 ### Heart rate
 
