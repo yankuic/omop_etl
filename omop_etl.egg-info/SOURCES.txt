@@ -12,5 +12,4 @@ omop_etl.egg-info/PKG-INFO
 omop_etl.egg-info/SOURCES.txt
 omop_etl.egg-info/dependency_links.txt
 omop_etl.egg-info/entry_points.txt
-omop_etl.egg-info/requires.txt
 omop_etl.egg-info/top_level.txt

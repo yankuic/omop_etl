@@ -1,14 +1,5 @@
 #coding: utf-8
-__version__ = "0.1"
-
-import logging
-
-
-# Instantiate logger
-# logging.basicConfig(filename='omop_etl.log', 
-#                     format='%(asctime)s: %(message)s', 
-#                     level=logging.INFO,
-#                     datefmt='%m/%d/%Y %I:%M:%S %p')
+__version__ = "0.0.1"
 
 # Let users know if they're missing any of our hard and optional dependencies
 hard_dependencies = ("pandas", "sqlparse", "sqlalchemy", "yaml")
@@ -38,7 +29,7 @@ for dependency in optional_dependencies:
         missing_dependencies.append(f"{dependency}: {e}")
 
 if missing_dependencies:
-    logging.warning(
+    print(
         "Unable to import optional dependencies:\n" + "\n".join(missing_dependencies)
     )
     pass
