@@ -2,14 +2,54 @@
 
 ## Description
 
+- Vocabulary tables are in xref schema.
+- Mapping tables are in xref schema.
+- Raw data are in stage schema.
+- Pre-processed data is in preload schema.
+- Postprocessed tables are in dbo schema.
+
 ## Release notes
+
+v0
+
+Hi Gigi,
+
+We have completed the first refresh of the de-identified covid omop dataset with the new OMOP pipeline. I'm currently exporting the data to csv files but you can access the deid dataset from management studio. The tables ares stored in schema dws_omop.hipaa.*
+
+Please note that this is an imperfect dataset. We still need to run a bunch of validation tests, plus characterizations with Achilles and the OMOP data quality dashboard.
+
+We were expecting to have results for achilles today, but the application failed in analysis 2000. In the mean time, we have some descriptive statistics for each table in schema ...
+
+Some improvements in this release:
+
+1. We've added the BO blood pressure measures missing in previous releases:
+
+    - BP non-invasive.
+    - BP
+    - CVP
+
+2. Zipcode dates ...
+
+Work in progress and pending issues:
+
+1. We don't have info on the method used for a buch of BP measures. Column BP from BO includes invasive and non-invasive methods. For some records we can retrieve the method used using the column BP_Method, but most rows don't have this info (BP_Method=NULL). Is there another way to determine the method used? If this is not possible, should we map BP values for which we do not know the method to concepts systolic blood pressure (concept id 4154790) and diastolic blood pressure (concept id 4152194)?
+
+2. Run our usual validation scripts and complete characterization with Achilles and OMO dq dashboard.
+
+3. Update vocabulary tables. We have a script to automatically download the vocabularies from athena and then load the csv files into omop database. However, we did not updated the tables since we cannot retrieve CPT4 codes. The NIH changed their api and rendered athena's script to download CP4 codes unusable. We'll need to wait for ohdsi to update their code or come up with our own solution.
+
+4. Data guide. We are working on a data guide similar to what we already have for UFH i2b2. We are still in an early stage, but I expect things will speed up as we move to the validation phase.
+
+Have fun with the data and let mus know if you have any questions.
+
+Yankuic
 
 ## Install
 
 - How to install from distribution file.
 
-Write code to create new project.
-    - create conf.yml file with project env info.
+Create new project.
+    - create config.yml file with project env info.
     - generates project structure for log files, reports, etc.
 
 ## Instructions for users
@@ -28,10 +68,9 @@ Write code to create new project.
 
 ## ToDo
 
-- Implement setup.py
-- Implement multiprocessing to execute queries.
-
-- Test procedure_occurrence with date earlier than 2018. Check ICD9Proc mappings and row counts.
+- [ ] Implement setup.py
+- [ ] Implement multiprocessing to execute queries.
+- [ ] Test procedure_occurrence with date earlier than 2018. Check ICD9Proc mappings and row counts.
 
 ## Vocabulary mapping
 
@@ -62,4 +101,97 @@ The following query return the codes from condition_occurrence mapped to two or 
     ```
 
 **Procedure ICD codes**. Procedure ICD0PCS codes are standard in OMOP.
+
+## OHDSI Achilles
+
+Create schemas:
+
+- results
+- scratch
+
+Some debugging is needed before running Achilles for the first time.
+
+- Correct column name in R installation\library\Achilles\sql\sql_server\validate_schema.sql, qualifier_source_value in line 355 to modifier_source_value.
+
+- Schema validation does not detect if table specimen is missing. This table is needed for analysis 1900. Make sure the table exists in omop cdm schema.
+
+- Required dependencies to run achilles dashboard:
+
+  - shiny
+  - shinydashboard
+  - tidyr
+
+- Achilles bug: fails to run heel on multithreading.
+
+
+--- from readme_juyun ----
+# Finished table:
+    person
+    death
+
+# Staging
+
+## 1. Validate objects in current Business Objects(BO) universes - only needed in project initialization
+
+    OMOP_CDM_BO_Mapping.xlsx
+
+## 2. Design data providers in BO that correspond to OMOP data dimension - only needed in project initialization
+
+    - Use the existing obejct in BO universes (Clinical Encounter, Coding Detail) to fit OMOP
+    - for the objects that do not exist, work with Neeharika and Joanne to create them.
+
+## 3. Read SQL 
+
+    Once the data providers are created, Matt will run a query on his end:
+    """
+    select *
+    from DWS_METADATA.dbo.MD_MGMT_WEBI_DATA_PRVDRS_TEST
+    where DOC_ID in (
+        select DOC_ID
+        from DWS_METADATA.dbo.MD_MGMT_WEBI_DOCS_TEST 
+        where DOC_NAME = 'omop'
+    )
+    """
+    which can generate the SQL query for each dimension table (dp_name). 
+
+
+## 4. Maintain the structure (i.e. column name, sequence of columns) of stage tables in DWS_OMOP
+    
+    Since we use the 'insert into select ...' queries to load the data from warehouse to the tables we created above in DWS_OMOP, we need to maintain these table definition in DWS_OMOP database.
+    
+    The names of the columns should align with the names in BO, so that people can back track the column in BO if OMOP tables appear to be incorrect.
+
+    E.g.
+
+'''sql
+DROP TABLE [stage].[PERSON]
+CREATE TABLE [stage].[PERSON](
+    PATIENT_KEY [int] NOT NULL,  --ALL_PATIENTS.PATNT_KEY
+    SEX [varchar](50)  NULL, -- ALL_SEXES.STNDRD_LABEL
+    RACE [varchar](50)  NULL, -- ALL_RACES.STNDRD_LABEL
+    ETHNICITY [varchar](50)  NULL, --ALL_ETHNIC_GROUPS.STNDRD_LABEL
+    ADDR_KEY [int]  NULL, --ALL_ADDRESSES_RECENT.ADDR_KEY
+    PATNT_BIRTH_DATETIME [datetime2] NULL, --ALL_PATIENTS.patnt_birth_datetime
+    PATIENT_REPORTED_PCP_PROV_KEY [int]  NULL, -- ALL_PROVIDERS_PAT_RPTD_PCP.PROVIDR_KEY
+    PATIENT_REPORTED_PRIMARY_DEPT_ID [int]  NULL --ALL_HOSPITAL_ORGANIZATION_PT_PRIM_LOC.DEPT_ID
+) ON [fg_user1]
+''' 
+
+## 5. Create and execute the stored procedures through Python
+
+    Run OMOP_sp.py. Here is what the script will do:
+    1. create a stored procedure to read the sql query that reads out BO objects (see above), then save in a dataframe.
+    2. customize the stored procedure by passing variables such as patient ids and date.
+    3. execute the stored procedure
+    Now we finish the staging jobs from EDW databases to 
+
+# Loading
+
+## Person
+
+## Death
+
+- death_date and death_datetime. EPIC death datetime if exists, else Social Security Death Index. EPIC death date is more accurate because data comes from the hospital.
+
+- death_type_concept_id. 32817 when death date comes from EPIC, else 32885.
 

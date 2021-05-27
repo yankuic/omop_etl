@@ -1,7 +1,0 @@
-wh_host = EDW.shands.ufl.edu
-mtdt_db = DWS_METADATA
-omop_db = DWS_OMOP
-dp_name = MEASUREMENT_Res_PIP
-patient_file = sample_id.csv
-start_date = 01/01/2020 00:0:0
-end_date = 

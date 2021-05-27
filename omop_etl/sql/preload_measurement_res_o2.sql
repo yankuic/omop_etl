@@ -6,7 +6,7 @@ select person_id = b.person_id
     ,measurement_time = CAST(a.Respiratory_Datetime as TIME)
     ,measurement_type_concept_id = 32817
     ,operator_concept_id = NULL
-    ,value_as_number = a.o2_mlmin
+    ,value_as_number = a.o2_lmin
     ,value_as_concept_id = NULL
     ,unit_concept_id = 8698
     ,range_low = NULL
@@ -19,7 +19,7 @@ select person_id = b.person_id
     ,unit_source_value = 'L/min'
     ,value_source_value = 'O2 FLOW RATE - L/MIN'
     ,source_table = 'measurement_res_o2_ml'
-from stage.MEASUREMENT_Res_O2_mL a 
+from stage.MEASUREMENT_Res_O2 a 
 join xref.person_mapping b
 on a.patient_key = b.patient_key
 left join xref.provider_mapping c 

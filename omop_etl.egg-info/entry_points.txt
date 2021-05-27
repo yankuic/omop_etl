@@ -1,0 +1,3 @@
+[console_scripts]
+omop_etl = omop_etl.etl:ETLCli
+

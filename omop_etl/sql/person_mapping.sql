@@ -26,9 +26,8 @@ BEGIN
 	ON b.PATNT_KEY = c.PATIENT_KEY
 END
 
-
 /*
-Fix any where two separate patnt_keys merged into one new
+Flag patids from merged patnt_keys
 */
 UPDATE B
 SET MERGE_IND = 'Y'
@@ -57,9 +56,6 @@ SET NOCOUNT OFF;
 /*
 Insert new patients into patient_mapping
 */
--- update xref.person_mapping
--- set date_shift = ceiling(30-59*rand(checksum(newid())))
-
 insert into xref.person_mapping (
 	patient_key
 	,date_shift
@@ -82,7 +78,6 @@ select patient_key
 			on a.patient_key = b.patient_key
 		where b.patient_key is null
 ) x
-
 
 /*
 Rebuild index and columnstore

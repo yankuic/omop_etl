@@ -1,19 +1,21 @@
-from distutils.core import setup
+# from distutils.core import setup
+from setuptools import setup
 
 setup(
     name='omop_etl',
-    version='0.1',
+    version='0.0.1',
     author='',
-    author_email='',
+    author_email='yankuic@gmail.com',
     packages=['omop_etl'],
-    scripts=['bin/run_etl.py'],
+    entry_points={'console_scripts': ['omop_etl=omop_etl.etl:ETLCli']},
     url='',
     license='',
     description='',
     long_description=open('README.md').read(),
-    install_requires=[
-        "pandas >= 0.25.1",
-        "sqlalchemy == 1.3.9",
-        "sqlparse == 0.4.1"
-    ],
+    # install_requires=[
+    #     "pandas >= 0.25.1",
+    #     "sqlalchemy >= 1.3.9",
+    #     #"sqlparse >= 0.4.1",
+    #     "pyyaml >= 5.1.2" 
+    # ],
 )

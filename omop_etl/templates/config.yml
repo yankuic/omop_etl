@@ -1,19 +1,23 @@
 # Project configuration parameters
 # Items must follow format <item: subitem> OR <item:>
-# Comment/Uncomment to activate/deactivate items.
-datastore: 
-  omop:
-    server: edw.shands.ufl.edu
-    database: DWS_OMOP 
-  mtd:
-    server: edw.shands.ufl.edu
-    database: DWS_METADATA
+project_info:
+  project_dir: enter project directory
+  version: enter version
+
 date_range:
   start_date: 01/01/2012
   end_date: 12/31/2020
+
+bo_docs:
+  cohort: enter cohort bo document name
+  stage: omop
+
 load:
+# Comment line to ignore data elements under each omop table with sub-items.
+# Note: Do not comment tables. At least one sub-item must be active.
   person:
   death:
+  visit_occurrence:
   condition_occurrence:
   procedure_occurrence:
     icd: ICD coded procedures
@@ -22,15 +26,15 @@ load:
     order: Medication orders
     admin: Medication administration
   measurement: 
-    bp: Arterial blood pressure
-    bp_artline:
-    bp_noninvasive:
+    bp: Blood pressure 
+    bp_artline: Invasive blood pressure
+    bp_noninvasive: Non-invasive blood presure
     bp_cvp: 
     bp_cvp_mean: 
-    bp_map_artline: 
-    bp_map_cuff: 
-    bp_map_noninvasive: 
-    bp_pap_mean: 
+    bp_map_artline: Mean arterial pressure invasive methods
+    bp_map_cuff: Mean arterial pressure manual (Cuff)
+    bp_map_noninvasive: Mean arterial pressure non-invasive methods
+    bp_pap_mean: Pulmonary Artery Pressure
     heart_rate: Heart rate
     height: Height
     lab: Laboratory results
@@ -68,7 +72,14 @@ load:
     payer: Healthcare payer
     smoking: Tobacco smoking behavior 
     zipcode: Patient postal code
-  visit_occurrence:
   provider:
   care_site:
   location:
+
+db_connections: 
+  omop:
+    server: edw.shands.ufl.edu
+    database: enter database name
+  bo_metadata:
+    server: edw.shands.ufl.edu
+    database: DWS_METADATA
