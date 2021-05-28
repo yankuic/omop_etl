@@ -54,9 +54,73 @@ Create new project.
 
 ## Instructions for users
 
+All commands must be executed within the omop project directory, where the files config.yml and refresh_cohort.py must exist.
+
+    omop_project_dir
+    |__config.yml
+    |__refresh_cohort.py
+
+Update vocabulary
+
+    Not implemented
+
 1. Create new project.
+
+    ```cmd
+    omot_etl new_project -p <path to my new project> -n <myproject> -db <project database> -s <server>
+    ```
+
 2. Configure project.
-3. Run etl for new project.
+
+   Navigate to myproject directory.
+
+3. Refresh cohort
+
+   ```cmd
+   omop_project_dir> python refresh_cohort.py
+   ```
+
+4. Staging data. Mapping tables will be updated during this step.
+
+    ```cmd
+    omop_project_dir> omop_etl stage --all
+    ```
+
+5. Preload data (this will insert data from subsets into one table)
+
+    ```cmd
+    omop_project_dir> omop_etl preload --all
+    ```
+
+6. Load data
+
+    ```cmd
+    omop_project_dir> omop_etl load --all
+    ```
+
+7. Move records to match domain_id with domain table
+
+    ```cmd
+    omop_project_dir> omop_etl postproc --fix_domains
+    ```
+
+8. Generate hipaa compliant dataset
+
+    For de-identified dataset run
+
+    ```cmd
+    omop_project_dir> omop_etl postproc --deid
+    ```
+
+    For limited dataset run
+
+    ```cmd
+    omop_project_dir> omop_etl postproc --limited
+    ```
+
+9. Export to csv files
+
+    Not implemented
 
 ## Instructions for developers
 
@@ -68,7 +132,7 @@ Create new project.
 
 ## ToDo
 
-- [ ] Implement setup.py
+- [x] Implement setup.py
 - [ ] Implement multiprocessing to execute queries.
 - [ ] Test procedure_occurrence with date earlier than 2018. Check ICD9Proc mappings and row counts.
 
