@@ -50,6 +50,7 @@ left join xref.concept_relationship e
 on d.concept_id = e.concept_id_1 and e.relationship_id = 'Maps to'
 left join xref.visit_occurrence_mapping g
 on a.patnt_encntr_key = g.patnt_encntr_key
+where b.active_ind = 'Y'
 
 union 
 -- Load ICD codes with no ICD CM equivalent.
@@ -85,3 +86,4 @@ left join xref.concept_relationship e
 on d.concept_id = e.concept_id_1 and e.relationship_id = 'Maps to'
 left join xref.visit_occurrence_mapping g
 on a.patnt_encntr_key = g.patnt_encntr_key
+where b.active_ind = 'Y'

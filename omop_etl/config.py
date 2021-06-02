@@ -102,7 +102,7 @@ class ProjectConfig(Config):
 class ETLConfig(Config):
     """[summary]
     """
-    def __init__(self, config_file=ETL_CONFIG):
+    def __init__(self, config_file=ETL_CONFIG, loinc_config=LOINC_PATH):
         super(ETLConfig, self).__init__(config_file=config_file)
         self.sql_scripts_path = SQL_PATH
 

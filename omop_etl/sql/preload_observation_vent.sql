@@ -31,3 +31,4 @@ on source_code = 'Mechanical vent use Y/N' and source_vocabulary_id = 'observati
 left join xref.visit_occurrence_mapping e
 on a.patnt_encntr_key = e.patnt_encntr_key
 where ENCOUNTER_EFFECTIVE_DATE is not null
+and b.active_ind = 'Y'

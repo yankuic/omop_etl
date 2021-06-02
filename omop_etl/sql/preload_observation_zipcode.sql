@@ -26,3 +26,4 @@ left join xref.source_to_concept_map d
 on source_code = 'zipcode' and source_vocabulary_id = 'observation'
 left join xref.visit_occurrence_mapping e
 on a.patnt_encntr_key = e.patnt_encntr_key
+and b.active_ind = 'Y'
