@@ -29,3 +29,4 @@ left join xref.source_to_concept_map d
 on source_code = 'ROTHMAN SCORE' and source_vocabulary_id = 'Flowsheet'
 left join xref.visit_occurrence_mapping e 
 on a.patnt_encntr_key = e.patnt_encntr_key
+where b.active_ind = 'Y'

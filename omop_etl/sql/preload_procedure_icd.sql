@@ -27,3 +27,4 @@ on d.concept_id = e.concept_id_1 and e.relationship_id = 'Maps to'
 -- on f.concept_id = e.concept_id_2 and f.domain_id = 'Procedure'
 left join xref.visit_occurrence_mapping g
 on a.patnt_encntr_key = g.patnt_encntr_key
+where b.active_ind = 'Y'

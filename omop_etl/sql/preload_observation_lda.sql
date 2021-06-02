@@ -28,6 +28,7 @@ from (
       on source_code = 'LDA - intubation tube type' and source_vocabulary_id = 'observation'
       left join xref.visit_occurrence_mapping e
       on a.patnt_encntr_key = e.patnt_encntr_key
+      where b.active_ind = 'Y'
 
       union
       select person_id = b.person_id
@@ -57,7 +58,8 @@ from (
       on source_code = 'LDA - intubation start and end times' and source_vocabulary_id = 'observation'
       left join xref.visit_occurrence_mapping e
       on a.patnt_encntr_key = e.patnt_encntr_key
-
+      where b.active_ind = 'Y'
+      
       union
       select person_id = b.person_id
             ,observation_concept_id = d.target_concept_id
@@ -86,5 +88,6 @@ from (
       on source_code = 'LDA - intubation start and end times' and source_vocabulary_id = 'observation'
       left join xref.visit_occurrence_mapping e
       on a.patnt_encntr_key = e.patnt_encntr_key
+      where b.active_ind = 'Y'
 ) x 
 where x.observation_date is not NULL

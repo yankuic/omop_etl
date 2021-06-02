@@ -30,11 +30,13 @@ def format_stage_query(doc_name, dp_name, start_date, end_date, con, schema='sta
     bo_q = bo_query(doc_name, con)[dp_name]
     db = con.engine.url.database
     personlist = f"select PATIENT_KEY from {db}.cohort.PersonList"
+    loinc_list = f"select LOINC from {db}.xref.loinc"
 
     sql_query = format_bo_sql(bo_q, dp_name, database=db, schema=schema, aliases=aliases)\
                 .replace("12345678", personlist)\
                 .replace("01/01/1900 00:0:0", start_date)\
-                .replace("12/31/1900 00:0:0", end_date)
+                .replace("12/31/1900 00:0:0", end_date)\
+                .replace("LOINCLIST", loinc_list)
 
     return f"EXECUTE ('USE DWS_PROD;\n {sqlparse.format(sql_query, reindent_aligned=True, indent_with=1)}')" 
 

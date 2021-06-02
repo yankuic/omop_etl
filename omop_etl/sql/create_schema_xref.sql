@@ -103,7 +103,6 @@ CREATE TABLE [xref].[provider_mapping](
 
 ) ON [fg_user1]
 
-
 --- CDM tables ---
 
 --HINT DISTRIBUTE ON RANDOM
@@ -226,3 +225,14 @@ CREATE TABLE [xref].[provider_mapping](
     invalid_reason varchar(1) NULL 
 
 ) ON [fg_user1];
+
+-- Other reference tables --
+
+CREATE TABLE xref.loinc (
+
+	[SPECIMEN_SOURCE] [varchar](50) NULL,
+	[LOINC] [varchar](10) NULL,
+	[LOINC_CD_KEY] [int] NOT NULL,
+	[LOAD_DATE] [date] NULL
+
+) ON [fg_user1]

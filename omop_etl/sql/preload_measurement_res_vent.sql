@@ -47,6 +47,7 @@ left join xref.source_to_concept_map d
 on source_code = a.vent_measure and source_vocabulary_id = 'Flowsheet'
 left join xref.visit_occurrence_mapping e 
 on a.patnt_encntr_key = e.patnt_encntr_key
+where b.active_ind = 'Y'
 
 union 
 select person_id = b.person_id
@@ -78,5 +79,6 @@ left join xref.source_to_concept_map d
 on source_code = 'VENT MODE - Adult' and source_vocabulary_id = 'Flowsheet'
 left join xref.visit_occurrence_mapping e 
 on a.patnt_encntr_key = e.patnt_encntr_key
+where b.active_ind = 'Y'
 
 drop table if exists #measurement_res_vent

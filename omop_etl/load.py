@@ -127,24 +127,23 @@ class Loader(DataStore, ETLConfig):
         script_file = self.postproc['hipaa']
         q = read_sql(os.path.join(self.sql_scripts_path, script_file))
         
-        with timeitc('Processing HIPAA dataset'):
-            ## Load deid
-            if dataset == 'deid':
-                q = q.replace('@SetNULL','= NULL')\
-                    .replace('@DateShift','date_shift')\
-                    .format('birth_datetime_deid','zipcode_deid') 
+        ## Load deid
+        if dataset == 'deid':
+            q = q.replace('@SetNULL','= NULL')\
+                .replace('@DateShift','date_shift')\
+                .format('birth_datetime_deid','zipcode_deid') 
 
-            ## Load limited
-            if dataset == 'limited':
-                q = q.replace('@SetNULL','')\
-                    .replace('@DateShift','0')\
-                    .format('birth_datetime','zipcode')
-            
-            else:
-                print(f'Option {dataset} not recognized')
-                exit(1)
+        ## Load limited
+        elif dataset == 'limited':
+            q = q.replace('@SetNULL','')\
+                .replace('@DateShift','0')\
+                .format('birth_datetime','zipcode')
+        
+        else:
+            print(f'Option {dataset} not recognized')
+            exit(1)
 
-            return self.execute(q)
+        return self.execute(q)
 
     @timeitd
     def fix_domains(self):

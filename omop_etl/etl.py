@@ -64,7 +64,8 @@ class ETLCli:
         #copy template files into project directory
         #   -if server and db are specified save info into config.yml
         #   -save project name and project dir into config.yml
-        #if server and db are specified ask if user wants to create project schema.
+        #TODO: if server and db are specified ask if user wants to create project schema.
+        #TODO: ask if user wants to load xref tables
         parser = argparse.ArgumentParser('Create new OMOP project.')
         parser.add_argument('-p', '--path', type=str, help='Project directory', required=True)
         parser.add_argument('-n', '--name', type=str, help='Project name', required=True)
@@ -127,27 +128,6 @@ class ETLCli:
                 for t in LOAD_TABLES.keys():
                     print(f'Archiving table {t}\n')
                     print(loader.archive_table(t))
-
-
-    def postproc(self):
-        loader = Loader(CONFIG_FILE)
-        parser = argparse.ArgumentParser('Run postprocessing tasks.')
-        parser.add_argument('--deid', help='Create HIPAA de-identified dataset', action="store_true")
-        parser.add_argument('--limited', help='Create HIPAA limited dataset', action="store_true")
-        parser.add_argument('--fix_domains', help='Move records to the appropiate domain tables.', action="store_true")
-
-        args = parser.parse_args(sys.argv[2:])
-
-        with timeitc("Postprocessing"):
-
-            if args.deid:
-                print(loader.load_hipaa())
-
-            elif args.limited:
-                print(loader.load_hipaa('limited'))
-
-            elif args.fix_domains:
-                print(loader.fix_domains())
         
 
     def stage(self):  
@@ -244,7 +224,28 @@ class ETLCli:
                 for t in loader.load.keys():
                     loader.truncate('dbo', t)
                     print(loader.load_table(t))
-            
+
+
+    def postproc(self):
+        loader = Loader(CONFIG_FILE)
+        parser = argparse.ArgumentParser('Run postprocessing tasks.')
+        parser.add_argument('--deid', help='Create HIPAA de-identified dataset', action="store_true")
+        parser.add_argument('--limited', help='Create HIPAA limited dataset', action="store_true")
+        parser.add_argument('--fix_domains', help='Move records to the appropiate domain tables.', action="store_true")
+
+        args = parser.parse_args(sys.argv[2:])
+
+        with timeitc("Postprocessing"):
+
+            if args.deid:
+                print(loader.load_hipaa('deid'))
+
+            elif args.limited:
+                print(loader.load_hipaa('limited'))
+
+            elif args.fix_domains:
+                print(loader.fix_domains()) 
+
 
 if __name__ == "__main__":
     ETLCli()
