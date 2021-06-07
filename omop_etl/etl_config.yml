@@ -45,6 +45,7 @@ stage:
     res_resp_adultspont: MEASUREMENT_Res_RESP_AdultSpont
     res_resp_pedsmech: MEASUREMENT_Res_RESP_PedsMech
     res_resp_pedsspont: MEASUREMENT_Res_RESP_PedsSpont
+    res_resp_mech: MEASUREMENT_Res_RESP_MechVentSetRate
     res_spo2: MEASUREMENT_Res_SPO2
     res_tidal: MEASUREMENT_Res_Tidal
     res_tidal_exhaled: MEASUREMENT_Res_TidalExhaled
@@ -287,7 +288,7 @@ aliases:
   - patnt_encntr_key
   - normal_low
   - normal_high
-  - inferred_loinc_code
+  - loinc_code
   - lab_unit
   - lab_result
   - specimen_taken_date
@@ -439,6 +440,14 @@ aliases:
   - respiratory_date
   - respiratory_datetime
   - peds_spont_resp_rate    
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_RESP_MechVentSetRate:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - mech_resp_rate    
   - attending_provider
   - visit_provider
   MEASUREMENT_Res_RESP:

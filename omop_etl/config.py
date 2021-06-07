@@ -98,6 +98,9 @@ class ProjectConfig(Config):
         bo_docs = self.get_property('bo_docs') 
         return  bo_docs['cohort']
 
+    @property
+    def loinc(self):
+        return self.get_property('loinc')
 
 class ETLConfig(Config):
     """[summary]

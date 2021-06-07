@@ -43,9 +43,10 @@ class Loader(DataStore, ETLConfig):
         col_aliases= self.aliases[dp_name]
         start_date = self.config.start_date
         end_date = self.config.end_date
+        loincs = self.loinc
 
         with self.engine.connect() as con:
-            execute_sp = format_stage_query(self.config.bo_docname_stage, dp_name, start_date, end_date, con, aliases=col_aliases)
+            execute_sp = format_stage_query(self.config.bo_docname_stage, dp_name, start_date, end_date, con, loinc_list=loincs, aliases=col_aliases)
 
         if only_query:
             return execute_sp
