@@ -25,12 +25,16 @@ def bo_query(doc_name, con):
     return dict(result)
 
 
-def format_stage_query(doc_name:str, dp_name:str, start_date:str, end_date:str, con:object, loinc_list:list, schema:str='stage', aliases:list=None):
+def format_stage_query(doc_name:str, dp_name:str, start_date:str, end_date:str, con:object, loinc_list:list='', schema:str='stage', aliases:list=None):
     """Format stage query."""
     bo_q = bo_query(doc_name, con)[dp_name]
     db = con.engine.url.database
     personlist = f"select PATIENT_KEY from {db}.cohort.PersonList"
-    loinc_str = ','.join([f"'{l}'" for l in loinc_list])
+
+    if dp_name == 'measurement_lab':
+        loinc_str = ','.join([f"''{l}''" for l in loinc_list])
+    else:
+        loinc_str = ''
 
     sql_query = format_bo_sql(bo_q, dp_name, database=db, schema=schema, aliases=aliases)\
                 .replace("12345678", personlist)\
