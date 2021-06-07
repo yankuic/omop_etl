@@ -31,7 +31,7 @@ def format_stage_query(doc_name:str, dp_name:str, start_date:str, end_date:str, 
     db = con.engine.url.database
     personlist = f"select PATIENT_KEY from {db}.cohort.PersonList"
 
-    if dp_name == 'measurement_lab':
+    if dp_name.lower() == 'measurement_lab':
         loinc_str = ','.join([f"''{l}''" for l in loinc_list])
     else:
         loinc_str = ''

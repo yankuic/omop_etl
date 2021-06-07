@@ -1,6 +1,7 @@
 # ignore extensions
 *.pyc
 *.log
+file.txt
 settings.json 
 MANIFEST
 
