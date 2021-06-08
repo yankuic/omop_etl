@@ -7,7 +7,7 @@ setup(
     author='',
     author_email='yankuic@gmail.com',
     packages=['omop_etl'],
-    entry_points={'console_scripts': ['omop_etl=omop_etl.etl:ETLCli']},
+    entry_points={'console_scripts': ['omop_etl=omop_etl.cli:ETLCli']},
     url='',
     license='',
     description='',
