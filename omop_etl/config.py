@@ -23,7 +23,7 @@ class Config:
             #print(using config file at ... project name)
         except Exception as e:
             #FileNotFoundError
-            #If file not found, print additional instructions. config file has to be in project directory.
+            #If file not found, print additional instructions. config file must exist in project directory.
             raise e
 
     def get_property(self, property_name):
