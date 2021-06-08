@@ -179,6 +179,7 @@ class ETLCli:
 
     def preload(self):  
         loader = Loader(CONFIG_FILE)
+        LOAD_TABLES = loader.config.load
         PRELOAD_TABLES = loader.preload
 
         parser = argparse.ArgumentParser('Preload tables.')
@@ -202,7 +203,8 @@ class ETLCli:
                 # stage all tables
                 print("Preloading all tables ...")
                 for t in PRELOAD_TABLES.keys():
-                    print(loader.preload_all_subsets(t))
+                    if t in LOAD_TABLES.keys():
+                        print(loader.preload_all_subsets(t))
 
 
     def load(self):

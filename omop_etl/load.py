@@ -109,7 +109,7 @@ class Loader(DataStore, ETLConfig):
             self.truncate('preload', table)
 
             if isinstance(self.preload[table], dict):
-                subsets = self.preload[table].keys()
+                subsets = self.config.load[table].keys()
                 print(f"Processing {table} subsets: {', '.join(subsets)}")
                 for s in subsets:
                     print(self.preload_table(table, subset=s))
