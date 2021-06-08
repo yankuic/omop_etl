@@ -23,7 +23,7 @@ class Config:
             #print(using config file at ... project name)
         except Exception as e:
             #FileNotFoundError
-            #If file not found, print additional instructions. config file has to be in project directory.
+            #If file not found, print additional instructions. config file must exist in project directory.
             raise e
 
     def get_property(self, property_name):
@@ -98,6 +98,9 @@ class ProjectConfig(Config):
         bo_docs = self.get_property('bo_docs') 
         return  bo_docs['cohort']
 
+    @property
+    def loinc(self):
+        return self.get_property('loinc')
 
 class ETLConfig(Config):
     """[summary]

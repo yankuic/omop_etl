@@ -12,3 +12,4 @@ SELECT a.[person_id]
 ) a 
 join xref.person_mapping b 
 on a.person_id = b.person_id
+and b.active_ind = 'Y'

@@ -29,3 +29,4 @@ on source_code = 'RESP RATE - Peds Mech' and source_vocabulary_id = 'Flowsheet'
 left join xref.visit_occurrence_mapping e 
 on a.patnt_encntr_key = e.patnt_encntr_key
 where a.Peds_Mech_Resp_Rate is not NULL
+and b.active_ind = 'Y'

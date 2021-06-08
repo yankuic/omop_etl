@@ -27,3 +27,4 @@ on source_code = 'SMOKING STATUS' and source_vocabulary_id = 'observation'
 left join xref.visit_occurrence_mapping e
 on a.patnt_encntr_key = e.patnt_encntr_key
 where a.Encounter_Effective_Date is not NULL --is this the right way to enforce constraints?
+and b.active_ind = 'Y'

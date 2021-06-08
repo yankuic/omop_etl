@@ -3,7 +3,6 @@
 
 import logging
 import os
-import time 
 
 from omop_etl.bo import format_stage_query
 from omop_etl.utils import timeitd, timeitc
@@ -29,7 +28,7 @@ class Loader(DataStore, ETLConfig):
         return self.execute(q)
 
     @timeitd
-    def stage_table(self, table, subset=None):
+    def stage_table(self, table, subset=None, only_query=False):
         """Stage clinical data table."""
         logging.info(f'Process to execute stage_table({table}, {subset}) is started.')
         assert table in self.stage.keys(), f'{table} is not a valid table name.'
@@ -44,11 +43,15 @@ class Loader(DataStore, ETLConfig):
         col_aliases= self.aliases[dp_name]
         start_date = self.config.start_date
         end_date = self.config.end_date
+        loincs = self.config.loinc
 
         with self.engine.connect() as con:
-            execute_sp = format_stage_query(self.config.bo_docname_stage, dp_name, start_date, end_date, con, aliases=col_aliases)
-            
-        return self.execute(execute_sp)
+            execute_sp = format_stage_query(self.config.bo_docname_stage, dp_name, start_date, end_date, con, loinc_list=loincs, aliases=col_aliases)
+
+        if only_query:
+            return execute_sp
+        else:      
+            return self.execute(execute_sp)
 
     @timeitd
     def preload_table(self, table, subset=None):
@@ -57,13 +60,20 @@ class Loader(DataStore, ETLConfig):
         Args:
             subset (str): Subset key (e.g. icd, cpt) or None. Default: None. 
         """
-        assert isinstance(self.preload.get(table), dict), f'table {table} has no subsets.'
-        assert subset in self.preload[table].keys(), f'{table} has no subset key {subset}.'
-
+        assert self.preload.keys(), f'{table} is not a valid preload table.'
+        
         logging.info(f'Process to execute preload {table} ({subset or "all"}) is started.')
-        preload_file = self.preload[table][subset]
-        logging.info(f'Executing {preload_file} ...')
-        q = read_sql(os.path.join(self.sql_scripts_path, preload_file))
+        preload_f = self.preload.get(table)
+        
+        if isinstance(preload_f, dict):
+            assert subset in self.preload[table].keys(), f'{table} has no subset {subset}.'
+            sql_script_name = preload_f.get(subset)
+
+        else: 
+            sql_script_name = preload_f 
+
+        logging.info(f'Executing {sql_script_name} ...')
+        q = read_sql(os.path.join(self.sql_scripts_path, sql_script_name))
 
         return self.execute(q)
 
@@ -99,7 +109,7 @@ class Loader(DataStore, ETLConfig):
             self.truncate('preload', table)
 
             if isinstance(self.preload[table], dict):
-                subsets = self.preload[table].keys()
+                subsets = self.config.load[table].keys()
                 print(f"Processing {table} subsets: {', '.join(subsets)}")
                 for s in subsets:
                     print(self.preload_table(table, subset=s))
@@ -118,24 +128,23 @@ class Loader(DataStore, ETLConfig):
         script_file = self.postproc['hipaa']
         q = read_sql(os.path.join(self.sql_scripts_path, script_file))
         
-        with timeitc('Processing HIPAA dataset'):
-            ## Load deid
-            if dataset == 'deid':
-                q = q.replace('@SetNULL','= NULL')\
-                    .replace('@DateShift','date_shift')\
-                    .format('birth_datetime_deid','zipcode_deid') 
+        ## Load deid
+        if dataset == 'deid':
+            q = q.replace('@SetNULL','= NULL')\
+                .replace('@DateShift','date_shift')\
+                .format('birth_datetime_deid','zipcode_deid') 
 
-            ## Load limited
-            if dataset == 'limited':
-                q = q.replace('@SetNULL','')\
-                    .replace('@DateShift','0')\
-                    .format('birth_datetime','zipcode')
-            
-            else:
-                print(f'Option {dataset} not recognized')
-                exit(1)
+        ## Load limited
+        elif dataset == 'limited':
+            q = q.replace('@SetNULL','')\
+                .replace('@DateShift','0')\
+                .format('birth_datetime','zipcode')
+        
+        else:
+            print(f'Option {dataset} not recognized')
+            exit(1)
 
-            return self.execute(q)
+        return self.execute(q)
 
     @timeitd
     def fix_domains(self):

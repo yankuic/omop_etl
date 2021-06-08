@@ -25,18 +25,25 @@ def bo_query(doc_name, con):
     return dict(result)
 
 
-def format_stage_query(doc_name, dp_name, start_date, end_date, con, schema='stage', aliases=None):
+def format_stage_query(doc_name:str, dp_name:str, start_date:str, end_date:str, con:object, loinc_list:list='', schema:str='stage', aliases:list=None):
     """Format stage query."""
     bo_q = bo_query(doc_name, con)[dp_name]
     db = con.engine.url.database
     personlist = f"select PATIENT_KEY from {db}.cohort.PersonList"
 
+    if dp_name.lower() == 'measurement_lab':
+        loinc_str = ','.join([f"''{l}''" for l in loinc_list])
+    else:
+        loinc_str = ''
+
     sql_query = format_bo_sql(bo_q, dp_name, database=db, schema=schema, aliases=aliases)\
                 .replace("12345678", personlist)\
                 .replace("01/01/1900 00:0:0", start_date)\
-                .replace("12/31/1900 00:0:0", end_date)
+                .replace("12/31/1900 00:0:0", end_date)\
+                .replace("12/31/1900 12:00:00 AM", end_date)\
+                .replace("''LOINCLIST''", loinc_str)
 
-    return f"EXECUTE ('USE DWS_PROD;\n {sqlparse.format(sql_query, reindent_aligned=True, indent_with=1)}')" 
+    return f"EXECUTE ('USE DWS_PROD;\n {sqlparse.format(sql_query)}')"  #reindent_aligned=True, indent_with=1
 
 
 def format_bo_sql(sqlstring:str, dp_name:str, database:str, schema:str='cohort', aliases:list=None):

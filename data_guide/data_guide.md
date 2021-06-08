@@ -26,6 +26,11 @@ The following BP measures are included:
 
   When the method is known, it is mapped to invasive diastolic blood pressure (concept id 21490851) or non-invasive diastolic arterial pressure (concept id 4068414). If the method is unknown it is mapped as blood pressure (concept id 4326744).
 
+BP - mixed, there are inconsistency in which methods are included here.
+BP non-invasive
+
+### Mean Arterial Line measures
+
 - Central Venous Pressure (CVP)
 
 - Mean Arterial Pressure (MAP)
@@ -39,37 +44,74 @@ The following BP measures are included:
     - MAP Cuff
     - MAP Non-invasive. Include automatic and manual methods.
 
-BP - mixed, there are inconsistency in which methods are included here.
-BP non-invasive
 Arterial line (invasive)
 MAP methods
 
-### Respiratory rates
+### Mechanical ventilator measures
 
-#### Mechanical vent
+Ventilator settings and readings describing the amount of support, provided in the form of ventilation and oxygenation, delivered to the patient.
 
-- Adults. Adult mechs hasnt been used since 2017.
-- Pediatric. Since 2017 is being used for both. Now is same flowsheeet.
+- Ventilator mode. This setting control how the ventilator assist a patient with inspiration (air/oxygen supply). Possible values include:
+  - Assist/Control (A/C)
+  - Controlled Mandatory Ventilation (AC/VC+)
+  - Synchronized controlled mandatory ventilation ((S)CMV)
+  - Synchronous Intermittent Mandatory Ventilation (SIMV)
+  - Pressure Support Ventilation (PSV)
+  - Presure Controled Ventilation (PCV)
+  - Continuous Positive Airway Pressure (CPAP)
+  - Volume Support (VS)
+  - Volume Control (VC)
+  - Volume Control plus (VC+)
+  - Control Mode Ventilation (CMV)
+  - Airway Pressure Release Ventilation (APRV)
+  - Mandatory Minute Ventilation (MMV)
+  - Inverse Ratio Ventilation (IRV)
+  - High-Frequency Oscillatory Ventilation (HFOV)
+  - Bilevel positive airway pressure (BiPAP or DuoPAP or Bi-Level)
+  - Proportional assist ventilation (PAV)
+  - Adaptive support ventilation (ASV)
+  - Automatic tube compensation (ATC)
+  - Volume-Assured Pressure Support (VAPS)
+  - Synchronized controlled mandatory ventilation with adaptive pressure ventilation (APV-CMV or APVcmv)
+  - Adaptive pressure ventilation-synchronised intermittent mandatory ventilation (APV-SIMV or APVsimv)
+  - Pressure-controlled synchronised intermittent mandatory ventilation (P-SIMV)
+  - Spontaneous ventilation
+  - Assisted spontaneous ventilation (invasive and non-invasive)
+  - Other
 
-Respiratory rate. Automatic input. Why sometimes spont and mech resp rate value pairs are incomplete?
+- Tidal Volume. This preset determines how much air is delivered to the lungs by the ventilator on each breath.
 
-Mech rest rate is the set rate on the ventilator. A configuration value.
+- Exhaled Tidal Volume. Reading of the actual volume of air being exhaled by the patient.
 
-Spont rate - Spontanous rate from patient, as reported by the ventilator.
+- Mechanical respiratory or breathing rate. This setting controls how many breaths are delivered to the patient by the machine. Automatic input. Why sometimes spont and mech resp rate value pairs are incomplete?
 
-Machine delivered breaths vs actual spontaneous breaths from patient.
+- Spontaneous respiratory rate. Reading of the spontanous respiratory rate from patient, as reported by the ventilator.
 
-Respiratory rate. Spontaneous respiration from patient without mechanical devices involved.
+- Respiratory rate. Spontaneous respiration from patient without mechanical devices involved. Units: breaths per minute.
 
-Respiratory device. Look for mappings for value as concept id.
+- Fraction of inspired oxygen (FiO2). Indicates the concentration of oxygen that is being inhaled by the patient.
+
+- Positive end-expiratory pressure (PEEP). Setting that controls the pressure applied by the machine at the end of each breath.
+
+- Peak Inspiratory Pressure (PIP). Reading of the highest level of presure applied to the lungs during breathing. Unit: Centimeters of water presure (cmH2O).
+
+- End Tidal CO2 (ETCO2). Capnometry readings of exhaled CO2. Units: mmHg.
+
+- End Tidal CO2 Oral/Nasal (ETCO2 NO). Readings from oral and nasal capnography. Units: mmHg.
+
+- Glasgow Coma Scale (GCS). GCS score (pediatric and adults) recorded during use of mechanical ventilator.
+
+- Oxygen consumption rate. This preset indicates the volume of oxygen delivered by the ventilator during inspiration. Unit: Lmin, mLmin.
+
+- Pulse Oxymetry (SpO2). Oxygen saturation readings from pulse oxymetry. Units: Percent
 
 If data on spont but not mech rate indicate a potential error.
 
+Respiratory device. Look for mappings for value as concept id.
 Respiratory device - map device types to omop concepts.
 
-Vent mode. Setting of ventilator control how machine supply air/oxygen.
-
-Units. Breaths per minute. 
+- Adults. Adult mechs hasnt been used since 2017.
+- Pediatric. Since 2017 is being used for both. Now is same flowsheeet.
 
 ### Heart rate
 

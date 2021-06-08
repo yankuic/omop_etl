@@ -26,9 +26,9 @@ select distinct
       ,[condition_end_date] = a.END_DATE
       ,[condition_end_datetime] = a.END_DATE
       ,(case 
-            when condition_type = 'ENCOUNTER' then 32827
-            when (condition_type = 'HOSPITAL BILLING CODED' or condition_type = 'PROFESSSIONAL BILLING CHARGE') then 32821
-            when condition_type = 'PROBLEM LIST' then 32840
+            when diagnosis_type = 'ENCOUNTER' then 32827
+            when (diagnosis_type = 'HOSPITAL BILLING CODED' or diagnosis_type = 'PROFESSSIONAL BILLING CHARGE') then 32821
+            when diagnosis_type = 'PROBLEM LIST' then 32840
             else 32817
       end) condition_type_concept_id
       ,[stop_reason] = NULL
@@ -50,6 +50,7 @@ left join xref.concept_relationship e
 on d.concept_id = e.concept_id_1 and e.relationship_id = 'Maps to'
 left join xref.visit_occurrence_mapping g
 on a.patnt_encntr_key = g.patnt_encntr_key
+where b.active_ind = 'Y'
 
 union 
 -- Load ICD codes with no ICD CM equivalent.
@@ -61,9 +62,9 @@ select distinct
       ,[condition_end_date] = a.END_DATE
       ,[condition_end_datetime] = a.END_DATE
       ,(case 
-            when condition_type = 'ENCOUNTER' then 32827
-            when (condition_type = 'HOSPITAL BILLING CODED' or condition_type = 'PROFESSSIONAL BILLING CHARGE') then 32821
-            when condition_type = 'PROBLEM LIST' then 32840
+            when diagnosis_type = 'ENCOUNTER' then 32827
+            when (diagnosis_type = 'HOSPITAL BILLING CODED' or diagnosis_type = 'PROFESSSIONAL BILLING CHARGE') then 32821
+            when diagnosis_type = 'PROBLEM LIST' then 32840
             else 32817
       end) condition_type_concept_id
       ,[stop_reason] = NULL
@@ -85,3 +86,4 @@ left join xref.concept_relationship e
 on d.concept_id = e.concept_id_1 and e.relationship_id = 'Maps to'
 left join xref.visit_occurrence_mapping g
 on a.patnt_encntr_key = g.patnt_encntr_key
+where b.active_ind = 'Y'
