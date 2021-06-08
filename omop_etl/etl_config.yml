@@ -111,6 +111,7 @@ preload:
     res_peep: preload_measurement_res_peep.sql
     res_pip: preload_measurement_res_pip.sql
     res_resp: preload_measurement_res_resp.sql
+    res_resp_mech: preload_measurement_res_resp_mech.sql
     res_resp_adultmech: preload_measurement_res_resp_adultmech.sql
     res_resp_adultspont: preload_measurement_res_resp_adultspont.sql
     res_resp_pedsmech: preload_measurement_res_resp_pedsmech.sql

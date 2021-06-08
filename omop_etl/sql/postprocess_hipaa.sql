@@ -189,7 +189,8 @@ select distinct
     ,(case 
         when (
                 observation_source_value = 'zipcode' and (
-                    --Mask 3 digit zctas with population < 20k as of 2010 US Census. Update to 2020 when data is available.
+                    --TODO: Update with 2020 census data if available.
+                    --Mask 3 digit zctas with population < 20k as of 2010 US Census. 
                     --Mask 3 digit zipcodes with less than 3 patients.
                     zip3 in ('036', '059', '102', '202', '203', '204', '205', '369', '556', '692', '753', '772', '821', '823', '878', '879', '884', '893') or n_patients < 3
             )
