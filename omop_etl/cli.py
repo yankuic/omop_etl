@@ -75,14 +75,17 @@ class ETLCli:
         args = parser.parse_args(sys.argv[2:])
 
         config_file = 'config.yml'
+        source_to_concept = 'source_to_concept_map.csv'
         dirname = os.path.dirname(os.path.abspath(__file__))
         template_path = os.path.join(dirname, 'templates')
         config_template_path = os.path.join(template_path, config_file)
         py_scripts = [f for f in os.listdir(template_path) if f.endswith('.py')]
-        project_path = os.path.join(args.path, args.name)
+        project_path = os.path.join(os.path.abspath(args.path), args.name)
+        vocab_path = os.path.join(project_path, 'vocabulary')
 
         try:
-            os.mkdir(project_path)
+            os.mkdirs(project_path)
+            os.mkdirs(vocab_path)
         except FileExistsError as e:
             raise e
 
@@ -104,6 +107,10 @@ class ETLCli:
             o = os.path.join(template_path, py)
             d = os.path.join(project_path, py)
             shutil.copyfile(o, d)
+
+        o = os.path.join(template_path, source_to_concept)
+        d = os.path.join(vocab_path, source_to_concept)
+        shutil.copyfile(o, d)
 
         print(f'New OMOP project created in {project_path}')
 
