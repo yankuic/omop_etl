@@ -59,6 +59,8 @@ All commands must be executed within the omop project directory, where the files
     omop_project_dir
     |__config.yml
     |__refresh_cohort.py
+    |__vocabulary
+        |__source_to_concept_map.py
 
 Update vocabulary
 

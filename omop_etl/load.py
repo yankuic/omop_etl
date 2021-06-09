@@ -21,7 +21,6 @@ class Loader(DataStore, ETLConfig):
     @timeitd
     def stage_hs_table(self, table, schema='stage'):
         assert table in self.stage_hs.keys(), f'{table} is not a valid table name.'
-        self.truncate(schema, table)
         filepath = os.path.join(self.sql_scripts_path, self.stage_hs[table])
         q = read_sql(filepath) 
 
