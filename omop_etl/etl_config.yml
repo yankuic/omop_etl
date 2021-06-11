@@ -149,8 +149,25 @@ load:
   care_site: load_care_site.sql
   location: load_location.sql
 postprocessing:
-  by_domain: postprocess_by_domain.sql
+  by_domain:
+    measurement: postprocess_measurement_by_domain.sql
+    condition_occurrence: postprocess_condition_by_domain.sql
+    procedure_occurrence: postprocess_procedure_by_domain.sql
+    observation: postprocess_observation_by_domain.sql
   hipaa: postprocess_hipaa.sql
+# Vocabulary tables
+vocabulary_tables:
+  - source_to_concept_map
+  - concept
+  - concept_ancestor
+  - concept_class
+  - concept_relationship
+  - concept_synonym
+  - domain
+  - drug_strength
+  - relationship
+  - vocabulary
+  
 # Column aliases
 aliases:
   CONDITION:
@@ -623,60 +640,3 @@ aliases:
   - attending_provider
   - visit_provider
   - dept_id
-omop_vocabs:
-- JAX
-- Revenue Code
-- NAACCR
-- LOINC
-- ICDO3
-- NFC
-- Gender
-- MDC
-- SPL
-- CPT4
-- CCAM
-- OPS
-- Currency
-- ABMS
-- VA Product
-- MMI
-- MeSH
-- ICD10
-- MEDRT
-- VA Class
-- Medicare Specialty
-- OPCS4
-- OMOP Extension
-- NUCC
-- CVX
-- HES Specialty
-- HemOnc
-- SNOMED
-- NDC
-- dm+d
-- RxNorm Extension
-- ICD9Proc
-- CMS Place of Service
-- Race
-- ICD9CM
-- Supplier
-- Episode Type
-- ICD10PCS
-- PCORNet
-- ICD10CM
-- NCIt
-- Specimen Type
-- EphMRA ATC
-- Cancer Modifier
-- GCN_SEQNO
-- Provider
-- RxNorm
-- ATC
-- CTD
-- Ethnicity
-- GGR
-- HCPCS
-- APC
-- CIViC
-- DRG
-- NDFRT

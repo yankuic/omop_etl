@@ -170,7 +170,7 @@ class DataStore:
             '''.format(schema)
             return self.execute(q)
 
-    def object_exists(self, object_type, name):
+    def object_exists(self, object_type, schema, name):
         """Evaluate if object exist in database.
 
         Args:
@@ -179,19 +179,20 @@ class DataStore:
                         IT (internal table), P (stored procedure). 
             name (str): Object name. 
         """
-        #TODO: implement option to set schema.
 
-        q = '''
+        q = f"""
         select (case 
 			when EXISTS (
 				SELECT * 
 				FROM sys.objects 
-				WHERE type = '{}' AND OBJECT_ID = OBJECT_ID('{}')
+				WHERE type = '{object_type}' 
+                AND (name = '{name}' or  OBJECT_ID = OBJECT_ID('{name}'))
+                AND SCHEMA_NAME(schema_id) = '{schema}'
 			)
 			then 1 
 			else 0 
 		end
-        )'''.format(object_type, name)
+        )"""
 
         with self.connection()  as con:
             res = con.execute(q).fetchone()[0]

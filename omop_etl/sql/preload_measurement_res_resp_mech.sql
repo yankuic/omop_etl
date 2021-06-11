@@ -25,7 +25,7 @@ on a.patient_key = b.patient_key
 left join xref.provider_mapping c 
 on c.providr_key = isnull(a.Attending_Provider, a.Visit_Provider)
 left join xref.source_to_concept_map d 
-on source_code = 'RESP RATE - Adult Mech' and source_vocabulary_id = 'Flowsheet'
+on source_code = 'RESP RATE - Mech' and source_vocabulary_id = 'Flowsheet'
 left join xref.visit_occurrence_mapping e 
 on a.patnt_encntr_key = e.patnt_encntr_key
 where a.mech_resp_rate is not null

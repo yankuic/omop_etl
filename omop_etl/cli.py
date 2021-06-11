@@ -10,7 +10,7 @@ import argparse
 import yaml
 
 from omop_etl.load import Loader
-from omop_etl.io import read_sql
+from omop_etl.io import read_sql, import_csv
 from omop_etl.utils import timeitc
 
 CONFIG_FILE = 'config.yml'
@@ -34,7 +34,7 @@ class ETLCli:
         getattr(self, args.command)()
 
 
-    def create_project_schema(self):
+    def create_schema(self):
         #create omop tables and schemas
         loader = Loader(CONFIG_FILE)
         SCHEMA = loader.schema
@@ -53,10 +53,65 @@ class ETLCli:
         #TODO: borrow achilles queries to validate schema here.
 
 
-    def voc(self):
+    def vocab(self):
         #download vocabulary
         #load vocabulary into db
-        raise NotImplementedError
+        loader = Loader(CONFIG_FILE)
+        proj_dir = loader.config.project_dir
+        server = loader.config.server
+        database = loader.config.project_database
+        vocabulary_tables = loader.vocabulary_tables
+
+        parser = argparse.ArgumentParser('Import vocabulary tables into project database.')
+        parser.add_argument('-t', '--table', type=str, help='Vocabulary table')
+        parser.add_argument('-a', '--all', type=str, help='Import all vocabulary tables')
+        
+        # assert vocabulary folder exists
+        args = parser.parse_args(sys.argv[2:])
+
+        vocab_path = os.path.join(proj_dir, 'vocabulary')
+
+        if args.table:
+            #assert table exists
+            assert loader.object_exists('U', 'xref', args.table), f'Table {args.table} does not exists in project database.'
+            loader.truncate('xref', args.table)
+            csv_path = os.path.join(vocab_path, f'{args.table.upper()}.csv')
+            
+            assert os.path.isfile(csv_path), f'table {args.table} not found in {proj_dir}'
+
+            print(
+                import_csv(
+                    csv_path,
+                    args.table,
+                    1e6,
+                    'xref',
+                    server,
+                    database,
+                    keep_default_na=False, 
+                    sep='\t'
+                )
+            )
+
+        if args.all:
+            for table in vocabulary_tables:
+                assert loader.object_exists('U', 'xref', table), f'Table {table} does not exists in project database.'
+                loader.truncate('xref', table)
+                csv_path = os.path.join(vocab_path, f'{table.upper()}.csv')
+
+                assert os.path.isfile(csv_path), f'table {table} not found in {proj_dir}'
+
+                print(
+                    import_csv(
+                        csv_path,
+                        table,
+                        1e6,
+                        'xref',
+                        server,
+                        database,
+                        keep_default_na=False, 
+                        sep='\t'
+                    )
+                )
 
 
     def new_project(self):
@@ -82,10 +137,14 @@ class ETLCli:
         py_scripts = [f for f in os.listdir(template_path) if f.endswith('.py')]
         project_path = os.path.join(os.path.abspath(args.path), args.name)
         vocab_path = os.path.join(project_path, 'vocabulary')
+        
+        def represent_none(self, _):
+            return self.represent_scalar('tag:yaml.org,2002:null', '')
+        yaml.add_representer(type(None), represent_none)
 
         try:
-            os.mkdirs(project_path)
-            os.mkdirs(vocab_path)
+            os.makedirs(project_path)
+            os.makedirs(vocab_path)
         except FileExistsError as e:
             raise e
 
@@ -101,7 +160,7 @@ class ETLCli:
             config['db_connections']['omop']['database'] = args.database
         
         with open(os.path.join(project_path, config_file), 'w') as custom_config:
-            yaml.dump(config, custom_config, sort_keys=False)
+            yaml.dump(config, custom_config, sort_keys=False, width=3000)
 
         for py in py_scripts:
             o = os.path.join(template_path, py)

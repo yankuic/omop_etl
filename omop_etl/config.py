@@ -102,6 +102,10 @@ class ProjectConfig(Config):
     def loinc(self):
         return self.get_property('loinc')
 
+    @property
+    def vocabularies(self):
+        return self.get_property('vocabularies')
+
 class ETLConfig(Config):
     """[summary]
     """
@@ -144,13 +148,13 @@ class ETLConfig(Config):
         return self.get_property('aliases')
     
     @property
-    def vocabularies(self):
-        return self.get_property('omop_vocabs')
-
-    @property
     def postproc(self):
         return self.get_property('postprocessing')
 
     @property
     def schema(self):
         return self.get_property('schema')
+
+    @property
+    def vocabulary_tables(self):
+        return self.get_property('vocabulary_tables')
