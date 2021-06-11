@@ -5,7 +5,7 @@
         ,[pain_date]
         ,[pain_datetime]
         ,[provider] = isnull([attending_provider],[visit_provider])
-        ,pain_scale = 'PAIN SCALE - Jax'
+        ,pain_scale = 'PAIN SCALE'
         ,pain_score = pain_jax
     FROM [DWS_OMOP].[stage].[MEASUREMENT_PainScale_JAX]
 ) 
