@@ -1,6 +1,6 @@
 """Refresh patient cohort list.
 
-This script is a template. Some customizations may be needed to make it work for each project. 
+This template script to generate the project cohort list. Some customizations may be needed to make it work for each project. 
 
 Usage:
  

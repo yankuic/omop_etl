@@ -147,8 +147,8 @@ class Loader(DataStore, ETLConfig):
 
     @timeitd
     def fix_domains(self):
-        script_file = self.postproc['by_domain']
-        q = read_sql(os.path.join(self.sql_scripts_path, script_file))
-        
-        with timeitc('Moving records by domain'):
-            return self.execute(q)
+        scripts = self.postproc['by_domain']
+        for table in scripts.keys():
+            q = read_sql(os.path.join(self.sql_scripts_path, scripts[table]))
+            print(f'Moving records from {table} ...             ')
+            self.execute(q)
