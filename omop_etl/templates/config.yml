@@ -43,6 +43,7 @@ load:
     qtcb: Q-T interval corrected Bazett
     res_dev: Respiratory device
     res_etco2: Carbon dioxide [Partial pressure] in Exhaled gas at end expiration
+    res_etco2_on: 
     res_fio2: Inhaled oxygen concentration
     res_gcs: Glasgow coma score total
     res_gcs_peds: 
