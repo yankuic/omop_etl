@@ -33,4 +33,4 @@ left join xref.care_site_mapping h
 on h.dept_id = a.dept_id
 where a.DISCHG_DATE is not null 
 or (a.DISCHG_DATE is null and a.PATIENT_TYPE not in ('OUTPATIENT', 'INPATIENT'))
-and b.active_ind = 'Y'
+and c.active_ind = 'Y'
