@@ -30,5 +30,3 @@ on source_code = 'ETCO2 - Oral/Nasal' and source_vocabulary_id = 'Flowsheet'
 left join xref.visit_occurrence_mapping e 
 on a.patnt_encntr_key = e.patnt_encntr_key
 where b.active_ind = 'Y'
-
-drop table if exists #measurement_res_etco2
