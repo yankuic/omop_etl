@@ -21,7 +21,7 @@ SELECT patient_key
 	INTO #measurement_bp
   FROM bp_cvp
 cross apply (
-      values ('BP - Central Venous', [cvp], cvp)
+      values ('CVP - Central Venous Pressure', [cvp], cvp)
 ) pv(bp_measure, bp_value, bp_raw_value)
 where bp_raw_value is not null
 

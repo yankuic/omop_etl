@@ -192,7 +192,7 @@ class ETLCli:
 
             elif args.all:
                 for t in LOAD_TABLES.keys():
-                    print(f'Archiving table {t}\n')
+                    print(f'Archiving table {t}.')
                     print(loader.archive_table(t))
         
 
@@ -214,6 +214,10 @@ class ETLCli:
                 sbs = args.subset
                 if t in ('provider','care_site','location'): 
                     print(loader.stage_hs_table(t))
+                elif sbs == 'all':
+                    if isinstance(LOAD_TABLES[t], dict):
+                        for part in LOAD_TABLES[t].keys():
+                            print(loader.stage_table(t, part))
                 else:
                     print(loader.stage_table(t, sbs or None ))
 
