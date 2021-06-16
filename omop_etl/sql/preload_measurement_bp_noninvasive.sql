@@ -23,8 +23,8 @@ SELECT patient_key
 	INTO #measurement_bp
   FROM bp
 cross apply (
-      values ('non-invasive sbp', [non-invasive sbp], bp_noninvasive)
-		,('non-invasive dbp',[non-invasive dbp], bp_noninvasive)
+      values ('BP - Non-invasive SBP', [non-invasive sbp], bp_noninvasive)
+		,('BP - Non-invasive DBP',[non-invasive dbp], bp_noninvasive)
 ) pv(bp_measure, bp_value, bp_raw_value)
 where bp_raw_value is not null
 
@@ -46,7 +46,7 @@ select person_id = b.person_id
       ,provider_id = c.provider_id
       ,visit_occurrence_id = e.visit_occurrence_id
       ,visit_detail_id = NULL
-      ,measurement_source_value = d.source_code
+      ,measurement_source_value = a.bp_measure
       ,measurement_source_concept_id = isnull(d.source_concept_id, 0)
       ,unit_source_value = NULL
       ,value_source_value = a.bp_raw_value

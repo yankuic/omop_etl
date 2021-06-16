@@ -1,6 +1,11 @@
 # ISSUES
 
-## May 24 2021
+## June 15, 2021
+
+- [x] Missing mappings for non-invasive sbp and dbp
+- [ ] Null source values present in measurement table, comming from map - cvp and bp_non-invasive tables
+
+## May 24, 2021
 
 measurement
 
