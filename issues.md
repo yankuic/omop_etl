@@ -3,13 +3,13 @@
 ## June 15, 2021
 
 - [x] Missing mappings for non-invasive sbp and dbp
-- [ ] Null source values present in measurement table, comming from map - cvp and bp_non-invasive tables
+- [x] Null source values present in measurement table, comming from map - cvp and bp_non-invasive tables
 
 ## May 24, 2021
 
 measurement
 
-- [ ] We are potentially missing 30m rows. The most significant drop was with RESP RATE, which went from 27.9m to 5.6m. We are also missing 140 LOINC codes loaded in the old version but not in the new, which amount to 7.4m rows.
+- [x] We are potentially missing 30m rows. The most significant drop was with RESP RATE, which went from 27.9m to 5.6m. We are also missing 140 LOINC codes loaded in the old version but not in the new, which amount to 7.4m rows.
 
 ## procedure_occurrence
 
