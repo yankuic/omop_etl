@@ -134,4 +134,4 @@ left join (
 ) z
 on a.observation_source_value = z.concept_code
 --where a.observation_source_value = 'V03.90XA'
-order by source_value
+order by source_value, N_current
