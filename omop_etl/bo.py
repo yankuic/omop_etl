@@ -30,12 +30,12 @@ def format_stage_query(doc_name:str, dp_name:str, start_date:str, end_date:str, 
     bo_q = bo_query(doc_name, con)[dp_name]
     db = con.engine.url.database
     personlist = f"select PATIENT_KEY from {db}.cohort.PersonList"
+    loinc_str = ''
 
     if dp_name.lower() == 'measurement_lab':
         loinc_str = ','.join([f"''{l}''" for l in loinc_list])
-    else:
-        loinc_str = ''
-
+    
+    # Make sure BO queries use the same placeholders below
     sql_query = format_bo_sql(bo_q, dp_name, database=db, schema=schema, aliases=aliases)\
                 .replace("12345678", personlist)\
                 .replace("01/01/1900 00:0:0", start_date)\
