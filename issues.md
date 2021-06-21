@@ -1,12 +1,11 @@
 # ISSUES
 
-## June 15, 2021
+## June 2021
 
+- [x] Missing concept mappings for non-invasive sbp and dbp
+- [x] Null values in measurementsource_value, comming from map - cvp and bp_non-invasive tables
 
-- [x] Missing mappings for non-invasive sbp and dbp
-- [x] Null source values present in measurement table, comming from map - cvp and bp_non-invasive tables
-
-## May 24, 2021
+## May 2021
 
 measurement
 
@@ -14,7 +13,7 @@ measurement
 
 ## procedure_occurrence
 
-- [x] procedure_icd have records with NULL encounters that seems like a duplicate for another record that do have encounter number. Furthermore, records with null encounters are being duplicated on load.
+- [x] procedure_icd have records with NULL encounters that seems like a duplicate for another record that do have encounter number. Furthermore, records with null encounters are being duplicated on load. I suspect this issue occurs in multiple tables.
 
     Here's an example
 
@@ -25,11 +24,7 @@ measurement
         and start_date = '2020-01-03'
         ```
 
-I suspect this issue occurs in multiple tables.
-
 ## measurement
 
-- [ ] 2021-03-11 - measurement_heartrate. preload table has 2900 more records than stage table.
+- [x] 2021-03-11 - measurement_heartrate. preload table has 2900 more records than stage table.
 - [x] 2021-03-11 - measurement_lab. preload table have 35861 less records than stage. Records filtered by distinct clause.
-- [ ] 2021-03-12 - text in value_source_value is explicitly truncated to len 50.
-- [ ] 2021-03-12 - measurement_painscale, 3981689 missing on preload.

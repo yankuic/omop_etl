@@ -40,7 +40,6 @@ def format_stage_query(doc_name:str, dp_name:str, start_date:str, end_date:str, 
                 .replace("12345678", personlist)\
                 .replace("01/01/1900 00:0:0", start_date)\
                 .replace("12/31/1900 00:0:0", end_date)\
-                .replace("12/31/1900 12:00:00 AM", end_date)\
                 .replace("''LOINCLIST''", loinc_str)
 
     return f"EXECUTE ('USE DWS_PROD;\n {sqlparse.format(sql_query)}')"  #reindent_aligned=True, indent_with=1
