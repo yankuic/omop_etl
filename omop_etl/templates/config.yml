@@ -60,8 +60,12 @@ load:
     res_spo2: Oxygen saturation in arterial blood by pulse oximetry
     res_tidal: Tidal volume setting 
     res_tidal_exhaled: Volume exhaled maximum ventilator alarm
-    res_vent: Ventilation mode adults
-    res_vent_peds: Ventilation mode pediatric
+    res_vent_mode: Ventilation mode adults
+    res_vent_start:
+    res_vent_end: 
+    res_vent_mode_peds: Ventilation mode pediatric
+    res_vent_start_peds: 
+    res_vent_end_peds: 
     rothman: Rothman index calculated
     sofa: Sequential organ failure assessment score
     temp: Body temperature
@@ -69,7 +73,7 @@ load:
   observation:
     icu: Intensive care unit stay
     lda: LDA intubation type and LDA intubation start and end times
-    vent: Dependence on respirator
+    vent: Dependence on mechanical ventilator
     payer: Healthcare payer
     smoking: Tobacco smoking behavior 
     zipcode: Patient postal code

@@ -13,6 +13,33 @@ Placeholders:
 - LOINC codes: LOINCLIST
 - Patient list: 12345678
 
+## Register BO query for new data element
+
+- Add short name and dp_name pair in stage section from etl_config file. Example:
+
+    ```yaml
+    res_vent_mode: MEASUREMENT_Res_Vent_Mode
+    ```
+
+- Add short name and sql scrip file name pair in preload section from etl_config file. Example:
+
+    ```yaml
+    res_vent_mode: preload_measurement_res_vent_mode.sql
+    ```
+
+- In the section aliases of the etl_config file, add the aliases list for the columns of the table that will store the new data. Example:
+
+    ```yaml
+    MEASUREMENT_Res_Vent_Mode:
+    - patient_key
+    - patnt_encntr_key
+    - respiratory_date
+    - respiratory_datetime
+    - adult_vent_mode
+    - attending_provider
+    - visit_provider
+    ```
+
 ## ToDo
 
 - [x] Implement setup.py
