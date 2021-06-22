@@ -45,16 +45,16 @@ load:
     res_etco2: Carbon dioxide [Partial pressure] in Exhaled gas at end expiration
     res_etco2_on: 
     res_fio2: Inhaled oxygen concentration
-    res_gcs: Glasgow coma score total
-    res_gcs_peds: 
+    gcs: Glasgow coma score total
+    gcs_peds: 
     res_o2: Inhaled oxygen flow rate
     res_o2_ml: 
     res_peep: PEEP Respiratory system
     res_pip: Peak inspiratory pressure
     res_resp: Breath rate spontaneous, mechanical, and respiratory rate
-    # res_resp_adultmech: 
+    # res_resp_adultmech: Deprecated
     res_resp_adultspont: 
-    # res_resp_pedsmech: 
+    # res_resp_pedsmech: Deprecated
     res_resp_pedsspont:
     res_resp_mech:  
     res_spo2: Oxygen saturation in arterial blood by pulse oximetry
