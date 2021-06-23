@@ -17,13 +17,13 @@ select person_id = b.person_id
     ,measurement_source_value = d.source_code
     ,measurement_source_concept_id = isnull(d.source_concept_id,0)
     ,unit_source_value = NULL
-    ,value_source_value = a.vent_respiratory_vent_bgn
+    ,value_source_value = a.respiratory_vent_bgn
     ,source_table = 'measurement_res_vent_start'
 from stage.MEASUREMENT_Res_Vent_Start a 
 join xref.person_mapping b
 on a.patient_key = b.patient_key
 left join xref.provider_mapping c 
-on c.providr_key = a.provider
+on c.providr_key = isnull(a.Attending_Provider, a.Visit_Provider)
 left join xref.source_to_concept_map d 
 on source_code = 'VENT START - Adult' and source_vocabulary_id = 'Flowsheet'
 left join xref.visit_occurrence_mapping e 
