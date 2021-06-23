@@ -3,7 +3,7 @@ select person_id = b.person_id
     ,measurement_concept_id = isnull(d.target_concept_id,0)
     ,measurement_date = a.Respiratory_Date
     ,measurement_datetime = a.Respiratory_Datetime
-    ,measurement_time = cast(a.Respiratory_Datetime as TIME)
+    ,measurement_time = CAST(a.Respiratory_Datetime as TIME)
     ,measurement_type_concept_id = 32817
     ,operator_concept_id = NULL
     ,value_as_number = NULL
@@ -15,17 +15,17 @@ select person_id = b.person_id
     ,visit_occurrence_id = e.visit_occurrence_id
     ,visit_detail_id = NULL
     ,measurement_source_value = d.source_code
-    ,measurement_source_concept_id = isnull(d.source_concept_id, 0)
+    ,measurement_source_concept_id = isnull(d.source_concept_id,0)
     ,unit_source_value = NULL
     ,value_source_value = a.respiratory_vent_end
-    ,source_table = 'measurement_res_vent_stop_peds'
-from stage.MEASUREMENT_Res_Vent_Stop_Peds a 
+    ,source_table = 'measurement_res_vent_stop'
+from stage.MEASUREMENT_Res_Vent_End  a 
 join xref.person_mapping b
 on a.patient_key = b.patient_key
 left join xref.provider_mapping c 
-on c.providr_key = a.provider
+on c.providr_key = isnull(a.Attending_Provider, a.Visit_Provider)
 left join xref.source_to_concept_map d 
-on source_code = 'VENT STOP - Peds' and source_vocabulary_id = 'Flowsheet'
+on source_code = 'VENT STOP - Adult' and source_vocabulary_id = 'Flowsheet'
 left join xref.visit_occurrence_mapping e 
 on a.patnt_encntr_key = e.patnt_encntr_key
 where b.active_ind = 'Y'
