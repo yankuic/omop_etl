@@ -22,9 +22,9 @@ from (
             ,bp_datetime
             ,provider
             ,(case 
-                  when (bp_method = 'Arterial Line' or bp_method = 'UAC') then 'bp - art line sbp' 
-                  when (bp_method = 'Manual (Cuff)' or bp_method = 'Automatic' or bp_method = 'Doppler') then 'non-invasive sbp'
-                  else 'sbp - unknown method'
+                  when (bp_method = 'Arterial Line' or bp_method = 'UAC') then 'BP - Art Line SBP' 
+                  when (bp_method = 'Manual (Cuff)' or bp_method = 'Automatic' or bp_method = 'Doppler') then 'BP - Non-invasive SBP'
+                  else 'SBP - Unknown method'
             end) bp_measure
             ,bp_value = [bp - sbp]
             ,bp_raw_value = bp
@@ -37,9 +37,9 @@ from (
             ,bp_datetime
             ,provider
             ,(case 
-                  when (bp_method = 'Arterial Line' or bp_method = 'UAC') then 'bp - art line dbp' 
-                  when (bp_method = 'Manual (Cuff)' or bp_method = 'Automatic' or bp_method = 'Doppler') then 'non-invasive dbp'
-                  else 'dbp - unknown method'
+                  when (bp_method = 'Arterial Line' or bp_method = 'UAC') then 'BP - Art Line DBP' 
+                  when (bp_method = 'Manual (Cuff)' or bp_method = 'Automatic' or bp_method = 'Doppler') then 'BP - Non-invasive DBP'
+                  else 'DBP - Unknown method'
             end) bp_measure
             ,vp_value = [bp - dbp]
             ,bp_raw_value = bp
