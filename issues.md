@@ -2,6 +2,9 @@
 
 ## June 2021
 
+- [ ] Need to check concepts for tidal volume mech and spont.
+- [ ] O2 counts don't match v6 counts.
+- [x] Null values in PAIN SCALE, PAIN SCALE peds - Comes from records where casting to integers fails due to values like 'Patient Asleep'.
 - [x] Missing concept mappings for non-invasive sbp and dbp
 - [x] Null values in measurementsource_value, comming from map - cvp and bp_non-invasive tables
 
