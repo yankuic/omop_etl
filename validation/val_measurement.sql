@@ -23,8 +23,8 @@ where condition_concept_id in (4098353)
 --and active_ind = 'Y'
 
 select *
-from preload.condition_occurrence
-where condition_source_value like 'C79.%' -- 'Y90.5'-- 'R77.1'-- '796.0'-- 'R71.8','C79.71'
+from dbo.condition_occurrence
+where condition_source_value like '%invasive%'--'C79.%' -- 'Y90.5'-- 'R77.1'-- '796.0'-- 'R71.8','C79.71'
 --and patient_key = 2071502
 
 select *
@@ -80,8 +80,22 @@ order by person_id, visit_occurrence_id, measurement_datetime
 --where measurement_source_value = 'non-invasive dbp' 
 
 select distinct measurement_concept_id, measurement_source_value 
-from dbo.measurement
+from preload.measurement
 where measurement_concept_id = 0 --source_value = 'non-invasive dbp' 
+
+select distinct measurement_concept_id, measurement_source_value 
+from dbo.measurement
+where measurement_source_value like '%Vent%' 
+
+
+--update hipaa.measurement
+--set measurement_concept_id = 4068414
+--where measurement_source_value = 'BP - Non-invasive DBP'
+
+--update hipaa.measurement
+--set measurement_concept_id = 4354252
+--where measurement_source_value = 'BP - Non-invasive SBP'
+
 
 --MEASUREMENT Compare row counts per code with V6 version
 select * from 
@@ -102,6 +116,21 @@ left join (
 	select distinct observation_source_value as source_value, source_table from preload.observation
 ) c
 on c.source_value = a.measurement_source_value
+
+
+select distinct measurement_source_value 
+from dbo.measurement
+where measurement_source_value like '%invasive%'
+
+
+--update dbo.measurement 
+--set measurement_source_value = 'BP - Non-invasive DBP'
+--where measurement_source_value = 'non-invasive dbp'
+
+--update hipaa.measurement 
+--set measurement_source_value = 'BP - Non-invasive DBP'
+--where measurement_source_value = 'non-invasive dbp'
+
 
 --OBSERVATION
 select * from 
