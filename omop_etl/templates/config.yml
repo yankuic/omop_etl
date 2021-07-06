@@ -59,13 +59,14 @@ load:
     res_resp_mech:  
     res_spo2: Oxygen saturation in arterial blood by pulse oximetry
     res_tidal: Tidal volume setting 
-    res_tidal_exhaled: Volume exhaled maximum ventilator alarm
+    res_tidal_mech: Volume exhaled maximum ventilator alarm
+    res_tidal_spont: 
     res_vent_mode: Ventilation mode adults
     res_vent_start:
-    res_vent_stop: 
+    res_vent_end: 
     res_vent_mode_peds: Ventilation mode pediatric
     res_vent_start_peds: 
-    res_vent_stop_peds: 
+    res_vent_end_peds: 
     rothman: Rothman index calculated
     sofa: Sequential organ failure assessment score
     temp: Body temperature
