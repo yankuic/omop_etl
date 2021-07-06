@@ -46,7 +46,8 @@ stage:
     res_resp_mech: MEASUREMENT_Res_RESP_MechVentSetRate
     res_spo2: MEASUREMENT_Res_SPO2
     res_tidal: MEASUREMENT_Res_Tidal
-    res_tidal_exhaled: MEASUREMENT_Res_TidalExhaled
+    res_tidal_mech: MEASUREMENT_Res_Tidal_Mech
+    res_tidal_spont: MEASUREMENT_Res_Tidal_Spont
     res_vent_mode: MEASUREMENT_Res_Vent_Mode
     res_vent_start: MEASUREMENT_Res_Vent_Start
     res_vent_end: MEASUREMENT_Res_Vent_End
@@ -120,7 +121,8 @@ preload:
     res_resp_pedsspont: preload_measurement_res_resp_pedsspont.sql
     res_spo2: preload_measurement_res_spo2.sql
     res_tidal: preload_measurement_res_tidal.sql
-    res_tidal_exhaled: preload_measurement_res_tidal_exhaled.sql
+    res_tidal_mech: preload_measurement_res_tidal_mech.sql
+    res_tidal_spont: preload_measurement_res_tidal_spont.sql
     res_vent_mode: preload_measurement_res_vent_mode.sql
     res_vent_start: preload_measurement_res_vent_start.sql
     res_vent_end: preload_measurement_res_vent_end.sql
@@ -500,7 +502,15 @@ aliases:
   - tidal_volume
   - attending_provider
   - visit_provider
-  MEASUREMENT_Res_TidalExhaled:
+  MEASUREMENT_Res_Tidal_Mech:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - tidal_volume_exhaled
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_Tidal_Spont:
   - patient_key
   - patnt_encntr_key
   - respiratory_date
