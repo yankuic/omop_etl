@@ -164,3 +164,67 @@ left join (
 on a.observation_source_value = z.concept_code
 --where a.observation_source_value = 'V03.90XA'
 order by source_value, N_current
+
+
+select distinct condition_concept_id, domain_id, b.concept_code, concept_class_id
+from dbo.condition_occurrence a
+join xref.concept b
+on a.condition_concept_id = b.concept_id
+where condition_source_value not in (select distinct condition_source_value from preload.condition_occurrence)
+
+
+select top 1000 * from xref.concept
+where concept_id =35225557
+
+
+--Verify dateshift
+
+select distinct a.person_id, a.death_date, b.observation_date, b.observation_source_value 
+from hipaa.death a
+left join hipaa.observation b
+on a.person_id = b.person_id
+where a.death_date < b.observation_date
+--and a.person_id = 392
+order by a.person_id 
+
+select distinct a.person_id, a.death_date, b.observation_date, b.observation_source_value 
+from dbo.death a
+left join dbo.observation b
+on a.person_id = b.person_id
+where a.death_date < b.observation_date
+--and a.person_id = 392
+order by a.person_id 
+
+select b.[person_id]
+      ,[death_date] = ISNULL(a.PATNT_DTH_DATE, a.PATNT_SSN_DTH_DATE)
+      ,[death_datetime] = ISNULL(a.PATNT_DTH_DATE, a.PATNT_SSN_DTH_DATE)
+      ,[death_type_concept_id] = CASE WHEN a.PATNT_DTH_DATE IS NULL THEN 32885 ELSE 32817 END
+	  ,a.PATNT_DTH_DATE, a.PATNT_SSN_DTH_DATE
+      ,[cause_concept_id] = 0
+      ,[cause_source_value] = NULL
+      ,[cause_source_concept_id] = 0
+  from stage.death a
+  join xref.person_mapping b
+  on a.PATIENT_KEY = b.patient_key
+where b.active_ind = 'Y'
+and person_id in (59, 141, 180, 257) 
+--order by person_id 
+
+select *
+from stage.DEATH a
+join stage.OBSERVATION_Payer b
+on a.patient_key = b.patient_key
+where isnull(a.patnt_dth_date, a.patnt_ssn_dth_date) < b.encounter_effective_date
+
+select top 100 *
+from stage.death a
+join xref.person_mapping b
+on a.patient_key = b.patient_key
+join preload.measurement c
+on b.person_id = c.person_id
+where isnull(a.patnt_dth_date, a.patnt_ssn_dth_date) < measurement_date
+
+
+
+
+

@@ -2,8 +2,10 @@
 
 ## June 2021
 
+- [ ] populate value_as_concept_id 9189=Negative, 9190=Not detected, 9191 = 
+- [ ] loinc '2532-0' was moved to measurement table, why?
 - [ ] Need to check concepts for tidal volume mech and spont.
-- [ ] O2 counts don't match v6 counts.
+- [x] O2 counts don't match v6 counts.
 - [x] Null values in PAIN SCALE, PAIN SCALE peds - Comes from records where casting to integers fails due to values like 'Patient Asleep'.
 - [x] Missing concept mappings for non-invasive sbp and dbp
 - [x] Null values in measurementsource_value, comming from map - cvp and bp_non-invasive tables
