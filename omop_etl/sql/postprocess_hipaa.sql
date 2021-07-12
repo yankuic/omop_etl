@@ -298,7 +298,7 @@ select location_id
     ,[city] @SetNULL
     ,[state]
     ,[zip]
-    ,[county]
+    ,[county] = NULL
     ,[location_source_value] = NULL
 into hipaa.location
 from dbo.location 
