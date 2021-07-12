@@ -21,7 +21,7 @@ COHORT_TABLE = 'PersonList'
 # Use this list to add things to replace (placeholders) in the original BO query.
 # Add pairs as (old_value, new_value)
 replace_placeholders = [
-    ('12/31/2020 00:0:0', END_DATE)
+    ('12/31/1900 00:0:0', END_DATE)
 ]
 
 def load_cohort_query(dp_names, cohort_table, schema):
