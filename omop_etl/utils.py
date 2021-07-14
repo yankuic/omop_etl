@@ -9,7 +9,7 @@ from contextlib import contextmanager
 from functools import wraps
 import re
 import numpy as np
-from sqlalchemy.exc import SQLAlchemyError
+
 
 def search(pattern, string, *args):
     """Return True if pattern is found in string."""

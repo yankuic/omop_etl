@@ -8,6 +8,7 @@ import shutil
 import argparse
 
 import yaml
+import pandas as pd
 
 from omop_etl.load import Loader
 from omop_etl.io import read_sql, import_csv
@@ -32,6 +33,33 @@ class ETLCli:
 
         # use dispatch pattern to invoke method with same name
         getattr(self, args.command)()
+
+
+    def report_counts(self):
+        loader = Loader(CONFIG_FILE)
+        STAGE = loader.stage
+        LOAD = loader.config.load
+
+        result = []
+        for t in LOAD.keys():
+            if t not in ['provider','care_site','location']:
+                if LOAD[t]:
+                    for part in LOAD[t]:
+                        stg_name = STAGE[t][part]
+                        count = loader.row_count(stg_name, schema='stage')
+                        result.append([t, part, count])
+                else:
+                    stg_name = STAGE[t]
+                    count = loader.row_count(stg_name, schema='stage')
+                    result.append([t, None, count])
+
+        table_counts = pd.DataFrame(result, columns=['Table', 'Part', 'Stage'])
+        count_diff = table_counts.groupby('Table').sum().reset_index()
+        count_diff['Preload'] = count_diff.Table.apply(lambda t: loader.row_count(t, schema='preload') if t not in ('death','person','visit_occurrence') else 0)
+        count_diff['Load'] = count_diff.Table.apply(lambda t: loader.row_count(t))
+        count_diff['Hipaa'] = count_diff.Table.apply(lambda t: loader.row_count(t, schema='hipaa'))
+        
+        return print(count_diff)
 
 
     def create_schema(self):

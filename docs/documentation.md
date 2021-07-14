@@ -13,6 +13,33 @@ Placeholders:
 - LOINC codes: LOINCLIST
 - Patient list: 12345678
 
+## Register BO query for new data element
+
+- Add short name and dp_name pair in stage section from etl_config file. Example:
+
+    ```yaml
+    res_vent_mode: MEASUREMENT_Res_Vent_Mode
+    ```
+
+- Add short name and sql scrip file name pair in preload section from etl_config file. Example:
+
+    ```yaml
+    res_vent_mode: preload_measurement_res_vent_mode.sql
+    ```
+
+- In the section aliases of the etl_config file, add the aliases list for the columns of the table that will store the new data. Example:
+
+    ```yaml
+    MEASUREMENT_Res_Vent_Mode:
+    - patient_key
+    - patnt_encntr_key
+    - respiratory_date
+    - respiratory_datetime
+    - adult_vent_mode
+    - attending_provider
+    - visit_provider
+    ```
+
 ## ToDo
 
 - [x] Implement setup.py
@@ -82,3 +109,126 @@ Work in progress and pending issues:
 Have fun with the data and let mus know if you have any questions.
 
 Yankuic
+
+## Vocabulary mapping
+
+Source values (icd codes, loic codes, etc.) are mapped to concept_ids during the Load step, then relocated to omop tables using the domain_id.
+
+**Condition ICD codes**. OMOP concept table include ICD(9,10) and ICD(9,10)CM codes. Overlapping occurs between these two coding systems and OMOP includes two entries for the same ICD code, one for each version. Since UFHealth uses ICD CM, codes from condition_occurrence were mapped to ICD(9,10)CM codes. Mapping to ICD was performed only when no equivalent CM exists in OMOP vocabulary.
+
+ICD codes are mapped to SNOMED. ICD codes can be mapped to multiple SNOMED codes. For example, ICD9 249.40 (secondary diabetes mellitus) is mapped to SNOMED 192279 and 195771. As a result, one ICD record can have two or more corresponding SNOMED codes.
+
+The following query return the codes from condition_occurrence mapped to two or more SNOMED codes.
+
+    ```sql
+    select * from (
+        select distinct 
+                concept_code
+                ,concept_id_2 
+                ,ROW_NUMBER() over (partition by concept_code order by concept_code, concept_id_2) rn
+        from (
+            select distinct concept_code, concept_id_2
+            from stage.condition a
+            left join xref.concept d
+            on a.diag_cd_decml = d.concept_code and a.icd_type + 'CM' = d.vocabulary_id
+            join xref.concept_relationship e
+            on d.concept_id = e.concept_id_1 and e.relationship_id = 'Maps to'
+        ) x
+    ) y
+    where rn > 1
+    ```
+
+**Procedure ICD codes**. Procedure ICD0PCS codes are standard in OMOP.
+
+## OHDSI Achilles
+
+Create schemas:
+
+- results
+- scratch
+
+Some debugging is needed before running Achilles for the first time.
+
+- Correct column name in R installation\library\Achilles\sql\sql_server\validate_schema.sql, qualifier_source_value in line 355 to modifier_source_value.
+
+- Schema validation does not detect if table specimen is missing. This table is needed for analysis 1900. Make sure the table exists in omop cdm schema.
+
+- Required dependencies to run achilles dashboard:
+
+  - shiny
+  - shinydashboard
+  - tidyr
+
+- Achilles bug: fails to run heel on multithreading.
+
+
+--- from readme_juyun ----
+# Finished table:
+    person
+    death
+
+# Staging
+
+## 1. Validate objects in current Business Objects(BO) universes - only needed in project initialization
+
+    OMOP_CDM_BO_Mapping.xlsx
+
+## 2. Design data providers in BO that correspond to OMOP data dimension - only needed in project initialization
+
+    - Use the existing obejct in BO universes (Clinical Encounter, Coding Detail) to fit OMOP
+    - for the objects that do not exist, work with Neeharika and Joanne to create them.
+
+## 3. Read SQL 
+
+    Once the data providers are created, Matt will run a query on his end:
+    """
+    select *
+    from DWS_METADATA.dbo.MD_MGMT_WEBI_DATA_PRVDRS_TEST
+    where DOC_ID in (
+        select DOC_ID
+        from DWS_METADATA.dbo.MD_MGMT_WEBI_DOCS_TEST 
+        where DOC_NAME = 'omop'
+    )
+    """
+    which can generate the SQL query for each dimension table (dp_name). 
+
+
+## 4. Maintain the structure (i.e. column name, sequence of columns) of stage tables in DWS_OMOP
+    
+    Since we use the 'insert into select ...' queries to load the data from warehouse to the tables we created above in DWS_OMOP, we need to maintain these table definition in DWS_OMOP database.
+    
+    The names of the columns should align with the names in BO, so that people can back track the column in BO if OMOP tables appear to be incorrect.
+
+    E.g.
+
+'''sql
+DROP TABLE [stage].[PERSON]
+CREATE TABLE [stage].[PERSON](
+    PATIENT_KEY [int] NOT NULL,  --ALL_PATIENTS.PATNT_KEY
+    SEX [varchar](50)  NULL, -- ALL_SEXES.STNDRD_LABEL
+    RACE [varchar](50)  NULL, -- ALL_RACES.STNDRD_LABEL
+    ETHNICITY [varchar](50)  NULL, --ALL_ETHNIC_GROUPS.STNDRD_LABEL
+    ADDR_KEY [int]  NULL, --ALL_ADDRESSES_RECENT.ADDR_KEY
+    PATNT_BIRTH_DATETIME [datetime2] NULL, --ALL_PATIENTS.patnt_birth_datetime
+    PATIENT_REPORTED_PCP_PROV_KEY [int]  NULL, -- ALL_PROVIDERS_PAT_RPTD_PCP.PROVIDR_KEY
+    PATIENT_REPORTED_PRIMARY_DEPT_ID [int]  NULL --ALL_HOSPITAL_ORGANIZATION_PT_PRIM_LOC.DEPT_ID
+) ON [fg_user1]
+''' 
+
+## 5. Create and execute the stored procedures through Python
+
+    Run OMOP_sp.py. Here is what the script will do:
+    1. create a stored procedure to read the sql query that reads out BO objects (see above), then save in a dataframe.
+    2. customize the stored procedure by passing variables such as patient ids and date.
+    3. execute the stored procedure
+    Now we finish the staging jobs from EDW databases to 
+
+# Loading
+
+## Person
+
+## Death
+
+- death_date and death_datetime. EPIC death datetime if exists, else Social Security Death Index. EPIC death date is more accurate because data comes from the hospital.
+
+- death_type_concept_id. 32817 when death date comes from EPIC, else 32885.

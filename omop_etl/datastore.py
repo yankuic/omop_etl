@@ -18,7 +18,19 @@ class DataStore:
     """
     def __init__(self, config_file, *args):
         self.config = ProjectConfig(config_file)
-        self.engine = create_engine(self.config._proj_connection_str, max_overflow=-1, *args)
+        self._proj_connection_str = self.config._proj_connection_str 
+    
+    @property
+    def engine(self, *args):
+        return create_engine(self.connection_str, max_overflow=-1, *args)
+
+    @property
+    def connection_str(self):
+        return self._proj_connection_str 
+
+    @connection_str.setter
+    def connection_str(self, connection_str):
+        self._proj_connection_str = connection_str
 
     @contextmanager
     def connection(self):

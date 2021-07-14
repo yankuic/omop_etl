@@ -8,7 +8,7 @@ select distinct
       ,measurement_type_concept_id = 32817
       ,operator_concept_id = NULL
       ,value_as_number = try_convert(float, a.LAB_RESULT)
-      ,value_as_concept_id = NULL
+      ,value_as_concept_id = isnull(i.concept_id, 0)
       ,unit_concept_id = isnull(g.concept_id, 0)
       ,range_low = try_convert(float, a.NORMAL_LOW)
       ,range_high = try_convert(float, a.NORMAL_HIGH)
@@ -34,4 +34,6 @@ left join xref.concept g
 on a.LAB_UNIT = g.concept_code and g.domain_id = 'Unit'
 left join xref.visit_occurrence_mapping h 
 on a.patnt_encntr_key = h.patnt_encntr_key
+left join xref.concept i 
+on a.LAB_RESULT = i.concept_name and (i.domain_id = 'Meas Value' and i.standard_concept = 'S' and i.vocabulary_id = 'SNOMED')
 where b.active_ind = 'Y'
