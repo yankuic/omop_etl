@@ -6,7 +6,8 @@
         ,[pain_datetime]
         ,[provider] = isnull([attending_provider],[visit_provider])
         ,pain_scale = 'PAIN SCALE'
-        ,pain_score = pain_uf_dvprs
+        ,pain_score = left(pain_uf_dvprs, 2)
+        ,raw_score = pain_uf_dvprs
     FROM [DWS_OMOP].[stage].[MEASUREMENT_PainScale]
 ) 
 insert into preload.measurement with (tablock)
@@ -28,7 +29,7 @@ select person_id = b.person_id
     ,measurement_source_value = d.source_code
     ,measurement_source_concept_id = d.source_concept_id
     ,unit_source_value = '{score}'
-    ,value_source_value = a.pain_scale
+    ,value_source_value = a.raw_score
     ,source_table = 'measurement_painscale'
 from painscale a 
 join xref.person_mapping b

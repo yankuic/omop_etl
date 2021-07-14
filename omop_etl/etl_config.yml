@@ -34,8 +34,6 @@ stage:
     res_etco2: MEASUREMENT_Res_ETCO2
     res_etco2_on: MEASUREMENT_Res_ETCO2_NO
     res_fio2: MEASUREMENT_Res_FIO2
-    res_gcs: MEASUREMENT_Res_GCS
-    res_gcs_peds: MEASUREMENT_Res_GCS_Peds
     res_o2: MEASUREMENT_Res_O2
     res_o2_ml: MEASUREMENT_Res_O2_mL
     res_peep: MEASUREMENT_Res_PEEP
@@ -48,9 +46,16 @@ stage:
     res_resp_mech: MEASUREMENT_Res_RESP_MechVentSetRate
     res_spo2: MEASUREMENT_Res_SPO2
     res_tidal: MEASUREMENT_Res_Tidal
-    res_tidal_exhaled: MEASUREMENT_Res_TidalExhaled
-    res_vent: MEASUREMENT_Res_Vent
-    res_vent_peds: MEASUREMENT_Res_VentPeds
+    res_tidal_mech: MEASUREMENT_Res_Tidal_Mech
+    res_tidal_spont: MEASUREMENT_Res_Tidal_Spont
+    res_vent_mode: MEASUREMENT_Res_Vent_Mode
+    res_vent_start: MEASUREMENT_Res_Vent_Start
+    res_vent_end: MEASUREMENT_Res_Vent_End
+    res_vent_mode_peds: MEASUREMENT_Res_Vent_Mode_Peds
+    res_vent_start_peds: MEASUREMENT_Res_Vent_Start_Peds
+    res_vent_end_peds: MEASUREMENT_Res_Vent_End_Peds
+    gcs: MEASUREMENT_GCS
+    gcs_peds: MEASUREMENT_GCS_Peds
     rothman: MEASUREMENT_Rothman
     sofa: MEASUREMENT_SOFA
     temp: MEASUREMENT_Temp
@@ -104,8 +109,6 @@ preload:
     res_etco2: preload_measurement_res_etco2.sql
     res_etco2_on: preload_measurement_res_etco2_on.sql
     res_fio2: preload_measurement_res_fio2.sql
-    res_gcs: preload_measurement_res_gcs.sql
-    res_gcs_peds: preload_measurement_res_gcs_peds.sql
     res_o2: preload_measurement_res_o2.sql
     res_o2_ml: preload_measurement_res_o2_ml.sql
     res_peep: preload_measurement_res_peep.sql
@@ -118,9 +121,16 @@ preload:
     res_resp_pedsspont: preload_measurement_res_resp_pedsspont.sql
     res_spo2: preload_measurement_res_spo2.sql
     res_tidal: preload_measurement_res_tidal.sql
-    res_tidal_exhaled: preload_measurement_res_tidal_exhaled.sql
-    res_vent: preload_measurement_res_vent.sql
-    res_vent_peds: preload_measurement_res_vent_peds.sql
+    res_tidal_mech: preload_measurement_res_tidal_mech.sql
+    res_tidal_spont: preload_measurement_res_tidal_spont.sql
+    res_vent_mode: preload_measurement_res_vent_mode.sql
+    res_vent_start: preload_measurement_res_vent_start.sql
+    res_vent_end: preload_measurement_res_vent_end.sql
+    res_vent_mode_peds: preload_measurement_res_vent_mode_peds.sql
+    res_vent_start_peds: preload_measurement_res_vent_start_peds.sql
+    res_vent_end_peds: preload_measurement_res_vent_end_peds.sql
+    gcs: preload_measurement_gcs.sql
+    gcs_peds: preload_measurement_gcs_peds.sql
     rothman: preload_measurement_rothman.sql
     sofa: preload_measurement_sofa.sql
     temp: preload_measurement_temp.sql
@@ -380,7 +390,7 @@ aliases:
   - fio2
   - attending_provider
   - visit_provider
-  MEASUREMENT_Res_GCS_Peds:
+  MEASUREMENT_GCS_Peds:
   - patient_key
   - patnt_encntr_key
   - respiratory_date
@@ -388,7 +398,7 @@ aliases:
   - glasgow_coma_peds_score
   - attending_provider
   - visit_provider    
-  MEASUREMENT_Res_GCS:
+  MEASUREMENT_GCS:
   - patient_key
   - patnt_encntr_key
   - respiratory_date
@@ -492,7 +502,7 @@ aliases:
   - tidal_volume
   - attending_provider
   - visit_provider
-  MEASUREMENT_Res_TidalExhaled:
+  MEASUREMENT_Res_Tidal_Mech:
   - patient_key
   - patnt_encntr_key
   - respiratory_date
@@ -500,23 +510,59 @@ aliases:
   - tidal_volume_exhaled
   - attending_provider
   - visit_provider
-  MEASUREMENT_Res_Vent:
+  MEASUREMENT_Res_Tidal_Spont:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - tidal_volume_exhaled
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_Vent_Mode:
   - patient_key
   - patnt_encntr_key
   - respiratory_date
   - respiratory_datetime
   - adult_vent_mode
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_Vent_Start:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
   - respiratory_vent_bgn
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_Vent_End:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
   - respiratory_vent_end
   - attending_provider
   - visit_provider
-  MEASUREMENT_Res_VentPeds:
+  MEASUREMENT_Res_Vent_Mode_Peds:
   - patient_key
   - patnt_encntr_key
   - respiratory_date
   - respiratory_datetime
   - peds_vent_mode
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_Vent_Start_Peds:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
   - respiratory_vent_bgn
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_Vent_End_Peds:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
   - respiratory_vent_end
   - attending_provider
   - visit_provider

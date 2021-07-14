@@ -28,8 +28,8 @@ select person_id = b.person_id
     ,measurement_source_value = d.source_code
     ,measurement_source_concept_id = d.source_concept_id
     ,unit_source_value = '{score}'
-    ,value_source_value = a.pain_scale
-    ,source_table = 'measurement_painscale_jax'
+    ,value_source_value = a.pain_score
+    ,source_table = 'measurement_painscale_peds'
 from painscale a 
 join xref.person_mapping b
 on a.patient_key = b.patient_key
