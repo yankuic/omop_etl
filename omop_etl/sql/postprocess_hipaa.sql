@@ -285,7 +285,7 @@ select [provider_id]
       ,[provider_source_value] = NULL
       ,[specialty_source_value]
       ,[specialty_source_concept_id]
-      ,[gender_source_value]
+      ,[gender_source_value] @SetNULL
       ,[gender_source_concept_id]
 into hipaa.provider
 from dbo.provider
@@ -298,7 +298,7 @@ select location_id
     ,[city] @SetNULL
     ,[state]
     ,[zip]
-    ,[county] = NULL
+    ,[county] @SetNULL
     ,[location_source_value] = NULL
 into hipaa.location
 from dbo.location 
