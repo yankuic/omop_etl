@@ -41,8 +41,39 @@ join xref.concept b
 on a.drug_concept_id = b.concept_id
 where domain_id = @domain
 
---select distinct observation_concept_id, value_as_string 
---from dbo.observation
---where observation_source_value like '%smoking%'
+select distinct drug_concept_id, drug_source_value 
+from dbo.drug_exposure
+--where drug_source_value = '2532-0'
+
+select * --distinct observation_concept_id, value_as_string 
+from dbo.observation
+where observation_source_value = '2532-0'
+
+select * from xref.concept
+where vocabulary_id like 'rxnorm%'
+and concept_code = '198228'
+
+select top 1 *
+from dbo.drug_exposure
+where drug_source_value = '198228'
 
 --FIX concept_id for covid labs
+
+select top 1000 * 
+from dws_prod.dbo.ALL_MEDICATIONS
+
+select top 1000 * from observation
+where observation_source_value = 'zipcode'
+order by person_id
+
+select * from xref.concept
+where concept_code = '70199-5'
+
+--update dbo.measurement
+--set value_as_concept_id = 4172976
+--where value_source_value = 'Equivocal'
+
+--update hipaa.measurement
+--set value_as_concept_id = 4172976
+--where value_source_value = 'Equivocal'
+

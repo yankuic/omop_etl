@@ -10,6 +10,7 @@ MANIFEST
 __pycache__/
 .ipynb_checkpoints/
 validation/.ipynb_checkpoints/
+validation/*.csv
 .vscode/
 output/
 dist/
