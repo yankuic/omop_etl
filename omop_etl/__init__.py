@@ -34,14 +34,3 @@ if missing_dependencies:
     )
     pass
 del optional_dependencies, dependency, missing_dependencies
-
-
-# from omop_etl.load import Loader
-
-# try:
-#     from omop_etl.io import to_csv
-# except ImportError as e:
-#     logging.warning(
-#         "Unable to import module to_csv"
-#     )
-#     pass
