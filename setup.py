@@ -3,10 +3,11 @@ from setuptools import setup
 
 setup(
     name='omop_etl',
-    version='0.0.1',
-    author='',
+    version='0.1',
+    author='Yankuic Galvan',
     author_email='yankuic@gmail.com',
     packages=['omop_etl'],
+    data_files=[('omop_etl', ['omop_etl/etl_config.yml'])],
     entry_points={'console_scripts': ['omop_etl=omop_etl.cli:ETLCli']},
     url='',
     license='',

@@ -166,6 +166,7 @@ class ETLCli:
         project_path = os.path.join(os.path.abspath(args.path), args.name)
         vocab_path = os.path.join(project_path, 'vocabulary')
         
+        # This is to replace NULL for empty string in yaml file empty entries.
         def represent_none(self, _):
             return self.represent_scalar('tag:yaml.org,2002:null', '')
         yaml.add_representer(type(None), represent_none)
