@@ -281,7 +281,7 @@ select [provider_id]
       ,[specialty_concept_id]
       ,[care_site_id] 
       ,[year_of_birth] 
-      ,[gender_concept_id]
+      ,[gender_concept_id] @SetNULL
       ,[provider_source_value] = NULL
       ,[specialty_source_value]
       ,[specialty_source_concept_id]
