@@ -1,12 +1,13 @@
 
 # fill out the connection details -----------------------------------------------------------------------
 connectionDetails <- DatabaseConnector::createConnectionDetails(dbms = 'sql server', 
-                                                                server = "edw.***REMOVED***.edu",
-                                                                pathToDriver = 'C:\\Microsoft JDBC DRIVER 9.2 for SQL Server\\sqljdbc_9.2\\enu')
+                                                                server = "edw.***REMOVED***.edu"
+										    #,pathToDriver = 'C:\\Microsoft JDBC DRIVER 9.2 for SQL Server\\sqljdbc_9.2\\enu'
+										)
 
 cdmDatabaseSchema <- 'DWS_OMOP.dbo' # the fully qualified database schema name of the CDM
 resultsDatabaseSchema <- 'DWS_OMOP.results' # the fully qualified database schema name of the results schema (that you can write to)
-cdmSourceName <- "OMOP ETL" # a human readable name for your CDM source
+cdmSourceName <- "OMOP_ETL" # a human readable name for your CDM source
 
 # determine how many threads (concurrent SQL sessions) to use ----------------------------------------
 numThreads <- 3 # on Redshift, 3 seems to work well
