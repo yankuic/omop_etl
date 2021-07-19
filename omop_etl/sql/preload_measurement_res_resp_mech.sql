@@ -17,7 +17,8 @@ select person_id = b.person_id
     ,measurement_source_value = d.source_code
     ,measurement_source_concept_id = isnull(d.source_concept_id,0)
     ,unit_source_value = 'BREATHS P/M'
-    ,value_source_value = a.mech_resp_rate
+    --explicit truncation
+    ,value_source_value = left(a.mech_resp_rate, 50)
     ,source_table = 'measurement_res_resp_adultmech'
 from stage.measurement_res_resp_mechventsetrate a 
 join xref.person_mapping b
