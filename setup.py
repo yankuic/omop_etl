@@ -7,6 +7,8 @@ setup(
     author='Yankuic Galvan',
     author_email='yankuic@gmail.com',
     packages=['omop_etl'],
+    package_dir={'omop_etl': 'omop_etl'},
+    package_data={'omop_etl': ['sql/*.sql']},
     data_files=[('omop_etl', ['omop_etl/etl_config.yml'])],
     entry_points={'console_scripts': ['omop_etl=omop_etl.cli:ETLCli']},
     url='',
