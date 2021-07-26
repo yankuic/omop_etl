@@ -12,7 +12,7 @@ set nocount on;
             ,bp_method
             ,[provider] = isnull(attending_provider, visit_provider)
       from stage.MEASUREMENT_BP_BP
-      where charindex('/',(bp),1) > 0
+      where charindex('/',(bp),1) > 0 --accept only values with format ##/##
 )
 SELECT * 
 INTO #measurement_bp
