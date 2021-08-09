@@ -12,6 +12,56 @@ drop table if exists hipaa.person
     join xref.person_mapping b
     on a.person_id = b.person_id
     where b.active_ind = 'Y'
+),
+race_count as (
+	select 
+		person_id
+		,a.race_concept_id
+		,a.race_source_value
+		,(case 
+			when rc < 11 then 0 
+			else a.race_concept_id
+		 end) race_concept_id_deid
+		,(case
+			when rc < 11 then 'UNKNOWN'
+			else a.race_source_value
+		 end) race_source_value_deid
+	from dbo.person a
+	join (
+		select race_source_value
+			,count(distinct a.person_id) rc
+		from dbo.person a
+		join xref.person_mapping b
+		on a.person_id = b.person_id
+		where b.active_ind = 'Y'
+		group by race_source_value
+	) b
+	on a.race_source_value = b.race_source_value
+),
+ethnicity_count as(
+	select 
+		person_id
+		,a.ethnicity_concept_id
+		,a.ethnicity_source_value
+		,(case 
+			when rc < 11 then 0 
+			else a.ethnicity_concept_id
+		 end) ethnicity_concept_id_deid
+		,(case
+			when rc < 11 then 'UNKNOWN'
+			else a.ethnicity_source_value
+		 end) ethnicity_source_value_deid
+	from dbo.person a
+	join (
+		select ethnicity_source_value
+			,count(distinct a.person_id) rc
+		from dbo.person a
+		join xref.person_mapping b
+		on a.person_id = b.person_id
+		where b.active_ind = 'Y'
+		group by ethnicity_source_value
+	) b
+	on a.ethnicity_source_value = b.ethnicity_source_value
 )
 select distinct 
        a.[person_id]
@@ -20,22 +70,26 @@ select distinct
       ,[month_of_birth] = MONTH(b.{0})
       ,[day_of_birth] = DAY(b.{0})
       ,[birth_datetime] = b.{0}
-      ,[race_concept_id]
-      ,[ethnicity_concept_id]
+      ,[race_concept_id] = c.{1}
+      ,[ethnicity_concept_id] = d.{2}
       ,[location_id] 
       ,[provider_id] 
       ,[care_site_id] 
       ,[person_source_value] = NULL
       ,[gender_source_value] 
       ,[gender_source_concept_id]
-      ,[race_source_value]
+      ,[race_source_value] = c.{3}
       ,[race_source_concept_id]
-      ,[ethnicity_source_value]
+      ,[ethnicity_source_value] = d.{4}
       ,[ethnicity_source_concept_id]
 into hipaa.person 
 from dbo.person a
 join shifted b 
 on a.person_id = b.person_id
+join race_count c 
+on a.person_id = c.person_id 
+join ethnicity_count d 
+on a.person_id = d.person_id
 
 
 drop table if exists hipaa.death 
@@ -191,8 +245,8 @@ select distinct
                 observation_source_value = 'zipcode' and (
                     --TODO: Update with 2020 census data if available.
                     --Mask 3 digit zctas with population < 20k as of 2010 US Census. 
-                    --Mask 3 digit zipcodes with less than 3 patients.
-                    zip3 in ('036', '059', '102', '202', '203', '204', '205', '369', '556', '692', '753', '772', '821', '823', '878', '879', '884', '893') or n_patients < 3
+                    --Mask 3 digit zipcodes with less than 11 patients.
+                    zip3 in ('036', '059', '102', '202', '203', '204', '205', '369', '556', '692', '753', '772', '821', '823', '878', '879', '884', '893') or n_patients < 11
             )
         ) then '000'
         else zip3
@@ -215,7 +269,7 @@ select a.observation_id
     ,[observation_datetime] = dateadd(day, @DateShift, a.observation_datetime)
     ,[observation_type_concept_id]
     ,[value_as_number]
-    ,[value_as_string] = (case when observation_source_value = 'zipcode' then c.{1} else a.value_as_string end)
+    ,[value_as_string] = (case when observation_source_value = 'zipcode' then c.{5} else a.value_as_string end)
     ,[value_as_concept_id]
     ,[qualifier_concept_id]
     ,[unit_concept_id]
