@@ -58,14 +58,14 @@ Insert new patients into patient_mapping
 */
 insert into xref.person_mapping (
 	patient_key
-	,date_shift
+	,date_shift 
 	,load_dt
 	,merge_ind
 	,merge_dt
 	,active_ind
 )
 select patient_key
-	,date_shift = ceiling(30-59*rand(checksum(newid())))
+	,date_shift = 0
 	,load_dt = getdate()
 	,merge_ind = 'N'
 	,merge_dt = NULL
@@ -78,6 +78,20 @@ select patient_key
 			on a.patient_key = b.patient_key
 		where b.patient_key is null
 ) x
+
+--Set date_shift <> 0 for all patients
+while (
+	select count(*)
+	from xref.person_mapping
+	where date_shift = 0
+	and active_ind = 'Y'
+) > 0
+begin
+	update xref.person_mapping 
+	set date_shift = ceiling(30-60*rand(checksum(newid())))
+	where date_shift = 0
+	and active_ind = 'Y'
+end
 
 /*
 Rebuild index and columnstore
