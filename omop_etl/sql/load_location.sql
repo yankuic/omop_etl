@@ -3,7 +3,8 @@ select b.location_id
     ,[addr1] 
     ,[addr2] 
     ,[city_name]
-    ,[state_abbrv]
+    --Use explicit truncation to avoid truncation error
+    ,[state] = left(state_abbrv, 2)
     ,[zip3_cd]
     ,[cnty_name]
     ,a.[addr_key]
