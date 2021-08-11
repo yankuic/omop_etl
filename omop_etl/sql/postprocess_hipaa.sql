@@ -4,7 +4,7 @@ drop table if exists hipaa.person
 ;with shifted as (
     select a.person_id
         ,(case 
-            when birth_datetime <= getdate( )-365.25*85 then '1800-01-01'
+            when birth_datetime <= convert(date, getdate()-365.25*85) then '1800-01-01'
             else dateadd(day, b.date_shift, birth_datetime)
         end) [birth_datetime_deid]
         ,birth_datetime
