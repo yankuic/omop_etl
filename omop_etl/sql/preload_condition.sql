@@ -27,7 +27,8 @@ select distinct
       ,[condition_end_datetime] = a.END_DATE
       ,(case 
             when diagnosis_type = 'ENCOUNTER' then 32827
-            when (diagnosis_type = 'HOSPITAL BILLING CODED' or diagnosis_type = 'PROFESSSIONAL BILLING CHARGE') then 32821
+            when diagnosis_type = 'HOSPITAL BILLING CODED' then 32823 
+            when diagnosis_type = 'PROFESSSIONAL BILLING CHARGE' then 32821
             when diagnosis_type = 'PROBLEM LIST' then 32840
             else 32817
       end) condition_type_concept_id
