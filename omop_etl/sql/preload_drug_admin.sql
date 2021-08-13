@@ -7,7 +7,7 @@ select [person_id] = b.person_id
       ,[drug_exposure_end_date] = a.TAKEN_DATE
       ,[drug_exposure_end_datetime] = a.TAKEN_DATETIME
       ,[verbatim_end_date] = NULL
-      ,[drug_type_concept_id] = 32817
+      ,[drug_type_concept_id] = 32818
       ,[stop_reason] = NULL
       ,[refills] = NULL
       ,[quantity] = (case when isnumeric(a.TOTAL_DOSE_CHAR) = 0 

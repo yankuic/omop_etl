@@ -4,7 +4,10 @@ select distinct
     ,[procedure_concept_id] = isnull(e.concept_id_2,0)
     ,[procedure_date] = a.START_DATE
     ,[procedure_datetime] = a.START_DATE
-    ,[procedure_type_concept_id] = 32817
+    ,(case 
+        when procedure_type = 'HOSPITAL BILLING CODED' then 32823
+        else 32821
+     end) procedure_type_concept_id 
     ,[modifier_concept_id] = 0
     ,[quantity] = 1 
     ,[provider_id] = c.provider_id
