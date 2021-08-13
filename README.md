@@ -1,107 +1,146 @@
 # OMOP ETL
 
-## Part I. Install Git and Download (or 'pull' in Git's term) Python Library.
+## Preliminaries
 
-### 1. Check to see if you have Anaconda on your device. If not, you will need to install Anaconda first. To download Anaconda, please go to https://www.anaconda.com/products/individual. 
+> Windows uses back slashes in URL. Therefore, we need to change all back slashes to forward slashes since Git Bash is Linux based.
 
-### 2. Check to see if you have Git on your device. If not, you will need to install Git first. To download Git, please go to https://git-scm.com/download/win (Windows).
+## Part I. Installation
 
+### Setting up conda environment and installing required libraries
 
-### 3. If this is your first time pulling the central Git repository (repo) from IDR shared drive, then you need to clone the repo to your local directory first. Otherwise, skip to the next step.
+1. Make sure you have Anaconda installed on your system. If not, go to [anaconda.com](https://www.anaconda.com/products/individual) and follow instructions to download and install.
 
-- Change the current working directory to the location where you want the cloned directory.
-- Open Git Bash.
-- Type git clone, and then paste the URL of the central repo.
+2. Open the command line and create new python environment
 
-        $ git clone //share.***REMOVED***/GitRepo/OMOP/omop_etl.git
+    ```bash
+    # Create environment named omop_etl
+    conda create -n omop_etl python=3.7
+    # Activate new environment
+    conda activate omop_etl
+    ```
 
-    > Windows uses back slashes in URL. Therefore, we need to change all back slashes to forward slashes since Git Bash is Linux based.
-- When the pulling is done, you should see:
-    
-        $ Cloning into 'omop_etl'...
-        done.
+3. Install required python libraries
 
+    ```bash
+    # Install turbodbc from wheel
+    pip install -r //share.***REMOVED***/OMOP/python_env/requirements.txt
+    # Install other dependencies from Anaconda repo
+    conda install numpy pandas pyodbc selenium sqlalchemy sqlparse pyyaml
+    ```
 
-### 4. Since we already have a local copy of omop_etl,  in this step I will show you how to stash/commit the changes in our local repo first and then pull the central repo.
+4. Install optional packages
 
-There are two ways you can do this: choose option 1 if you don't want your local changes to be mergered; choose option 2 if you wish to upload your changes to central repo.
+    ```bash
+    conda install jupyter jupyterlab
+    ```
 
-- Option 1. Stashing your changes into cache. Pulling the the central repo. Unstashing your local changes to avoid conflicts. 
-    
-        $ git stash
-        $ git pull origin master
-        $ git unstash
+### Install omop_etl package
 
-    > 'master' is the branch by default created in git. There could be other bracnhes exist, check with the project administrator for the appropriate branch to work with.
+Make sure you have Git installed on your system. If not, go to [git-scm.com](https://git-scm.com/download/win) and follow instructions to download and install.
 
-- Option 2. Adding your updates to git. Committing the updates. Pulling the the central repo.
-        
-        $ git add .
-        $ git commit -m 'message you would like to comment on this update'
-        $ git pull origin master
+- Launch git bash on the location where the cloned directory will be stored.
 
-    > git add . will add all updates to git, you can also speficy only the files you want to add. 
+- If this is your first time pulling the central Git repository (repo) from IDR shared drive, you need to clone the repo to your local directory first. Otherwise, skip to the next step.
 
+    ```bash
+    $ git clone //share.***REMOVED***/GitRepo/OMOP/omop_etl.git
+    Cloning into 'omop_etl'...
+    done.
+    ```
 
-## Part II. Install/re-install OMOP_ETL
+- Install omop_etl package
 
-### 1. To install or re-install omop_etl package, go to the omop_etl folder. Open a Git Bash command line window, and type in command as follows to run setup.py: 
+    ```bash
+    cd omop_etl/
 
-    $ python setup.py install --record files.txt
+    # Option --record saves the path of all files installed into files.txt. This will make your life easier 
+    # if you want to uninstall the package later on.
+    python setup.py install --record files.txt
+    ```
 
-> files.txt keeps the installation records.
+- Uninstall package
 
-### 2. Use omop_etl to create new project.
+    ```bash
+    xargs rm -rf < files.txt
+    ```
 
-(*Not implemented*) Create project schema for your OMOP project.
-    
-    $ omop_etl create_schema
+## Part II. Setting up new OMOP project
 
-(*Not implemented*) Load vocabulary tables
+1. Create project schema on a blank database
 
-> Vocabulary tables are used to map customed concepts to OMOP standard concepts. Currently, only the 'source_to_concept_map' exists.
+    ```bash
+    omop_etl create_schema
+    ```
 
-Create the new project.
+    This command will create the following schemas:
 
-> In your project database, you should have schema, empty OMOP standard tables, and vocabulary tables ready. 
+    - **xref** for vocabulary and mapping tables.
+    - **stage** for raw data.
+    - **preload** for pre-processed data.
+    - **dbo** for final tables in OMOP format. Data in dbo contain PHI.
+    - **hipaa** for data conforming with hipaa deidentified or limited datasets.
+    - **archive** for backing up dbo tables.
 
-- template
-        
-        $ omot_etl new_project -p <path to my new project> -n <myproject> -db <project database> -s <server>
+2. Load vocabulary tables into project database.
 
-- example of a OMOP project named 'omop_project1': 
+    Vocabulary tables are used to map source codes (ICD, CPT, LOINC, etc.) to OMOP standard concepts.
 
-        $ omop_etl new_project -p ./ -n omop_project1 -db dws_cc_omop -s edw.***REMOVED***.edu
+    - Download vocabulary tables from [Athena](https://athena.ohdsi.org).
+    - Unzip and save vocabulary tables into the project vocabulary directory.
+    - Load tables from the project vocabulary directory into the project database.
 
-### 3. Now you have successfully installed omop_etl package.
+        ```bash
+        omop_etl vocab --all
+        ```
 
-Below is what your project directory will look like after running the 'new project' command. With config.yml, you can customize the project metadata such as cohort file, cohort start/end dates, etc. 
+3. Create new project
 
-        omop_project_dir
-        |__config.yml
-        |__refresh_cohort.py
-        |__vocabulary
+    In your project database, you should have schema, empty OMOP standard tables, and vocabulary tables ready.
 
-> All commands must be executed within the omop project directory, where the files config.yml and refresh_cohort.py must exist. 
+    ```bash
+    omop_etl new_project --path <path to new project> --name <myproject> --server <SQL server url> --database <project database>
+    ```
 
-## Part III. ETL Steps Using OMOP_ETL
+    - example of a OMOP project named 'omop_project1':
 
-### 1. Overview of db schemas that will be generated by omop_etl:
+        ```bash
+        omop_etl new_project -p ./ -n omop_project1 -db dws_cc_omop -s edw.***REMOVED***.edu
+        ```
 
-    Vocabulary tables are in xref schema.
-    Mapping tables are in xref schema.
-    Raw data are in stage schema.
-    Pre-processed data is in preload schema.
-    Postprocessed tables are in dbo schema.
+    Below is what your project directory will look like after running the 'new project' command. With config.yml, you can customize the project metadata such as cohort file, cohort start/end dates, etc.
 
-### 2. Configure project.
+    ```bash
+    omop_project_dir
+    |__config.yml
+    |__refresh_cohort.py
+    |__vocabulary
+        |__source_to_concept_map.csv
+    ```
 
-Navigate to omop project directory.
+4. Configure new project.
 
-    $ cd omop_project1
+    **config.yml** is the project configuration file that stores all project configuration parameters. This file can be modified to
 
+    - Select BO document names for cohort and stage queries.
+    - Set up data refresh date range.
+    - Change SQL connection configuration.
+    - Select data elements to load.
+    - Select the Athena vocabulary set.
+    - Select the LOINC code set.
 
-### 3. Refresh cohort. 
+    As a minimum, every project requires cohort and stage BO document names, server url and database name, and date range. If options --server and --database were used in step 3, the connection parameters should be set already in config.yml.
+
+    **refresh_cohort.py** can be modified to use a different date range or a different algorithm to select the patient cohort. This python script, included by default, was developed for COVID data.
+
+    **source_to_concept_map.csv** can be modified to include/exclude custom mappings from source codes to OMOP vocabularies.
+
+## De-identification
+
+## Part III. Using OMOP_ETL comand line interface
+
+All commands must be executed within the omop project directory, where the files config.yml and refresh_cohort.py must exist.
+
+### 3. Refresh cohort
 
 This is to create the cohort table in db.
 
@@ -143,3 +182,25 @@ This will insert data from subsets into one table.
 
     Not implemented
 
+
+### Sync local and central repositories
+
+Since we already have a local copy of omop_etl,  in this step I will show you how to stash/commit the changes in our local repo first and then pull the central repo.
+
+There are two ways you can do this: choose option 1 if you don't want your local changes to be mergered; choose option 2 if you wish to upload your changes to central repo.
+
+- Option 1. Stashing your changes into cache. Pulling the the central repo. Unstashing your local changes to avoid conflicts. 
+    
+        $ git stash
+        $ git pull origin master
+        $ git unstash
+
+    > 'master' is the branch by default created in git. There could be other bracnhes exist, check with the project administrator for the appropriate branch to work with.
+
+- Option 2. Adding your updates to git. Committing the updates. Pulling the the central repo.
+        
+        $ git add .
+        $ git commit -m 'message you would like to comment on this update'
+        $ git pull origin master
+
+    > git add . will add all updates to git, you can also speficy only the files you want to add. 
