@@ -42,7 +42,10 @@ class ETLCli:
 
         result = []
         for t in LOAD.keys():
-            if t not in ['provider','care_site','location']:
+            if t in ['provider','care_site','location']:
+                result.append([t, None, None])
+
+            else:                
                 if LOAD[t]:
                     for part in LOAD[t]:
                         stg_name = STAGE[t][part]
@@ -52,10 +55,11 @@ class ETLCli:
                     stg_name = STAGE[t]
                     count = loader.row_count(stg_name, schema='stage')
                     result.append([t, None, count])
+                
 
         table_counts = pd.DataFrame(result, columns=['Table', 'Part', 'Stage'])
         count_diff = table_counts.groupby('Table').sum().reset_index()
-        count_diff['Preload'] = count_diff.Table.apply(lambda t: loader.row_count(t, schema='preload') if t not in ('death','person','visit_occurrence') else 0)
+        count_diff['Preload'] = count_diff.Table.apply(lambda t: loader.row_count(t, schema='preload') if t not in ('death','person','visit_occurrence','provider','care_site','location') else 0)
         count_diff['Load'] = count_diff.Table.apply(lambda t: loader.row_count(t))
         count_diff['Hipaa'] = count_diff.Table.apply(lambda t: loader.row_count(t, schema='hipaa'))
         
