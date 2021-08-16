@@ -334,7 +334,7 @@ select [provider_id]
       ,[dea] = NULL
       ,[specialty_concept_id]
       ,[care_site_id] 
-      ,[year_of_birth] 
+      ,[year_of_birth] @SetNULL
       ,[gender_concept_id] @SetNULL
       ,[provider_source_value] = NULL
       ,[specialty_source_value]
