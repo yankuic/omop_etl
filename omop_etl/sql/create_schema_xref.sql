@@ -4,7 +4,7 @@ BEGIN
 END
 
 --- MAPPING TABLES ---
-CREATE TABLE [xref].[person_mapping](
+CREATE TABLE [xref].[PERSON_MAPPING](
 	
     [person_id] [int] IDENTITY(1,1) NOT NULL,
 	[patient_key] [int] NULL,
@@ -26,7 +26,7 @@ CREATE TABLE [xref].[person_mapping](
 
 ) ON [fg_user1]
 
-CREATE TABLE [xref].[visit_occurrence_mapping](
+CREATE TABLE [xref].[VISIT_OCCURRENCE_MAPPING](
 
 	[visit_occurrence_id] [int] IDENTITY(1,1) NOT NULL,
 	[patnt_encntr_key] [decimal](18, 0) NULL,
@@ -45,7 +45,7 @@ CREATE TABLE [xref].[visit_occurrence_mapping](
 
 ) ON [fg_user1]
 
-CREATE TABLE [xref].[care_site_mapping](
+CREATE TABLE [xref].[CARE_SITE_MAPPING](
 
 	[care_site_id] [int] IDENTITY(1,1) NOT NULL,
 	[dept_id] [varchar](250) NULL,
@@ -64,7 +64,7 @@ CREATE TABLE [xref].[care_site_mapping](
 
 ) ON [fg_user1]
 
-CREATE TABLE [xref].[location_mapping](
+CREATE TABLE [xref].[LOCATION_MAPPING](
 
 	[location_id] [int] IDENTITY(1,1) NOT NULL,
 	[addr_key] [decimal](18, 0) NULL,
@@ -84,7 +84,7 @@ CREATE TABLE [xref].[location_mapping](
 ) ON [fg_user1]
 
 
-CREATE TABLE [xref].[provider_mapping](
+CREATE TABLE [xref].[PROVIDER_MAPPING](
 
 	[provider_id] [int] IDENTITY(1,1) NOT NULL,
 	[providr_key] [decimal](18, 0) NULL,
@@ -225,14 +225,3 @@ CREATE TABLE [xref].[provider_mapping](
     invalid_reason varchar(1) NULL 
 
 ) ON [fg_user1];
-
--- Other reference tables --
-
-CREATE TABLE xref.loinc (
-
-	[SPECIMEN_SOURCE] [varchar](50) NULL,
-	[LOINC] [varchar](10) NULL,
-	[LOINC_CD_KEY] [int] NOT NULL,
-	[LOAD_DATE] [date] NULL
-
-) ON [fg_user1]
