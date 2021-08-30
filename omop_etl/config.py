@@ -43,7 +43,7 @@ class ProjectConfig(Config):
 
     @property
     def _bo_connection_str(self):
-        return self._connection_str(self.server, self._bo_database)
+        return self._connection_str(self.bo_server, self.bo_database)
 
     @property
     def project_database(self):
@@ -59,6 +59,11 @@ class ProjectConfig(Config):
     def server(self):
         db_connections = self.get_property('db_connections')
         return db_connections['omop']['server']
+
+    @property
+    def bo_server(self):
+        db_connections = self.get_property('db_connections')
+        return db_connections['bo_metadata']['server']
 
     @property
     def load(self):
@@ -158,3 +163,7 @@ class ETLConfig(Config):
     @property
     def vocabulary_tables(self):
         return self.get_property('vocabulary_tables')
+
+    @property
+    def chrome_path(self):
+        return os.path.join(FILEDIR, 'chrome', 'chromedriver.exe')
