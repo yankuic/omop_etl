@@ -38,6 +38,7 @@ where person_source_value is not null
 select count(*)
 from hipaa.provider
 where provider_name is not null 
+or year_of_birth is not null
 or npi is not null 
 or dea is not null 
 or gender_concept_id is not null 
