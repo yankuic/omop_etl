@@ -27,7 +27,7 @@ load:
   measurement: 
     bp: Blood pressure 
     bp_artline: Invasive blood pressure
-    bp_noninvasive: Non-invasive blood presure
+    bp_noninvasive: Non-invasive blood pressure
     bp_cvp: 
     bp_cvp_mean: 
     bp_map_artline: Mean arterial pressure invasive methods
