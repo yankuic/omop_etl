@@ -4,7 +4,7 @@ from selenium.webdriver.remote.errorhandler import NoSuchElementException
 from datetime import datetime as dt
 from omop_etl.utils import timeitc
 
-
+# Not implemented
 
 def athena_driver(username, password, headless=True, download_dir=None):
     options = webdriver.ChromeOptions()

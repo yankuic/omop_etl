@@ -17,7 +17,7 @@ def to_csv(path, table, batch_size, schema, server, database):
                            limit_varchar_results_to_max=True)
 
     con = connect(driver='{SQL Server}', server=server, database=database, 
-                    trusted_connection='yes', turbodbc_options=options)
+                  trusted_connection='yes', turbodbc_options=options)
 
     cursor = con.cursor()
     cursor.execute(f"select * from {schema}.{table}")

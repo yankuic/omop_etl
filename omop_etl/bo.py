@@ -4,7 +4,7 @@ from sqlparse.sql import Identifier, Function, Operation, Case
 
 from omop_etl.utils import search
 
-def bo_query(doc_name, con): 
+def bo_query(doc_name:str, con:object): 
     """Retrieve query from BO.
     
     Arguments:
@@ -25,9 +25,9 @@ def bo_query(doc_name, con):
     return dict(result)
 
 
-def format_stage_query(doc_name:str, dp_name:str, start_date:str, end_date:str, con:object, loinc_list:list='', schema:str='stage', aliases:list=None):
+def format_stage_query(doc_name:str, dp_name:str, start_date:str, end_date:str, bo_con:object, con:object, loinc_list:list='', schema:str='stage', aliases:list=None):
     """Format stage query."""
-    bo_q = bo_query(doc_name, con)[dp_name]
+    bo_q = bo_query(doc_name, bo_con)[dp_name]
     db = con.engine.url.database
     personlist = f"select PATIENT_KEY from {db}.cohort.PersonList"
     loinc_str = ''
@@ -46,7 +46,7 @@ def format_stage_query(doc_name:str, dp_name:str, start_date:str, end_date:str, 
 
 
 def format_bo_sql(sqlstring:str, dp_name:str, database:str, schema:str='cohort', aliases:list=None):
-    """Refactor BO Query to insert data into a new table on the fly."""
+    """Refactor BO Query to insert data into a heap on the fly."""
     assert len(sqlstring) > 0, 'Empty string passed.'
 
     def flatten(lst):

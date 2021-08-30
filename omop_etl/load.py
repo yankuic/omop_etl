@@ -44,8 +44,11 @@ class Loader(DataStore, ETLConfig):
         end_date = self.config.end_date
         loincs = self.config.loinc
 
-        with self.engine.connect() as con:
-            execute_sp = format_stage_query(self.config.bo_docname_stage, dp_name, start_date, end_date, con, loinc_list=loincs, aliases=col_aliases)
+        with self.bo_engine.connect() as bo_con:
+            con = self.engine.connect()
+            execute_sp = format_stage_query(self.config.bo_docname_stage, dp_name, start_date, end_date, bo_con, con, 
+                                            loinc_list=loincs, aliases=col_aliases)
+            con.close()
 
         if only_query:
             return execute_sp
