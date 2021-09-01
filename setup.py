@@ -9,8 +9,9 @@ setup(
     packages=['omop_etl'],
     package_dir={'omop_etl': 'omop_etl'},
     package_data={
-        'omop_etl': ['sql/*.sql','chrome/chromedriver.exe', 'templates/*', 'etl_config.yml'],
+        'omop_etl': ['sql/*.sql','chrome/chromedriver.exe', 'templates/*'],
     },
+    data_files=[('omop_etl', ['omop_etl/etl_config.yml'])],
     entry_points={
         'console_scripts': ['omop_etl=omop_etl.cli:ETLCli']
     },
