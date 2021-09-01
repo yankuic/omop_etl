@@ -1,13 +1,13 @@
 insert into dbo.location with (tablock) 
 select b.location_id
-    ,[addr1] 
-    ,[addr2] 
+    --Use explicit truncation to avoid truncation errors
+    ,[address_1] = left(addr1, 50)
+    ,[address_2] = left(addr2, 50)
     ,[city_name]
-    --Use explicit truncation to avoid truncation error
     ,[state] = left(state_abbrv, 2)
     ,[zip3_cd]
-    ,[cnty_name]
-    ,a.[addr_key]
+    ,[county] = left(cnty_name, 20)
+    ,[location_source_value] = left(a.[addr_key], 50)
 from stage.location a 
 join xref.location_mapping b 
 on a.addr_key = b.addr_key 

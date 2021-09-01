@@ -23,25 +23,25 @@ on a.providr_key = b.providr_key
 where b.provider_id in (
     select distinct provider_id
     from (
-        select provider_id from dbo.person
+        select distinct provider_id from dbo.person
         union
-        select provider_id from dbo.condition_occurrence
+        select distinct provider_id from dbo.condition_occurrence
         union
-        select provider_id from dbo.procedure_occurrence	
+        select distinct provider_id from dbo.procedure_occurrence	
         union
-        select provider_id from dbo.device_exposure
+        select distinct provider_id from dbo.device_exposure
         union
-        select provider_id from dbo.drug_exposure
+        select distinct provider_id from dbo.drug_exposure
         union 
-        select provider_id from dbo.measurement
+        select distinct provider_id from dbo.measurement
         union 
-        select provider_id from dbo.note
+        select distinct provider_id from dbo.note
         union
-        select provider_id from dbo.observation
+        select distinct provider_id from dbo.observation
         union
-        select provider_id from dbo.visit_detail
+        select distinct provider_id from dbo.visit_detail
         union
-        select provider_id from dbo.visit_occurrence
+        select distinct provider_id from dbo.visit_occurrence
     ) x
 ) 
 and b.active_ind = 'Y'
