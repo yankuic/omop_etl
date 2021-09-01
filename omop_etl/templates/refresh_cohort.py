@@ -49,7 +49,7 @@ def refresh_cohort(stage=True, replace_placeholders=None):
     """
     store.truncate(SCHEMA, COHORT_TABLE)
 
-    with store.engine.connect() as con:
+    with store.bo_engine.connect() as con:
         bo_q = bo_query(BO_DOCNAME, con)
     
     # Stage all cohort tables
