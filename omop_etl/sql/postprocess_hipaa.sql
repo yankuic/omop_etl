@@ -346,16 +346,40 @@ from dbo.provider
 
 
 drop table if exists hipaa.location
+select distinct 
+    zipcode = zip
+    ,(case 
+        when (
+            --TODO: Update with 2020 census data if available.
+            --Mask 3 digit zctas with population < 20k as of 2010 US Census. 
+            --Mask 3 digit zipcodes with less than 11 patients.
+            zip3 in ('036', '059', '102', '202', '203', '204', '205', '369', '556', '692', '753', '772', '821', '823', '878', '879', '884', '893') or n_patients < 11
+        ) then '000'
+        else zip3
+    end) zipcode_deid 
+into #location_zipcode
+from dbo.location x
+join (
+    --Aggregate patients by 3 digit leve zipcodes. 
+    select left(zip, 3) zip3, count(distinct person_id) n_patients
+    from dbo.location a 
+    join dbo.person b 
+    on a.location_id = b.location_id
+    group by left(zip, 3)
+) y on left(x.zip, 3) = y.zip3
+
 select location_id
     ,[address_1] = NULL
     ,[address_2] = NULL
     ,[city] @SetNULL
     ,[state]
-    ,[zip]
+    ,[zip] = b.{6}
     ,[county] @SetNULL
     ,[location_source_value] = NULL
 into hipaa.location
-from dbo.location 
+from dbo.location a
+join #location_zipcode b 
+on a.zip = b.zipcode
 
 
 drop table if exists hipaa.care_site

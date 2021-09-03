@@ -135,14 +135,14 @@ class Loader(DataStore, ETLConfig):
             q = q.replace('@SetNULL','= NULL')\
                 .replace('@DateShift','date_shift')\
                 .format('birth_datetime_deid', 'race_concept_id_deid', 'ethnicity_concept_id_deid', 
-                        'race_source_value_deid', 'ethnicity_source_value_deid', 'zipcode_deid') 
+                        'race_source_value_deid', 'ethnicity_source_value_deid', 'zipcode_deid', 'zipcode_deid') 
 
         ## Load limited
         elif dataset == 'limited':
             q = q.replace('@SetNULL','')\
                 .replace('@DateShift','0')\
                 .format('birth_datetime', 'race_concept_id', 'ethnicity_concept_id', 
-                        'race_source_value', 'ethnicity_source_value', 'zipcode')
+                        'race_source_value', 'ethnicity_source_value', 'zipcode', 'zipcode')
         
         else:
             print(f'Option {dataset} not recognized')
@@ -157,3 +157,11 @@ class Loader(DataStore, ETLConfig):
             q = read_sql(os.path.join(self.sql_scripts_path, scripts[table]))
             print(f'Moving records from {table} ...             ')
             self.execute(q)
+
+    @timeitd
+    def deid_condition(self):
+        script = self.postproc['deid_condition']
+        q = read_sql(os.path.join(self.sql_scripts_path, script))
+        print('De-identifying condition occurrence ...')
+        
+        return self.execute(q)
