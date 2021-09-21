@@ -36,6 +36,13 @@ class ETLCli:
 
 
     def report_counts(self):
+        parser = argparse.ArgumentParser('Import vocabulary tables into project database.')
+        parser.add_argument('-c', '--config_file', help='Path to configuration file. Implemented for testing purposes.')
+        args = parser.parse_args(sys.argv[2:])
+
+        if args.config_file:
+            CONFIG_FILE = args.config_file
+
         loader = Loader(CONFIG_FILE)
         STAGE = loader.stage
         LOAD = loader.config.load
@@ -88,18 +95,22 @@ class ETLCli:
     def vocab(self):
         #download vocabulary
         #load vocabulary into db
+        parser = argparse.ArgumentParser('Import vocabulary tables into project database.')
+        parser.add_argument('-t', '--table', type=str, help='Vocabulary table')
+        parser.add_argument('-a', '--all', type=str, help='Import all vocabulary tables')
+        parser.add_argument('-c', '--config_file', help='Path to configuration file. Implemented for testing purposes.')
+
+        # assert vocabulary folder exists
+        args = parser.parse_args(sys.argv[2:])
+
+        if args.config_file:
+            CONFIG_FILE = args.config_file
+
         loader = Loader(CONFIG_FILE)
         proj_dir = loader.config.project_dir
         server = loader.config.server
         database = loader.config.project_database
         vocabulary_tables = loader.vocabulary_tables
-
-        parser = argparse.ArgumentParser('Import vocabulary tables into project database.')
-        parser.add_argument('-t', '--table', type=str, help='Vocabulary table')
-        parser.add_argument('-a', '--all', type=str, help='Import all vocabulary tables')
-        
-        # assert vocabulary folder exists
-        args = parser.parse_args(sys.argv[2:])
 
         vocab_path = os.path.join(proj_dir, 'vocabulary')
 
@@ -208,14 +219,19 @@ class ETLCli:
 
 
     def archive(self):
-        loader = Loader(CONFIG_FILE)
-        LOAD_TABLES = loader.config.load
 
         parser = argparse.ArgumentParser('Archive data tables from dbo schema.')
         parser.add_argument('-t', '--table', type=str, help='The table to archive')
         parser.add_argument('-a', '--all', help='Archive all tables.', action="store_true")
+        parser.add_argument('-c', '--config_file', help='Path to configuration file. Implemented for testing purposes.') 
 
         args = parser.parse_args(sys.argv[2:])
+
+        if args.config_file:
+            CONFIG_FILE = args.config_file
+
+        loader = Loader(CONFIG_FILE)
+        LOAD_TABLES = loader.config.load
 
         with timeitc('Archiving'):
             if args.table:
@@ -230,16 +246,20 @@ class ETLCli:
         
 
     def stage(self):  
-        loader = Loader(CONFIG_FILE)
-        MAPPING_TABLES = loader.mapping
-        LOAD_TABLES = loader.config.load
-
         parser = argparse.ArgumentParser('Stage data.')
         parser.add_argument('-t', '--table', type=str, help='The table to stage')
         parser.add_argument('-s', '--subset', type=str, help='If table has subsets pass this argument in combination with --table.')
         parser.add_argument('-a', '--all', help='Stage all tables.', action="store_true")
+        parser.add_argument('-c', '--config_file', help='Path to configuration file. Implemented for testing purposes.')
 
         args = parser.parse_args(sys.argv[2:])
+
+        if args.config_file:
+            CONFIG_FILE = args.config_file 
+
+        loader = Loader(CONFIG_FILE)
+        MAPPING_TABLES = loader.mapping
+        LOAD_TABLES = loader.config.load
 
         with timeitc("Staging"):
             if args.table:
@@ -280,17 +300,37 @@ class ETLCli:
                         print(loader.update_mapping_table(t))
 
 
-    def preload(self):  
-        loader = Loader(CONFIG_FILE)
-        LOAD_TABLES = loader.config.load
-        PRELOAD_TABLES = loader.preload
+    def deid_condition(self):
+        parser = argparse.ArgumentParser('Preload tables.')
+        parser.add_argument('-c', '--config_file', help='Path to configuration file. Implemented for testing purposes.')
 
+        args = parser.parse_args(sys.argv[2:])
+
+        if args.config_file:
+            CONFIG_FILE = args.config_file
+
+        loader = Loader(CONFIG_FILE)
+        script_file = os.path.join(loader.sql_scripts_path, 'preload_deid_condition.sql')
+        sqlstring = read_sql(script_file)
+
+        raise NotImplementedError
+
+
+    def preload(self):  
         parser = argparse.ArgumentParser('Preload tables.')
         parser.add_argument('-t', '--table', type=str, help='The table to preload.')
         parser.add_argument('-s', '--subset', type=str, help='If table has subsets pass this argument in combination with --table.')
         parser.add_argument('-a', '--all', help='Use this option to preload all tables.', action="store_true")
+        parser.add_argument('-c', '--config_file', help='Path to configuration file. Implemented for testing purposes.')
 
         args = parser.parse_args(sys.argv[2:])
+
+        if args.config_file:
+            CONFIG_FILE = args.config_file
+
+        loader = Loader(CONFIG_FILE)
+        LOAD_TABLES = loader.config.load
+        PRELOAD_TABLES = loader.preload
 
         with timeitc("Preloading"):
 
@@ -311,12 +351,16 @@ class ETLCli:
 
 
     def load(self):
-        loader = Loader(CONFIG_FILE)
         parser = argparse.ArgumentParser('Load data into OMOP tables.')
         parser.add_argument('-t', '--table', type=str, help='The table to load.')
         parser.add_argument('-a', '--all', help='Use this option to load all tables at once.', action="store_true")
-
+        parser.add_argument('-c', '--config_file', help='Path to configuration file. Implemented for testing purposes.')
         args = parser.parse_args(sys.argv[2:])
+        
+        if args.config_file:
+            CONFIG_FILE = args.config_file 
+
+        loader = Loader(CONFIG_FILE)
 
         with timeitc("Loading"):
 
@@ -332,13 +376,18 @@ class ETLCli:
 
 
     def postproc(self):
-        loader = Loader(CONFIG_FILE)
         parser = argparse.ArgumentParser('Run postprocessing tasks.')
         parser.add_argument('--deid', help='Create HIPAA de-identified dataset', action="store_true")
+        parser.add_argument('--deid_condition', help='De-identify ICD codes from condition_occurrence', action="store_true")
         parser.add_argument('--limited', help='Create HIPAA limited dataset', action="store_true")
         parser.add_argument('--fix_domains', help='Move records to the appropiate domain tables.', action="store_true")
-
+        parser.add_argument('-c', '--config_file', help='Path to configuration file. Implemented for testing purposes.')
         args = parser.parse_args(sys.argv[2:])
+
+        if args.config_file:
+            CONFIG_FILE = args.config_file
+        
+        loader = Loader(CONFIG_FILE)
 
         with timeitc("Postprocessing"):
 
@@ -350,6 +399,9 @@ class ETLCli:
 
             elif args.fix_domains:
                 print(loader.fix_domains()) 
+
+            elif args.deid_condition:
+                print(loader.deid_condition())
 
 
 if __name__ == "__main__":

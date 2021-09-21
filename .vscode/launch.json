@@ -1,0 +1,22 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "omop_etl",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceRoot}/omop_etl/cli.py",
+            // "cwd": "${workspaceRoot}/notebooks",
+            "windows": {
+                "python": "e:/Continuum/anaconda3/python.exe",
+                "args": ["load", "-t", "drug_era", "-c", "${workspaceRoot}/notebooks/config.yml"],
+                // "args": ["preload", "-t", "condition_occurrence", "-c", "${workspaceRoot}/notebooks/config.yml"]
+                // "args": ["stage", "-t", "person", "-c", "${workspaceRoot}/notebooks/config.yml"]
+            },
+            "console": "integratedTerminal"
+        }
+    ]
+}
