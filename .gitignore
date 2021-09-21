@@ -4,6 +4,8 @@
 files.txt
 settings.json 
 MANIFEST
+.vscode/.ropeproject
+.vscode/settings.json
 
 # ignore directories
 *.egg-info/
@@ -11,7 +13,6 @@ __pycache__/
 .ipynb_checkpoints/
 validation/.ipynb_checkpoints/
 validation/*.csv
-.vscode/
 output/
 dist/
 build/
