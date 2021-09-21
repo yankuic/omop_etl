@@ -7,7 +7,12 @@ schema:
   cohort: create_schema_cohort.sql
 #Stage BO dp names
 stage:
-  condition_occurrence: CONDITION
+  condition_occurrence: 
+    condition: CONDITION
+    admit_icd9: CONDITION_admit_icd9
+    admit_icd10: CONDITION_admit_icd10
+    principal_icd9: CONDITION_principal_icd9
+    principal_icd10: CONDITION_principal_icd10
   death: DEATH
   drug_exposure:
     admin: DRUG_ADMIN
@@ -84,7 +89,12 @@ mapping:
   care_site: care_site_mapping.sql
   location: location_mapping.sql
 preload:
-  condition_occurrence: preload_condition.sql
+  condition_occurrence: 
+    condition: preload_condition.sql
+    admit_icd9: preload_condition_admit_icd9.sql
+    admit_icd10: preload_condition_admit_icd10.sql
+    principal_icd9: preload_condition_principal_icd9.sql
+    principal_icd10: preload_condition_principal_icd10.sql
   drug_exposure:
     admin: preload_drug_admin.sql
     order: preload_drug_order.sql
@@ -158,6 +168,8 @@ load:
   provider: load_provider.sql
   care_site: load_care_site.sql
   location: load_location.sql
+  condition_era: load_condition_era.sql
+  drug_era: load_drug_era.sql
 postprocessing:
   by_domain:
     measurement: postprocess_measurement_by_domain.sql
@@ -165,6 +177,7 @@ postprocessing:
     procedure_occurrence: postprocess_procedure_by_domain.sql
     observation: postprocess_observation_by_domain.sql
   hipaa: postprocess_hipaa.sql
+  deid_condition: preload_deid_condition.sql
 # Vocabulary tables
 vocabulary_tables:
   - source_to_concept_map
@@ -190,6 +203,30 @@ aliases:
   - condition_poa
   - providr_key
   - patnt_encntr_key
+  CONDITION_admit_icd9:
+  - patient_key
+  - patnt_encntr_key
+  - admit_date
+  - discharge_date
+  - admit_icd9
+  CONDITION_admit_icd10:
+  - patient_key
+  - patnt_encntr_key
+  - admit_date
+  - discharge_date
+  - admit_icd10
+  CONDITION_principal_icd9:
+  - patient_key
+  - patnt_encntr_key
+  - admit_date
+  - discharge_date
+  - principal_icd9
+  CONDITION_principal_icd10:
+  - patient_key
+  - patnt_encntr_key
+  - admit_date
+  - discharge_date
+  - principal_icd10
   DEATH:
   - patient_key
   - patnt_dth_date
