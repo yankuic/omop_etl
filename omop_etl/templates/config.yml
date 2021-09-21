@@ -18,6 +18,12 @@ load:
   death:
   visit_occurrence:
   condition_occurrence:
+    #do not comment - all sub-items below are needed for condition_occurrence.
+    condition: Diagnosis codes from coding detail
+    admit_icd9: ICD9 Admit diagnosis decimal
+    admit_icd10: ICD10 Admit diagnosis decimal
+    principal_icd9: ICD9 Principal diagnosis decimal
+    principal_icd10: ICD10 Principal diagnosis decimal
   procedure_occurrence:
     icd: ICD coded procedures
     cpt: CPT coded procedures
@@ -84,7 +90,7 @@ load:
 
 db_connections: 
   omop:
-    server: edw.***REMOVED***.edu
+    server: dwsrsrch01.***REMOVED***.edu
     database: enter database name
   bo_metadata:
     server: edw.***REMOVED***.edu
