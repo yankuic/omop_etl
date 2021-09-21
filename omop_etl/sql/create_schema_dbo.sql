@@ -409,7 +409,7 @@
 --HINT DISTRIBUTE ON KEY (person_id)
  CREATE TABLE dbo.DRUG_ERA (
 
-	drug_era_id integer NOT NULL,
+	drug_era_id integer IDENTITY(1,1) NOT NULL,
 	person_id integer NOT NULL,
 	drug_concept_id integer NOT NULL,
 	drug_era_start_date datetime NOT NULL,
@@ -435,7 +435,7 @@
 --HINT DISTRIBUTE ON KEY (person_id)
  CREATE TABLE dbo.CONDITION_ERA (
 
-	condition_era_id integer NOT NULL,
+	condition_era_id integer IDENTITY(1,1) NOT NULL,
 	person_id integer NOT NULL,
 	condition_concept_id integer NOT NULL,
 	condition_era_start_date datetime NOT NULL,

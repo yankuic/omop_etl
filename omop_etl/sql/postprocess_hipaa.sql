@@ -392,4 +392,31 @@ select care_site_id
 into hipaa.care_site
 from dbo.care_site 
 
+drop table if exists hipaa.condition_era
+select condition_era_id
+      ,person_id
+      ,condition_concept_id
+      ,condition_era_start_date = dateadd(day, @DateShift, a.condition_era_start_date)
+      ,condition_era_end_date = dateadd(day, @DateShift, a.condition_era_end_date)
+      ,condition_occurrence_count
+into hipaa.condition_era
+from dbo.condition_era a
+join xref.person_mapping b
+on a.person_id = b.person_id
+where b.active_ind = 'Y'
+
+drop table if exists hipaa.drug_era
+select drug_era_id
+      ,person_id
+      ,drug_concept_id
+      ,drug_era_start_date = dateadd(day, @DateShift, a.drug_era_start_date)
+      ,drug_era_end_date = dateadd(day, @DateShift, a.drug_era_end_date)
+      ,drug_exposure_count
+      ,gap_days
+into hipaa.drug_era 
+from dbo.drug_era a 
+join xref.person_mapping b
+on a.person_id = b.person_id
+where b.active_ind = 'Y'
+
 set NOCOUNT off;
