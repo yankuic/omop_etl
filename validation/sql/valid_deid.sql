@@ -251,3 +251,20 @@ from (
 	group by condition_source_value
 ) a
 where rc < 11
+
+--deid era tables
+union 
+select test = 'condition_era dates are shifted', test_dt = getdate(), (case when count(*) = 0 then 'PASSED' else 'FAILED' end) result
+from hipaa.condition_era a 
+join dbo.condition_era b 
+on a.condition_era_id = b.condition_era_id 
+where a.condition_era_start_date = b.condition_era_start_date
+and a.condition_era_end_date = b.condition_era_end_date
+
+union 
+select test = 'drug_era dates are shifted', test_dt = getdate(), (case when count(*) = 0 then 'PASSED' else 'FAILED' end) result
+from hipaa.drug_era a 
+join dbo.drug_era b 
+on a.drug_era_id = b.drug_era_id 
+where a.drug_era_start_date = b.drug_era_start_date
+and a.drug_era_end_date = b.drug_era_end_date
