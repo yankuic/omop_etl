@@ -31,5 +31,4 @@ left join xref.source_to_concept_map g
 on a.PATIENT_TYPE = g.source_code and g.source_vocabulary_id = 'Patient Type'
 left join xref.care_site_mapping h
 on h.dept_id = a.dept_id
-where (a.DISCHG_DATE is not null or (a.DISCHG_DATE is null and a.PATIENT_TYPE not in ('OUTPATIENT', 'INPATIENT')))
-and c.active_ind = 'Y'
+where c.active_ind = 'Y'
