@@ -22,7 +22,9 @@ END
 	condition_source_value varchar(50) NULL,
 	condition_source_concept_id integer NULL,
 	condition_status_source_value varchar(50) NULL,
-	condition_status_concept_id integer NULL
+	condition_status_concept_id integer NULL,
+	source_table varchar(50) NULL,
+	icd_type varchar(5) NULL 
 
 ) ON fg_user1;
 

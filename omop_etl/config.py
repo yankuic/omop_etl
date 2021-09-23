@@ -80,6 +80,11 @@ class ProjectConfig(Config):
         return project_info['project_dir']
 
     @property
+    def hipaa_dataset(self):
+        project_info = self.get_property('project_info')
+        return project_info['hipaa']
+
+    @property
     def release_path(self):
         return os.path.join(self.project_dir, 'data_release', self.release_version)
 

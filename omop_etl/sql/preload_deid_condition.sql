@@ -5,17 +5,19 @@ Subset records where icd counts < 11 and insert into temp
 table for faster manipulation.
 */
 drop table if exists #deid_diag_cd
-select a.*, new_cd = diag_cd_decml
+select a.*
+	,new_cd = condition_source_value
+	,new_concept_id = NULL
 into #deid_diag_cd
-from stage.condition a
+from preload.condition_occurrence a
 join (
-	select diag_cd_decml as diag_cd
+	select condition_source_value as diag_cd
 	 	  ,icd_type
-		  ,count(distinct patient_key) rc
-	 from stage.condition
-	 group by diag_cd_decml, icd_type
+		  ,count(distinct person_id) rc
+	 from preload.condition_occurrence 
+	 group by condition_source_value, icd_type
 ) b
-on a.diag_cd_decml = b.diag_cd
+on a.condition_source_value = b.diag_cd
 where rc < 11
 
 --back up stage table
@@ -42,7 +44,7 @@ while (
 	select count(*) from (
 		select new_cd
 			  ,icd_type
-			  ,count(distinct patient_key) rc
+			  ,count(distinct person_id) rc
 		from #deid_diag_cd
 		group by new_cd, icd_type
 	) x
@@ -60,7 +62,7 @@ begin
 			select new_cd
 				  ,icd_type
 				  ,right_side = replace(new_cd, left(new_cd, charindex('.', new_cd)), '')
-				  ,count(distinct patient_key) rc
+				  ,count(distinct person_id) rc
 			from #deid_diag_cd
 			group by new_cd, icd_type
 		) x
@@ -88,15 +90,15 @@ end
 Mask codes that reached max level with less than 11 unique counts.
 */
 update a 
-set a.new_cd = '000'
+set a.new_cd = '000', a.new_concept_id = 0
 from #deid_diag_cd a
 join (
 	select new_cd 
 		  ,icd_type
-		  ,count(distinct patient_key) rc
+		  ,count(distinct person_id) rc
 	from #deid_diag_cd
 	group by new_cd, icd_type
-	having count(distinct patient_key) < 11
+	having count(distinct person_id) < 11
 ) b
 on a.new_cd = b.new_cd 
 and a.icd_type = b.icd_type
@@ -120,7 +122,7 @@ select new_cd
 	from (
 		select new_cd 
 		  ,icd_type
-		  ,count(distinct patient_key) rc
+		  ,count(distinct person_id) rc
 		from #deid_diag_cd
 		group by new_cd, icd_type
 	) a
@@ -136,13 +138,7 @@ join (
 	select distinct 
 		 new_cd
 		,new_cd_mod
-	from #fix_cd a
-	left join xref.concept b
-	on a.new_cd = b.concept_code 
-	and a.icd_type + 'CM' = b.vocabulary_id
-	left join xref.concept_relationship c
-	on b.concept_id = c.concept_id_1 
-	and c.relationship_id = 'Maps to'
+	from #fix_cd
 ) b
 on a.new_cd = b.new_cd
 
@@ -152,70 +148,21 @@ set nocount off;
 Finally, replace ICD codes from stage table with modified icd codes.
 */
 update a
-set diag_cd_decml = new_cd
-from stage.condition a
+set condition_source_value = new_cd, condition_concept_id = isnull(concept_id_2, 0)
+from preload.condition_occurrence a
 join (
 	select 
-		diag_cd_decml
+		 condition_source_value
 		,new_cd 
 		,icd_type
-		,count(distinct patient_key) rc
-	from #deid_diag_cd
-	group by diag_cd_decml, new_cd, icd_type
+		,count(distinct person_id) rc
+	from #deid_diag_cd a
+	group by condition_source_value, new_cd, icd_type
 ) b
-on a.diag_cd_decml = b.diag_cd_decml
-and a.icd_type = b.icd_type
-
-
-/* 
-Verify results 
-*/
---select *
---from (
---	select diag_cd_decml
---		,new_cd 
---		,icd_type
---		,count(distinct patient_key) rc
---	from #deid_diag_cd a
---	group by diag_cd_decml, new_cd, icd_type
---) a 
---join (
---	select 
---		new_cd
---		,icd_type
---		,count(distinct patient_key) rc 
---	from #deid_diag_cd
---	group by new_cd, icd_type
---) b
---on a.new_cd = b.new_cd and a.icd_type = b.icd_type
---where a.new_cd like 'C43.12%'
---order by diag_cd_decml, a.icd_type
-
-
---select distinct patient_key, diag_cd_decml, new_cd 
---from #deid_diag_cd
---where new_cd = 'C43.12'
-
---select distinct patient_key, diag_cd_decml 
---from stage.condition_bkup
---where diag_cd_decml like 'T84.069%'
-
---select 
---	new_cd
---	,icd_type
---	,count(distinct patient_key) rc 
---from #deid_diag_cd
---where new_cd = 'C43.12'
---group by new_cd, icd_type
-
---select 
---	diag_cd_decml
---	,icd_type
---	,count(distinct patient_key) rc 
---from stage.condition_bkup
---where diag_cd_decml like '201%'
---group by diag_cd_decml, icd_type
-
---clean up
---drop table if exists #fix_cd
---drop table if exists #deid_diag_cd
+on a.condition_source_value = b.condition_source_value and a.icd_type = b.icd_type
+left join xref.concept c
+on b.new_cd = c.concept_code 
+and b.icd_type + 'CM' = c.vocabulary_id
+left join xref.concept_relationship d
+on c.concept_id = d.concept_id_1 
+and d.relationship_id = 'Maps to'

@@ -177,7 +177,6 @@ postprocessing:
     procedure_occurrence: postprocess_procedure_by_domain.sql
     observation: postprocess_observation_by_domain.sql
   hipaa: postprocess_hipaa.sql
-  deid_condition: preload_deid_condition.sql
 # Vocabulary tables
 vocabulary_tables:
   - source_to_concept_map

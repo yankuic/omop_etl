@@ -252,6 +252,15 @@ from (
 ) a
 where rc < 11
 
+select test = 'masked condition_concept_id with less than 11 patients', test_dt = getdate(), (case when count(*) = 0 then 'PASSED' else 'FAILED' end) result
+from (
+	select condition_concept_id
+		  ,count(distinct person_id) rc
+	from preload.condition_occurrence
+	group by condition_concept_id
+) a
+where rc < 11
+
 --deid era tables
 union 
 select test = 'condition_era dates are shifted', test_dt = getdate(), (case when count(*) = 0 then 'PASSED' else 'FAILED' end) result

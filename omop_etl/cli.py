@@ -278,6 +278,12 @@ class ETLCli:
                     print(f"Refreshing mappings for table {t}.")
                     print(loader.update_mapping_table(t))
 
+                # if loader.config.hipaa_dataset == 'deid':
+                #     print('De-identifying diagnosis codes ...')
+                #     script_file = os.path.join(loader.sql_scripts_path, 'preload_deid_condition.sql')
+                #     sqlstring = read_sql(script_file)
+                #     print(loader.execute(sqlstring))
+
             elif args.all:
                 # stage all tables
                 print("Staging all tables ...")
@@ -299,22 +305,12 @@ class ETLCli:
                         print(f"Refreshing mappings for table {t}.")
                         print(loader.update_mapping_table(t))
 
-
-    def deid_condition(self):
-        parser = argparse.ArgumentParser('Preload tables.')
-        parser.add_argument('-c', '--config_file', help='Path to configuration file. Implemented for testing purposes.')
-
-        args = parser.parse_args(sys.argv[2:])
-
-        if args.config_file:
-            CONFIG_FILE = args.config_file
-
-        loader = Loader(CONFIG_FILE)
-        script_file = os.path.join(loader.sql_scripts_path, 'preload_deid_condition.sql')
-        sqlstring = read_sql(script_file)
-
-        raise NotImplementedError
-
+                    # if loader.config.hipaa_dataset == 'deid':
+                    #     print('De-identifying diagnosis codes ...')
+                    #     script_file = os.path.join(loader.sql_scripts_path, 'preload_deid_condition.sql')
+                    #     sqlstring = read_sql(script_file)
+                    #     print(loader.execute(sqlstring))
+                        
 
     def preload(self):  
         parser = argparse.ArgumentParser('Preload tables.')
@@ -348,6 +344,12 @@ class ETLCli:
                 for t in PRELOAD_TABLES.keys():
                     if t in LOAD_TABLES.keys():
                         print(loader.preload_all_subsets(t))
+
+            if loader.config.hipaa_dataset == 'deid':
+                print('De-identifying diagnosis codes ...')
+                script_file = os.path.join(loader.sql_scripts_path, 'preload_deid_condition.sql')
+                sqlstring = read_sql(script_file)
+                print(loader.execute(sqlstring))
 
 
     def load(self):
