@@ -25,7 +25,7 @@ Placeholders:
 - LOINC codes: LOINCLIST
 - Patient list: 12345678
 
-## Register new data element
+## Adding a new data element
 
 1. Add new data elements to the corresponding table in config.yml, section load.
 

@@ -12,9 +12,9 @@
             // "cwd": "${workspaceRoot}/notebooks",
             "windows": {
                 "python": "e:/Continuum/anaconda3/python.exe",
-                "args": ["load", "-t", "drug_era", "-c", "${workspaceRoot}/notebooks/config.yml"],
-                // "args": ["preload", "-t", "condition_occurrence", "-c", "${workspaceRoot}/notebooks/config.yml"]
-                // "args": ["stage", "-t", "person", "-c", "${workspaceRoot}/notebooks/config.yml"]
+                // "args": ["load", "-t", "drug_era", "-c", "${workspaceRoot}/notebooks/config.yml"],
+                "args": ["preload", "-t", "condition_occurrence", "-s", "all", "-c", "${workspaceRoot}/notebooks/config.yml"]
+                // "args": ["stage", "-t", "condition_occurrence", "-s", "all", "-c", "${workspaceRoot}/notebooks/config.yml"]
             },
             "console": "integratedTerminal"
         }

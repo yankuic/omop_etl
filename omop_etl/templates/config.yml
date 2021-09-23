@@ -3,6 +3,7 @@
 project_info:
   project_dir: enter project directory
   version: enter version
+  hipaa: 'deid'
 
 date_range:
   start_date: 01/01/2012
@@ -780,3 +781,11 @@ loinc:
   9741-0: Toxoplasma gondii IgG Ab [Units/volume] in Cerebral spinal fluid
   978-7: D Ag [Presence] on Red Blood Cells
   9830-1: Cholesterol.total/Cholesterol in HDL [Mass Ratio] in Serum or Plasma
+  13926-1: Glutamate decarboxylase 65 Ab [Units/volume] in Serum 
+  31209-0: Islet cell 512 Ab [Units/volume] in Serum
+  56540-8: Glutamate decarboxylase 65 Ab [Units/volume] in Serum by Immunoassay
+  56718-0: Islet cell 512 Ab [Units/volume] in Serum by Immunoassay
+  72523-4: Glutamate decarboxylase 65 Ab [Presence] in Serum or Plasma by Immunofluorescence
+  76651-9: Zinc transporter 8 Ab [Units/volume] in Serum or Plasma by Immunoassay
+  8047-3: Varicella zoster birus IgG Ab [Units/volume] in Serum
+  5403-1: Varicalla zoster virus IgG Ab [Units/volume] in Serum by Immunoassay
