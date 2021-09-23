@@ -43,6 +43,8 @@ select distinct
             when a.CONDITION_POA = 'YES' then 46236988
             else 0
 	end) condition_status_concept_id
+      ,[source_table] = 'condition'
+      ,[icd_type] = a.icd_type
 from stage.condition a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
@@ -84,6 +86,8 @@ select distinct
             when a.CONDITION_POA = 'YES' then 46236988
             else 0
 	end) condition_status_concept_id
+      ,[source_table] = 'condition'
+      ,[icd_type] = a.icd_type
 from stage.condition a
 join xref.person_mapping b
 on a.patient_key = b.patient_key

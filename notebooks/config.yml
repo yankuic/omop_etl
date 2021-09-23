@@ -3,6 +3,7 @@
 project_info:
   project_dir: enter project directory
   version: enter version
+  hipaa: 'deid'
 
 date_range:
   start_date: 01/01/2012
