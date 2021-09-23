@@ -18,92 +18,68 @@ and concept_code not in (
 SET NOCOUNT OFF;
 
 insert into preload.condition_occurrence with (tablock)
-select distinct 
+select distinct
       b.[person_id]
       ,[condition_concept_id] = isnull(e.concept_id_2,0)
-      ,[condition_start_date] = a.START_DATE
-      ,[condition_start_datetime] = a.START_DATE
-      ,[condition_end_date] = a.END_DATE
-      ,[condition_end_datetime] = a.END_DATE
-      ,(case 
-            when diagnosis_type = 'ENCOUNTER' then 32827
-            when diagnosis_type = 'HOSPITAL BILLING CODED' then 32823 
-            when diagnosis_type = 'PROFESSSIONAL BILLING CHARGE' then 32821
-            when diagnosis_type = 'PROBLEM LIST' then 32840
-            else 32817
-      end) condition_type_concept_id
+      ,[condition_start_date] = a.admit_date
+      ,[condition_start_datetime] = a.admit_date
+      ,[condition_end_date] = a.discharge_date
+      ,[condition_end_datetime] = a.discharge_date
+      ,condition_type_concept_id = 32823
       ,[stop_reason] = NULL
-      ,[provider_id] = c.provider_id
+      ,[provider_id] = NULL --a.providr_key
       ,[visit_occurrence_id] = f.visit_occurrence_id
       ,[visit_detail_id] = NULL
-      ,[condition_source_value] = a.DIAG_CD_DECML
+      ,[condition_source_value] = a.admit_icd9
       ,[condition_source_concept_id] = isnull(d.concept_id, 0)
       ,[condition_status_source_value] = 'admit diagnosis' 
       ,[condition_status_concept_id] = 32890
-from stage.condition a
+      ,[source_table] = 'admit_icd9'
+      ,[icd_type] = 'ICD9'
+from stage.condition_admit_icd9 a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
-left join xref.provider_mapping c
-on a.providr_key = c.providr_key
+--left join xref.provider_mapping c
+--on a.providr_key = c.providr_key
 --join to map standard concepts
 left join xref.concept d
-on a.diag_cd_decml = d.concept_code and a.icd_type + 'CM' = d.vocabulary_id
+on a.admit_icd9 = d.concept_code and d.vocabulary_id = 'ICD9CM'
 left join xref.concept_relationship e
 on d.concept_id = e.concept_id_1 and e.relationship_id = 'Maps to'
 left join xref.visit_occurrence_mapping f
 on a.patnt_encntr_key = f.patnt_encntr_key
---join to map admit diagnosis 
-join stage.condition_admit_icd9 g
-on a.patient_key = g.patient_key 
-and a.patnt_encntr_key = g.patnt_encntr_key
-and a.diag_cd_decml = g.admit_icd9 
-and a.start_date = g.admit_date
-and a.icd_type = 'ICD9'
-and a.diagnosis_type = 'HOSPITAL BILLING CODED'
 where b.active_ind = 'Y'
 
 union 
 -- Load ICD codes with no ICD CM equivalent.
-select distinct 
+select distinct
       b.[person_id]
-      ,[condition_concept_id] = isnull(e.concept_id_2, 0)
-      ,[condition_start_date] = a.START_DATE
-      ,[condition_start_datetime] = a.START_DATE
-      ,[condition_end_date] = a.END_DATE
-      ,[condition_end_datetime] = a.END_DATE
-      ,(case 
-            when diagnosis_type = 'ENCOUNTER' then 32827
-            when diagnosis_type = 'HOSPITAL BILLING CODED' then 32823 
-            when diagnosis_type = 'PROFESSSIONAL BILLING CHARGE' then 32821
-            when diagnosis_type = 'PROBLEM LIST' then 32840
-            else 32817
-      end) condition_type_concept_id
+      ,[condition_concept_id] = isnull(e.concept_id_2,0)
+      ,[condition_start_date] = a.admit_date
+      ,[condition_start_datetime] = a.admit_date
+      ,[condition_end_date] = a.discharge_date
+      ,[condition_end_datetime] = a.discharge_date
+      ,condition_type_concept_id = 32823
       ,[stop_reason] = NULL
-      ,[provider_id] = c.provider_id
+      ,[provider_id] = NULL --a.providr_key
       ,[visit_occurrence_id] = f.visit_occurrence_id
       ,[visit_detail_id] = NULL
-      ,[condition_source_value] = a.DIAG_CD_DECML
+      ,[condition_source_value] = a.admit_icd9
       ,[condition_source_concept_id] = isnull(d.concept_id, 0)
       ,[condition_status_source_value] = 'admit diagnosis' 
       ,[condition_status_concept_id] = 32890
-from stage.condition a
+      ,[source_table] = 'admit_icd9'
+      ,[icd_type] = 'ICD9'
+from stage.condition_admit_icd9 a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
-left join xref.provider_mapping c
-on a.providr_key = c.providr_key
-join #icd d
+--left join xref.provider_mapping c
+--on a.providr_key = c.providr_key
 --join to map standard concepts
-on a.diag_cd_decml = d.concept_code and a.icd_type = d.vocabulary_id
+join #icd d
+on a.admit_icd9 = d.concept_code and d.vocabulary_id = 'ICD9'
 left join xref.concept_relationship e
 on d.concept_id = e.concept_id_1 and e.relationship_id = 'Maps to'
 left join xref.visit_occurrence_mapping f
 on a.patnt_encntr_key = f.patnt_encntr_key
---join to map admit diagnosis 
-join stage.condition_admit_icd9 g
-on a.patient_key = g.patient_key 
-and a.patnt_encntr_key = g.patnt_encntr_key
-and a.diag_cd_decml = g.admit_icd9 
-and a.start_date = g.admit_date
-and a.icd_type = 'ICD9'
-and a.diagnosis_type = 'HOSPITAL BILLING CODED'
 where b.active_ind = 'Y'
