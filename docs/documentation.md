@@ -228,3 +228,25 @@ CREATE TABLE [stage].[PERSON](
 - death_date and death_datetime. EPIC death datetime if exists, else Social Security Death Index. EPIC death date is more accurate because data comes from the hospital.
 
 - death_type_concept_id. 32817 when death date comes from EPIC, else 32885.
+
+### Sync local and central repositories
+
+Since we already have a local copy of omop_etl,  in this step I will show you how to stash/commit the changes in our local repo first and then pull the central repo.
+
+There are two ways you can do this: choose option 1 if you don't want your local changes to be mergered; choose option 2 if you wish to upload your changes to central repo.
+
+- Option 1. Stashing your changes into cache. Pulling the the central repo. Unstashing your local changes to avoid conflicts. 
+    
+        $ git stash
+        $ git pull origin master
+        $ git unstash
+
+    > 'master' is the branch by default created in git. There could be other bracnhes exist, check with the project administrator for the appropriate branch to work with.
+
+- Option 2. Adding your updates to git. Committing the updates. Pulling the the central repo.
+        
+        $ git add .
+        $ git commit -m 'message you would like to comment on this update'
+        $ git pull origin master
+
+    > git add . will add all updates to git, you can also speficy only the files you want to add. 
