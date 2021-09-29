@@ -75,6 +75,15 @@ class ETLCli:
 
     def create_schema(self):
         #create omop tables and schemas
+        parser = argparse.ArgumentParser('Import vocabulary tables into project database.')
+        parser.add_argument('-c', '--config_file', help='Path to configuration file. Implemented for testing purposes.')
+
+        # assert vocabulary folder exists
+        args = parser.parse_args(sys.argv[2:])
+
+        if args.config_file:
+            CONFIG_FILE = args.config_file
+        
         loader = Loader(CONFIG_FILE)
         SCHEMA = loader.schema
         
@@ -97,7 +106,7 @@ class ETLCli:
         #load vocabulary into db
         parser = argparse.ArgumentParser('Import vocabulary tables into project database.')
         parser.add_argument('-t', '--table', type=str, help='Vocabulary table')
-        parser.add_argument('-a', '--all', type=str, help='Import all vocabulary tables')
+        parser.add_argument('-a', '--all', help='Import all vocabulary tables', action="store_true")
         parser.add_argument('-c', '--config_file', help='Path to configuration file. Implemented for testing purposes.')
 
         # assert vocabulary folder exists
@@ -251,6 +260,7 @@ class ETLCli:
         parser.add_argument('-s', '--subset', type=str, help='If table has subsets pass this argument in combination with --table.')
         parser.add_argument('-a', '--all', help='Stage all tables.', action="store_true")
         parser.add_argument('-c', '--config_file', help='Path to configuration file. Implemented for testing purposes.')
+        parser.add_argument('--only_query', help='Print query without running it.', action="store_true")
 
         args = parser.parse_args(sys.argv[2:])
 
@@ -270,9 +280,9 @@ class ETLCli:
                 elif sbs == 'all':
                     if isinstance(LOAD_TABLES[t], dict):
                         for part in LOAD_TABLES[t].keys():
-                            print(loader.stage_table(t, part))
+                            print(loader.stage_table(t, part, only_query=args.only_query))
                 else:
-                    print(loader.stage_table(t, sbs or None ))
+                    print(loader.stage_table(t, sbs or None, only_query=args.only_query))
 
                 if t in MAPPING_TABLES.keys():
                     print(f"Refreshing mappings for table {t}.")
@@ -290,7 +300,7 @@ class ETLCli:
                 for t in LOAD_TABLES.keys():
                     if isinstance(LOAD_TABLES[t], dict):
                         for part in LOAD_TABLES[t].keys():
-                            print(loader.stage_table(t, part))
+                            print(loader.stage_table(t, part, only_query=args.only_query))
                             # print("Table with parts:", t, part)
                     else:
                         if t in ('provider','care_site','location'): 
@@ -298,7 +308,7 @@ class ETLCli:
                             # print("HS Table:", t)
                         else:
                             # print("Table with no parts:", t, LOAD_TABLES[t])
-                            print(loader.stage_table(t))
+                            print(loader.stage_table(t, only_query=args.only_query))
 
                     # update mappings
                     if t in MAPPING_TABLES.keys():
