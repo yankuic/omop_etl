@@ -12,9 +12,14 @@
             // "cwd": "${workspaceRoot}/notebooks",
             "windows": {
                 "python": "e:/Continuum/anaconda3/python.exe",
-                // "args": ["load", "-t", "drug_era", "-c", "${workspaceRoot}/notebooks/config.yml"],
-                "args": ["preload", "-t", "condition_occurrence", "-s", "all", "-c", "${workspaceRoot}/notebooks/config.yml"]
-                // "args": ["stage", "-t", "condition_occurrence", "-s", "all", "-c", "${workspaceRoot}/notebooks/config.yml"]
+                // "args": ["new_project", "-p", "z:/", "-n", "omop_proj_test", "-s", "dwsrsrch01.shands.ufl.edu", "-db", "dws_omop"]
+                // "args": ["create_schema", "-c", "z:/omop_proj_test/config.yml"]
+                // "args": ["vocab", "-a", "-c", "z:/omop_proj_test/config.yml"]
+                "args": ["stage", "-t", "measurement", "-s", "bp", "-c", "z:/omop_proj_test/config.yml"]
+                // "args": ["preload", "-a", "-c", "z:/omop_proj_test/config.yml"]
+                // "args": ["load", "-a", "-c", "z:/omop_proj_test/config.yml"],
+                // "args": ["postproc", "--fix_domains", "-c", "z:/omop_proj_test/config.yml"]
+                // "args": ["postproc", "--deid", "-c", "z:/omop_proj_test/config.yml"]
             },
             "console": "integratedTerminal"
         }
