@@ -205,24 +205,28 @@ aliases:
   CONDITION_admit_icd9:
   - patient_key
   - patnt_encntr_key
+  - providr_key
   - admit_date
   - discharge_date
   - admit_icd9
   CONDITION_admit_icd10:
   - patient_key
   - patnt_encntr_key
+  - providr_key
   - admit_date
   - discharge_date
   - admit_icd10
   CONDITION_principal_icd9:
   - patient_key
   - patnt_encntr_key
+  - providr_key
   - admit_date
   - discharge_date
   - principal_icd9
   CONDITION_principal_icd10:
   - patient_key
   - patnt_encntr_key
+  - providr_key
   - admit_date
   - discharge_date
   - principal_icd10

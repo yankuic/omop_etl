@@ -27,7 +27,7 @@ select distinct
       ,[condition_end_datetime] = a.discharge_date
       ,[condition_type_concept_id] = 32823
       ,[stop_reason] = NULL
-      ,[provider_id] = NULL --c.provider_id
+      ,[provider_id] = c.provider_id
       ,[visit_occurrence_id] = f.visit_occurrence_id
       ,[visit_detail_id] = NULL
       ,[condition_source_value] = a.principal_icd9
@@ -39,8 +39,8 @@ select distinct
 from stage.condition_principal_icd9 a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
--- left join xref.provider_mapping c
--- on a.providr_key = c.providr_key
+left join xref.provider_mapping c
+on a.providr_key = c.providr_key
 --join to map standard concepts
 left join xref.concept d
 on a.principal_icd9 = d.concept_code and d.vocabulary_id = 'ICD9CM'
@@ -62,7 +62,7 @@ select distinct
       ,[condition_end_datetime] = a.discharge_date
       ,[condition_type_concept_id] = 32823
       ,[stop_reason] = NULL
-      ,[provider_id] = NULL --c.provider_id
+      ,[provider_id] = c.provider_id
       ,[visit_occurrence_id] = f.visit_occurrence_id
       ,[visit_detail_id] = NULL
       ,[condition_source_value] = a.principal_icd9
@@ -74,8 +74,8 @@ select distinct
 from stage.condition_principal_icd9 a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
--- left join xref.provider_mapping c
--- on a.providr_key = c.providr_key
+left join xref.provider_mapping c
+on a.providr_key = c.providr_key
 --join to map standard concepts
 join #icd d
 on a.principal_icd9 = d.concept_code and d.vocabulary_id = 'ICD9'
