@@ -113,12 +113,12 @@ Make sure you have Git installed on your system. If not, go to [git-scm.com](htt
     ```
 
     *config.yml* is the project configuration file that stores all project configuration parameters: project info, project date range, list of tables to load, sql connection information, vocabulary list, BO document names, and LOINC codes list. Most parameters are preset. The following elements must be provided:
-        - project_info/hipaa: options 'deid','limited'. If none the a fully identified registry will be created.
-        - date_range/start_date: start date for patient records
-        - date_range/end_date: end date for patient records
-        - bo_docs/cohort: name of the BO document
-        - db_connections/omop/server (if the parameter -s was not provided): sql server host
-        - db_connections/omop/database (if the parameter -db was not provided): project database
+      - project_info/hipaa: options 'deid','limited'. If none the a fully identified registry will be created.
+      - date_range/start_date: start date for patient records
+      - date_range/end_date: end date for patient records
+      - bo_docs/cohort: name of the BO document
+      - db_connections/omop/server (if the parameter -s was not provided): sql server host
+      - db_connections/omop/database (if the parameter -db was not provided): project database
 
     If options --server and --database were used as indicated above, the connection parameters should be set already in config.yml. Presets can be modifided depending on the needs of each project. For example, the analyst can comment subset load/measurement/res_tidal if she doen't want to load that element into a patient registry. In the same maner, LOINC codes can be excluded or added using this file.
 
