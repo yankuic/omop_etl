@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>omop_etl package &mdash; omop_etl v0.2 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="omop_etl" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> omop_etl
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">omop_etl</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">omop_etl package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-omop_etl.athena">omop_etl.athena module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-omop_etl.bo">omop_etl.bo module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-omop_etl.cli">omop_etl.cli module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-omop_etl.config">omop_etl.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-omop_etl.datastore">omop_etl.datastore module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-omop_etl.io">omop_etl.io module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-omop_etl.load">omop_etl.load module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-omop_etl.utils">omop_etl.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-omop_etl">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">omop_etl</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">omop_etl</a> &raquo;</li>
+      <li>omop_etl package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/omop_etl.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="omop-etl-package">
+<h1>omop_etl package<a class="headerlink" href="#omop-etl-package" title="Permalink to this headline"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-omop_etl.athena">
+<span id="omop-etl-athena-module"></span><h2>omop_etl.athena module<a class="headerlink" href="#module-omop_etl.athena" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="omop_etl.athena.athena_driver">
+<span class="sig-prename descclassname"><span class="pre">omop_etl.athena.</span></span><span class="sig-name descname"><span class="pre">athena_driver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headless</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/athena.html#athena_driver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.athena.athena_driver" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="omop_etl.athena.download_vocabulary_file">
+<span class="sig-prename descclassname"><span class="pre">omop_etl.athena.</span></span><span class="sig-name descname"><span class="pre">download_vocabulary_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">driver</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_last</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vocabulary_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">archive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restore</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/athena.html#download_vocabulary_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.athena.download_vocabulary_file" title="Permalink to this definition"></a></dt>
+<dd><p>Download most recent vocabulary file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="omop_etl.athena.request_new_vocabulary_file">
+<span class="sig-prename descclassname"><span class="pre">omop_etl.athena.</span></span><span class="sig-name descname"><span class="pre">request_new_vocabulary_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">driver</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/athena.html#request_new_vocabulary_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.athena.request_new_vocabulary_file" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-omop_etl.bo">
+<span id="omop-etl-bo-module"></span><h2>omop_etl.bo module<a class="headerlink" href="#module-omop_etl.bo" title="Permalink to this headline"></a></h2>
+<p>Format BO generated queries.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="omop_etl.bo.bo_query">
+<span class="sig-prename descclassname"><span class="pre">omop_etl.bo.</span></span><span class="sig-name descname"><span class="pre">bo_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">con</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/bo.html#bo_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.bo.bo_query" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieve query from BO.</p>
+<dl class="simple">
+<dt>Arguments:</dt><dd><p>doc_name {str} – BO document name.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="omop_etl.bo.format_bo_sql">
+<span class="sig-prename descclassname"><span class="pre">omop_etl.bo.</span></span><span class="sig-name descname"><span class="pre">format_bo_sql</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sqlstring</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dp_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'cohort'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aliases</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/bo.html#format_bo_sql"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.bo.format_bo_sql" title="Permalink to this definition"></a></dt>
+<dd><p>Refactor BO Query to insert data into a heap on the fly.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="omop_etl.bo.format_stage_query">
+<span class="sig-prename descclassname"><span class="pre">omop_etl.bo.</span></span><span class="sig-name descname"><span class="pre">format_stage_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dp_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bo_con</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">con</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loinc_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'stage'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aliases</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/bo.html#format_stage_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.bo.format_stage_query" title="Permalink to this definition"></a></dt>
+<dd><p>Format stage query.</p>
+</dd></dl>
+
+</section>
+<section id="module-omop_etl.cli">
+<span id="omop-etl-cli-module"></span><h2>omop_etl.cli module<a class="headerlink" href="#module-omop_etl.cli" title="Permalink to this headline"></a></h2>
+<p>Class template from: <a class="reference external" href="https://chase-seibert.github.io/blog/2014/03/21/python-multilevel-argparse.html">https://chase-seibert.github.io/blog/2014/03/21/python-multilevel-argparse.html</a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="omop_etl.cli.ETLCli">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">omop_etl.cli.</span></span><span class="sig-name descname"><span class="pre">ETLCli</span></span><a class="reference internal" href="_modules/omop_etl/cli.html#ETLCli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.cli.ETLCli" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.cli.ETLCli.archive">
+<span class="sig-name descname"><span class="pre">archive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/cli.html#ETLCli.archive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.cli.ETLCli.archive" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.cli.ETLCli.create_schema">
+<span class="sig-name descname"><span class="pre">create_schema</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/cli.html#ETLCli.create_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.cli.ETLCli.create_schema" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.cli.ETLCli.deid_condition">
+<span class="sig-name descname"><span class="pre">deid_condition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/cli.html#ETLCli.deid_condition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.cli.ETLCli.deid_condition" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.cli.ETLCli.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/cli.html#ETLCli.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.cli.ETLCli.load" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.cli.ETLCli.new_project">
+<span class="sig-name descname"><span class="pre">new_project</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/cli.html#ETLCli.new_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.cli.ETLCli.new_project" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.cli.ETLCli.postproc">
+<span class="sig-name descname"><span class="pre">postproc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/cli.html#ETLCli.postproc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.cli.ETLCli.postproc" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.cli.ETLCli.preload">
+<span class="sig-name descname"><span class="pre">preload</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/cli.html#ETLCli.preload"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.cli.ETLCli.preload" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.cli.ETLCli.report_counts">
+<span class="sig-name descname"><span class="pre">report_counts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/cli.html#ETLCli.report_counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.cli.ETLCli.report_counts" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.cli.ETLCli.stage">
+<span class="sig-name descname"><span class="pre">stage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/cli.html#ETLCli.stage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.cli.ETLCli.stage" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.cli.ETLCli.vocab">
+<span class="sig-name descname"><span class="pre">vocab</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/cli.html#ETLCli.vocab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.cli.ETLCli.vocab" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-omop_etl.config">
+<span id="omop-etl-config-module"></span><h2>omop_etl.config module<a class="headerlink" href="#module-omop_etl.config" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="omop_etl.config.Config">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">omop_etl.config.</span></span><span class="sig-name descname"><span class="pre">Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/config.html#Config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.config.Config" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.config.Config.get_property">
+<span class="sig-name descname"><span class="pre">get_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/config.html#Config.get_property"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.config.Config.get_property" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="omop_etl.config.ETLConfig">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">omop_etl.config.</span></span><span class="sig-name descname"><span class="pre">ETLConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'E:\\Continuum\\anaconda3\\envs\\omop\\lib\\site-packages\\omop_etl-0.1-py3.7.egg\\omop_etl\\etl_config.yml'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/config.html#ETLConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.config.ETLConfig" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#omop_etl.config.Config" title="omop_etl.config.Config"><code class="xref py py-class docutils literal notranslate"><span class="pre">omop_etl.config.Config</span></code></a></p>
+<p>[summary]</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ETLConfig.aliases">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">aliases</span></span><a class="headerlink" href="#omop_etl.config.ETLConfig.aliases" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ETLConfig.chrome_path">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">chrome_path</span></span><a class="headerlink" href="#omop_etl.config.ETLConfig.chrome_path" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ETLConfig.load">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">load</span></span><a class="headerlink" href="#omop_etl.config.ETLConfig.load" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ETLConfig.mapping">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">mapping</span></span><a class="headerlink" href="#omop_etl.config.ETLConfig.mapping" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ETLConfig.postproc">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">postproc</span></span><a class="headerlink" href="#omop_etl.config.ETLConfig.postproc" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ETLConfig.preload">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">preload</span></span><a class="headerlink" href="#omop_etl.config.ETLConfig.preload" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ETLConfig.schema">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">schema</span></span><a class="headerlink" href="#omop_etl.config.ETLConfig.schema" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ETLConfig.stage">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">stage</span></span><a class="headerlink" href="#omop_etl.config.ETLConfig.stage" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ETLConfig.stage_hs">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">stage_hs</span></span><a class="headerlink" href="#omop_etl.config.ETLConfig.stage_hs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ETLConfig.vocabulary_tables">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">vocabulary_tables</span></span><a class="headerlink" href="#omop_etl.config.ETLConfig.vocabulary_tables" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="omop_etl.config.ProjectConfig">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">omop_etl.config.</span></span><span class="sig-name descname"><span class="pre">ProjectConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/config.html#ProjectConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.config.ProjectConfig" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#omop_etl.config.Config" title="omop_etl.config.Config"><code class="xref py py-class docutils literal notranslate"><span class="pre">omop_etl.config.Config</span></code></a></p>
+<p>Initialize project configuration parameters.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ProjectConfig.bo_database">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">bo_database</span></span><a class="headerlink" href="#omop_etl.config.ProjectConfig.bo_database" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ProjectConfig.bo_docname_cohort">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">bo_docname_cohort</span></span><a class="headerlink" href="#omop_etl.config.ProjectConfig.bo_docname_cohort" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ProjectConfig.bo_docname_stage">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">bo_docname_stage</span></span><a class="headerlink" href="#omop_etl.config.ProjectConfig.bo_docname_stage" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ProjectConfig.bo_server">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">bo_server</span></span><a class="headerlink" href="#omop_etl.config.ProjectConfig.bo_server" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ProjectConfig.end_date">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">end_date</span></span><a class="headerlink" href="#omop_etl.config.ProjectConfig.end_date" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ProjectConfig.load">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">load</span></span><a class="headerlink" href="#omop_etl.config.ProjectConfig.load" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ProjectConfig.loinc">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">loinc</span></span><a class="headerlink" href="#omop_etl.config.ProjectConfig.loinc" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ProjectConfig.project_database">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">project_database</span></span><a class="headerlink" href="#omop_etl.config.ProjectConfig.project_database" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ProjectConfig.project_dir">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">project_dir</span></span><a class="headerlink" href="#omop_etl.config.ProjectConfig.project_dir" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ProjectConfig.release_path">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">release_path</span></span><a class="headerlink" href="#omop_etl.config.ProjectConfig.release_path" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ProjectConfig.release_version">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">release_version</span></span><a class="headerlink" href="#omop_etl.config.ProjectConfig.release_version" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ProjectConfig.server">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">server</span></span><a class="headerlink" href="#omop_etl.config.ProjectConfig.server" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ProjectConfig.start_date">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">start_date</span></span><a class="headerlink" href="#omop_etl.config.ProjectConfig.start_date" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.config.ProjectConfig.vocabularies">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">vocabularies</span></span><a class="headerlink" href="#omop_etl.config.ProjectConfig.vocabularies" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-omop_etl.datastore">
+<span id="omop-etl-datastore-module"></span><h2>omop_etl.datastore module<a class="headerlink" href="#module-omop_etl.datastore" title="Permalink to this headline"></a></h2>
+<p>[description].</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="omop_etl.datastore.DataStore">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">omop_etl.datastore.</span></span><span class="sig-name descname"><span class="pre">DataStore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/datastore.html#DataStore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.datastore.DataStore" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Initialize db connections. methods, and configuration parameters.</p>
+<dl class="simple">
+<dt>Arguments:</dt><dd><p>config_file {str} – YAML file with project configuration parameters.
+<a href="#id1"><span class="problematic" id="id2">*</span></a>args {any} – Additional arguments for sqlalchemy.create_engine.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.datastore.DataStore.archive_table">
+<span class="sig-name descname"><span class="pre">archive_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/datastore.html#DataStore.archive_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.datastore.DataStore.archive_table" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.datastore.DataStore.bo_connection_str">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">bo_connection_str</span></span><a class="headerlink" href="#omop_etl.datastore.DataStore.bo_connection_str" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.datastore.DataStore.bo_engine">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">bo_engine</span></span><a class="headerlink" href="#omop_etl.datastore.DataStore.bo_engine" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.datastore.DataStore.connection">
+<span class="sig-name descname"><span class="pre">connection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/datastore.html#DataStore.connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.datastore.DataStore.connection" title="Permalink to this definition"></a></dt>
+<dd><p>Manage connection context.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.datastore.DataStore.connection_str">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">connection_str</span></span><a class="headerlink" href="#omop_etl.datastore.DataStore.connection_str" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.datastore.DataStore.create_schema">
+<span class="sig-name descname"><span class="pre">create_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/datastore.html#DataStore.create_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.datastore.DataStore.create_schema" title="Permalink to this definition"></a></dt>
+<dd><p>Create new database schema.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>schema (str): Schema name.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="omop_etl.datastore.DataStore.engine">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">engine</span></span><a class="headerlink" href="#omop_etl.datastore.DataStore.engine" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.datastore.DataStore.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_string</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/datastore.html#DataStore.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.datastore.DataStore.execute" title="Permalink to this definition"></a></dt>
+<dd><p>[summary].</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.datastore.DataStore.find_column">
+<span class="sig-name descname"><span class="pre">find_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['dbo']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/datastore.html#DataStore.find_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.datastore.DataStore.find_column" title="Permalink to this definition"></a></dt>
+<dd><p>Search column name matching pattern across all tables in the database.</p>
+<dl class="simple">
+<dt>Arguments:</dt><dd><p>pattern {str} – String patter to match.
+in_schema {list} – List of schemas to search in.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.datastore.DataStore.get_indexes">
+<span class="sig-name descname"><span class="pre">get_indexes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dbo'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/datastore.html#DataStore.get_indexes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.datastore.DataStore.get_indexes" title="Permalink to this definition"></a></dt>
+<dd><p>[summary].</p>
+<dl class="simple">
+<dt>Arguments:</dt><dd><p>table {[type]} – [description]</p>
+</dd>
+<dt>Keyword Arguments:</dt><dd><p>schema {str} – [description] (default: {‘dbo’})</p>
+</dd>
+<dt>Returns:</dt><dd><p>[type] – [description]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.datastore.DataStore.list_dbs">
+<span class="sig-name descname"><span class="pre">list_dbs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/datastore.html#DataStore.list_dbs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.datastore.DataStore.list_dbs" title="Permalink to this definition"></a></dt>
+<dd><p>List all databases in server.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.datastore.DataStore.list_schemas">
+<span class="sig-name descname"><span class="pre">list_schemas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">database</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/datastore.html#DataStore.list_schemas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.datastore.DataStore.list_schemas" title="Permalink to this definition"></a></dt>
+<dd><p>List user schemas.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.datastore.DataStore.list_tables">
+<span class="sig-name descname"><span class="pre">list_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">database</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['dbo']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/datastore.html#DataStore.list_tables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.datastore.DataStore.list_tables" title="Permalink to this definition"></a></dt>
+<dd><p>List database tables.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.datastore.DataStore.object_exists">
+<span class="sig-name descname"><span class="pre">object_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/datastore.html#DataStore.object_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.datastore.DataStore.object_exists" title="Permalink to this definition"></a></dt>
+<dd><p>Evaluate if object exist in database.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>object_type (str): FN (scalar function), SQ (service queue), </dt><dd><p>U (user table), PK (primary key constraint), S (system table), 
+IT (internal table), P (stored procedure).</p>
+</dd>
+</dl>
+<p>name (str): Object name.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.datastore.DataStore.row_count">
+<span class="sig-name descname"><span class="pre">row_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dbo'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/datastore.html#DataStore.row_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.datastore.DataStore.row_count" title="Permalink to this definition"></a></dt>
+<dd><p>Return row size of database table.</p>
+<dl class="simple">
+<dt>Arguments:</dt><dd><p>table {str} – Table name.
+schema {str} – Schema name.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.datastore.DataStore.truncate">
+<span class="sig-name descname"><span class="pre">truncate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/datastore.html#DataStore.truncate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.datastore.DataStore.truncate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-omop_etl.io">
+<span id="omop-etl-io-module"></span><h2>omop_etl.io module<a class="headerlink" href="#module-omop_etl.io" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="omop_etl.io.import_csv">
+<span class="sig-prename descclassname"><span class="pre">omop_etl.io.</span></span><span class="sig-name descname"><span class="pre">import_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace_blanks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">truncate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/io.html#import_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.io.import_csv" title="Permalink to this definition"></a></dt>
+<dd><p>SQL table must exists
+NULLs will be imported as empty strings ‘’</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="omop_etl.io.read_sql">
+<span class="sig-prename descclassname"><span class="pre">omop_etl.io.</span></span><span class="sig-name descname"><span class="pre">read_sql</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/io.html#read_sql"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.io.read_sql" title="Permalink to this definition"></a></dt>
+<dd><p>[summary].</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>filepath (str): Full path to sql file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="omop_etl.io.to_csv">
+<span class="sig-prename descclassname"><span class="pre">omop_etl.io.</span></span><span class="sig-name descname"><span class="pre">to_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/io.html#to_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.io.to_csv" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-omop_etl.load">
+<span id="omop-etl-load-module"></span><h2>omop_etl.load module<a class="headerlink" href="#module-omop_etl.load" title="Permalink to this headline"></a></h2>
+<p>Post-processing.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="omop_etl.load.Loader">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">omop_etl.load.</span></span><span class="sig-name descname"><span class="pre">Loader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/load.html#Loader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.load.Loader" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#omop_etl.datastore.DataStore" title="omop_etl.datastore.DataStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">omop_etl.datastore.DataStore</span></code></a>, <a class="reference internal" href="#omop_etl.config.ETLConfig" title="omop_etl.config.ETLConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">omop_etl.config.ETLConfig</span></code></a></p>
+<p>Load data into OMOP tables.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.load.Loader.deid_condition">
+<span class="sig-name descname"><span class="pre">deid_condition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/load.html#Loader.deid_condition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.load.Loader.deid_condition" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.load.Loader.fix_domains">
+<span class="sig-name descname"><span class="pre">fix_domains</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/load.html#Loader.fix_domains"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.load.Loader.fix_domains" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.load.Loader.load_hipaa">
+<span class="sig-name descname"><span class="pre">load_hipaa</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'deid'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/load.html#Loader.load_hipaa"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.load.Loader.load_hipaa" title="Permalink to this definition"></a></dt>
+<dd><p>Generate hipaa compliant dataset: de-identified, limited.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dataset (str, optional): Options ‘limited’, ‘deid’. Defaults to ‘deid’.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.load.Loader.load_table">
+<span class="sig-name descname"><span class="pre">load_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/load.html#Loader.load_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.load.Loader.load_table" title="Permalink to this definition"></a></dt>
+<dd><p>Execute load sql query.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.load.Loader.preload_all_subsets">
+<span class="sig-name descname"><span class="pre">preload_all_subsets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/load.html#Loader.preload_all_subsets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.load.Loader.preload_all_subsets" title="Permalink to this definition"></a></dt>
+<dd><p>Preload table with all subsets listed in the configuration file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.load.Loader.preload_table">
+<span class="sig-name descname"><span class="pre">preload_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/load.html#Loader.preload_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.load.Loader.preload_table" title="Permalink to this definition"></a></dt>
+<dd><p>Execute preload sql query.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>subset (str): Subset key (e.g. icd, cpt) or None. Default: None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.load.Loader.stage_hs_table">
+<span class="sig-name descname"><span class="pre">stage_hs_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'stage'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/load.html#Loader.stage_hs_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.load.Loader.stage_hs_table" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.load.Loader.stage_table">
+<span class="sig-name descname"><span class="pre">stage_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/load.html#Loader.stage_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.load.Loader.stage_table" title="Permalink to this definition"></a></dt>
+<dd><p>Stage clinical data table.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="omop_etl.load.Loader.update_mapping_table">
+<span class="sig-name descname"><span class="pre">update_mapping_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/load.html#Loader.update_mapping_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.load.Loader.update_mapping_table" title="Permalink to this definition"></a></dt>
+<dd><p>Load new records into mapping table.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-omop_etl.utils">
+<span id="omop-etl-utils-module"></span><h2>omop_etl.utils module<a class="headerlink" href="#module-omop_etl.utils" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="omop_etl.utils.find">
+<span class="sig-prename descclassname"><span class="pre">omop_etl.utils.</span></span><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_case</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/utils.html#find"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.utils.find" title="Permalink to this definition"></a></dt>
+<dd><p>Search pattern in list.</p>
+<dl class="simple">
+<dt>Arguments:</dt><dd><p>pattern {str, list} – [description]
+values {list/array} – List/array of strings.</p>
+</dd>
+<dt>Returns:</dt><dd><p>[numpy array] – array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="omop_etl.utils.search">
+<span class="sig-prename descclassname"><span class="pre">omop_etl.utils.</span></span><span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/utils.html#search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.utils.search" title="Permalink to this definition"></a></dt>
+<dd><p>Return True if pattern is found in string.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="omop_etl.utils.timeitc">
+<span class="sig-prename descclassname"><span class="pre">omop_etl.utils.</span></span><span class="sig-name descname"><span class="pre">timeitc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/utils.html#timeitc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.utils.timeitc" title="Permalink to this definition"></a></dt>
+<dd><p>Return elapsed time to run code block.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="omop_etl.utils.timeitd">
+<span class="sig-prename descclassname"><span class="pre">omop_etl.utils.</span></span><span class="sig-name descname"><span class="pre">timeitd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/omop_etl/utils.html#timeitd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#omop_etl.utils.timeitd" title="Permalink to this definition"></a></dt>
+<dd><p>Return elapsed time to run function.</p>
+</dd></dl>
+
+</section>
+<section id="module-omop_etl">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-omop_etl" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="omop_etl" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
