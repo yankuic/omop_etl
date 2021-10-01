@@ -1,5 +1,11 @@
 # Instructions for developers
 
+## Working with GitLab
+
+We follow [GitLab Flow](https://docs.gitlab.com/ee/topics/gitlab_flow.html) branching model and issue tracker system for collaborative development. This workflow provides simple heuristics to create and merge branches, track issues, and release package versions.
+
+Clone repository
+
 ## BO documents
 
     Once the data providers are created, Matt will run a query on his end:
