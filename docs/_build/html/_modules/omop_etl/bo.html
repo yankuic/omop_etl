@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>omop_etl.bo &#8212; omop_etl v0.2 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for omop_etl.bo</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Format BO generated queries.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sqlparse</span>
+<span class="kn">from</span> <span class="nn">sqlparse.sql</span> <span class="kn">import</span> <span class="n">Identifier</span><span class="p">,</span> <span class="n">Function</span><span class="p">,</span> <span class="n">Operation</span><span class="p">,</span> <span class="n">Case</span>
+
+<span class="kn">from</span> <span class="nn">omop_etl.utils</span> <span class="kn">import</span> <span class="n">search</span>
+
+<div class="viewcode-block" id="bo_query"><a class="viewcode-back" href="../../omop_etl.html#omop_etl.bo.bo_query">[docs]</a><span class="k">def</span> <span class="nf">bo_query</span><span class="p">(</span><span class="n">doc_name</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">con</span><span class="p">:</span><span class="nb">object</span><span class="p">):</span> 
+    <span class="sd">&quot;&quot;&quot;Retrieve query from BO.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        doc_name {str} -- BO document name.</span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sql_metadata</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        SELECT DISTINCT DP_NAME, SQL_QUERY</span>
+<span class="s2">        FROM DWS_METADATA.dbo.MD_MGMT_WEBI_DATA_PRVDRS</span>
+<span class="s2">        WHERE DOC_ID in (</span>
+<span class="s2">            SELECT DOC_ID</span>
+<span class="s2">            FROM DWS_METADATA.dbo.MD_MGMT_WEBI_DOCS </span>
+<span class="s2">            WHERE DOC_NAME = &#39;</span><span class="si">{}</span><span class="s2">&#39; and FOLDER_PATH like &#39;Public Folders%&#39;</span>
+<span class="s2">        )</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">doc_name</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql_metadata</span><span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="format_stage_query"><a class="viewcode-back" href="../../omop_etl.html#omop_etl.bo.format_stage_query">[docs]</a><span class="k">def</span> <span class="nf">format_stage_query</span><span class="p">(</span><span class="n">doc_name</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">dp_name</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">start_date</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">end_date</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">bo_con</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span> <span class="n">con</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span> <span class="n">loinc_list</span><span class="p">:</span><span class="nb">list</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">schema</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;stage&#39;</span><span class="p">,</span> <span class="n">aliases</span><span class="p">:</span><span class="nb">list</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Format stage query.&quot;&quot;&quot;</span>
+    <span class="n">bo_q</span> <span class="o">=</span> <span class="n">bo_query</span><span class="p">(</span><span class="n">doc_name</span><span class="p">,</span> <span class="n">bo_con</span><span class="p">)[</span><span class="n">dp_name</span><span class="p">]</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">database</span>
+    <span class="n">personlist</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;select PATIENT_KEY from </span><span class="si">{</span><span class="n">db</span><span class="si">}</span><span class="s2">.cohort.PersonList&quot;</span>
+    <span class="n">loinc_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="n">dp_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;measurement_lab&#39;</span><span class="p">:</span>
+        <span class="n">loinc_str</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;&#39;&#39;</span><span class="si">{</span><span class="n">l</span><span class="si">}</span><span class="s2">&#39;&#39;&quot;</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">loinc_list</span><span class="p">])</span>
+    
+    <span class="c1"># Make sure BO queries use the same placeholders below</span>
+    <span class="n">sql_query</span> <span class="o">=</span> <span class="n">format_bo_sql</span><span class="p">(</span><span class="n">bo_q</span><span class="p">,</span> <span class="n">dp_name</span><span class="p">,</span> <span class="n">database</span><span class="o">=</span><span class="n">db</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">,</span> <span class="n">aliases</span><span class="o">=</span><span class="n">aliases</span><span class="p">)</span>\
+                <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;12345678&quot;</span><span class="p">,</span> <span class="n">personlist</span><span class="p">)</span>\
+                <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;01/01/1900 00:0:0&quot;</span><span class="p">,</span> <span class="n">start_date</span><span class="p">)</span>\
+                <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;12/31/1900 00:0:0&quot;</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>\
+                <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&#39;LOINCLIST&#39;&#39;&quot;</span><span class="p">,</span> <span class="n">loinc_str</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;EXECUTE (&#39;USE DWS_PROD;</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">sqlparse</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sql_query</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;)&quot;</span>  <span class="c1">#reindent_aligned=True, indent_with=1</span></div>
+
+
+<div class="viewcode-block" id="format_bo_sql"><a class="viewcode-back" href="../../omop_etl.html#omop_etl.bo.format_bo_sql">[docs]</a><span class="k">def</span> <span class="nf">format_bo_sql</span><span class="p">(</span><span class="n">sqlstring</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">dp_name</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">database</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">schema</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;cohort&#39;</span><span class="p">,</span> <span class="n">aliases</span><span class="p">:</span><span class="nb">list</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Refactor BO Query to insert data into a heap on the fly.&quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">sqlstring</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Empty string passed.&#39;</span>
+
+    <span class="k">def</span> <span class="nf">flatten</span><span class="p">(</span><span class="n">lst</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">el</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>  
+                <span class="c1"># recurse</span>
+                <span class="k">yield from</span> <span class="n">flatten</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># generate</span>
+                <span class="k">yield</span> <span class="n">el</span>
+
+    <span class="k">def</span> <span class="nf">get_function</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="p">(</span><span class="n">sqlparse</span><span class="o">.</span><span class="n">sql</span><span class="o">.</span><span class="n">Parenthesis</span><span class="p">,</span> <span class="n">sqlparse</span><span class="o">.</span><span class="n">sql</span><span class="o">.</span><span class="n">Operation</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">[</span><span class="n">get_function</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">item</span><span class="p">]))</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">sqlparse</span><span class="o">.</span><span class="n">sql</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">item</span>
+
+    <span class="k">def</span> <span class="nf">replace_cast_with_try_convert</span><span class="p">(</span><span class="n">parsed</span><span class="p">):</span>    
+        <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">parsed</span><span class="o">.</span><span class="n">tokens</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="p">(</span><span class="n">sqlparse</span><span class="o">.</span><span class="n">sql</span><span class="o">.</span><span class="n">IdentifierList</span><span class="p">,</span> <span class="n">sqlparse</span><span class="o">.</span><span class="n">sql</span><span class="o">.</span><span class="n">Where</span><span class="p">)):</span>
+                <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">token</span> <span class="k">if</span> <span class="n">search</span><span class="p">(</span><span class="s1">&#39;cast&#39;</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">value</span><span class="p">)]</span>
+
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">sqlparse</span><span class="o">.</span><span class="n">sql</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
+                        <span class="n">fun_list</span> <span class="o">=</span> <span class="n">flatten</span><span class="p">([</span><span class="n">get_function</span><span class="p">(</span><span class="n">item</span><span class="p">)])</span>
+                        <span class="c1"># print(fun_list)</span>
+
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">fun_list</span> <span class="o">=</span> <span class="n">flatten</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">[</span><span class="n">get_function</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">item</span><span class="p">])))</span>
+                        <span class="c1"># print(fun_list)</span>
+
+                    <span class="k">for</span> <span class="n">fun</span> <span class="ow">in</span> <span class="n">fun_list</span><span class="p">:</span>
+                        <span class="n">col</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">flatten</span><span class="p">([[</span><span class="n">i</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; as &#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">p</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">sqlparse</span><span class="o">.</span><span class="n">sql</span><span class="o">.</span><span class="n">Identifier</span><span class="p">)]</span> 
+                                                <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">fun</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">sqlparse</span><span class="o">.</span><span class="n">sql</span><span class="o">.</span><span class="n">Parenthesis</span><span class="p">)][</span><span class="mi">0</span><span class="p">])</span>
+                        <span class="c1"># print(fun)</span>
+                        <span class="n">item</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">fun</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;try_convert(</span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s1">,</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+
+                <span class="n">token</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">token</span><span class="p">)</span>
+
+    <span class="n">parsed</span> <span class="o">=</span> <span class="n">sqlparse</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">sqlstring</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># Replace cast to avoid overflow errors. try_convert will return null if conversion of data types fails. </span>
+    <span class="n">replace_cast_with_try_convert</span><span class="p">(</span><span class="n">parsed</span><span class="p">)</span>
+
+    <span class="c1"># Extract columns from SELECT clause and add aliases to avoid insert error due to missing col names.</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">parsed</span><span class="o">.</span><span class="n">token_index</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">parsed</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">is_keyword</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;FROM&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">token_prev</span><span class="p">(</span><span class="n">idx</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">colnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span>
+    <span class="n">dup_cols</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">colnames</span> <span class="k">if</span> <span class="n">colnames</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">new_colnames</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">aliases</span><span class="p">:</span>
+        <span class="n">col_items</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">columns</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="p">(</span><span class="n">Identifier</span><span class="p">,</span> <span class="n">Function</span><span class="p">,</span> <span class="n">Operation</span><span class="p">,</span> <span class="n">Case</span><span class="p">))]</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">col_items</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">aliases</span><span class="p">),</span> <span class="s1">&#39;Number of columns in query does not match number of aliases passed.&#39;</span>
+        <span class="n">new_colnames</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">item</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1"> AS </span><span class="si">{</span><span class="n">alias</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">item</span><span class="p">,</span><span class="n">alias</span> <span class="ow">in</span> <span class="nb">zip</span> <span class="p">(</span><span class="n">col_items</span><span class="p">,</span> <span class="n">aliases</span><span class="p">)]</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">Identifier</span><span class="p">):</span>
+                <span class="n">colname</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">tabname</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">shrt_tabname</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">word</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">tabname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)])</span>
+                <span class="k">if</span> <span class="n">colname</span> <span class="ow">in</span> <span class="n">dup_cols</span><span class="p">:</span>
+                    <span class="n">item</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">item</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1"> AS </span><span class="si">{</span><span class="n">shrt_tabname</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">colname</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="n">new_colnames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="p">(</span><span class="n">Function</span><span class="p">,</span> <span class="n">Operation</span><span class="p">,</span> <span class="n">Case</span><span class="p">)):</span>
+                <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">fn_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;FN_</span><span class="si">{</span><span class="n">counter</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">item</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1"> AS </span><span class="si">{</span><span class="n">fn_name</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="n">new_colnames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="n">colnames_str</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">new_colnames</span><span class="p">)</span>
+    <span class="n">into_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">colnames_str</span><span class="si">}</span><span class="s1"> INTO </span><span class="si">{</span><span class="n">database</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">dp_name</span><span class="si">}</span><span class="s1"> &#39;</span>
+
+    <span class="c1"># Replace string with INTO clause and new column names.</span>
+    <span class="n">columns</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">into_str</span>
+    <span class="n">sqlstring</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;DROP TABLE IF EXISTS </span><span class="si">{</span><span class="n">database</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">dp_name</span><span class="si">}</span><span class="s1">; &#39;</span> <span class="o">+</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">parsed</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">sqlstring</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;&#39;&#39;&quot;</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">omop_etl</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">omop_etl</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
