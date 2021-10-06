@@ -8,7 +8,7 @@
         ,pain_scale = 'PAIN SCALE'
         ,pain_score = left(pain_uf_dvprs, 2)
         ,raw_score = pain_uf_dvprs
-    FROM [DWS_OMOP].[stage].[MEASUREMENT_PainScale]
+    FROM [stage].[MEASUREMENT_PainScale]
 ) 
 insert into preload.measurement with (tablock)
 select person_id = b.person_id

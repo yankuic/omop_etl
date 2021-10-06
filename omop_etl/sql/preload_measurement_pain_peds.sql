@@ -7,7 +7,7 @@
         ,[provider] = isnull([attending_provider],[visit_provider])
         ,pain_scale = 'PAIN SCALE - Peds Wong-Baker'
         ,pain_score = pain_peds
-    FROM [DWS_OMOP].[stage].[MEASUREMENT_PainScale_Peds]
+    FROM [stage].[MEASUREMENT_PainScale_Peds]
 )
 insert into preload.measurement with (tablock)
 select person_id = b.person_id
