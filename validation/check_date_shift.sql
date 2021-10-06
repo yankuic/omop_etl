@@ -6,7 +6,7 @@ SELECT TOP (1000) a.person_id
       ,a.[month_of_birth]
       ,a.[day_of_birth]
       ,c.[birth_datetime]
-  FROM [DWS_OMOP].[dbo].[person] a
+  FROM [dbo].[person] a
   join xref.person_mapping b
   on a.person_id = b.person_id
   join hipaa.[PERSON] c
@@ -20,7 +20,7 @@ SELECT TOP (1000) a.[visit_occurrence_id]
 	  ,DATEDIFF(day, a.visit_start_date, d.visit_start_date) diff
       ,a.[visit_start_date]
 	  ,d.[visit_start_date]
-  FROM [DWS_OMOP].[dbo].[visit_occurrence] a
+  FROM [dbo].[visit_occurrence] a
   join xref.person_mapping b 
   on a.person_id = b.person_id 
   join hipaa.[visit_occurrence] d
@@ -32,7 +32,7 @@ SELECT TOP (1000) a.person_id
 	  ,datediff(day, c.death_date, a.death_date)
 	  ,a.death_date
 	  ,c.death_date
-  FROM [DWS_OMOP].[dbo].[death] a
+  FROM [dbo].[death] a
   join xref.person_mapping b
   on a.person_id = b.person_id
   join hipaa.DEATH c
@@ -95,7 +95,7 @@ SELECT TOP (1000) [drug_exposure_id]
       ,a.drug_exposure_end_datetime
       ,a.verbatim_end_date
       ,a.visit_occurrence_id
-  FROM [DWS_OMOP].[dbo].[drug_exposure] a
+  FROM [dbo].[drug_exposure] a
   join (
 		select date_shift, 
 			  DATEADD(day, date_shift, b.drug_exposure_start_datetime) new_start_date, 
@@ -125,7 +125,7 @@ SELECT TOP (1000) [measurement_id]
       ,a.measurement_datetime
       ,a.visit_occurrence_id
 	  ,b.visit_occurrence_id
-  FROM [DWS_OMOP].[dbo].[measurement] a
+  FROM [dbo].[measurement] a
   join (
 		select date_shift, 
 			  DATEADD(day, date_shift, b.measurement_datetime) new_date, 
@@ -150,7 +150,7 @@ SELECT TOP (1000) a.[observation_period_id]
 	  ,datediff(day, c.observation_period_start_date, a.observation_period_start_date) start_datediff
 	  ,a.observation_period_start_date
 	  ,c.observation_period_start_date
-FROM [DWS_OMOP].[dbo].[observation_period] a
+FROM [dbo].[observation_period] a
 join xref.person_mapping b
 on b.person_id = a.person_id
 join hipaa.observation_period c
@@ -167,7 +167,7 @@ SELECT TOP (1000) [observation_id]
       ,a.observation_datetime
       ,a.visit_occurrence_id
 	  ,b.visit_occurrence_id
-  FROM [DWS_OMOP].[dbo].[observation] a
+  FROM [dbo].[observation] a
   join (
 		select date_shift, 
 			  DATEADD(day, date_shift, b.observation_datetime) new_date, 
