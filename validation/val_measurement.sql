@@ -9,7 +9,7 @@ SELECT TOP (1000) [concept_id]
       ,[valid_start_date]
       ,[valid_end_date]
       ,[invalid_reason]
-  FROM [DWS_OMOP].[xref].[concept]
+  FROM [xref].[concept]
   where concept_id = 2212731
 
 select * from preload.procedure_occurrence
