@@ -31,7 +31,7 @@ END
 --HINT DISTRIBUTE ON KEY (person_id)
  CREATE TABLE hipaa.OBSERVATION_PERIOD (
 
-    observation_period_id integer IDENTITY(1,1) NOT NULL,
+    observation_period_id integer NOT NULL,
     person_id integer NOT NULL,
     observation_period_start_date date NOT NULL,
     observation_period_end_date date NOT NULL,
@@ -65,7 +65,7 @@ END
 --HINT DISTRIBUTE ON KEY (person_id)
  CREATE TABLE hipaa.CONDITION_OCCURRENCE (
 
-    condition_occurrence_id integer IDENTITY(1,1) NOT NULL,
+    condition_occurrence_id integer NOT NULL,
     person_id integer NOT NULL,
     condition_concept_id integer NOT NULL,
     condition_start_date date NOT NULL,
@@ -87,7 +87,7 @@ END
 --HINT DISTRIBUTE ON KEY (person_id)
  CREATE TABLE hipaa.DRUG_EXPOSURE (
 
-    drug_exposure_id integer IDENTITY(1,1) NOT NULL,
+    drug_exposure_id integer NOT NULL,
     person_id integer NOT NULL,
     drug_concept_id integer NOT NULL,
     drug_exposure_start_date date NOT NULL,
@@ -116,7 +116,7 @@ END
 --HINT DISTRIBUTE ON KEY (person_id)
  CREATE TABLE hipaa.PROCEDURE_OCCURRENCE (
 
-    procedure_occurrence_id integer IDENTITY(1,1) NOT NULL,
+    procedure_occurrence_id integer NOT NULL,
     person_id integer NOT NULL,
     procedure_concept_id integer NOT NULL,
     procedure_date date NOT NULL,
@@ -136,7 +136,7 @@ END
 --HINT DISTRIBUTE ON KEY (person_id)
  CREATE TABLE hipaa.DEVICE_EXPOSURE (
 
-    device_exposure_id integer IDENTITY(1,1) NOT NULL,
+    device_exposure_id integer NOT NULL,
     person_id integer NOT NULL,
     device_concept_id integer NOT NULL,
     device_exposure_start_date date NOT NULL,
@@ -157,7 +157,7 @@ END
 --HINT DISTRIBUTE ON KEY (person_id)
  CREATE TABLE hipaa.MEASUREMENT (
 
-    measurement_id integer IDENTITY(1,1) NOT NULL,
+    measurement_id integer NOT NULL,
     person_id integer NOT NULL,
     measurement_concept_id integer NOT NULL,
     measurement_date date NOT NULL,
@@ -183,7 +183,7 @@ END
 --HINT DISTRIBUTE ON KEY (person_id)
  CREATE TABLE hipaa.OBSERVATION (
 
-    observation_id integer IDENTITY(1,1) NOT NULL,
+    observation_id integer NOT NULL,
     person_id integer NOT NULL,
     observation_concept_id integer NOT NULL,
     observation_date date NOT NULL,
