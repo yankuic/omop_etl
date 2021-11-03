@@ -31,7 +31,7 @@ END
 --HINT DISTRIBUTE ON KEY (person_id)
  CREATE TABLE hipaa.OBSERVATION_PERIOD (
 
-    observation_period_id integer IDENTITY(1,1) NOT NULL,
+    observation_period_id integer NOT NULL,
     person_id integer NOT NULL,
     observation_period_start_date date NOT NULL,
     observation_period_end_date date NOT NULL,
@@ -63,9 +63,34 @@ END
 ) ON fg_user1;
 
 --HINT DISTRIBUTE ON KEY (person_id)
+ CREATE TABLE dbo.VISIT_DETAIL (
+
+	visit_detail_id integer NOT NULL,
+	person_id integer NOT NULL,
+	visit_detail_concept_id integer NOT NULL,
+	visit_detail_start_date date NOT NULL,
+	visit_detail_start_datetime datetime NULL,
+	visit_detail_end_date date NOT NULL,
+	visit_detail_end_datetime datetime NULL,
+	visit_detail_type_concept_id integer NOT NULL,
+	provider_id integer NULL,
+	care_site_id integer NULL,
+	visit_detail_source_value varchar(50) NULL,
+	visit_detail_source_concept_id Integer NULL,
+	admitting_source_value Varchar(50) NULL,
+	admitting_source_concept_id Integer NULL,
+	discharge_to_source_value Varchar(50) NULL,
+	discharge_to_concept_id integer NULL,
+	preceding_visit_detail_id integer NULL,
+	visit_detail_parent_id integer NULL,
+	visit_occurrence_id integer NOT NULL 
+
+) ON fg_user1;
+
+--HINT DISTRIBUTE ON KEY (person_id)
  CREATE TABLE hipaa.CONDITION_OCCURRENCE (
 
-    condition_occurrence_id integer IDENTITY(1,1) NOT NULL,
+    condition_occurrence_id integer NOT NULL,
     person_id integer NOT NULL,
     condition_concept_id integer NOT NULL,
     condition_start_date date NOT NULL,
@@ -87,7 +112,7 @@ END
 --HINT DISTRIBUTE ON KEY (person_id)
  CREATE TABLE hipaa.DRUG_EXPOSURE (
 
-    drug_exposure_id integer IDENTITY(1,1) NOT NULL,
+    drug_exposure_id integer NOT NULL,
     person_id integer NOT NULL,
     drug_concept_id integer NOT NULL,
     drug_exposure_start_date date NOT NULL,
@@ -116,7 +141,7 @@ END
 --HINT DISTRIBUTE ON KEY (person_id)
  CREATE TABLE hipaa.PROCEDURE_OCCURRENCE (
 
-    procedure_occurrence_id integer IDENTITY(1,1) NOT NULL,
+    procedure_occurrence_id integer NOT NULL,
     person_id integer NOT NULL,
     procedure_concept_id integer NOT NULL,
     procedure_date date NOT NULL,
@@ -136,7 +161,7 @@ END
 --HINT DISTRIBUTE ON KEY (person_id)
  CREATE TABLE hipaa.DEVICE_EXPOSURE (
 
-    device_exposure_id integer IDENTITY(1,1) NOT NULL,
+    device_exposure_id integer NOT NULL,
     person_id integer NOT NULL,
     device_concept_id integer NOT NULL,
     device_exposure_start_date date NOT NULL,
@@ -157,7 +182,7 @@ END
 --HINT DISTRIBUTE ON KEY (person_id)
  CREATE TABLE hipaa.MEASUREMENT (
 
-    measurement_id integer IDENTITY(1,1) NOT NULL,
+    measurement_id integer NOT NULL,
     person_id integer NOT NULL,
     measurement_concept_id integer NOT NULL,
     measurement_date date NOT NULL,
@@ -183,7 +208,7 @@ END
 --HINT DISTRIBUTE ON KEY (person_id)
  CREATE TABLE hipaa.OBSERVATION (
 
-    observation_id integer IDENTITY(1,1) NOT NULL,
+    observation_id integer NOT NULL,
     person_id integer NOT NULL,
     observation_concept_id integer NOT NULL,
     observation_date date NOT NULL,
