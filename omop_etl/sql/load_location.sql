@@ -1,6 +1,6 @@
 insert into dbo.location with (tablock) 
 select b.location_id
-    --Use explicit truncation to avoid truncation errors
+    --Use explicit truncation to avoid ansi errors
     ,[address_1] = left(addr1, 50)
     ,[address_2] = left(addr2, 50)
     ,[city_name]
