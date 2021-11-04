@@ -187,14 +187,6 @@ where a.death_date < b.observation_date
 --and a.person_id = 392
 order by a.person_id 
 
-select distinct a.person_id, a.death_date, b.observation_date, b.observation_source_value 
-from dbo.death a
-left join dbo.observation b
-on a.person_id = b.person_id
-where a.death_date < b.observation_date
---and a.person_id = 392
-order by a.person_id 
-
 select b.[person_id]
       ,[death_date] = ISNULL(a.PATNT_DTH_DATE, a.PATNT_SSN_DTH_DATE)
       ,[death_datetime] = ISNULL(a.PATNT_DTH_DATE, a.PATNT_SSN_DTH_DATE)

@@ -6,6 +6,9 @@ settings.json
 MANIFEST
 .vscode/.ropeproject
 .vscode/settings.json
+# docs/_build
+# docs/_static
+# docs/_templates
 
 # ignore directories
 *.egg-info/
@@ -16,3 +19,4 @@ validation/*.csv
 output/
 dist/
 build/
+.vscode/
