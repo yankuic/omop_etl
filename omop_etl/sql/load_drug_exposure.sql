@@ -29,7 +29,8 @@ insert into dbo.drug_exposure with (tablock) (
       ,route_source_value
       ,dose_unit_source_value 
 )
-select distinct person_id
+select distinct 
+      a.person_id
       ,drug_concept_id
       ,drug_exposure_start_date
       ,drug_exposure_start_datetime
@@ -44,11 +45,19 @@ select distinct person_id
       ,sig
       ,route_concept_id
       ,lot_number
-      ,provider_id
+      ,a.provider_id
       ,visit_occurrence_id
       ,visit_detail_id
       ,drug_source_value
       ,drug_source_concept_id
       ,route_source_value
       ,dose_unit_source_value 
-from preload.drug_exposure
+from preload.drug_exposure a 
+join dbo.person b
+on a.person_id = b.person_id
+where visit_occurrence_id is null 
+or visit_occurrence_id in (
+      select visit_occurrence_id 
+      from dbo.visit_occurrence
+)
+
