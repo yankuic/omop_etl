@@ -26,7 +26,8 @@ insert into dbo.measurement with (tablock) (
     ,unit_source_value
     ,value_source_value
 )
-select distinct person_id
+select distinct 
+    a.person_id
     ,measurement_concept_id
     ,measurement_date
     ,measurement_datetime
@@ -38,12 +39,18 @@ select distinct person_id
     ,unit_concept_id
     ,range_low
     ,range_high
-    ,provider_id
+    ,a.provider_id
     ,visit_occurrence_id
     ,visit_detail_id
     ,measurement_source_value
     ,measurement_source_concept_id
     ,unit_source_value
     ,value_source_value
-from preload.measurement
-
+from preload.measurement a
+join dbo.person b
+on a.person_id = b.person_id
+where visit_occurrence_id is null 
+or visit_occurrence_id in (
+      select visit_occurrence_id 
+      from dbo.visit_occurrence
+)
