@@ -78,7 +78,13 @@ class DataStore:
             return pd.read_sql(q, con)
 
     def list_tables(self, database=None, in_schema=['dbo'], name_pattern=None):
-        """List database tables."""
+        """List database tables.
+
+        Args:
+            database (str, optional): Database name. Defaults to None.
+            in_schema (list, optional): List of database schemas. Defaults to ['dbo'].
+            name_pattern (str, optional): String pattern. Defaults to None.
+        """
         schema_list = ','.join(["'{}'".format(schema) for schema in in_schema])
 
         if database is None:
@@ -102,7 +108,11 @@ class DataStore:
             return pd.read_sql(q, con)
 
     def list_schemas(self, database=None):
-        """List user schemas."""
+        """List database schemas.
+
+        Args:
+            database (str, optional): Database name. Defaults to None.
+        """
         q = '''
         select s.name as schema_name, 
             s.schema_id,
@@ -120,12 +130,11 @@ class DataStore:
             return pd.read_sql(q, con)
 
     def find_column(self, pattern, in_schema=['dbo']):
-        """Search column name matching pattern across all tables in the database.
+        """Search column on all tables in the database.
         
         Arguments:
-            pattern {str} -- String patter to match.
+            pattern {str} -- String patter.
             in_schema {list} -- List of schemas to search in. 
-
         """        
         schema_list = ','.join(["'{}'".format(schema) for schema in in_schema])
 
@@ -158,17 +167,13 @@ class DataStore:
             return int(result[1].strip())
 
     def get_indexes(self, table, schema='dbo'):
-        """[summary].
+        """Retrieve index(es) info for {schema}.{table}
 
         Arguments:
-            table {[type]} -- [description]
+            table {str} -- table name
 
         Keyword Arguments:
-            schema {str} -- [description] (default: {'dbo'})
-
-        Returns:
-            [type] -- [description]
-
+            schema {str} -- Schema name. Default is 'dbo'.
         """
         q = '''
             EXEC sys.sp_helpindex @objname = N'{}.{}'
@@ -228,10 +233,24 @@ class DataStore:
                 return False
 
     def truncate(self, schema, table):
+        """Truncate table.
+
+        Args:
+            schema (str): Schema name
+            table (str): Table name
+        """
         q = f'truncate table {schema}.{table}'
         return self.execute(q)
 
     def archive_table(self, table):
+        """Copy table from dbo into archive schema. 
+        
+        If archive schema does not exist it will create it.
+        A clustered columnstore index is created on the archived table to reduce the space used.
+
+        Args:
+            table (str): Table name
+        """
         q = '''
         IF NOT EXISTS (SELECT 1 FROM sys.schemas WHERE name = 'archive')
         BEGIN
