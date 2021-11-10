@@ -13,7 +13,6 @@ from omop_etl.load import Loader
 from omop_etl.io import read_sql, import_csv
 from omop_etl.utils import timeitc
 
-global CONFIG_FILE
 CONFIG_FILE = 'config.yml'
 
 class ETLCli:
@@ -41,6 +40,7 @@ class ETLCli:
         args = parser.parse_args(sys.argv[2:])
 
         if args.config_file:
+            global CONFIG_FILE
             CONFIG_FILE = args.config_file
 
         loader = Loader(CONFIG_FILE)
@@ -82,6 +82,7 @@ class ETLCli:
         args = parser.parse_args(sys.argv[2:])
 
         if args.config_file:
+            global CONFIG_FILE
             CONFIG_FILE = args.config_file
         
         loader = Loader(CONFIG_FILE)
@@ -113,6 +114,7 @@ class ETLCli:
         args = parser.parse_args(sys.argv[2:])
 
         if args.config_file:
+            global CONFIG_FILE
             CONFIG_FILE = args.config_file
 
         loader = Loader(CONFIG_FILE)
@@ -238,6 +240,7 @@ class ETLCli:
         args = parser.parse_args(sys.argv[2:])
 
         if args.config_file:
+            global CONFIG_FILE
             CONFIG_FILE = args.config_file
 
         loader = Loader(CONFIG_FILE)
@@ -266,6 +269,7 @@ class ETLCli:
         args = parser.parse_args(sys.argv[2:])
 
         if args.config_file:
+            global CONFIG_FILE
             CONFIG_FILE = args.config_file 
 
         loader = Loader(CONFIG_FILE)
@@ -336,6 +340,7 @@ class ETLCli:
         args = parser.parse_args(sys.argv[2:])
 
         if args.config_file:
+            global CONFIG_FILE
             CONFIG_FILE = args.config_file
 
         loader = Loader(CONFIG_FILE)
@@ -374,6 +379,7 @@ class ETLCli:
         args = parser.parse_args(sys.argv[2:])
         
         if args.config_file:
+            global CONFIG_FILE
             CONFIG_FILE = args.config_file 
 
         loader = Loader(CONFIG_FILE)
@@ -401,6 +407,7 @@ class ETLCli:
         args = parser.parse_args(sys.argv[2:])
 
         if args.config_file:
+            global CONFIG_FILE
             CONFIG_FILE = args.config_file
         
         loader = Loader(CONFIG_FILE)
