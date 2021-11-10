@@ -168,6 +168,7 @@ exec('
 
 exec('
 	/*Procedure occurrence -> Device exposure*/
+	truncate table dbo.device_exposure
 	insert into dbo.device_exposure with(tablock) (
 		[person_id]
 		,[device_concept_id]
