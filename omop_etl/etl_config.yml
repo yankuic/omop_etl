@@ -1,0 +1,730 @@
+# Schema scripts
+schema:
+  dbo: create_schema_dbo.sql
+  preload: create_schema_preload.sql
+  xref: create_schema_xref.sql
+  hipaa: create_schema_hipaa.sql
+  cohort: create_schema_cohort.sql
+  archive: create_schema_archive.sql
+  archive_xref: create_schema_archive_xref.sql
+#Stage BO dp names
+stage:
+  condition_occurrence: 
+    condition: CONDITION
+    admit_icd9: CONDITION_admit_icd9
+    admit_icd10: CONDITION_admit_icd10
+    principal_icd9: CONDITION_principal_icd9
+    principal_icd10: CONDITION_principal_icd10
+  death: DEATH
+  drug_exposure:
+    admin: DRUG_ADMIN
+    order: DRUG_ORDER
+  measurement:
+    bp: MEASUREMENT_BP_BP
+    bp_artline: MEASUREMENT_BP_ArterialLine
+    bp_noninvasive: MEASUREMENT_BP_BP_NonInvasive
+    bp_cvp: MEASUREMENT_BP_CVP
+    bp_cvp_mean: MEASUREMENT_BP_CVP_mean
+    bp_map_artline: MEASUREMENT_BP_MAP_A_line
+    bp_map_cuff: MEASUREMENT_BP_MAP_Cuff
+    bp_map_noninvasive: MEASUREMENT_BP_MAP_NonINvasive
+    bp_pap_mean: MEASUREMENT_BP_PAP_mean
+    heart_rate: MEASUREMENT_HeartRate
+    height: MEASUREMENT_Height
+    lab: MEASUREMENT_LAB
+    lda: MEASUREMENT_LDA
+    pain: MEASUREMENT_PainScale
+    pain_jax: MEASUREMENT_PainScale_JAX
+    pain_peds: MEASUREMENT_PainScale_Peds
+    qtcb: MEASUREMENT_QTCB
+    res_dev: MEASUREMENT_Res_Device
+    res_etco2: MEASUREMENT_Res_ETCO2
+    res_etco2_on: MEASUREMENT_Res_ETCO2_NO
+    res_fio2: MEASUREMENT_Res_FIO2
+    res_o2: MEASUREMENT_Res_O2
+    res_o2_ml: MEASUREMENT_Res_O2_mL
+    res_peep: MEASUREMENT_Res_PEEP
+    res_pip: MEASUREMENT_Res_PIP
+    res_resp: MEASUREMENT_Res_RESP
+    res_resp_adultmech: MEASUREMENT_Res_RESP_AdultMech
+    res_resp_adultspont: MEASUREMENT_Res_RESP_AdultSpont
+    res_resp_pedsmech: MEASUREMENT_Res_RESP_PedsMech
+    res_resp_pedsspont: MEASUREMENT_Res_RESP_PedsSpont
+    res_resp_mech: MEASUREMENT_Res_RESP_MechVentSetRate
+    res_spo2: MEASUREMENT_Res_SPO2
+    res_tidal: MEASUREMENT_Res_Tidal
+    res_tidal_mech: MEASUREMENT_Res_Tidal_Mech
+    res_tidal_spont: MEASUREMENT_Res_Tidal_Spont
+    res_vent_mode: MEASUREMENT_Res_Vent_Mode
+    res_vent_start: MEASUREMENT_Res_Vent_Start
+    res_vent_end: MEASUREMENT_Res_Vent_End
+    res_vent_mode_peds: MEASUREMENT_Res_Vent_Mode_Peds
+    res_vent_start_peds: MEASUREMENT_Res_Vent_Start_Peds
+    res_vent_end_peds: MEASUREMENT_Res_Vent_End_Peds
+    gcs: MEASUREMENT_GCS
+    gcs_peds: MEASUREMENT_GCS_Peds
+    rothman: MEASUREMENT_Rothman
+    sofa: MEASUREMENT_SOFA
+    temp: MEASUREMENT_Temp
+    weight: MEASUREMENT_Weight
+  observation:
+    icu: OBSERVATION_ICU
+    lda: OBSERVATION_LDA
+    payer: OBSERVATION_Payer
+    smoking: OBSERVATION_Smoking
+    vent: OBSERVATION_Vent
+    zipcode: OBSERVATION_Zipcode
+  person: PERSON
+  procedure_occurrence:
+    cpt: PROCEDURE_CPT
+    icd: PROCEDURE_ICD
+  visit_occurrence: VISIT
+stage_hs:
+  provider: stage_provider.sql
+  care_site: stage_care_site.sql
+  location: stage_location.sql
+#load 
+mapping:
+  person: person_mapping.sql
+  visit_occurrence: visit_occurrence_mapping.sql
+  provider: provider_mapping.sql
+  care_site: care_site_mapping.sql
+  location: location_mapping.sql
+preload:
+  condition_occurrence: 
+    condition: preload_condition.sql
+    admit_icd9: preload_condition_admit_icd9.sql
+    admit_icd10: preload_condition_admit_icd10.sql
+    principal_icd9: preload_condition_principal_icd9.sql
+    principal_icd10: preload_condition_principal_icd10.sql
+  drug_exposure:
+    admin: preload_drug_admin.sql
+    order: preload_drug_order.sql
+  measurement:
+    bp: preload_measurement_bp.sql
+    bp_artline: preload_measurement_bp_artline.sql
+    bp_noninvasive: preload_measurement_bp_noninvasive.sql
+    bp_cvp: preload_measurement_bp_cvp.sql
+    bp_cvp_mean: preload_measurement_bp_cvp_mean.sql
+    bp_map_artline: preload_measurement_bp_map_artline.sql
+    bp_map_noninvasive: preload_measurement_bp_map_noninvasive.sql
+    bp_map_cuff: preload_measurement_bp_map_cuff.sql
+    bp_pap_mean: preload_measurement_bp_pap_mean.sql
+    heart_rate: preload_measurement_heartrate.sql
+    height: preload_measurement_height.sql
+    lab: preload_measurement_lab.sql
+    pain: preload_measurement_pain.sql
+    pain_jax: preload_measurement_pain_jax.sql
+    pain_peds: preload_measurement_pain_peds.sql
+    qtcb: preload_measurement_qtcb.sql
+    res_dev: preload_measurement_res_device.sql
+    res_etco2: preload_measurement_res_etco2.sql
+    res_etco2_on: preload_measurement_res_etco2_on.sql
+    res_fio2: preload_measurement_res_fio2.sql
+    res_o2: preload_measurement_res_o2.sql
+    res_o2_ml: preload_measurement_res_o2_ml.sql
+    res_peep: preload_measurement_res_peep.sql
+    res_pip: preload_measurement_res_pip.sql
+    res_resp: preload_measurement_res_resp.sql
+    res_resp_mech: preload_measurement_res_resp_mech.sql
+    res_resp_adultmech: preload_measurement_res_resp_adultmech.sql
+    res_resp_adultspont: preload_measurement_res_resp_adultspont.sql
+    res_resp_pedsmech: preload_measurement_res_resp_pedsmech.sql
+    res_resp_pedsspont: preload_measurement_res_resp_pedsspont.sql
+    res_spo2: preload_measurement_res_spo2.sql
+    res_tidal: preload_measurement_res_tidal.sql
+    res_tidal_mech: preload_measurement_res_tidal_mech.sql
+    res_tidal_spont: preload_measurement_res_tidal_spont.sql
+    res_vent_mode: preload_measurement_res_vent_mode.sql
+    res_vent_start: preload_measurement_res_vent_start.sql
+    res_vent_end: preload_measurement_res_vent_end.sql
+    res_vent_mode_peds: preload_measurement_res_vent_mode_peds.sql
+    res_vent_start_peds: preload_measurement_res_vent_start_peds.sql
+    res_vent_end_peds: preload_measurement_res_vent_end_peds.sql
+    gcs: preload_measurement_gcs.sql
+    gcs_peds: preload_measurement_gcs_peds.sql
+    rothman: preload_measurement_rothman.sql
+    sofa: preload_measurement_sofa.sql
+    temp: preload_measurement_temp.sql
+    weight: preload_measurement_weight.sql
+  observation:
+    icu: preload_observation_icu.sql
+    lda: preload_observation_lda.sql
+    payer: preload_observation_payer.sql
+    smoking: preload_observation_smoking.sql
+    vent: preload_observation_vent.sql
+    zipcode: preload_observation_zipcode.sql
+  procedure_occurrence:
+    cpt: preload_procedure_cpt.sql
+    icd: preload_procedure_icd.sql
+load:
+  person: load_person.sql
+  visit_occurrence: load_visit_occurrence.sql
+  death: load_death.sql
+  condition_occurrence: load_condition.sql
+  drug_exposure: load_drug_exposure.sql
+  measurement: load_measurement.sql
+  observation: load_observation.sql
+  observation_period: load_observation_period.sql
+  procedure_occurrence: load_procedure.sql
+  provider: load_provider.sql
+  care_site: load_care_site.sql
+  location: load_location.sql
+  condition_era: load_condition_era.sql
+  drug_era: load_drug_era.sql
+postprocessing:
+  by_domain:
+    measurement: postprocess_measurement_by_domain.sql
+    condition_occurrence: postprocess_condition_by_domain.sql
+    procedure_occurrence: postprocess_procedure_by_domain.sql
+    observation: postprocess_observation_by_domain.sql
+  hipaa: postprocess_hipaa.sql
+# Vocabulary tables
+vocabulary_tables:
+  - source_to_concept_map
+  - concept
+  - concept_ancestor
+  - concept_class
+  - concept_relationship
+  - concept_synonym
+  - domain
+  - drug_strength
+  - relationship
+  - vocabulary
+  
+# Column aliases
+aliases:
+  CONDITION:
+  - patient_key
+  - start_date
+  - end_date
+  - diag_cd_decml
+  - diagnosis_type
+  - icd_type
+  - condition_poa
+  - providr_key
+  - patnt_encntr_key
+  CONDITION_admit_icd9:
+  - patient_key
+  - patnt_encntr_key
+  - providr_key
+  - admit_date
+  - discharge_date
+  - admit_icd9
+  CONDITION_admit_icd10:
+  - patient_key
+  - patnt_encntr_key
+  - providr_key
+  - admit_date
+  - discharge_date
+  - admit_icd10
+  CONDITION_principal_icd9:
+  - patient_key
+  - patnt_encntr_key
+  - providr_key
+  - admit_date
+  - discharge_date
+  - principal_icd9
+  CONDITION_principal_icd10:
+  - patient_key
+  - patnt_encntr_key
+  - providr_key
+  - admit_date
+  - discharge_date
+  - principal_icd10
+  DEATH:
+  - patient_key
+  - patnt_dth_date
+  - patnt_ssn_dth_date
+  DRUG_ADMIN:
+  - patient_key
+  - mar_action
+  - rxnorm_code
+  - med_name
+  - med_order_route
+  - taken_date
+  - taken_datetime
+  - total_dose_char
+  - med_dose_unit_desc
+  - provider_key
+  - patnt_encntr_key
+  DRUG_ORDER:
+  - patient_key
+  - med_order_start_date
+  - med_order_start_datetime
+  - med_order_end_date
+  - med_order_end_datetime
+  - med_order_discrete_dose
+  - med_order_discrete_dose_unit
+  - rxnorm_code
+  - med_name
+  - med_order_qty
+  - med_order_refills
+  - med_order_route
+  - med_order_sig
+  - provider_key
+  - patnt_encntr_key
+  MEASUREMENT_BP_ArterialLine:
+  - patient_key
+  - patnt_encntr_key
+  - bp_date
+  - bp_datetime
+  - bp_artline
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_BP_BP_NonInvasive:
+  - patient_key
+  - patnt_encntr_key
+  - bp_date
+  - bp_datetime
+  - bp_noninvasive
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_BP_BP:
+  - patient_key
+  - patnt_encntr_key
+  - bp_date
+  - bp_datetime
+  - bp
+  - bp_method
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_BP_CVP_mean:
+  - patient_key
+  - patnt_encntr_key
+  - bp_date
+  - bp_datetime
+  - cvp_mean
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_BP_CVP:
+  - patient_key
+  - patnt_encntr_key
+  - bp_date
+  - bp_datetime
+  - cvp
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_BP_MAP_A_line:
+  - patient_key
+  - patnt_encntr_key
+  - bp_date
+  - bp_datetime
+  - map_a_line
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_BP_MAP_Cuff:
+  - patient_key
+  - patnt_encntr_key
+  - bp_date
+  - bp_datetime
+  - map_cuff
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_BP_MAP_NonINvasive:
+  - patient_key
+  - patnt_encntr_key
+  - bp_date
+  - bp_datetime
+  - map_noninvasive
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_BP_PAP_mean:
+  - patient_key
+  - patnt_encntr_key
+  - bp_date
+  - bp_datetime
+  - pap_mean
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_HeartRate:
+  - patient_key
+  - patnt_encntr_key
+  - vitals_date
+  - vitals_datetime
+  - heartrate
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Height:
+  - patient_key
+  - patnt_encntr_key
+  - height_date
+  - height_datetime
+  - height_cm
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_LAB:
+  - patient_key
+  - patnt_encntr_key
+  - normal_low
+  - normal_high
+  - loinc_code
+  - lab_unit
+  - lab_result
+  - specimen_taken_date
+  - specimen_taken_time
+  - specimen_taken_datetime
+  - inferred_specimen_date
+  - inferred_specimen_time
+  - inferred_specimen_datetime
+  - attending_provider
+  MEASUREMENT_PainScale:
+  - patient_key
+  - patnt_encntr_key
+  - pain_date
+  - pain_datetime
+  - pain_uf_dvprs 
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_PainScale_JAX:
+  - patient_key
+  - patnt_encntr_key
+  - pain_date
+  - pain_datetime
+  - pain_jax
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_PainScale_Peds:
+  - patient_key
+  - patnt_encntr_key
+  - pain_date
+  - pain_datetime
+  - pain_peds
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_QTCB:
+  - patient_key
+  - patnt_encntr_key
+  - ecg_acq_date
+  - ecg_acq_time
+  - qtcb
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_Device:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_device
+  - respiratory_date
+  - respiratory_datetime
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_ETCO2:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - etco2
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_ETCO2_NO:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - etco2_no
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_FIO2:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - fio2
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_GCS_Peds:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - glasgow_coma_peds_score
+  - attending_provider
+  - visit_provider    
+  MEASUREMENT_GCS:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - glasgow_coma_adult_score
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_O2_mL:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - o2_mlmin
+  - attending_provider
+  - visit_provider    
+  MEASUREMENT_Res_O2:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - o2_lmin
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_PEEP:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - peep
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_PIP:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - pip
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_RESP_AdultMech:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - adult_mech_resp_rate    
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_RESP_AdultSpont:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - adult_spont_resp_rate    
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_RESP_PedsMech:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - peds_mech_resp_rate    
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_RESP_PedsSpont:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - peds_spont_resp_rate    
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_RESP_MechVentSetRate:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - mech_resp_rate    
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_RESP:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - respiratory_rate
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_SPO2:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - spo2
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_Tidal:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - tidal_volume
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_Tidal_Mech:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - tidal_volume_exhaled
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_Tidal_Spont:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - tidal_volume_exhaled
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_Vent_Mode:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - adult_vent_mode
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_Vent_Start:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - respiratory_vent_bgn
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_Vent_End:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - respiratory_vent_end
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_Vent_Mode_Peds:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - peds_vent_mode
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_Vent_Start_Peds:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - respiratory_vent_bgn
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Res_Vent_End_Peds:
+  - patient_key
+  - patnt_encntr_key
+  - respiratory_date
+  - respiratory_datetime
+  - respiratory_vent_end
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Rothman:
+  - patient_key
+  - patnt_encntr_key
+  - rothman_index_date
+  - rothman_index_datetime
+  - rothman_index_score
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_SOFA:
+  - patient_key
+  - patnt_encntr_key
+  - date_of_care
+  - sofa_score
+  - cardiovascular
+  - cns
+  - coagulation
+  - liver
+  - renal
+  - respiration
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Temp:
+  - patient_key
+  - patnt_encntr_key
+  - vitals_date
+  - vitals_datetime
+  - temp_celsius
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_Weight:
+  - patient_key
+  - patnt_encntr_key
+  - weight_date
+  - weight_datetime
+  - weight_kgs
+  - attending_provider
+  - visit_provider
+  OBSERVATION_ICU:
+  - patient_key
+  - encounter_effective_date
+  - icu_stay
+  - icu_days
+  - patnt_encntr_key
+  - attending_provider
+  - visit_provider
+  OBSERVATION_LDA:
+  - patient_key
+  - intubation_dt
+  - extubation_dt
+  - patnt_encntr_key
+  - airway_display_name
+  - attending_provider
+  - visit_provider
+  OBSERVATION_Payer:
+  - patient_key
+  - encounter_effective_date
+  - payer
+  - patnt_encntr_key
+  - attending_provider
+  - visit_provider
+  OBSERVATION_Smoking:
+  - patient_key
+  - smoking_status
+  - encounter_effective_date
+  - patnt_encntr_key
+  - attending_provider
+  - visit_provider
+  OBSERVATION_Vent:
+  - patient_key
+  - encounter_effective_date
+  - date_of_care
+  - vent_invasive
+  - vent_non_invasive
+  - patnt_encntr_key
+  - attending_provider
+  - visit_provider
+  OBSERVATION_Zipcode:
+  - patient_key
+  - encounter_effective_date
+  - zip
+  - patnt_encntr_key
+  - attending_provider
+  - visit_provider
+  PERSON:
+  - patient_key
+  - sex
+  - race
+  - ethnicity
+  - addr_key
+  - patnt_birth_datetime
+  - patient_reported_pcp_prov_key
+  - dept_id
+  PROCEDURE_CPT:
+  - patient_key
+  - start_date
+  - procedure_type
+  - cpt_cd
+  - patnt_encntr_key
+  - providr_key
+  PROCEDURE_ICD:
+  - patient_key
+  - start_date
+  - procedure_type
+  - proc_cd_decml
+  - icd_type
+  - patnt_encntr_key
+  - providr_key
+  VISIT:
+  - patient_key
+  - encounter_effective_date
+  - encounter_type
+  - patient_type
+  - dischg_date
+  - dischg_datetime
+  - admit_sources
+  - dischg_disposition
+  - patnt_encntr_key
+  - attending_provider
+  - visit_provider
+  - dept_id
