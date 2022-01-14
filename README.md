@@ -238,6 +238,9 @@ All commands must be executed within the omop project directory, where files con
   - Truncate project specific cohort tables. Need to implement this. For example, in cancer OMOP, we need to truncate cohort.cancer. It might be already implemented by the design of pulling data.
 
 1. Load cohort patient list into PersonList table in db.
+  - Check .wid file that contains the queries to generate the cohort. Check that queries are correct (including dates, placeholders, etc.). Even though the queries should not change from one run to another, it is possible that someone accidentally changed the query. 
+  - If .wid query does not contain the correct queries, please correct the query and ask Matt Marsik to run his code to generate metadata.
+  - When it is established that the .wid queries are correct, run the following command
 
     ```bash
     python refresh_cohort.py
