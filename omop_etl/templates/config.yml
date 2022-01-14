@@ -136,7 +136,6 @@ vocabularies:
   - Supplier
   - Episode Type
   - ICD10PCS
-  - PCORNet
   - ICD10CM
   - NCIt
   - Specimen Type
@@ -154,7 +153,7 @@ vocabularies:
   - CIViC
   - DRG
   - NDFRT
-  - UNUM  ???????????????
+
 
 loinc:
   10331-7: Rh [Type] in Blood
