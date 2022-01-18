@@ -1,4 +1,9 @@
-/* Move records by domain */
+/* Move records by domain 
+
+Condition occurrence -> Measurement
+Condition occurrence -> Observation
+Condition occurrence -> Procedure occurrence
+*/
 
 SET NOCOUNT ON;
 

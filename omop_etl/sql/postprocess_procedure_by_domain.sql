@@ -1,4 +1,10 @@
-/* Move records by domain */
+/* Move records by domain 
+
+Procedure -> Measurement
+Procedure occurrence -> Observation
+Procedure occurrence -> Drug exposure
+Procedure occurrence -> Device exposure
+*/
 
 SET NOCOUNT ON;
 
