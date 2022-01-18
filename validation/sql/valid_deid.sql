@@ -59,6 +59,7 @@ where n < 11
 
 --deid birth date
 --this test may fail if its run on a later date than the date of the data refresh.
+--to test it properly replace getdate()-365.25*85 for getdate()-365.25*85 + [number of days since refresh]
 union
 select test = 'masked birth_datetime for patients older than 85 y.', test_dt = getdate(), (case when count(*) = 0 then 'PASSED' else 'FAILED' end) result
 from hipaa.person a 
@@ -252,6 +253,7 @@ from (
 ) a
 where rc < 11
 
+union
 select test = 'masked condition_concept_id with less than 11 patients', test_dt = getdate(), (case when count(*) = 0 then 'PASSED' else 'FAILED' end) result
 from (
 	select condition_concept_id

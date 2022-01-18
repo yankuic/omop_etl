@@ -1,18 +1,21 @@
-# ignore extensions
+# ignore files
 *.pyc
 *.log
+validation/*.csv
 files.txt
-settings.json 
 MANIFEST
-.vscode/.ropeproject
 .vscode/settings.json
+.vscode/launch.json
+docs/_build
+docs/_static
+docs/_templates
 
 # ignore directories
 *.egg-info/
 __pycache__/
 .ipynb_checkpoints/
 validation/.ipynb_checkpoints/
-validation/*.csv
 output/
 dist/
 build/
+.vscode/.ropeproject
