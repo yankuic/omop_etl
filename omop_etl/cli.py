@@ -1,7 +1,6 @@
 """
 Class template from: https://chase-seibert.github.io/blog/2014/03/21/python-multilevel-argparse.html
 """
-
 import sys
 import os
 import shutil
@@ -41,6 +40,7 @@ class ETLCli:
         args = parser.parse_args(sys.argv[2:])
 
         if args.config_file:
+            global CONFIG_FILE
             CONFIG_FILE = args.config_file
 
         loader = Loader(CONFIG_FILE)
@@ -82,6 +82,7 @@ class ETLCli:
         args = parser.parse_args(sys.argv[2:])
 
         if args.config_file:
+            global CONFIG_FILE
             CONFIG_FILE = args.config_file
         
         loader = Loader(CONFIG_FILE)
@@ -113,6 +114,7 @@ class ETLCli:
         args = parser.parse_args(sys.argv[2:])
 
         if args.config_file:
+            global CONFIG_FILE
             CONFIG_FILE = args.config_file
 
         loader = Loader(CONFIG_FILE)
@@ -199,6 +201,7 @@ class ETLCli:
             os.makedirs(project_path)
             os.makedirs(vocab_path)
         except FileExistsError as e:
+            # TODO: Ask if user wants to overwrite existing directory
             raise e
 
         with open(config_template_path) as f:
@@ -237,6 +240,7 @@ class ETLCli:
         args = parser.parse_args(sys.argv[2:])
 
         if args.config_file:
+            global CONFIG_FILE
             CONFIG_FILE = args.config_file
 
         loader = Loader(CONFIG_FILE)
@@ -260,16 +264,20 @@ class ETLCli:
         parser.add_argument('-s', '--subset', type=str, help='If table has subsets pass this argument in combination with --table.')
         parser.add_argument('-a', '--all', help='Stage all tables.', action="store_true")
         parser.add_argument('-c', '--config_file', help='Path to configuration file. Implemented for testing purposes.')
-        parser.add_argument('--only_query', help='Print query without running it.', action="store_true")
+        parser.add_argument('--sql_only', help='Print query without running it.', action="store_true")
 
         args = parser.parse_args(sys.argv[2:])
 
         if args.config_file:
+            global CONFIG_FILE
             CONFIG_FILE = args.config_file 
 
         loader = Loader(CONFIG_FILE)
+
         MAPPING_TABLES = loader.mapping
         LOAD_TABLES = loader.config.load
+
+        sql_only = args.sql_only or False
 
         with timeitc("Staging"):
             if args.table:
@@ -280,9 +288,9 @@ class ETLCli:
                 elif sbs == 'all':
                     if isinstance(LOAD_TABLES[t], dict):
                         for part in LOAD_TABLES[t].keys():
-                            print(loader.stage_table(t, part, only_query=args.only_query))
+                            print(loader.stage_table(t, part, sql_only=sql_only))
                 else:
-                    print(loader.stage_table(t, sbs or None, only_query=args.only_query))
+                    print(loader.stage_table(t, sbs or None, sql_only=sql_only))
 
                 if t in MAPPING_TABLES.keys():
                     print(f"Refreshing mappings for table {t}.")
@@ -300,7 +308,7 @@ class ETLCli:
                 for t in LOAD_TABLES.keys():
                     if isinstance(LOAD_TABLES[t], dict):
                         for part in LOAD_TABLES[t].keys():
-                            print(loader.stage_table(t, part, only_query=args.only_query))
+                            print(loader.stage_table(t, part, sql_only=sql_only))
                             # print("Table with parts:", t, part)
                     else:
                         if t in ('provider','care_site','location'): 
@@ -308,7 +316,7 @@ class ETLCli:
                             # print("HS Table:", t)
                         else:
                             # print("Table with no parts:", t, LOAD_TABLES[t])
-                            print(loader.stage_table(t, only_query=args.only_query))
+                            print(loader.stage_table(t, sql_only=sql_only))
 
                     # update mappings
                     if t in MAPPING_TABLES.keys():
@@ -332,6 +340,7 @@ class ETLCli:
         args = parser.parse_args(sys.argv[2:])
 
         if args.config_file:
+            global CONFIG_FILE
             CONFIG_FILE = args.config_file
 
         loader = Loader(CONFIG_FILE)
@@ -370,6 +379,7 @@ class ETLCli:
         args = parser.parse_args(sys.argv[2:])
         
         if args.config_file:
+            global CONFIG_FILE
             CONFIG_FILE = args.config_file 
 
         loader = Loader(CONFIG_FILE)
@@ -397,6 +407,7 @@ class ETLCli:
         args = parser.parse_args(sys.argv[2:])
 
         if args.config_file:
+            global CONFIG_FILE
             CONFIG_FILE = args.config_file
         
         loader = Loader(CONFIG_FILE)
