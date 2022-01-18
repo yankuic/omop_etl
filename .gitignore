@@ -6,9 +6,9 @@ files.txt
 MANIFEST
 .vscode/settings.json
 .vscode/launch.json
-# docs/_build
-# docs/_static
-# docs/_templates
+docs/_build
+docs/_static
+docs/_templates
 
 # ignore directories
 *.egg-info/
