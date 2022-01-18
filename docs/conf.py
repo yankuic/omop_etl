@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath('../omop_etl/'))
 # -- Project information -----------------------------------------------------
 
 project = 'omop_etl'
-# copyright = '2021, Yankuic Galvan'
+copyright = 'University of Florida Integrated Data Repository'
 author = 'Yankuic Galvan'
 
 # The full version, including alpha/beta/rc tags
