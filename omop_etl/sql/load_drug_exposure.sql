@@ -53,11 +53,11 @@ select distinct
       ,route_source_value
       ,dose_unit_source_value 
 from preload.drug_exposure a 
--- join dbo.person b
--- on a.person_id = b.person_id
--- where visit_occurrence_id is null 
--- or visit_occurrence_id in (
---       select visit_occurrence_id 
---       from dbo.visit_occurrence
--- )
+join dbo.person b
+on a.person_id = b.person_id
+where visit_occurrence_id is null 
+or visit_occurrence_id in (
+      select visit_occurrence_id 
+      from dbo.visit_occurrence
+)
 

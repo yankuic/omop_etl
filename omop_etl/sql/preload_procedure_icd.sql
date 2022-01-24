@@ -14,8 +14,6 @@ select distinct
     ,[procedure_source_concept_id] = isnull(d.concept_id,0)
     ,[modifier_source_value] = NULL
     ,[source_table] = 'procedure_icd'
-    --code type is exposed here for later use in AoU etl
-    ,[code_type] = d.vocabulary_id
 from [stage].[procedure_icd] a
 join xref.person_mapping b
 on a.patient_key = b.patient_key

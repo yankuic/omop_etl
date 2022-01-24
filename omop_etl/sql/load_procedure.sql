@@ -34,10 +34,10 @@ select a.person_id
     ,[procedure_source_concept_id]
     ,[modifier_source_value]
 from preload.procedure_occurrence a
--- join dbo.person b
--- on a.person_id = b.person_id
--- where visit_occurrence_id is null 
--- or visit_occurrence_id in (
---       select visit_occurrence_id 
---       from dbo.visit_occurrence
--- )
+join dbo.person b
+on a.person_id = b.person_id
+where visit_occurrence_id is null 
+or visit_occurrence_id in (
+      select visit_occurrence_id 
+      from dbo.visit_occurrence
+)

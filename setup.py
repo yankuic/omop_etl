@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='omop_etl',
-    version='0.2',
+    version='0.1',
     author='Yankuic Galvan',
     author_email='yankuic@gmail.com',
     packages=['omop_etl'],

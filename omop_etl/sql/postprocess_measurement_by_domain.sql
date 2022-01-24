@@ -1,7 +1,4 @@
-/* Move records by domain 
-
-Measurement -> observation
-*/
+/* Move records by domain */
 
 SET NOCOUNT ON;
 
@@ -48,42 +45,11 @@ exec('
 	on a.measurement_concept_id = b.concept_id
 	where b.domain_id = ''Observation''
 
-	select measurement_id
-	into #ids
+	delete a
 	from dbo.measurement a
 	join xref.concept b
 	on a.measurement_concept_id = b.concept_id
-	where b.domain_id = ''Observation''
-	order by measurement_id asc
-
-	while (
-		select count(*)
-		from #ids
-	) > 0
-	begin
-
-		drop table if exists #delete_ids
-		select top 1000000 measurement_id 
-		into #delete_ids
-		from #ids
-
-		begin transaction
-		delete x from (
-			select *
-			from dbo.measurement
-			where measurement_id in (select * from #delete_ids)
-		)x
-
-		delete from #ids 
-		where measurement_id in (select * from #delete_ids)
-		
-		commit transaction;
-		checkpoint;
-
-	end
-
-	drop table if exists #ids
-'
+	where b.domain_id = ''Observation'''
 )
 
 SET NOCOUNT OFF;

@@ -2,22 +2,19 @@ insert into dbo.care_site with (tablock) (
       [care_site_id]
       ,[care_site_name] 
       ,[location_id]
-      ,[care_site_source_value]
-      ,[place_of_service_source_value] 
+      ,[care_site_source_value] 
 )
 select distinct 
     care_site_id
     ,dept_name 
     ,location_id
-    ,dept_id
-    ,pos_type_desc 
+    ,dept_id 
 from (
     select b.[care_site_id]
         ,a.[dept_name]
         ,c.[location_id]
-        ,dept_id = left(a.[dept_id], 50) 
-        ,pos_type_desc
-        ,row_number() over (partition by b.care_site_id order by b.care_site_id, a.dept_name) rn
+        ,dept_id = left(a.[dept_id],50) 
+        ,ROW_NUMBER() over (partition by b.care_site_id order by b.care_site_id, a.dept_name) rn
     from stage.care_site a
     join xref.care_site_mapping b 
     on a.dept_id = b.dept_id
