@@ -394,7 +394,7 @@ from dbo.care_site
 
 drop table if exists hipaa.condition_era
 select condition_era_id
-      ,a.person_id
+      ,person_id
       ,condition_concept_id
       ,condition_era_start_date = dateadd(day, @DateShift, a.condition_era_start_date)
       ,condition_era_end_date = dateadd(day, @DateShift, a.condition_era_end_date)
@@ -407,7 +407,7 @@ where b.active_ind = 'Y'
 
 drop table if exists hipaa.drug_era
 select drug_era_id
-      ,a.person_id
+      ,person_id
       ,drug_concept_id
       ,drug_era_start_date = dateadd(day, @DateShift, a.drug_era_start_date)
       ,drug_era_end_date = dateadd(day, @DateShift, a.drug_era_end_date)

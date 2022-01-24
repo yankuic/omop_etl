@@ -4,8 +4,6 @@ set nocount on;
 Subset records where icd counts < 11 and insert into temp 
 table for faster manipulation.
 */
-declare @rc int = 11
-
 drop table if exists #deid_diag_cd
 select a.*
 	,new_cd = condition_source_value
@@ -20,7 +18,17 @@ join (
 	 group by condition_source_value, icd_type
 ) b
 on a.condition_source_value = b.diag_cd
-where rc < @rc
+where rc < 11
+
+--back up stage table
+--drop table if exists stage.condition_bkup 
+--select * 
+--into stage.condition_bkup 
+--from stage.condition
+
+--truncate table stage.condition
+--insert into stage.condition with(tablock)
+--select * from stage.condition_bkup
 
 /*
 Flatten ICD codes by performing the following tasks recursively.
@@ -40,7 +48,7 @@ while (
 		from #deid_diag_cd
 		group by new_cd, icd_type
 	) x
-	where rc < @rc
+	where rc < 11
 	and charindex('.', new_cd) > 0
 ) > 1
 begin
@@ -58,7 +66,7 @@ begin
 			from #deid_diag_cd
 			group by new_cd, icd_type
 		) x
-		where rc < @rc
+		where rc < 11
 		and charindex('.', new_cd) > 0
 		and len(right_side) = @MaxLen
 	)
@@ -90,7 +98,7 @@ join (
 		  ,count(distinct person_id) rc
 	from #deid_diag_cd
 	group by new_cd, icd_type
-	having count(distinct person_id) < 12
+	having count(distinct person_id) < 11
 ) b
 on a.new_cd = b.new_cd 
 and a.icd_type = b.icd_type
@@ -120,9 +128,7 @@ select new_cd
 	) a
 	left join xref.concept b
 	on a.new_cd = b.concept_code and a.icd_type + 'CM' = b.vocabulary_id
-where b.concept_id is null and new_cd <> '000' and new_cd like '%X'
-
-select * from #fix_cd
+where b.concept_id is null and new_cd <> '000'
 
 --replace new_cds with clean codes.
 update a

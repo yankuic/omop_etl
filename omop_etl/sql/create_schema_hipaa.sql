@@ -63,31 +63,6 @@ END
 ) ON fg_user1;
 
 --HINT DISTRIBUTE ON KEY (person_id)
- CREATE TABLE dbo.VISIT_DETAIL (
-
-	visit_detail_id integer NOT NULL,
-	person_id integer NOT NULL,
-	visit_detail_concept_id integer NOT NULL,
-	visit_detail_start_date date NOT NULL,
-	visit_detail_start_datetime datetime NULL,
-	visit_detail_end_date date NOT NULL,
-	visit_detail_end_datetime datetime NULL,
-	visit_detail_type_concept_id integer NOT NULL,
-	provider_id integer NULL,
-	care_site_id integer NULL,
-	visit_detail_source_value varchar(50) NULL,
-	visit_detail_source_concept_id Integer NULL,
-	admitting_source_value Varchar(50) NULL,
-	admitting_source_concept_id Integer NULL,
-	discharge_to_source_value Varchar(50) NULL,
-	discharge_to_concept_id integer NULL,
-	preceding_visit_detail_id integer NULL,
-	visit_detail_parent_id integer NULL,
-	visit_occurrence_id integer NOT NULL 
-
-) ON fg_user1;
-
---HINT DISTRIBUTE ON KEY (person_id)
  CREATE TABLE hipaa.CONDITION_OCCURRENCE (
 
     condition_occurrence_id integer NOT NULL,

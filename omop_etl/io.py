@@ -1,23 +1,14 @@
-# -*- coding: utf-8 -*-
+# %%
 import os
 
 import numpy as np
 import pandas as pd
 
-from omop_etl.utils import timeitc
+from omop_etl.utils import timeitc, timeitd
 
 
 def to_csv(path, table, batch_size, schema, server, database):
-    """Export SQL table to CSV file.
-
-    Args:
-        path (str): Destination path for the CSV file.
-        table (str): SQL table to save as CSV.
-        batch_size (int): Batch size in megabytes. This is a turbodbc argument passed to the Megabytes class. 
-        schema (str): Database schema.
-        server (str): SQL server url.
-        database (str): Database name.
-    """
+    
     from turbodbc import connect, make_options, Megabytes
 
     options = make_options(read_buffer_size=Megabytes(batch_size), 
@@ -41,34 +32,21 @@ def to_csv(path, table, batch_size, schema, server, database):
 
         for batch in batches:
 
-            df = pd.DataFrame(batch, dtype=str)
+            df = pd.DataFrame(batch)
 
             if count == 0:
                 dtypes = {t:batch[t].dtype.type for t in batch.keys()}
-                # To avoid having ids exported as floats we need to convert to int.
-                # However, a bug in pandas prevent to convert directly from object to int.
-                # Instead, convert to float then to Int64
-                dtypes_1 = {}
-                dtypes_2 = {}
                 for dtype in dtypes.keys():
                     if dtypes[dtype] == np.int64:
-                        dtypes_1[dtype] = 'Int64'
-                        dtypes_2[dtype] = 'float'
+                        dtypes[dtype] = 'Int64'
                     else:
-                        dtypes_1[dtype] = 'str'
-                        dtypes_2[dtype] = 'str'
-                # for dtype in dtypes.keys():
-                #     if dtypes[dtype] == np.int64:
-                #         dtypes[dtype] = 'Int64'
-                #     else:
-                #         dtypes[dtype] = 'str'
+                        dtypes[dtype] = 'str'
 
-                df = df.astype(dtypes_2).astype(dtypes_1)
+                df = df.astype(dtypes)
                 df.to_csv(csv_file, index=False, sep='\t')
 
-
             else: 
-                df = df.astype(dtypes_2).astype(dtypes_1)
+                df = df.astype(dtypes)
                 df.to_csv(csv_file, header=False, index=False, mode='a', sep='\t')
 
             count =+ 1
@@ -78,16 +56,10 @@ def to_csv(path, table, batch_size, schema, server, database):
     return
 
 
-def import_csv(csv, table, batch_size, schema, server, database, truncate=True, **args):
-    """Import CSV table into SQL server database.
-
-    Args:
-        csv (str): CSV file name. Note: NULLs will be imported as empty strings ''
-        table (str): SQL table name. Must exists in the database.
-        batch_size (int): Batch size in megabytes. This is a turbodbc argument passed to the Megabytes class. 
-        schema (str): Database schema.
-        server (str): SQL server url.
-        database (str): Database name.
+def import_csv(csv, table, batch_size, schema, server, database, replace_blanks=True, truncate=True, **args):
+    """
+    SQL table must exists
+    NULLs will be imported as empty strings ''
     """
     from turbodbc import connect
     import numpy as np
@@ -121,8 +93,7 @@ def import_csv(csv, table, batch_size, schema, server, database, truncate=True, 
                 connection.close()
                 raise e
 
-        # Try to read csv with explicit data types.
-        # If import fails, read with str as data type.
+        #read csv
         try:
             next(pd.read_csv(csv, chunksize=1000, dtype=dtypes, **args))
             chunks = pd.read_csv(csv, chunksize=batch_size, dtype=dtypes, **args)
@@ -165,10 +136,11 @@ def import_csv(csv, table, batch_size, schema, server, database, truncate=True, 
 
 
 def read_sql(filepath):
-    """Read sql script from file.
+    """[summary].
 
     Args:
         filepath (str): Full path to sql file.
+
     """
     try:
         f = open(filepath, 'r')

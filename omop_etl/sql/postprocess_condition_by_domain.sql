@@ -1,9 +1,4 @@
-/* Move records by domain 
-
-Condition occurrence -> Measurement
-Condition occurrence -> Observation
-Condition occurrence -> Procedure occurrence
-*/
+/* Move records by domain */
 
 SET NOCOUNT ON;
 
@@ -104,42 +99,11 @@ exec('
 	on a.condition_concept_id = b.concept_id
 	where b.domain_id = ''Observation''
 
-	drop table if exists #ids
-	select condition_occurrence_id
-	into #ids
+	delete a
 	from dbo.condition_occurrence a
 	join xref.concept b
 	on a.condition_concept_id = b.concept_id
-	where b.domain_id = ''Observation''
-	order by condition_occurrence_id asc
-
-	while (
-		select count(*)
-		from #ids
-	) > 0
-	begin
-
-		drop table if exists #delete_ids
-		select top 1000000 condition_occurrence_id 
-		into #delete_ids
-		from #ids
-
-		begin transaction
-		delete x from (
-			select *
-			from dbo.condition_occurrence
-			where condition_occurrence_id in (select * from #delete_ids)
-		)x
-
-		delete from #ids 
-		where condition_occurrence_id in (select * from #delete_ids)
-		
-		commit transaction;
-		checkpoint;
-
-	end
-
-	drop table if exists #ids'
+	where b.domain_id = ''Observation'''
 )
 
 exec('

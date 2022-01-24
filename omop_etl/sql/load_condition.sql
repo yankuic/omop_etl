@@ -38,10 +38,10 @@ select a.person_id
       ,[condition_status_source_value]
       ,[condition_status_concept_id]
 from [preload].[condition_occurrence] a
--- join dbo.person b
--- on a.person_id = b.person_id
--- where visit_occurrence_id is null 
--- or visit_occurrence_id in (
---       select visit_occurrence_id 
---       from dbo.visit_occurrence
--- )
+join dbo.person b
+on a.person_id = b.person_id
+where visit_occurrence_id is null 
+or visit_occurrence_id in (
+      select visit_occurrence_id 
+      from dbo.visit_occurrence
+)

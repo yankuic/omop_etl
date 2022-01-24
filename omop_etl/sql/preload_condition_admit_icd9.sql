@@ -27,7 +27,7 @@ select distinct
       ,[condition_end_datetime] = a.discharge_date
       ,condition_type_concept_id = 32823
       ,[stop_reason] = NULL
-      ,[provider_id] = c.provider_id
+      ,[provider_id] = a.providr_key
       ,[visit_occurrence_id] = f.visit_occurrence_id
       ,[visit_detail_id] = NULL
       ,[condition_source_value] = a.admit_icd9
@@ -61,7 +61,7 @@ select distinct
       ,[condition_end_datetime] = a.discharge_date
       ,condition_type_concept_id = 32823
       ,[stop_reason] = NULL
-      ,[provider_id] = c.provider_id
+      ,[provider_id] = a.providr_key
       ,[visit_occurrence_id] = f.visit_occurrence_id
       ,[visit_detail_id] = NULL
       ,[condition_source_value] = a.admit_icd9

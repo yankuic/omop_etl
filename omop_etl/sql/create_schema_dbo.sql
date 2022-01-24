@@ -1,5 +1,4 @@
 --sql server CDM DDL Specification for OMOP Common Data Model v5_3_1
---https://github.com/OHDSI/CommonDataModel/tree/v5.3.1/Sql%20Server
 
 --HINT DISTRIBUTE ON KEY (person_id)
  CREATE TABLE dbo.PERSON (
