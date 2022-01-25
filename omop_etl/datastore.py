@@ -61,7 +61,7 @@ class DataStore:
             raise
         else:
             tran.commit()
-            
+
     def execute(self, query_string):
         """[summary]."""
         with self.connection() as con: 
@@ -253,5 +253,3 @@ class DataStore:
         """.format(table)
 
         return self.execute(q)
-
-	
