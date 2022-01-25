@@ -20,7 +20,7 @@ SET NOCOUNT ON;
 /*
 Activate only existing in stage.care_site table.
 */
-update xref.location_mapping
+update xref.care_site_mapping
 set active_ind = 'N'
 
 update b 

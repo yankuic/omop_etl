@@ -1,5 +1,6 @@
 insert into preload.measurement with (tablock)
-select person_id = b.person_id
+select 
+    person_id = b.person_id
     ,measurement_concept_id = isnull(d.target_concept_id, 0)
     ,measurement_date = a.Respiratory_Date
     ,measurement_datetime = a.Respiratory_Datetime
@@ -8,7 +9,7 @@ select person_id = b.person_id
     ,operator_concept_id = NULL
     ,value_as_number = a.o2_mlmin
     ,value_as_concept_id = NULL
-    ,unit_concept_id = 8698
+    ,unit_concept_id = 8795
     ,range_low = NULL
     ,range_high = NULL
     ,provider_id = c.provider_id
@@ -16,7 +17,7 @@ select person_id = b.person_id
     ,visit_detail_id = NULL
     ,measurement_source_value = d.source_code
     ,measurement_source_concept_id = isnull(d.source_concept_id, 0)
-    ,unit_source_value = 'L/min'
+    ,unit_source_value = 'mL/min'
     ,value_source_value = 'O2 FLOW RATE - mL/MIN'
     ,source_table = 'measurement_res_o2_ml'
 from stage.MEASUREMENT_Res_O2_mL a 

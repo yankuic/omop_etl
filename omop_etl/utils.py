@@ -8,7 +8,7 @@ import logging
 from contextlib import contextmanager
 from functools import wraps
 import re
-import numpy as np
+#import numpy as np
 
 
 def search(pattern, string, *args):
@@ -22,7 +22,8 @@ def search(pattern, string, *args):
     except TypeError:
         return False
 
-def find(pattern, values, ignore_case=True):
+
+def find(pattern, values, ignore_case=True):  #not reviewed
     """Search pattern in list.
     
     Arguments:

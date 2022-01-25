@@ -2,10 +2,10 @@ insert into dbo.person
 select distinct 
        [person_id]
       ,[gender_concept_id] = g.target_concept_id
-      ,[year_of_birth] = YEAR(isnull(a.patnt_birth_datetime, '1800-01-01'))
-      ,[month_of_birth] = MONTH(isnull(a.patnt_birth_datetime, '1800-01-01'))
-      ,[day_of_birth] = DAY(isnull(a.patnt_birth_datetime, '1800-01-01'))
-      ,[birth_datetime] = isnull(a.patnt_birth_datetime, '1800-01-01')
+      ,[year_of_birth] = YEAR(a.patnt_birth_datetime)
+      ,[month_of_birth] = MONTH(a.patnt_birth_datetime)
+      ,[day_of_birth] = DAY(a.patnt_birth_datetime)
+      ,[birth_datetime] = a.patnt_birth_datetime
       ,[race_concept_id] = h.target_concept_id
       ,[ethnicity_concept_id] = f.target_concept_id
       ,[location_id] = e.location_id
@@ -20,7 +20,7 @@ select distinct
       ,[ethnicity_source_concept_id] = 0
 from stage.person a
 join xref.person_mapping b
-on a.patient_key = b.patient_key and b.active_ind = 'Y'
+on a.patient_key = b.patient_key
 left join xref.provider_mapping c
 on a.PATIENT_REPORTED_PCP_PROV_KEY = c.providr_key
 left join xref.care_site_mapping d
@@ -33,5 +33,5 @@ left join xref.source_to_concept_map g
 on a.SEX = g.source_code and g.source_vocabulary_id = 'sex'
 left join xref.source_to_concept_map h
 on a.RACE = h.source_code and h.source_vocabulary_id = 'race'
--- where a.patnt_birth_datetime is not null 
-
+where a.patnt_birth_datetime is not null 
+and b.active_ind = 'Y'

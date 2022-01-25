@@ -4,7 +4,7 @@ select distinct
     ,[provider_name] = a.providr_name
     ,[npi] = a.ident_id
     ,[dea] = a.dea_number
-    ,[specialty_concept_id] = NULL
+    ,[specialty_concept_id] = isnull(d.target_concept_id, 0)
     ,[care_site_id] = NULL
     ,[year_of_birth] = YEAR(a.birth_date)
     ,(case 
@@ -20,6 +20,8 @@ select distinct
 from stage.provider a
 join xref.provider_mapping b 
 on a.providr_key = b.providr_key 
+left join xref.source_to_concept_map d 
+on d.source_code = a.SPCLTY_DESC and d.source_vocabulary_id = 'Provider'
 where b.provider_id in (
     select distinct provider_id
     from (

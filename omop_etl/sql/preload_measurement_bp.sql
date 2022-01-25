@@ -1,19 +1,22 @@
+drop table if exists #measurement_bp
+
 set nocount on;
 
 ;with bp as (
-      --Extract bp vaues and deal with data types.
+    --Extract bp values and deal with data types.
 	select patient_key
             ,patnt_encntr_key
             ,bp_date
             ,bp_datetime
-		,bp
-            ,[bp - sbp] = try_convert(int,substring((bp), 1, charindex('/',(bp),1)-1))
+			,bp
+            ,[bp - sbp] = try_convert(int, substring((bp), 1, charindex('/',(bp),1)-1))
             ,[bp - dbp] = try_convert(int, substring((bp), charindex('/',(bp),1)+1, {fn length((bp))}-charindex('/',(bp),1)))
             ,bp_method
             ,[provider] = isnull(attending_provider, visit_provider)
       from stage.MEASUREMENT_BP_BP
       where charindex('/',(bp),1) > 0 --accept only values with format ##/##
 )
+
 SELECT * 
 INTO #measurement_bp
 from (
@@ -28,11 +31,11 @@ from (
                   else 'SBP - Unknown method'
             end) bp_measure
             ,bp_value = [bp - sbp]
-            ,bp_raw_value = bp
-       FROM bp
-      WHERE bp is not null
+            ,bp_raw_value = bp   
+      FROM bp
+      WHERE bp is not null   
       UNION
-     SELECT patient_key
+      SELECT patient_key
             ,patnt_encntr_key
             ,bp_date
             ,bp_datetime
@@ -45,7 +48,7 @@ from (
             ,vp_value = [bp - dbp]
             ,bp_raw_value = bp
       FROM bp
-     WHERE bp is not null
+      WHERE bp is not null  
 ) x
 
 set nocount off;

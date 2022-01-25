@@ -1,7 +1,7 @@
 -- truncate table preload.drug_order
 insert into preload.drug_exposure with (tablock)
 select [person_id] = b.person_id
-      ,[drug_concept_id] = e.concept_id_2
+      ,[drug_concept_id] = isnull(e.concept_id_2,0)
       ,[drug_exposure_start_date] = a.MED_ORDER_START_DATE
       ,[drug_exposure_start_datetime] = a.MED_ORDER_START_DATETIME
       ,[drug_exposure_end_date] = ISNULL(a.MED_ORDER_END_DATE, a.MED_ORDER_START_DATE)
@@ -14,7 +14,7 @@ select [person_id] = b.person_id
                         when try_convert(INT, a.MED_ORDER_QTY) is null
                           -- or try_convert(NUMERIC(18,4), a.MED_ORDER_QTY) is null 
                           -- or try_convert(FLOAT, a.MED_ORDER_QTY) is null 
-                        then REPLACE(SUBSTRING(a.MED_ORDER_QTY, PATINDEX('%[0-9]%', a.MED_ORDER_QTY), PATINDEX('%[ a-z]%', a.MED_ORDER_QTY)-1), ',', '')
+                        then REPLACE(SUBSTRING(a.MED_ORDER_QTY, PATINDEX('%[0-9]%', a.MED_ORDER_QTY), PATINDEX('%[ -a-z]%', a.MED_ORDER_QTY)-1), ',', '')
                         else a.MED_ORDER_QTY
                      end)
       ,[days_supply] = NULL

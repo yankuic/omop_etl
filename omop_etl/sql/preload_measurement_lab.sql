@@ -8,8 +8,8 @@ select distinct
       ,measurement_type_concept_id = 32817
       ,operator_concept_id = NULL
       ,value_as_number = try_convert(float, a.LAB_RESULT)
-      ,value_as_concept_id = isnull(i.concept_id, 0)
-      ,unit_concept_id = isnull(g.concept_id, 0)
+      ,value_as_concept_id = isnull(i.concept_id, 0)   --Map non-numeric lab results (e.g., positive, detected) to concept_id
+      ,unit_concept_id = isnull(g.concept_id, 0)         
       ,range_low = try_convert(float, a.NORMAL_LOW)
       ,range_high = try_convert(float, a.NORMAL_HIGH)
       ,provider_id = c.provider_id
@@ -25,7 +25,7 @@ from stage.measurement_lab a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
 left join xref.provider_mapping c 
-on c.providr_key = a.Attending_Provider
+on c.providr_key = a.Attending_Provider   --This is Authorizing Provider from Lab Detail section in BO
 left join xref.concept d 
 on a.LOINC_CODE = d.concept_code and d.vocabulary_id = 'LOINC'
 left join xref.concept_relationship e

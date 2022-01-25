@@ -14,18 +14,20 @@ from omop_etl.config import ETLConfig
 class Loader(DataStore, ETLConfig):
     """Load data into OMOP tables.
     """
+	    
     def __init__(self, config_file):
         DataStore.__init__(self, config_file=config_file)
         ETLConfig.__init__(self)
-
+    
     @timeitd
     def stage_hs_table(self, table, schema='stage'):
+        #provider, care_site, and location tables
         assert table in self.stage_hs.keys(), f'{table} is not a valid table name.'
-        filepath = os.path.join(self.sql_scripts_path, self.stage_hs[table])
+        filepath = os.path.join(self.sql_scripts_path, self.stage_hs[table]) #uses custom SQL scripts from 'sql' folder
         q = read_sql(filepath) 
 
         return self.execute(q)
-
+       
     @timeitd
     def stage_table(self, table, subset=None, only_query=False):
         """Stage clinical data table."""
@@ -36,10 +38,10 @@ class Loader(DataStore, ETLConfig):
             assert subset in self.stage[table].keys(), f'{subset} is not a valid subset for {table}.'
             dp_name = self.stage[table][subset]
         else: 
-            dp_name = self.stage[table]
+            dp_name = self.stage[table]  #comes from etl_config.yml file
             assert not isinstance(dp_name, (list, dict)), f'table {table} contain subsets, but none was specified.' 
 
-        col_aliases= self.aliases[dp_name]
+        col_aliases= self.aliases[dp_name]  #comes from etl_config.yml file
         start_date = self.config.start_date
         end_date = self.config.end_date
         loincs = self.config.loinc
@@ -54,7 +56,8 @@ class Loader(DataStore, ETLConfig):
             return execute_sp
         else:      
             return self.execute(execute_sp)
-
+	
+    
     @timeitd
     def preload_table(self, table, subset=None):
         """Execute preload sql query.
@@ -73,12 +76,12 @@ class Loader(DataStore, ETLConfig):
 
         else: 
             sql_script_name = preload_f 
-
+        
         logging.info(f'Executing {sql_script_name} ...')
         q = read_sql(os.path.join(self.sql_scripts_path, sql_script_name))
-
+        
         return self.execute(q)
-
+	
     @timeitd
     def update_mapping_table(self, table):
         """Load new records into mapping table."""
@@ -86,13 +89,14 @@ class Loader(DataStore, ETLConfig):
 
         try:
             mapping_sql = self.mapping[table]
+            print(mapping_sql)			
             q = read_sql(os.path.join(self.sql_scripts_path, mapping_sql))
         except KeyError as e:
             print(f'{table} is not registered as mapping table.')
             raise e
 
         return self.execute(q)
-            
+	 
     @timeitd
     def load_table(self, table):
         """Execute load sql query."""
@@ -103,7 +107,7 @@ class Loader(DataStore, ETLConfig):
         q = read_sql(os.path.join(self.sql_scripts_path, load_file))
 
         return self.execute(q)
-
+	
     def preload_all_subsets(self, table):
         """Preload table with all subsets listed in the configuration file."""
         #read all tables/subsets from config 
@@ -119,7 +123,7 @@ class Loader(DataStore, ETLConfig):
             else:
                 print(f"Processing table: {table}")
                 print(self.preload_table(table))
-
+	
     @timeitd
     def load_hipaa(self, dataset='deid'):
         """Generate hipaa compliant dataset: de-identified, limited.
@@ -129,20 +133,18 @@ class Loader(DataStore, ETLConfig):
         """
         script_file = self.postproc['hipaa']
         q = read_sql(os.path.join(self.sql_scripts_path, script_file))
-        
+       
         ## Load deid
         if dataset == 'deid':
             q = q.replace('@SetNULL','= NULL')\
                 .replace('@DateShift','date_shift')\
-                .format('birth_datetime_deid', 'race_concept_id_deid', 'ethnicity_concept_id_deid', 
-                        'race_source_value_deid', 'ethnicity_source_value_deid', 'zipcode_deid', 'zipcode_deid') 
+                .format('birth_datetime_deid', 'race_concept_id_deid', 'ethnicity_concept_id_deid', 'race_source_value_deid', 'ethnicity_source_value_deid', 'zipcode_deid', 'zipcode_deid') 
 
         ## Load limited
         elif dataset == 'limited':
             q = q.replace('@SetNULL','')\
                 .replace('@DateShift','0')\
-                .format('birth_datetime', 'race_concept_id', 'ethnicity_concept_id', 
-                        'race_source_value', 'ethnicity_source_value', 'zipcode', 'zipcode')
+                .format('birth_datetime', 'race_concept_id', 'ethnicity_concept_id', 'race_source_value', 'ethnicity_source_value', 'zipcode', 'zipcode')
         
         else:
             print(f'Option {dataset} not recognized')
@@ -159,9 +161,11 @@ class Loader(DataStore, ETLConfig):
             self.execute(q)
 
     @timeitd
-    def deid_condition(self):
+    def deid_condition(self): #not reviewed
         script = self.postproc['deid_condition']
         q = read_sql(os.path.join(self.sql_scripts_path, script))
         print('De-identifying condition occurrence ...')
         
         return self.execute(q)
+
+	

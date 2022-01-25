@@ -1,7 +1,7 @@
 insert into preload.measurement with (tablock)
 select distinct 
-       person_id = b.person_id
-      ,measurement_concept_id = d.target_concept_id
+      person_id = b.person_id
+      ,measurement_concept_id = isnull(d.target_concept_id, 0)
       ,measurement_date = a.Weight_Date
       ,measurement_datetime = a.Weight_Datetime
       ,measurement_time = CAST(a.Weight_Datetime as TIME)

@@ -1,4 +1,4 @@
---Subset icd10 codes with no icd10cm equivalent.
+--Subset icd9 and icd10 codes with no icd9 and icd10cm equivalent.
 SET NOCOUNT ON;
 
 drop table if exists #icd
@@ -18,6 +18,7 @@ and concept_code not in (
 SET NOCOUNT OFF;
 
 insert into preload.condition_occurrence with (tablock)
+-- Load ICD codes that exist in ICD9CM or ICD10CM vocabulary
 select distinct 
       b.[person_id]
       ,[condition_concept_id] = isnull(e.concept_id_2,0)
@@ -50,7 +51,7 @@ join xref.person_mapping b
 on a.patient_key = b.patient_key
 left join xref.provider_mapping c
 on a.providr_key = c.providr_key
---join to map standard concepts
+--join to map to standard concepts
 left join xref.concept d
 on a.diag_cd_decml = d.concept_code and a.icd_type + 'CM' = d.vocabulary_id
 left join xref.concept_relationship e
@@ -93,8 +94,8 @@ join xref.person_mapping b
 on a.patient_key = b.patient_key
 left join xref.provider_mapping c
 on a.providr_key = c.providr_key
+--join to map to standard concepts
 join #icd d
---join to map standard concepts
 on a.diag_cd_decml = d.concept_code and a.icd_type = d.vocabulary_id
 left join xref.concept_relationship e
 on d.concept_id = e.concept_id_1 and e.relationship_id = 'Maps to'

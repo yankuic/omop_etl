@@ -5,6 +5,8 @@ schema:
   xref: create_schema_xref.sql
   hipaa: create_schema_hipaa.sql
   cohort: create_schema_cohort.sql
+  archive: create_schema_archive.sql
+  archive_xref: create_schema_archive_xref.sql
 #Stage BO dp names
 stage:
   condition_occurrence: 

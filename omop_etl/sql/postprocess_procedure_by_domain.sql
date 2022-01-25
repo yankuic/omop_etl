@@ -82,7 +82,7 @@ exec('
 		,observation_date = a.procedure_date
 		,observation_datetime = a.procedure_datetime
 		,observation_type_concept_id = a.procedure_type_concept_id
-		,value_as_number = a.quantity
+		,value_as_number = NULL
 		,value_as_string = NULL
 		,value_as_concept_id = NULL
 		,qualifier_concept_id = NULL
@@ -135,14 +135,14 @@ exec('
 	select person_id
 		,drug_concept_id = a.procedure_concept_id
 		,drug_exposure_start_date = a.procedure_date
-		,drug_exposure_start_datetime = a.procedure_datetime
+		,drug_exposure_start_datetime = a.procedure_datetime  --This is not necessarily true, but this is a required field, so use the best approximation that we can.
 		,drug_exposure_end_date = a.procedure_date
 		,drug_exposure_end_datetime = a.procedure_datetime
 		,verbatim_end_date = NULL
 		,drug_type_concept_id = a.procedure_type_concept_id
 		,stop_reason = NULL
 		,refills = NULL
-		,quantity = NULL
+		,quantity = NULL  --We do not know the quantity. By default, we use 1 for all procedures, but the fact that there is one procedure does not mean that there was one tablet given.
 		,days_supply = NULL
 		,sig = NULL
 		,route_concept_id = NULL
@@ -192,7 +192,7 @@ exec('
 		,device_exposure_end_datetime = NULL
 		,device_type_concept_id = a.procedure_type_concept_id
 		,unique_device_id = NULL
-		,quantity = a.quantity
+		,quantity = NULL  --We do not know the quantity. By default, we use 1 for all procedures, but the fact that there is one procedure does not mean that there is one device.
 		,provider_id = a.provider_id
 		,visit_occurrence_id = a.visit_occurrence_id
 		,visit_detail_id = NULL

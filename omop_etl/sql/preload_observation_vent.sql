@@ -25,7 +25,7 @@ from (
       left join xref.provider_mapping c 
       on c.providr_key = isnull(a.Attending_Provider, a.Visit_Provider)
       left join xref.source_to_concept_map d 
-      on source_code = 'Mechanical vent use - invasive' and source_vocabulary_id = 'observation'
+      on d.source_code = 'Mechanical vent use - invasive' and d.source_vocabulary_id = 'observation'
       left join xref.visit_occurrence_mapping e
       on a.patnt_encntr_key = e.patnt_encntr_key
       where ENCOUNTER_EFFECTIVE_DATE is not null
@@ -56,7 +56,7 @@ from (
       left join xref.provider_mapping c 
       on c.providr_key = isnull(a.Attending_Provider, a.Visit_Provider)
       left join xref.source_to_concept_map d 
-      on source_code = 'Mechanical vent use - non-invasive' and source_vocabulary_id = 'observation'
+      on d.source_code = 'Mechanical vent use - non-invasive' and d.source_vocabulary_id = 'observation'
       left join xref.visit_occurrence_mapping e
       on a.patnt_encntr_key = e.patnt_encntr_key
       where ENCOUNTER_EFFECTIVE_DATE is not null

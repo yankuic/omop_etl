@@ -1,5 +1,6 @@
 insert into preload.measurement with (tablock)
-select person_id = b.person_id
+select 
+    person_id = b.person_id
     ,measurement_concept_id = isnull(d.target_concept_id, 0)
     ,measurement_date = a.Respiratory_Date
     ,measurement_datetime = a.Respiratory_Datetime

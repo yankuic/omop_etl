@@ -6,7 +6,7 @@
         ,[pain_datetime]
         ,[provider] = isnull([attending_provider],[visit_provider])
         ,pain_scale = 'PAIN SCALE'
-        ,pain_score = left(pain_uf_dvprs, 2)
+        ,pain_score = left(pain_uf_dvprs, 2)  
         ,raw_score = pain_uf_dvprs
     FROM [stage].[MEASUREMENT_PainScale]
 ) 
@@ -27,7 +27,7 @@ select person_id = b.person_id
     ,visit_occurrence_id = e.visit_occurrence_id
     ,visit_detail_id = NULL
     ,measurement_source_value = d.source_code
-    ,measurement_source_concept_id = d.source_concept_id
+    ,measurement_source_concept_id = isnull(d.source_concept_id,0)
     ,unit_source_value = '{score}'
     ,value_source_value = a.raw_score
     ,source_table = 'measurement_painscale'
@@ -35,11 +35,11 @@ from painscale a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
 left join xref.provider_mapping c 
-on c.providr_key = a.provider
+on c.providr_key = a.provider 
 left join xref.source_to_concept_map d 
 on source_code = a.pain_scale and source_vocabulary_id = 'Flowsheet'
 left join xref.visit_occurrence_mapping e 
 on a.patnt_encntr_key = e.patnt_encntr_key
 where b.active_ind = 'Y'
 
-drop table if exists #measurement_painscale
+drop table if exists #measurement_painscale  --Do we need this statement?

@@ -5,7 +5,7 @@ from datetime import datetime as dt
 from omop_etl.utils import timeitc
 
 # Not implemented
-
+'''
 def athena_driver(username, password, headless=True, download_dir=None):
     options = webdriver.ChromeOptions()
     options.add_argument("--incognito")
@@ -35,7 +35,9 @@ def athena_driver(username, password, headless=True, download_dir=None):
     driver.switch_to.window(driver.window_handles[0])
 
     return driver 
+'''
 
+'''
 def request_new_vocabulary_file(driver):
     driver.get('https://athena.ohdsi.org/search-terms/start')
     driver.find_element_by_xpath('/html/body/div/div/header/nav/div[3]/div/a/div[2]').click()
@@ -66,7 +68,9 @@ def request_new_vocabulary_file(driver):
 
     #return to main page
     driver.get('https://athena.ohdsi.org/search-terms/start')
+'''
 
+'''
 def download_vocabulary_file(driver, get_last=True, vocabulary_name=None, archive=True, restore=True):
     """Download most recent vocabulary file."""
     driver.get('https://athena.ohdsi.org/search-terms/start')
@@ -104,3 +108,4 @@ def download_vocabulary_file(driver, get_last=True, vocabulary_name=None, archiv
                         driver.find_element_by_xpath('//*[@id="app"]/div/div[1]/div[2]/div[1]/div[1]/ul/li/div/button[3]').click()                
         elif status == 'PENDING':
             print('Restoring vocabulary, try again later.')
+'''

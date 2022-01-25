@@ -7,7 +7,7 @@ import pandas as pd
 from omop_etl.utils import timeitc, timeitd
 
 
-def to_csv(path, table, batch_size, schema, server, database):
+def to_csv(path, table, batch_size, schema, server, database):  #not reviewed
     
     from turbodbc import connect, make_options, Megabytes
 

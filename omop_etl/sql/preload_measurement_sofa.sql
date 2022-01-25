@@ -1,6 +1,6 @@
+drop table if exists #measurement_sofa
 SET NOCOUNT ON;
 
-drop table if exists #measurement_sofa
 select patient_key
     ,patnt_encntr_key
     ,date_of_care
@@ -32,7 +32,7 @@ select distinct
     ,measurement_concept_id = isnull(d.target_concept_id,0)
     ,measurement_date = a.date_of_care
     ,measurement_datetime = a.date_of_care
-    ,measurement_time = a.date_of_care
+    ,measurement_time = '00:00:00'
     ,measurement_type_concept_id = 32817
     ,operator_concept_id = NULL
     ,value_as_number = a.SCORE
