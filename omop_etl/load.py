@@ -167,5 +167,3 @@ class Loader(DataStore, ETLConfig):
         print('De-identifying condition occurrence ...')
         
         return self.execute(q)
-
-	
