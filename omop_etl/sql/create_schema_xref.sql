@@ -225,3 +225,6 @@ CREATE TABLE [xref].[PROVIDER_MAPPING](
     invalid_reason varchar(1) NULL 
 
 ) ON [fg_user1];
+
+
+

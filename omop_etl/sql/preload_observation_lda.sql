@@ -25,18 +25,18 @@ from (
       left join xref.provider_mapping c 
       on c.providr_key = isnull(a.Attending_Provider, a.Visit_Provider)
       left join xref.source_to_concept_map d 
-      on source_code = 'LDA - intubation tube type' and source_vocabulary_id = 'observation'
+      on d.source_code = 'LDA - intubation tube type' and d.source_vocabulary_id = 'observation'
       left join xref.visit_occurrence_mapping e
       on a.patnt_encntr_key = e.patnt_encntr_key
       where b.active_ind = 'Y'
 
       union
       select person_id = b.person_id
-            ,observation_concept_id = d.target_concept_id
+            ,observation_concept_id = isnull(d.target_concept_id,0)
             ,observation_date = cast(a.Intubation_Dt as date)
             ,observation_datetime = a.Intubation_Dt
             ,observation_type_concept_id = 32817
-            ,value_as_number =NULL
+            ,value_as_number = NULL
             ,value_as_string = 'PLACEMENT'
             ,value_as_concept_id = NULL
             ,qualifier_concept_id = NULL
@@ -45,7 +45,7 @@ from (
             ,visit_occurrence_id = e.visit_occurrence_id
             ,visit_detail_id = NULL
             ,observation_source_value = d.source_code
-            ,observation_source_concept_id = d.source_concept_id
+            ,observation_source_concept_id = isnull(d.source_concept_id,0)
             ,unit_source_value = NULL
             ,qualifier_source_value = NULL
             ,source_table = 'observation_lda'
@@ -55,18 +55,18 @@ from (
       left join xref.provider_mapping c 
       on c.providr_key = isnull(a.Attending_Provider, a.Visit_Provider)
       left join xref.source_to_concept_map d 
-      on source_code = 'LDA - intubation start and end times' and source_vocabulary_id = 'observation'
+      on d.source_code = 'LDA - intubation start and end times' and d.source_vocabulary_id = 'observation'
       left join xref.visit_occurrence_mapping e
       on a.patnt_encntr_key = e.patnt_encntr_key
       where b.active_ind = 'Y'
       
       union
       select person_id = b.person_id
-            ,observation_concept_id = d.target_concept_id
+            ,observation_concept_id = isnull(d.target_concept_id,0)
             ,observation_date = cast(a.Extubation_Dt as date)
             ,observation_datetime = a.Extubation_Dt
             ,observation_type_concept_id = 32817
-            ,value_as_number =NULL
+            ,value_as_number = NULL
             ,value_as_string = 'REMOVAL'
             ,value_as_concept_id = NULL
             ,qualifier_concept_id = NULL
@@ -75,7 +75,7 @@ from (
             ,visit_occurrence_id = e.visit_occurrence_id
             ,visit_detail_id = NULL
             ,observation_source_value = d.source_code
-            ,observation_source_concept_id = d.source_concept_id
+            ,observation_source_concept_id = isnull(d.source_concept_id,0)
             ,unit_source_value = NULL
             ,qualifier_source_value = NULL
             ,source_table = 'observation_lda'
@@ -85,7 +85,7 @@ from (
       left join xref.provider_mapping c 
       on c.providr_key = isnull(a.Attending_Provider, a.Visit_Provider)
       left join xref.source_to_concept_map d 
-      on source_code = 'LDA - intubation start and end times' and source_vocabulary_id = 'observation'
+      on d.source_code = 'LDA - intubation start and end times' and d.source_vocabulary_id = 'observation'
       left join xref.visit_occurrence_mapping e
       on a.patnt_encntr_key = e.patnt_encntr_key
       where b.active_ind = 'Y'

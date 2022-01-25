@@ -83,17 +83,31 @@ and a.condition_concept_id = b.condition_concept_id
 and b.end_date >= a.condition_start_date
 group by a.person_id, a.condition_concept_id, a.condition_start_date;
 
+
+SET IDENTITY_INSERT dbo.condition_era ON
+
 insert into dbo.condition_era with (tablock) (
-    person_id
+    condition_era_id
+	,person_id
     ,condition_concept_id
     ,condition_era_start_date
     ,condition_era_end_date
     ,condition_occurrence_count
 )
-select person_id
+select row_number() over (
+        order by person_id
+       ) AS condition_era_id
+	,person_id
     ,condition_concept_id
     ,min(condition_start_date) as condition_era_start_date
     ,era_end_date as condition_era_end_date
     ,count(*) as condition_occurrence_count
 from #cteconditionends
 group by person_id, condition_concept_id, era_end_date;
+
+SET IDENTITY_INSERT dbo.condition_era OFF
+
+drop table if exists #condition_era_phase_1;
+drop table if exists #cteconditiontarget;
+drop table if exists #ctecondenddates
+drop table if exists #cteconditionends

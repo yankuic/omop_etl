@@ -31,15 +31,18 @@ npi_cte as (
 		,SPCLTY_DESC
 		,STNDRD_LABEL
 	from cte 
-	where IDENT_ID_TYPE  = '100001'  and LOOKUP_IND = 'Y'  
+	where IDENT_ID_TYPE  = '100001'  --This is the ident_id_type for provider NPI
+	and LOOKUP_IND = 'Y'  
 )
-/* SELECT PROVIDERS WITHOUT  NPI */
+/* STAGE PROVIDER TABLE */
 select *
 into stage.PROVIDER 
 from (
+	/* SELECT PROVIDERS WITH  NPI */
 	select * 
 	from npi_cte
 	union
+	/* SELECT PROVIDERS WITHOUT  NPI */
 	select distinct 
 		PROVIDR_KEY 
 		,PROVIDR_NAME

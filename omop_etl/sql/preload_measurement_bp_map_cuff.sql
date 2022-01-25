@@ -1,3 +1,4 @@
+drop table if exists #measurement_bp
 ;with bp as (
 	select patient_key
             ,patnt_encntr_key
@@ -10,6 +11,7 @@
       from stage.MEASUREMENT_BP_MAP_Cuff
       where map_cuff is not null      
 )
+
 insert into preload.measurement with (tablock)
 select person_id = b.person_id
       ,measurement_concept_id = isnull(d.target_concept_id, 0)
@@ -26,7 +28,7 @@ select person_id = b.person_id
       ,provider_id = c.provider_id
       ,visit_occurrence_id = e.visit_occurrence_id
       ,visit_detail_id = NULL
-      ,measurement_source_value = d.source_code
+      ,measurement_source_value = isnull(d.source_code, a.bp_measure)
       ,measurement_source_concept_id = isnull(d.source_concept_id, 0)
       ,unit_source_value = NULL
       ,value_source_value = a.bp_raw_value
@@ -41,5 +43,5 @@ on d.source_code = a.bp_measure
 left join xref.visit_occurrence_mapping e 
 on a.patnt_encntr_key = e.patnt_encntr_key
 where b.active_ind = 'Y'
-
+ 
 drop table if exists #measurement_bp

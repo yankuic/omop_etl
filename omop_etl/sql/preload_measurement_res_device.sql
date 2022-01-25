@@ -4,7 +4,7 @@
 insert into preload.measurement with (tablock)
 select distinct 
        person_id = b.person_id
-      ,measurement_concept_id = d.target_concept_id
+      ,measurement_concept_id = isnull(d.target_concept_id, 0)
       ,measurement_date = a.Respiratory_Date
       ,measurement_datetime = a.Respiratory_Datetime
       ,measurement_time = CAST(a.Respiratory_Datetime as TIME)
@@ -19,7 +19,7 @@ select distinct
       ,visit_occurrence_id = e.visit_occurrence_id
       ,visit_detail_id = NULL
       ,measurement_source_value = d.source_code
-      ,measurement_source_concept_id = d.source_concept_id
+      ,measurement_source_concept_id = isnull(d.source_concept_id,0)
       ,unit_source_value = NULL
       --explicit truncation to avoid truncation warning
       ,value_source_value = left(a.Respiratory_Device, 50)

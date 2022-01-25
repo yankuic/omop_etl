@@ -1,7 +1,8 @@
+drop table if exists #measurement_bp
 set nocount on;
 
 ;with bp as (
-      --Extract bp vaues and deal with data types.
+    --Extract bp values and deal with data types.
 	select patient_key
             ,patnt_encntr_key
             ,bp_date
@@ -11,6 +12,7 @@ set nocount on;
       from stage.MEASUREMENT_BP_MAP_NonInvasive
       
 )
+
 SELECT patient_key
       ,patnt_encntr_key
       ,bp_date
@@ -44,7 +46,7 @@ select person_id = b.person_id
       ,provider_id = c.provider_id
       ,visit_occurrence_id = e.visit_occurrence_id
       ,visit_detail_id = NULL
-      ,measurement_source_value = d.source_code
+      ,measurement_source_value = isnull(d.source_code, a.bp_measure)
       ,measurement_source_concept_id = isnull(d.source_concept_id, 0)
       ,unit_source_value = NULL
       ,value_source_value = a.bp_raw_value

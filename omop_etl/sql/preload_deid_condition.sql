@@ -1,3 +1,5 @@
+--This query modifies preload.condition_occurrence table in place.
+
 set nocount on;
 
 /*
@@ -14,8 +16,8 @@ join (
 	select condition_source_value as diag_cd
 	 	  ,icd_type
 		  ,count(distinct person_id) rc
-	 from preload.condition_occurrence 
-	 group by condition_source_value, icd_type
+	from preload.condition_occurrence 
+	group by condition_source_value, icd_type
 ) b
 on a.condition_source_value = b.diag_cd
 where rc < 11
@@ -33,14 +35,16 @@ where rc < 11
 /*
 Flatten ICD codes by performing the following tasks recursively.
  - Select codes with less than 11 unique patients.
- - Remove one character from the portion to the right of the decimal. 
+ - Remove one character from the portion to the right of the decimal. --This is NOT the algorithm that we are supposed to implement!!!!
  - Group icd codes and count patients.
  - Get codes with less than 11 unique patients.
 */
+
+--Get the max number of characters after decimal point in ICD codes
 declare @MaxLen INT
 set @MaxLen = (select max(len(replace(new_cd, left(new_cd, charindex('.', new_cd)), ''))) from #deid_diag_cd)
 
-while (
+while ( 
 	select count(*) from (
 		select new_cd
 			  ,icd_type
@@ -49,7 +53,7 @@ while (
 		group by new_cd, icd_type
 	) x
 	where rc < 11
-	and charindex('.', new_cd) > 0
+	and charindex('.', new_cd) > 0  --Ensure that we only look at the characters after the decimal point
 ) > 1
 begin
 	with group_icd as (
@@ -105,7 +109,7 @@ and a.icd_type = b.icd_type
 
 /*
 Some flattened icd codes with pattern ???.XXX or ???.?XX, where ? is an integer, don't map 
-to any concept code. However, we can use non-billing ICD codes that match the pattetn ??? 
+to any concept code. However, we can use non-billing ICD codes that match the pattern ??? 
 or ???.? Thus, we need to remove the Xs after the decimal. 
 */
 drop table if exists #fix_cd
@@ -113,9 +117,9 @@ select new_cd
 	  ,icd_type
 	  ,(case
 		  when patindex('%.[0-9]%', new_cd) <> 0 
-		  then left(new_cd, charindex('.', new_cd) -1) + replace(right(new_cd, charindex('.', new_cd)), 'X', '')
+		  then left(new_cd, charindex('.', new_cd) -1) + replace(right(new_cd, charindex('.', new_cd)), 'X', '')  --This seems to remove X from any code. So if we have 123.4X6, we end up with 123.46, which is not correct!
 		  when patindex('%.X%', new_cd) <> 0
-		  then left(new_cd, charindex('.', new_cd) -1) + replace(right(new_cd, charindex('.', new_cd) -1), 'X', '')
+		  then left(new_cd, charindex('.', new_cd) -1) + replace(right(new_cd, charindex('.', new_cd) -1), 'X', '') --This does not make sense. If we have 123.X45, we end up with 12345, which is not correct.
 		  else new_cd
 	  end) new_cd_mod
 	into #fix_cd
@@ -148,7 +152,7 @@ set nocount off;
 Finally, replace ICD codes from stage table with modified icd codes.
 */
 update a
-set condition_source_value = new_cd, condition_concept_id = isnull(concept_id_2, 0)
+set condition_source_value = new_cd, condition_concept_id = isnull(d.concept_id_2, 0)
 from preload.condition_occurrence a
 join (
 	select 

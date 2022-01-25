@@ -1,6 +1,6 @@
 insert into preload.measurement with (tablock)
 select distinct 
-      person_id = b.person_id
+       person_id = b.person_id
       ,measurement_concept_id = isnull(d.target_concept_id, 0)
       ,measurement_date = a.HEIGHT_DATE
       ,measurement_datetime = a.HEIGHT_DATETIME

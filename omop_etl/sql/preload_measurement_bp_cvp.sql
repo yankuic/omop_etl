@@ -1,15 +1,17 @@
+drop table if exists #measurement_bp
 set nocount on;
 
 ;with bp_cvp as (
-      --Extract bp vaues and deal with data types.
+    --Extract bp values and deal with data types.
 	select patient_key
             ,patnt_encntr_key
             ,bp_date
             ,bp_datetime
-    		,try_convert(varchar(50), cvp) cvp
+    		,try_convert(varchar(50), cvp) cvp  --what is the reason for conversion? Why not convert to float rather than varchar?
             ,[provider] = isnull(attending_provider, visit_provider)
       from stage.MEASUREMENT_BP_CVP      
 )
+
 SELECT patient_key
       ,patnt_encntr_key
       ,bp_date
@@ -43,7 +45,7 @@ select person_id = b.person_id
       ,provider_id = c.provider_id
       ,visit_occurrence_id = e.visit_occurrence_id
       ,visit_detail_id = NULL
-      ,measurement_source_value = d.source_code
+      ,measurement_source_value = isnull(d.source_code, a.bp_measure)
       ,measurement_source_concept_id = isnull(d.source_concept_id, 0)
       ,unit_source_value = NULL
       ,value_source_value = a.bp_raw_value

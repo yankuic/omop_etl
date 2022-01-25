@@ -17,6 +17,7 @@ select person_id = b.person_id
     ,measurement_source_value = d.source_code
     ,measurement_source_concept_id = isnull(d.source_concept_id, 0)
     ,unit_source_value = NULL
+	--explicit truncation to avoid truncation warning
     ,value_source_value = left(a.peds_vent_mode, 50)
     ,source_table = 'measurement_res_vent_mode_peds'
 from stage.MEASUREMENT_Res_Vent_Mode_Peds a 

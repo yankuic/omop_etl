@@ -30,6 +30,7 @@ class Config:
         return self._config.get(property_name)
 
 
+
 class ProjectConfig(Config):
     """Initialize project configuration parameters.
     """
@@ -115,6 +116,8 @@ class ProjectConfig(Config):
     @property
     def vocabularies(self):
         return self.get_property('vocabularies')
+
+
 
 class ETLConfig(Config):
     """[summary]

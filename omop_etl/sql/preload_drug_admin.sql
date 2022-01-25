@@ -11,7 +11,7 @@ select [person_id] = b.person_id
       ,[stop_reason] = NULL
       ,[refills] = NULL
       ,[quantity] = (case when isnumeric(a.TOTAL_DOSE_CHAR) = 0 
-                          then REPLACE(SUBSTRING(a.TOTAL_DOSE_CHAR, PATINDEX('%[0-9]%', a.TOTAL_DOSE_CHAR), PATINDEX('%[ -a-z]%', a.TOTAL_DOSE_CHAR)-1), ',','') 
+                          then REPLACE(SUBSTRING(a.TOTAL_DOSE_CHAR, PATINDEX('%[0-9]%', a.TOTAL_DOSE_CHAR), PATINDEX('%[ -a-z]%', a.TOTAL_DOSE_CHAR)-1), ',','') --This is where things might fail since we might not be capturing all possible cases of 'weird' inputs.
                           else a.TOTAL_DOSE_CHAR
                      end) 
       ,[days_supply] = NULL

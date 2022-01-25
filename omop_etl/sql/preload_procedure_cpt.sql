@@ -6,7 +6,8 @@ select distinct
     ,[procedure_datetime] = a.START_DATE
     ,(case 
         when procedure_type = 'HOSPITAL BILLING CODED' then 32823
-        else 32821
+		when procedure_type = 'PROFESSSIONAL BILLING CHARGE' then 32821
+        else 32817
      end) procedure_type_concept_id 
     ,[modifier_concept_id] = 0
     ,[quantity] = 1 

@@ -7,7 +7,7 @@ project_info:
 
 date_range:
   start_date: 01/01/2012
-  end_date: 12/31/2020
+  end_date: 12/31/2021
 
 bo_docs:
   cohort: enter cohort bo document name
@@ -112,7 +112,7 @@ vocabularies:
   - OPS
   - Currency
   - ABMS
-  - VA Product
+  - VA Product     ??????????????????????????????????
   - MMI
   - MeSH
   - ICD10
@@ -136,7 +136,6 @@ vocabularies:
   - Supplier
   - Episode Type
   - ICD10PCS
-  - PCORNet
   - ICD10CM
   - NCIt
   - Specimen Type
@@ -154,6 +153,7 @@ vocabularies:
   - CIViC
   - DRG
   - NDFRT
+
 
 loinc:
   10331-7: Rh [Type] in Blood

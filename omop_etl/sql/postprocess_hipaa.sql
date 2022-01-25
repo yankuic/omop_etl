@@ -1,3 +1,6 @@
+--@DateShift is being set in load.py --> load_hippa method
+--@SetNULL is being set in load.py --> load_hippa method
+
 set NOCOUNT on;
 
 drop table if exists hipaa.person
@@ -15,7 +18,7 @@ drop table if exists hipaa.person
 ),
 race_count as (
 	select 
-		person_id
+		a.person_id
 		,a.race_concept_id
 		,a.race_source_value
 		,(case 
@@ -40,7 +43,7 @@ race_count as (
 ),
 ethnicity_count as(
 	select 
-		person_id
+		a.person_id
 		,a.ethnicity_concept_id
 		,a.ethnicity_source_value
 		,(case 
@@ -63,6 +66,7 @@ ethnicity_count as(
 	) b
 	on a.ethnicity_source_value = b.ethnicity_source_value
 )
+--The placeholder values in this query are being filled by variables listed in load.py --> load_hipaa method
 select distinct 
        a.[person_id]
       ,[gender_concept_id]
@@ -238,6 +242,7 @@ where b.active_ind = 'Y'
 
 
 drop table if exists hipaa.observation
+drop table if exists #zipcode
 select distinct 
     zipcode = value_as_string
     ,(case 
@@ -246,15 +251,16 @@ select distinct
                     --TODO: Update with 2020 census data if available.
                     --Mask 3 digit zctas with population < 20k as of 2010 US Census. 
                     --Mask 3 digit zipcodes with less than 11 patients.
-                    zip3 in ('036', '059', '102', '202', '203', '204', '205', '369', '556', '692', '753', '772', '821', '823', '878', '879', '884', '893') or n_patients < 11
-            )
+                    zip3 in ('036', '059', '102', '202', '203', '204', '205', '369', '556', '692', '753', '772', '821', '823', '878', '879', '884', '893') 
+					or n_patients < 11
+               )    
         ) then '000'
         else zip3
     end) zipcode_deid 
 into #zipcode
 from dbo.observation x
 join (
-    --Aggregate patients by 3 digit leve zipcodes. 
+    --Aggregate patients by 3 digit level zipcodes. 
     select left(value_as_string,3) zip3, count(distinct person_id) n_patients
     from dbo.observation
     where observation_source_value = 'zipcode'
@@ -262,6 +268,8 @@ join (
 ) y on left(x.value_as_string,3) = y.zip3
 where observation_source_value = 'zipcode'
 
+
+--The placeholder value in this query are being filled by variables listed in load.py --> load_hipaa method
 select a.observation_id
     ,a.person_id
     ,[observation_concept_id]
@@ -340,12 +348,13 @@ select [provider_id]
       ,[specialty_source_value]
       ,[specialty_source_concept_id]
       ,[gender_source_value] @SetNULL
-      ,[gender_source_concept_id]
+      ,[gender_source_concept_id] @SetNULL
 into hipaa.provider
 from dbo.provider
 
 
 drop table if exists hipaa.location
+drop table if exists #location_zipcode
 select distinct 
     zipcode = zip
     ,(case 
@@ -353,14 +362,15 @@ select distinct
             --TODO: Update with 2020 census data if available.
             --Mask 3 digit zctas with population < 20k as of 2010 US Census. 
             --Mask 3 digit zipcodes with less than 11 patients.
-            zip3 in ('036', '059', '102', '202', '203', '204', '205', '369', '556', '692', '753', '772', '821', '823', '878', '879', '884', '893') or n_patients < 11
+            zip3 in ('036', '059', '102', '202', '203', '204', '205', '369', '556', '692', '753', '772', '821', '823', '878', '879', '884', '893') 
+			or n_patients < 11
         ) then '000'
         else zip3
     end) zipcode_deid 
 into #location_zipcode
 from dbo.location x
 join (
-    --Aggregate patients by 3 digit leve zipcodes. 
+    --Aggregate patients by 3 digit level zipcodes. 
     select left(zip, 3) zip3, count(distinct person_id) n_patients
     from dbo.location a 
     join dbo.person b 
@@ -368,6 +378,7 @@ join (
     group by left(zip, 3)
 ) y on left(x.zip, 3) = y.zip3
 
+--The placeholder value in this query are being filled by variables listed in load.py --> load_hipaa method
 select location_id
     ,[address_1] = NULL
     ,[address_2] = NULL
@@ -381,6 +392,8 @@ from dbo.location a
 join #location_zipcode b 
 on a.zip = b.zipcode
 
+drop table if exists #location_zipcode
+
 
 drop table if exists hipaa.care_site
 select care_site_id
@@ -392,9 +405,10 @@ select care_site_id
 into hipaa.care_site
 from dbo.care_site 
 
+
 drop table if exists hipaa.condition_era
 select condition_era_id
-      ,person_id
+      ,a.person_id
       ,condition_concept_id
       ,condition_era_start_date = dateadd(day, @DateShift, a.condition_era_start_date)
       ,condition_era_end_date = dateadd(day, @DateShift, a.condition_era_end_date)
@@ -405,9 +419,10 @@ join xref.person_mapping b
 on a.person_id = b.person_id
 where b.active_ind = 'Y'
 
+
 drop table if exists hipaa.drug_era
 select drug_era_id
-      ,person_id
+      ,a.person_id
       ,drug_concept_id
       ,drug_era_start_date = dateadd(day, @DateShift, a.drug_era_start_date)
       ,drug_era_end_date = dateadd(day, @DateShift, a.drug_era_end_date)

@@ -9,7 +9,7 @@ select distinct
       ,operator_concept_id = NULL
       ,value_as_number = a.PIP
       ,value_as_concept_id = NULL
-      ,unit_concept_id = 0
+      ,unit_concept_id = 44777590
       ,range_low = NULL
       ,range_high = NULL
       ,provider_id = c.provider_id

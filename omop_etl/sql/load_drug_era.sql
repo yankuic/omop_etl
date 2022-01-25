@@ -91,8 +91,21 @@ group by a.person_id
     ,a.drug_type_concept_id
     ,a.drug_exposure_start_date;
 
-insert into dbo.drug_era with (tablock)
-select person_id
+
+SET IDENTITY_INSERT dbo.drug_era ON
+
+insert into dbo.drug_era with (tablock)(
+	  [drug_era_id]
+      ,[person_id]
+      ,[drug_concept_id]
+      ,[drug_era_start_date]
+      ,[drug_era_end_date]
+      ,[drug_exposure_count]
+      ,[gap_days])
+select row_number() OVER (
+        ORDER BY person_id
+        ) AS drug_era_id
+	,person_id
     ,ingredient_concept_id
     ,min(drug_exposure_start_date) as drug_era_start_date
     ,era_end_date
@@ -100,3 +113,9 @@ select person_id
     ,30 as gap_days
 from #ctedrugexpends
 group by person_id, ingredient_concept_id, drug_type_concept_id, era_end_date;
+
+SET IDENTITY_INSERT dbo.drug_era OFF
+
+drop table if exists #ctedrugtarget;
+drop table if exists #cteenddates;
+drop table if exists #ctedrugexpends;

@@ -26,7 +26,7 @@ select person_id = b.person_id
     ,visit_occurrence_id = e.visit_occurrence_id
     ,visit_detail_id = NULL
     ,measurement_source_value = d.source_code
-    ,measurement_source_concept_id = d.source_concept_id
+    ,measurement_source_concept_id = isnull(d.source_concept_id,0)
     ,unit_source_value = '{score}'
     ,value_source_value = a.pain_score
     ,source_table = 'measurement_painscale_jax'
@@ -41,4 +41,4 @@ left join xref.visit_occurrence_mapping e
 on a.patnt_encntr_key = e.patnt_encntr_key
 where b.active_ind = 'Y'
 
-drop table if exists #measurement_painscale
+drop table if exists #measurement_painscale  --Do we need this statement?
