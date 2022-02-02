@@ -73,7 +73,7 @@ END
 	procedure_source_concept_id integer NULL,
 	modifier_source_value varchar(50) NULL,
 	source_table varchar(50) NULL,
-	code_type varchar(5) 
+	code_type varchar(8) 
 
 ) ON fg_user1;
 
