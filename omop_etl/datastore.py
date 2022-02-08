@@ -3,7 +3,7 @@
 
 from contextlib import contextmanager
 
-#import pandas as pd
+import pandas as pd
 from sqlalchemy import create_engine
 
 from omop_etl.config import ProjectConfig
