@@ -4,10 +4,10 @@ import os
 import numpy as np
 import pandas as pd
 
-from omop_etl.utils import timeitc, timeitd
+from omop_etl.utils import timeitc
 
 
-def to_csv(path, table, batch_size, schema, server, database):  #not reviewed
+def to_csv(path_or_buf, table, batch_size, schema, server, database):  #not reviewed
     
     from turbodbc import connect, make_options, Megabytes
 
@@ -24,11 +24,11 @@ def to_csv(path, table, batch_size, schema, server, database):  #not reviewed
     batches = cursor.fetchnumpybatches()
 
     count = 0
-    csv_file = os.path.join(path, table + '.csv')
+    # csvfile = os.path.join(path, table + '.csv')
 
     with timeitc(f'Exporting {table}'):
-        if os.path.exists(csv_file):
-            os.remove(csv_file)
+        if os.path.exists(path_or_buf):
+            os.remove(path_or_buf)
 
         for batch in batches:
 
@@ -43,11 +43,11 @@ def to_csv(path, table, batch_size, schema, server, database):  #not reviewed
                         dtypes[dtype] = 'str'
 
                 df = df.astype(dtypes)
-                df.to_csv(csv_file, index=False, sep='\t')
+                df.to_csv(path_or_buf, index=False, sep='\t')
 
             else: 
                 df = df.astype(dtypes)
-                df.to_csv(csv_file, header=False, index=False, mode='a', sep='\t')
+                df.to_csv(path_or_buf, header=False, index=False, mode='a', sep='\t')
 
             count =+ 1
 
