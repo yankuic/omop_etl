@@ -11,7 +11,7 @@ import yaml
 import pandas as pd
 
 from omop_etl.load import Loader
-from omop_etl.io import read_sql, import_csv
+from omop_etl.inout import read_sql, import_csv
 from omop_etl.utils import timeitc
 
 CONFIG_FILE = 'config.yml'
