@@ -6,7 +6,7 @@ import os
 
 from omop_etl.bo import format_stage_query
 from omop_etl.utils import timeitd, timeitc
-from omop_etl.io import read_sql
+from omop_etl.inout import read_sql
 from omop_etl.datastore import DataStore
 from omop_etl.config import ETLConfig
 
@@ -167,5 +167,3 @@ class Loader(DataStore, ETLConfig):
         print('De-identifying condition occurrence ...')
         
         return self.execute(q)
-
-	
