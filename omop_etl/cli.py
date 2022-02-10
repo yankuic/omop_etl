@@ -274,7 +274,7 @@ class ETLCli:
                 t = args.table				
                 sbs = args.subset				
                 if t in ('provider','care_site','location'): 
-                    print(loader.stage_hs_table(t))
+                    print(loader.stage_hs_table(t, only_query=args.only_query))
                 elif sbs == 'all':
                     if isinstance(LOAD_TABLES[t], dict):
                         for part in LOAD_TABLES[t].keys():
@@ -282,7 +282,7 @@ class ETLCli:
                 else:
                     print(loader.stage_table(t, sbs or None, only_query=args.only_query))
                 
-                if t in MAPPING_TABLES.keys():
+                if (t in MAPPING_TABLES.keys()) and not args.only_query:
                     print(f"Refreshing mappings for table {t}.")
                     print(loader.update_mapping_table(t))
                 
@@ -302,14 +302,14 @@ class ETLCli:
                             # print("Table with parts:", t, part)
                     else:
                         if t in ('provider','care_site','location'): 
-                            print(loader.stage_hs_table(t))
+                            print(loader.stage_hs_table(t, only_query=args.only_query))
                             # print("HS Table:", t)
                         else:
                             # print("Table with no parts:", t, LOAD_TABLES[t])
                             print(loader.stage_table(t, only_query=args.only_query))
                     
                     # update mappings
-                    if t in MAPPING_TABLES.keys():
+                    if t in MAPPING_TABLES.keys() and not args.only_query:
                         print(f"Refreshing mappings for table {t}.")
                         print(loader.update_mapping_table(t))
 
