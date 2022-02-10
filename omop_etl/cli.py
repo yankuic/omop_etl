@@ -490,8 +490,8 @@ class ETLCli:
 
             response = None
             while response is None:
-                print(f'Select source from which to export vocabulary tables.\n  [1] Database: {DATABASE}.\n  [2] Project directory (fast): {PROJECT_PATH}/vocabulary.')
-                response = input(f'[1]/[2]:')
+                print(f"Select vocabulary tables' source\n\n  1. Database: {DATABASE}\n  2. Project directory (faster): {PROJECT_PATH}/vocabulary\n")
+                response = input(f'[1]/[2]: ')
 
             dirpath = os.path.join(RELEASE_PATH, 'vocabulary')
 
@@ -503,12 +503,17 @@ class ETLCli:
                         time.sleep(1)
                         path_exists = os.path.exists(dirpath)
                 
-                shutil.copytree('vocabulary/', dirpath)
+                shutil.copytree(f'{PROJECT_PATH}/vocabulary/', dirpath)
                 vocabulary_files  = os.listdir(dirpath)
+
+                assert vocabulary_files, f'Source directory {dirpath} is empty.'
 
                 # Rename vocabulary files
                 for f in vocabulary_files:
-                    os.rename(os.path.join(dirpath, f), os.path.join(dirpath, f.replace('.csv', f'_{RELEASE_VERSION}.0.txt').lower()))
+                    _from = os.path.join(PROJECT_PATH, 'vocabulary', f)
+                    _to = os.path.join(dirpath, f.replace('.csv', f'_{RELEASE_VERSION}.0.txt').lower())
+                    print(f'File {_from} copied into {_to}')
+                    os.rename(_from, _to)
 
             elif response == '1':
                 if os.path.exists(dirpath):
