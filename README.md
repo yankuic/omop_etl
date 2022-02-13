@@ -3,7 +3,8 @@
 ## Part I. Installation
 
 ### Setting up python environment and installing required libraries
-There are two options to set up the necessary environment. If you use Anaconda, follow the `Using Anaconda` section below. If you prefer standalone Python environment, scrow down to `Using standalone Python environment`. 
+
+There are two options to set up the necessary environment. If you use Anaconda, follow the `Using Anaconda` section below. If you prefer standalone Python environment, scrow down to `Using standalone Python environment`.
 
 #### Using Anaconda
 
@@ -142,7 +143,7 @@ Make sure you have Git installed on your system. If not, go to [git-scm.com](htt
 
     *config.yml* is the project configuration file that stores all project-specific configuration parameters: project info, project date range, BO document names, list of tables to load, sql db connection information, vocabulary list, and LOINC codes list.
 
-    Most parameters are preset, but can be modifided depending on the needs of each project. 
+    Most parameters are preset, but can be modifided depending on the needs of each project.
 
     The following parameters are mandatory:
 
@@ -165,13 +166,13 @@ Make sure you have Git installed on your system. If not, go to [git-scm.com](htt
         - bo_metadata:
           These values are preset and should not be changed by an analyst running the pipeline.
       - vocabularies
-        - This section includes all OMOP vocabularies. This section should not be edited by an analyst running the pipeline. 
+        - This section includes all OMOP vocabularies. This section should not be edited by an analyst running the pipeline.
       - loinc**
         - This section lists all LOINC codes that will be included in the data pull for the project.
 
     \*Note that the date range will apply to all queries within the stage BO .wid document. This range does not apply to the cohort inclusion criteria. The date range for queries in the cohort BO .wid document has to be defined in the *refresh_cohort.py* script.
 
-    \*\*To exclude data elements or LOINC codes add the character # at the begining of the line. In the example below, the subset load/measurement/res_tidal is commented and won't be loaded into the measurement table. 
+    \*\*To exclude data elements or LOINC codes add the character # at the begining of the line. In the example below, the subset load/measurement/res_tidal is commented and won't be loaded into the measurement table.
 
     ```yml  
     load:
@@ -201,26 +202,29 @@ Make sure you have Git installed on your system. If not, go to [git-scm.com](htt
     - **dbo** for final tables in OMOP format. Data in dbo contain PHI.
     - **hipaa** for data conforming with hipaa deidentified or limited datasets.
     - **archive** for backing up dbo tables.
-	- **archive_xref** for backing up mapping tables.
+    - **archive_xref** for backing up mapping tables.
 
 3. Load vocabulary tables into project database.
 
     - Download vocabulary tables from [Athena](https://athena.ohdsi.org).
-        - Register to Athena
-        - Login with your Athena credentials
-        - Click on the DOWNLOAD tab
-        - Select the vocabularies from the vocabulary list. See `config.yml` file for the list of vocabularies to download
-        - Click button to download vocabularies
+      - Register to Athena
+      - Login with your Athena credentials
+      - Click on the DOWNLOAD tab
+      - Select the vocabularies from the vocabulary list. See `config.yml` file for the list of vocabularies to download
+      - Click button to download vocabularies
+
     - Unzip and save vocabulary tables into the project vocabulary directory.
-	    - Follow the instructions in readme.txt file to update CPT codes:
-		    - Sign in to https://uts.nlm.nih.gov//uts.html#profile
-			- Go to `My Profile`
-			- If first-time user, click on `generate API Key`; otherwise, the API key already exists in the profile
-			- Open bash window in the vocabulary directory
-			- Run the command below, but replace `APIKEY` with the API key generated in the previous steps.
-			  ```bash
-			  ./cpt.sh APIKEY
-			  ```
+      - Follow the instructions in readme.txt file to update CPT codes:
+        - Sign in to [uts.nlm.nih.gov](https://uts.nlm.nih.gov//uts.html#profile)
+        - Go to `My Profile`
+        - If first-time user, click on `generate API Key`; otherwise, the API key already exists in the profile
+        - Open bash window in the vocabulary directory
+        - Run the command below, but replace `APIKEY` with the API key generated in the previous steps.
+
+            ```bash
+            ./cpt.sh APIKEY
+            ```
+
     - Load tables from the project vocabulary directory into the project database.
 
         ```bash
@@ -231,22 +235,23 @@ Make sure you have Git installed on your system. If not, go to [git-scm.com](htt
 
 All commands must be executed within the omop project directory, where files config.yml and refresh_cohort.py must exist.
 
-0. Prepare database for new data refresh.
+1. Prepare database for new data refresh.
 
-  - Archive all tables that need to be archived. Run archive.sql script. Need to re-write the scripts to use chunks. NOTE: We need to think about archiving: Do we really need space to archive when we have data downloaded on share drive?
-  - Truncate all tables that need to be truncated. Run truncate.sql script. Need to update this script to check first whether the table exists and then truncate it if it exists.
-  - Truncate project specific cohort tables. Need to implement this. For example, in cancer OMOP, we need to truncate cohort.cancer. It might be already implemented by the design of pulling data.
+    - Archive all tables that need to be archived. Run archive.sql script. Need to re-write the scripts to use chunks. NOTE: We need to think about archiving: Do we really need space to archive when we have data downloaded on share drive?
+    - Truncate all tables that need to be truncated. Run truncate.sql script. Need to update this script to check first whether the table exists and then truncate it if it exists.
+    - Truncate project specific cohort tables. Need to implement this. For example, in cancer OMOP, we need to truncate cohort.cancer. It might be already implemented by the design of pulling data.
 
-1. Load cohort patient list into PersonList table in db.
-  - Check .wid file that contains the queries to generate the cohort. Check that queries are correct (including dates, placeholders, etc.). Even though the queries should not change from one run to another, it is possible that someone accidentally changed the query. 
-  - If .wid query does not contain the correct queries, please correct the query and ask Matt***REMOVED*** to run his code to generate metadata.
-  - When it is established that the .wid queries are correct, run the following command
+2. Load cohort patient list into PersonList table in db.
 
-    ```bash
-    python refresh_cohort.py
-    ```
+    - Check .wid file that contains the queries to generate the cohort. Check that queries are correct (including dates, placeholders, etc.). Even though the queries should not change from one run to another, it is possible that someone accidentally changed the query.
+    - If .wid query does not contain the correct queries, please correct the query and ask Matt***REMOVED*** to run his code to generate metadata.
+    - When it is established that the .wid queries are correct, run the following command
 
-2. Staging data. During this step, SQL code generated by BO queries is executed to extract data from the warehouse and loaded into stage tables. Data elements commented out in config.yml file will be ignored. In addition, the following mapping tables will be updated during this step: person_mapping, visit_occurrence_mapping, provider_mapping, care_site_mapping, location_mapping.
+        ```bash
+        python refresh_cohort.py
+        ```
+
+3. Staging data. During this step, SQL code generated by BO queries is executed to extract data from the warehouse and loaded into stage tables. Data elements commented out in config.yml file will be ignored. In addition, the following mapping tables will be updated during this step: person_mapping, visit_occurrence_mapping, provider_mapping, care_site_mapping, location_mapping.
 
     ```bash
     omop_etl stage --all
@@ -269,7 +274,7 @@ All commands must be executed within the omop project directory, where files con
     omop_etl stage --table measurement --subset all
     ```
 
-3. Preload. During this step, subset tables in the stage schema will be consolidated into a single table in the preload schema. If 'deid' option is selected, deidentification of diagnosis codes will also take place here. Note that  this step involves only tables with subsets (condition_occurrence, procedure_occurrence, drug_exposure, measurement, observation).
+4. Preload. During this step, subset tables in the stage schema will be consolidated into a single table in the preload schema. If 'deid' option is selected, deidentification of diagnosis codes will also take place here. Note that  this step involves only tables with subsets (condition_occurrence, procedure_occurrence, drug_exposure, measurement, observation).
 
     ```bash
     omop_etl preload --all
@@ -285,7 +290,7 @@ All commands must be executed within the omop project directory, where files con
     omop_etl preload --table measurement --subset all
     ```
 
-4. Load. This step involves loading data into OMOP conforming tables. Derived tables observation_period, drug_era, and condition_era are populated during this step.
+5. Load. This step involves loading data into OMOP conforming tables. Derived tables observation_period, drug_era, and condition_era are populated during this step.
 
     ```bash
     omop_etl load --all
@@ -298,13 +303,13 @@ All commands must be executed within the omop project directory, where files con
     omop_etl load --table measurement
     ```
 
-5. Fix domains. During this step, records from condition_occurrence, procedure_occurrence, drug_exposure, observation, and measurement will be reallocated to match the domain_id of the standard concept. The table device_exposure is populated during this step with records from procedure_occurrence.
+6. Fix domains. During this step, records from condition_occurrence, procedure_occurrence, drug_exposure, observation, and measurement will be reallocated to match the domain_id of the standard concept. The table device_exposure is populated during this step with records from procedure_occurrence.
 
     ```bash
     omop_etl postproc --fix_domains
     ```
 
-6. Generate hipaa compliant registry.
+7. Generate hipaa compliant registry.
 
     For de-identified dataset run
 
@@ -318,4 +323,31 @@ All commands must be executed within the omop project directory, where files con
     omop_etl postproc --limited
     ```
 
-7. Export to csv files. Not implemented
+8. Export to csv files.
+
+    Export data tables: clinical data, system health, and derived tables.
+
+    ```bash
+    omop_etl export --data
+    ```
+
+    Export vocabulary tables. The command below will prompt you to select the vocabulary tables' source. Select Database if you want to export the vocabulary from the project database. Select Project directory to copy the vocabulary tables from the project vocabulary folder.
+
+    ```bash
+    omop_etl export --vocab
+    ```
+
+    ```txt
+    Select vocabulary tables' source
+
+        1. Database: dws_omop
+        2. Project directory (faster): z:\test\springhill/vocabulary
+
+    [1]/[2]:
+    ```
+
+    Export mapping tables.
+
+    ```bash
+    omop_etl export --mapping
+    ```
