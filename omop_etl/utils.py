@@ -8,7 +8,7 @@ import logging
 from contextlib import contextmanager
 from functools import wraps
 import re
-#import numpy as np
+import numpy as np
 
 
 def search(pattern, string, *args):
