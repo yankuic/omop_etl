@@ -35,6 +35,7 @@ class ETLCli:
         getattr(self, args.command)()
 
     def report_counts(self): # not reviewed
+        global CONFIG_FILE
         parser = argparse.ArgumentParser('Import vocabulary tables into project database.')
         parser.add_argument('-c', '--config_file', help='Path to configuration file. Implemented for testing purposes.')
         args = parser.parse_args(sys.argv[2:])
