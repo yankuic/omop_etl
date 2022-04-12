@@ -18,7 +18,7 @@ from omop_etl.utils import find, timeitc
 CONFIG_FILE = 'config.yml'
 
 class ETLCli:
-    def __init__(self):	
+    def __init__(self): 
         parser = argparse.ArgumentParser()
         usage = """
         Add instructions here.
@@ -66,14 +66,15 @@ class ETLCli:
 
         table_counts = pd.DataFrame(result, columns=['Table', 'Part', 'Stage'])
         count_diff = table_counts.groupby('Table').sum().reset_index()
+        count_diff['Stage'] = count_diff.Stage.astype(float).astype(int)
         count_diff['Preload'] = count_diff.Table.apply(lambda t: loader.row_count(t, schema='preload') if t not in ('death','person','visit_occurrence','provider','care_site','location') else 0)
         count_diff['Load'] = count_diff.Table.apply(lambda t: loader.row_count(t))
         count_diff['Hipaa'] = count_diff.Table.apply(lambda t: loader.row_count(t, schema='hipaa'))
         
-        return print(count_diff)
+        return print(count_diff.set_index('Table'))
 
     def create_schema(self):
-        global CONFIG_FILE	#This is config.yml fiel from the project folder
+        global CONFIG_FILE #This is config.yml file from the project folder
         #create omop tables and schemas
         parser = argparse.ArgumentParser('Import vocabulary tables into project database.')
         parser.add_argument('-c', '--config_file', help='Path to configuration file. Implemented for testing purposes.')
@@ -172,7 +173,7 @@ class ETLCli:
         #   -save project name and project dir into config.yml
         #TODO: if server and db are specified ask if user wants to create project schema.
         #TODO: ask if user wants to load xref tables
-				
+
         parser = argparse.ArgumentParser('Create new OMOP project.')
         parser.add_argument('-p', '--path', type=str, help='Project directory', required=True)
         parser.add_argument('-n', '--name', type=str, help='Project name', required=True)
@@ -253,7 +254,7 @@ class ETLCli:
                     print(loader.archive_table(t))
 
     def stage(self): 
-        global CONFIG_FILE	#This is config.yml fiel from the project folder
+        global CONFIG_FILE #This is config.yml fiel from the project folder
         parser = argparse.ArgumentParser('Stage data.')
         parser.add_argument('-t', '--table', type=str, help='The table to stage')
         parser.add_argument('-s', '--subset', type=str, help='If table has subsets pass this argument in combination with --table.')
@@ -261,19 +262,19 @@ class ETLCli:
         parser.add_argument('-c', '--config_file', help='Path to configuration file. Implemented for testing purposes.')
         parser.add_argument('--only_query', help='Print query without running it.', action="store_true")
 
-        args = parser.parse_args(sys.argv[2:])			
+        args = parser.parse_args(sys.argv[2:])   
 
         if args.config_file:
             CONFIG_FILE = args.config_file 
 
-        loader = Loader(CONFIG_FILE) 		
+        loader = Loader(CONFIG_FILE)   
         MAPPING_TABLES = loader.mapping
         LOAD_TABLES = loader.config.load
        
         with timeitc("Staging"):
             if args.table:
-                t = args.table				
-                sbs = args.subset				
+                t = args.table
+                sbs = args.subset
                 if t in ('provider','care_site','location'): 
                     print(loader.stage_hs_table(t, only_query=args.only_query))
                 elif sbs == 'all':
@@ -321,7 +322,7 @@ class ETLCli:
                     #     print(loader.execute(sqlstring))                              
     
     def preload(self):  
-        global CONFIG_FILE	#This is config.yml fiel from the project folder        
+        global CONFIG_FILE#This is config.yml fiel from the project folder        
         parser = argparse.ArgumentParser('Preload tables.')
         parser.add_argument('-t', '--table', type=str, help='The table to preload.')
         parser.add_argument('-s', '--subset', type=str, help='If table has subsets pass this argument in combination with --table.')
@@ -360,9 +361,9 @@ class ETLCli:
                 sqlstring = read_sql(script_file)
                 print(loader.execute(sqlstring))
             
-	
+
     def load(self):
-        global CONFIG_FILE	#This is config.yml fiel from the project folder
+        global CONFIG_FILE #This is config.yml fiel from the project folder
         parser = argparse.ArgumentParser('Load data into OMOP tables.')
         parser.add_argument('-t', '--table', type=str, help='The table to load.')
         parser.add_argument('-a', '--all', help='Use this option to load all tables at once.', action="store_true")
@@ -386,7 +387,7 @@ class ETLCli:
                     print(loader.load_table(t))
 
     def postproc(self):
-        global CONFIG_FILE	#This is config.yml fiel from the project folder
+        global CONFIG_FILE #This is config.yml fiel from the project folder
         parser = argparse.ArgumentParser('Run postprocessing tasks.')
         parser.add_argument('--deid', help='Create HIPAA de-identified dataset', action="store_true")
         parser.add_argument('--deid_condition', help='De-identify ICD codes from condition_occurrence', action="store_true")
