@@ -27,7 +27,22 @@ BEGIN
 END
 
 /*
-Flag patids from merged patnt_keys
+Fix patids where two separate patnt_keys merged into one new
+
+e.g. 
+patnt_key 	patid	merged
+45685		1		N
+56895		2		N
+
+after setting current patnt_key
+patnt_key 	patid	merged
+45685		1		N
+45685		2		N
+
+after the fix the bigger patid is flagged
+patnt_key 	patid	merged
+45685		1		N
+45685		2		Y
 */
 UPDATE B
 SET MERGE_IND = 'Y'
