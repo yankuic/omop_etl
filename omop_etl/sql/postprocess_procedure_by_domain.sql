@@ -82,9 +82,9 @@ exec('
 		,observation_date = a.procedure_date
 		,observation_datetime = a.procedure_datetime
 		,observation_type_concept_id = a.procedure_type_concept_id
-		,value_as_number = NULL
+		,value_as_number = a.quantity
 		,value_as_string = NULL
-		,value_as_concept_id = NULL
+		,value_as_concept_id = 4077689
 		,qualifier_concept_id = NULL
 		,unit_concept_id = NULL
 		,provider_id = a.provider_id
