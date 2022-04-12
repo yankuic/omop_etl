@@ -83,7 +83,7 @@ exec('
 		,observation_datetime = a.condition_start_datetime
 		,observation_type_concept_id = a.condition_type_concept_id
 		,value_as_number = NULL
-		,value_as_string = NULL
+		,value_as_string = a.condition_status_source_value
 		,value_as_concept_id = NULL
 		,qualifier_concept_id = NULL
 		,unit_concept_id = NULL
