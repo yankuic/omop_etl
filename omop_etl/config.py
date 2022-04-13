@@ -87,7 +87,7 @@ class ProjectConfig(Config):
 
     @property
     def release_path(self):
-        return os.path.join(self.project_dir, 'data_release', self.release_version)
+        return os.path.join(self.project_dir, 'data_release', f'v{str(self.release_version)}')
 
     @property
     def start_date(self):
