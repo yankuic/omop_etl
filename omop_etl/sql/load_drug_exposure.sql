@@ -52,3 +52,14 @@ select distinct person_id
       ,route_source_value
       ,dose_unit_source_value 
 from preload.drug_exposure
+
+/*
+Substract 100y from crazy dates to avoid outofbound error while
+exporting table to flatfile. The column verbatim_end_date will
+retain the original value. 
+*/
+update dbo.drug_exposure
+set drug_exposure_end_datetime = dateadd(year, -100, drug_exposure_end_datetime)
+   ,drug_exposure_end_date = dateadd(year, -100, drug_exposure_end_date)
+where drug_exposure_end_datetime >= '2262-04-11'
+or drug_exposure_end_date >= '2262-04-11'
