@@ -26,9 +26,9 @@ FROM [DWS_CC_OMOP].[hipaa].episode_event
 SELECT count(*)
 FROM [DWS_CC_OMOP].temp.episode_event_temp
 
-SELECT count(distinct modifier_of_event_id)
-FROM [DWS_CC_OMOP].[hipaa].measurement
-where measurement_type_concept_id = 32534
+-- SELECT count(distinct modifier_of_event_id)
+-- FROM [DWS_CC_OMOP].[hipaa].measurement
+-- where measurement_type_concept_id = 32534
 
 SELECT count(distinct modifier_of_event_id)
 FROM [DWS_CC_OMOP].[hipaa].measurement a
