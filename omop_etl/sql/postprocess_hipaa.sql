@@ -272,20 +272,20 @@ where observation_source_value = 'zipcode'
 --The placeholder value in this query are being filled by variables listed in load.py --> load_hipaa method
 select a.observation_id
     ,a.person_id
-    ,[observation_concept_id]
+    ,observation_concept_id = isnull(observation_concept_id, 0)
     ,[observation_date] = dateadd(day, @DateShift, a.observation_date)
     ,[observation_datetime] = dateadd(day, @DateShift, a.observation_datetime)
-    ,[observation_type_concept_id]
+    ,observation_type_concept_id = isnull(observation_type_concept_id, 0)
     ,[value_as_number]
     ,[value_as_string] = (case when observation_source_value = 'zipcode' then c.{5} else a.value_as_string end)
-    ,[value_as_concept_id]
-    ,[qualifier_concept_id]
-    ,[unit_concept_id]
+    ,value_as_concept_id = isnull(value_as_concept_id, 0)
+    ,qualifier_concept_id = isnull(qualifier_concept_id, 0)
+    ,unit_concept_id = isnull(unit_concept_id, 0)
     ,[provider_id]
     ,[visit_occurrence_id]
     ,[visit_detail_id]
     ,[observation_source_value]
-    ,[observation_source_concept_id]
+    ,observation_source_concept_id = isnull([observation_source_concept_id], 0)
     ,[unit_source_value]
     ,[qualifier_source_value]
 into hipaa.observation
@@ -343,12 +343,12 @@ select [provider_id]
       ,[specialty_concept_id]
       ,[care_site_id] 
       ,[year_of_birth] @SetNULL
-      ,[gender_concept_id] @SetNULL
+      ,[gender_concept_id] = coalesce(@SetZero, gender_concept_id, 0)
       ,[provider_source_value] = NULL
       ,[specialty_source_value]
       ,[specialty_source_concept_id]
       ,[gender_source_value] @SetNULL
-      ,[gender_source_concept_id] @SetNULL
+      ,[gender_source_concept_id] = coalesce(@SetZero, gender_source_concept_id, 0)
 into hipaa.provider
 from dbo.provider
 
