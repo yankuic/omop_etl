@@ -8,7 +8,7 @@ import logging
 from contextlib import contextmanager
 from functools import wraps
 import re
-#import numpy as np
+import numpy as np
 
 
 def search(pattern, string, *args):
@@ -47,7 +47,6 @@ def find(pattern, values, ignore_case=True):  #not reviewed
 
     else:
         return np.array(list(map(lambda x: search(pattern, x, arg), values)))
-
 
 @contextmanager
 def timeitc(name=''):
