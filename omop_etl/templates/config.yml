@@ -2,7 +2,7 @@
 # Items must follow format <item: subitem> OR <item:>
 project_info:
   project_dir: enter project directory
-  version: enter version
+  version: enter release version
   hipaa: 'deid'
 
 date_range:
