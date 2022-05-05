@@ -1,0 +1,10 @@
+# ignore extensions
+*.pyc
+*.log
+
+# ignore directories
+.vscode/
+__pycache__/
+build/
+dist/
+omop_etl.egg-info/

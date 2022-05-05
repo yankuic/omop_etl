@@ -6,7 +6,7 @@ import os
 
 from omop_etl.bo import format_stage_query
 from omop_etl.utils import timeitd, timeitc
-from omop_etl.io import read_sql
+from omop_etl.inout import read_sql
 from omop_etl.datastore import DataStore
 from omop_etl.config import ETLConfig
 
@@ -20,13 +20,16 @@ class Loader(DataStore, ETLConfig):
         ETLConfig.__init__(self)
     
     @timeitd
-    def stage_hs_table(self, table, schema='stage'):
+    def stage_hs_table(self, table, only_query=False):
         #provider, care_site, and location tables
         assert table in self.stage_hs.keys(), f'{table} is not a valid table name.'
         filepath = os.path.join(self.sql_scripts_path, self.stage_hs[table]) #uses custom SQL scripts from 'sql' folder
         q = read_sql(filepath) 
 
-        return self.execute(q)
+        if only_query:
+            return q
+        else:
+            return self.execute(q)
        
     @timeitd
     def stage_table(self, table, subset=None, only_query=False):
@@ -167,5 +170,3 @@ class Loader(DataStore, ETLConfig):
         print('De-identifying condition occurrence ...')
         
         return self.execute(q)
-
-	

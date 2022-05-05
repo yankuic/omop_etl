@@ -6,13 +6,14 @@ import sys
 import os
 import shutil
 import argparse
+import time
 
 import yaml
 import pandas as pd
 
 from omop_etl.load import Loader
-from omop_etl.io import read_sql, import_csv
-from omop_etl.utils import timeitc
+from omop_etl.inout import read_sql, import_csv, to_csv
+from omop_etl.utils import find, timeitc
 
 CONFIG_FILE = 'config.yml'
 
@@ -273,7 +274,7 @@ class ETLCli:
                 t = args.table				
                 sbs = args.subset				
                 if t in ('provider','care_site','location'): 
-                    print(loader.stage_hs_table(t))
+                    print(loader.stage_hs_table(t, only_query=args.only_query))
                 elif sbs == 'all':
                     if isinstance(LOAD_TABLES[t], dict):
                         for part in LOAD_TABLES[t].keys():
@@ -281,7 +282,7 @@ class ETLCli:
                 else:
                     print(loader.stage_table(t, sbs or None, only_query=args.only_query))
                 
-                if t in MAPPING_TABLES.keys():
+                if (t in MAPPING_TABLES.keys()) and not args.only_query:
                     print(f"Refreshing mappings for table {t}.")
                     print(loader.update_mapping_table(t))
                 
@@ -301,14 +302,14 @@ class ETLCli:
                             # print("Table with parts:", t, part)
                     else:
                         if t in ('provider','care_site','location'): 
-                            print(loader.stage_hs_table(t))
+                            print(loader.stage_hs_table(t, only_query=args.only_query))
                             # print("HS Table:", t)
                         else:
                             # print("Table with no parts:", t, LOAD_TABLES[t])
                             print(loader.stage_table(t, only_query=args.only_query))
                     
                     # update mappings
-                    if t in MAPPING_TABLES.keys():
+                    if t in MAPPING_TABLES.keys() and not args.only_query:
                         print(f"Refreshing mappings for table {t}.")
                         print(loader.update_mapping_table(t))
 
@@ -316,9 +317,7 @@ class ETLCli:
                     #     print('De-identifying diagnosis codes ...')
                     #     script_file = os.path.join(loader.sql_scripts_path, 'preload_deid_condition.sql')
                     #     sqlstring = read_sql(script_file)
-                    #     print(loader.execute(sqlstring))
-                        
-                    
+                    #     print(loader.execute(sqlstring))                              
     
     def preload(self):  
         global CONFIG_FILE	#This is config.yml fiel from the project folder        
@@ -413,6 +412,127 @@ class ETLCli:
 
             elif args.deid_condition:
                 print(loader.deid_condition())
+
+    def export(self):
+        global CONFIG_FILE
+        parser = argparse.ArgumentParser('Run postprocessing tasks.')
+        parser.add_argument('--data', help='Exports clinical, derived, and health system tables from hipaa schema.', action="store_true")
+        parser.add_argument('--mapping', help='Exports mapping tables from xref schema.', action="store_true")
+        parser.add_argument('--vocab', help='Exports vocabulary tables from xref schema.', action="store_true")
+        parser.add_argument('-a', '--all', help='Exports all release tables.', action="store_true")
+        parser.add_argument('--batch_size', type=str, help='Batch size in MB. Argument for turbodbc.Megabytes')
+        parser.add_argument('-c', '--config_file', help='Path to configuration file. Implemented for testing purposes.')
+        args = parser.parse_args(sys.argv[2:])
+
+        if args.config_file:
+            CONFIG_FILE = args.config_file
+        
+        loader = Loader(CONFIG_FILE)
+    
+        SERVER = loader.config.server
+        RELEASE_VERSION = loader.config.release_version
+        RELEASE_PATH = loader.config.release_path
+        DATABASE = loader.config.project_database
+        PROJECT_PATH = loader.config.project_dir
+        BATCH_SIZE = 500
+
+        if args.batch_size:
+            BATCH_SIZE = args.batch_size
+
+        if args.data or args.all:
+
+            hipaa = loader.list_tables(in_schema=['hipaa'])
+            DATA_FOLDERS = [
+                'clinical_data', 
+                'health_system',
+                'derived_tables',
+            ]
+
+            for folder in DATA_FOLDERS:
+                dirpath = os.path.join(RELEASE_PATH, folder)
+        
+                if os.path.exists(dirpath):
+                    print(f'Directory {folder} already exists. Nothing done.')
+                else:
+                    os.makedirs(dirpath)
+
+            with timeitc('Exporting data tables'):
+
+                # Export hipaa schema
+                for table in hipaa.Table: 
+                    print('Exporting table:', table)
+                    if table.lower() in ['care_site', 'location', 'provider']:
+                        out_path = os.path.join(RELEASE_PATH, 'health_system', f'{table.lower()}_{RELEASE_VERSION}.0.txt')
+                    elif table.lower() in ['condition_era', 'drug_era']:
+                        out_path = os.path.join(RELEASE_PATH, 'derived_tables', f'{table.lower()}_{RELEASE_VERSION}.0.txt')
+                    else:
+                        out_path = os.path.join(RELEASE_PATH, 'clinical_data', f'{table.lower()}_{RELEASE_VERSION}.0.txt')
+                    
+                    to_csv(out_path, table, BATCH_SIZE, 'hipaa', SERVER, DATABASE)
+
+        if args.mapping or args.all:
+            mapping = loader.list_tables(in_schema=['xref'], name_pattern='_mapping')
+            dirpath = os.path.join(RELEASE_PATH, 'mapping_tables')
+
+            if os.path.exists(dirpath):
+                print(f'Directory mapping_tables already exists. Nothing done.')
+            else:
+                os.makedirs(dirpath)
+
+            with timeitc('Exporting mapping tables'):
+                # Export mapping tables
+                for table in mapping.Table:
+                    print('Exporting table:', table)
+                    out_path = os.path.join(RELEASE_PATH, 'mapping_tables', f'{table.lower()}_{RELEASE_VERSION}.0.txt')
+                    to_csv(out_path, table, BATCH_SIZE, 'xref', SERVER, DATABASE)
+
+        if args.vocab:
+
+            response = None
+            while response is None:
+                print(f"Select vocabulary tables' source\n\n  1. Database: {DATABASE}\n  2. Project directory (faster): {PROJECT_PATH}/vocabulary\n")
+                response = input(f'[1]/[2]: ')
+
+            dirpath = os.path.join(RELEASE_PATH, 'vocabulary')
+
+            if response == '2':
+                path_exists = os.path.exists(dirpath)
+                if os.path.exists(dirpath):
+                    shutil.rmtree(dirpath)
+                    while path_exists:
+                        time.sleep(1)
+                        path_exists = os.path.exists(dirpath)
+                
+                shutil.copytree(f'{PROJECT_PATH}/vocabulary/', dirpath)
+                vocabulary_files  = os.listdir(dirpath)
+
+                assert vocabulary_files, f'Source directory {dirpath} is empty.'
+
+                # Rename vocabulary files
+                for f in vocabulary_files:
+                    _from = os.path.join(PROJECT_PATH, 'vocabulary', f)
+                    _to = os.path.join(dirpath, f.replace('.csv', f'_{RELEASE_VERSION}.0.txt').lower())
+                    print(f'File {_from} copied into {_to}')
+                    os.rename(_from, _to)
+
+            elif response == '1':
+                if os.path.exists(dirpath):
+                    print(f'Directory vocabulary already exists. Nothing done.')
+                else:
+                    os.makedirs(dirpath)
+
+                xref = loader.list_tables(in_schema=['xref'])
+                vocab = xref[~find('mapping', xref.Table)]
+
+                with timeitc('Exporting vocabulary tables'):
+                    # Export mapping tables
+                    for table in vocab.Table:
+                        print('Exporting table:', table)
+                        out_path = os.path.join(RELEASE_PATH, 'vocabulary', f'{table.lower()}_{RELEASE_VERSION}.0.txt')
+                        to_csv(out_path, table, BATCH_SIZE, 'xref', SERVER, DATABASE)
+
+            else:
+                print(f'{response} is not a valid option.')
 
 if __name__ == "__main__":
     ETLCli()
