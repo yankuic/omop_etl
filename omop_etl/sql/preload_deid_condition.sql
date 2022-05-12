@@ -6,6 +6,8 @@ set nocount on;
 Subset records where icd counts < 11 and insert into temp 
 table for faster manipulation.
 */
+declare @rc int = 11
+
 drop table if exists #deid_diag_cd
 select a.*
 	,new_cd = condition_source_value
@@ -20,7 +22,7 @@ join (
 	group by condition_source_value, icd_type
 ) b
 on a.condition_source_value = b.diag_cd
-where rc < 11
+where rc < @rc
 
 --back up stage table
 --drop table if exists stage.condition_bkup 
@@ -35,7 +37,7 @@ where rc < 11
 /*
 Flatten ICD codes by performing the following tasks recursively.
  - Select codes with less than 11 unique patients.
- - Remove one character from the portion to the right of the decimal. --This is NOT the algorithm that we are supposed to implement!!!!
+ - Remove one character from the portion to the right of the decimal. 
  - Group icd codes and count patients.
  - Get codes with less than 11 unique patients.
 */
@@ -52,7 +54,7 @@ while (
 		from #deid_diag_cd
 		group by new_cd, icd_type
 	) x
-	where rc < 11
+	where rc < @rc
 	and charindex('.', new_cd) > 0  --Ensure that we only look at the characters after the decimal point
 ) > 1
 begin
@@ -70,7 +72,7 @@ begin
 			from #deid_diag_cd
 			group by new_cd, icd_type
 		) x
-		where rc < 11
+		where rc < @rc
 		and charindex('.', new_cd) > 0
 		and len(right_side) = @MaxLen
 	)
@@ -102,7 +104,7 @@ join (
 		  ,count(distinct person_id) rc
 	from #deid_diag_cd
 	group by new_cd, icd_type
-	having count(distinct person_id) < 11
+	having count(distinct person_id) <= @rc
 ) b
 on a.new_cd = b.new_cd 
 and a.icd_type = b.icd_type
@@ -117,9 +119,9 @@ select new_cd
 	  ,icd_type
 	  ,(case
 		  when patindex('%.[0-9]%', new_cd) <> 0 
-		  then left(new_cd, charindex('.', new_cd) -1) + replace(right(new_cd, charindex('.', new_cd)), 'X', '')  --This seems to remove X from any code. So if we have 123.4X6, we end up with 123.46, which is not correct!
+		  then left(new_cd, charindex('.', new_cd) -1) + replace(right(new_cd, charindex('.', new_cd)), 'X', '')
 		  when patindex('%.X%', new_cd) <> 0
-		  then left(new_cd, charindex('.', new_cd) -1) + replace(right(new_cd, charindex('.', new_cd) -1), 'X', '') --This does not make sense. If we have 123.X45, we end up with 12345, which is not correct.
+		  then left(new_cd, charindex('.', new_cd) -1) + replace(right(new_cd, charindex('.', new_cd) -1), 'X', '')
 		  else new_cd
 	  end) new_cd_mod
 	into #fix_cd
@@ -132,7 +134,7 @@ select new_cd
 	) a
 	left join xref.concept b
 	on a.new_cd = b.concept_code and a.icd_type + 'CM' = b.vocabulary_id
-where b.concept_id is null and new_cd <> '000'
+where b.concept_id is null and new_cd <> '000' and new_cd like '%X'
 
 --replace new_cds with clean codes.
 update a
