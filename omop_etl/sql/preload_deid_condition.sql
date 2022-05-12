@@ -37,7 +37,7 @@ where rc < @rc
 /*
 Flatten ICD codes by performing the following tasks recursively.
  - Select codes with less than 11 unique patients.
- - Remove one character from the portion to the right of the decimal. 
+ - Remove one character from the portion to the right of the decimal. --This is NOT the algorithm that we are supposed to implement!!!
  - Group icd codes and count patients.
  - Get codes with less than 11 unique patients.
 */
