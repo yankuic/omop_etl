@@ -117,13 +117,14 @@ or ???.? Thus, we need to remove the Xs after the decimal.
 drop table if exists #fix_cd
 select new_cd
 	  ,icd_type
-	  ,(case
-		  when patindex('%.[0-9]%', new_cd) <> 0 
-		  then left(new_cd, charindex('.', new_cd) -1) + replace(right(new_cd, charindex('.', new_cd)), 'X', '')
-		  when patindex('%.X%', new_cd) <> 0
-		  then left(new_cd, charindex('.', new_cd) -1) + replace(right(new_cd, charindex('.', new_cd) -1), 'X', '')
-		  else new_cd
-	  end) new_cd_mod
+	  ,left(new_cd, len(new_cd)-1) new_cd_mod
+--	  ,(case
+--		  when patindex('%.[0-9]%', new_cd) <> 0 
+--		  then left(new_cd, charindex('.', new_cd) -1) + replace(right(new_cd, charindex('.', new_cd)), 'X', '')
+--		  when patindex('%.X%', new_cd) <> 0
+--		  then left(new_cd, charindex('.', new_cd) -1) + replace(right(new_cd, charindex('.', new_cd) -1), 'X', '')
+--		  else new_cd
+--	  end) new_cd_mod
 	into #fix_cd
 	from (
 		select new_cd 
