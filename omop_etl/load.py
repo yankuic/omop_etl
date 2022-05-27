@@ -140,12 +140,14 @@ class Loader(DataStore, ETLConfig):
         ## Load deid
         if dataset == 'deid':
             q = q.replace('@SetNULL','= NULL')\
+                .replace('@SetZero', '0')\
                 .replace('@DateShift','date_shift')\
                 .format('birth_datetime_deid', 'race_concept_id_deid', 'ethnicity_concept_id_deid', 'race_source_value_deid', 'ethnicity_source_value_deid', 'zipcode_deid', 'zipcode_deid') 
 
         ## Load limited
         elif dataset == 'limited':
             q = q.replace('@SetNULL','')\
+                .replace('@SetZero', 'NULL')\
                 .replace('@DateShift','0')\
                 .format('birth_datetime', 'race_concept_id', 'ethnicity_concept_id', 'race_source_value', 'ethnicity_source_value', 'zipcode', 'zipcode')
         
