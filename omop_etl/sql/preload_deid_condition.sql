@@ -24,22 +24,15 @@ join (
 on a.condition_source_value = b.diag_cd
 where rc < @rc
 
---back up stage table
---drop table if exists stage.condition_bkup 
---select * 
---into stage.condition_bkup 
---from stage.condition
-
---truncate table stage.condition
---insert into stage.condition with(tablock)
---select * from stage.condition_bkup
-
 /*
 Flatten ICD codes by performing the following tasks recursively.
- - Select codes with less than 11 unique patients.
- - Remove one character from the portion to the right of the decimal. --This is NOT the algorithm that we are supposed to implement!!!
- - Group icd codes and count patients.
- - Get codes with less than 11 unique patients.
+ 1. Calculate unique patient counts for all ICD codes.
+ 2. Select codes with less than 11 unique patients.
+ 3. Split ICD codes at decimal and extract right_side.
+ 4. Select codes where len(right_side) = max(len(right_sie)).
+ 5. On selected codes, remove one character to the right of right_side.
+ 6. Merge ICD codes left and right sides.
+ 7. Restart from step 1.
 */
 
 --Get the max number of characters after decimal point in ICD codes
@@ -114,30 +107,53 @@ Some flattened icd codes with pattern ???.XXX or ???.?XX, where ? is an integer,
 to any concept code. However, we can use non-billing ICD codes that match the pattern ??? 
 or ???.? Thus, we need to remove the Xs after the decimal. 
 */
-drop table if exists #fix_cd
+drop table if exists #fix_cd;
 select new_cd
 	  ,icd_type
-	  ,left(new_cd, len(new_cd)-1) new_cd_mod
---	  ,(case
---		  when patindex('%.[0-9]%', new_cd) <> 0 
---		  then left(new_cd, charindex('.', new_cd) -1) + replace(right(new_cd, charindex('.', new_cd)), 'X', '')
---		  when patindex('%.X%', new_cd) <> 0
---		  then left(new_cd, charindex('.', new_cd) -1) + replace(right(new_cd, charindex('.', new_cd) -1), 'X', '')
---		  else new_cd
---	  end) new_cd_mod
-	into #fix_cd
-	from (
-		select new_cd 
-		  ,icd_type
-		  ,count(distinct person_id) rc
-		from #deid_diag_cd
-		group by new_cd, icd_type
-	) a
-	left join xref.concept b
-	on a.new_cd = b.concept_code and a.icd_type + 'CM' = b.vocabulary_id
+	  ,new_cd_mod = new_cd
+into #fix_cd
+from (
+	select new_cd 
+		,icd_type
+		,count(distinct person_id) rc
+	from #deid_diag_cd
+	group by new_cd, icd_type
+) a
+left join xref.concept b
+on a.new_cd = b.concept_code and a.icd_type + 'CM' = b.vocabulary_id
 where b.concept_id is null and new_cd <> '000' and new_cd like '%X'
 
---replace new_cds with clean codes.
+while (
+	select count(*)
+	from #fix_cd a
+	left join xref.concept b
+	on a.new_cd = b.concept_code and a.icd_type + 'CM' = b.vocabulary_id
+	where b.concept_id is null and new_cd_mod like '%X'
+) > 0
+begin
+	with icdx as (
+		select new_cd	
+			,icd_type 
+			,right_side = replace(new_cd_mod, left(new_cd_mod, charindex('.', new_cd_mod)), '')
+		from #fix_cd
+	) 
+	update a
+		set new_cd_mod = (
+			case 
+				when len(right_side) > 1
+					then left(a.new_cd, charindex('.', a.new_cd)) + left(right_side, len(right_side)-1)
+				else replace(left(a.new_cd, charindex('.', a.new_cd)), '.','') 
+			end
+		)
+	from #fix_cd a
+	left join xref.concept b
+	on a.new_cd = b.concept_code and a.icd_type + 'CM' = b.vocabulary_id
+	join icdx c
+	on a.new_cd = c.new_cd and a.icd_type = c.icd_type
+	where b.concept_id is null and a.new_cd_mod like '%X'
+end
+
+--replace new_cds with modified codes.
 update a
 set a.new_cd = b.new_cd_mod
 from #deid_diag_cd a
