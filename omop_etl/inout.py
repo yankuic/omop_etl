@@ -34,19 +34,25 @@ def to_csv(path_or_buf, table, batch_size, schema, server, database):  #not revi
 
             df = pd.DataFrame(batch)
 
+            dtypes = {t:batch[t].dtype.type for t in batch.keys()}
+            for dtype in dtypes.keys():
+                # print(f'turbodbc data type: {dtypes[dtype]}')
+                if dtypes[dtype] == np.int64:
+                    dtypes[dtype] = 'Int64'
+                elif dtypes[dtype] == np.datetime64:
+                    dtypes[dtype] = 'datetime64'
+                elif dtypes[dtype] == np.float64:
+                    dtypes[dtype] = 'float64'
+                else:
+                    dtypes[dtype] = 'object'
+            
+            df = df.astype(dtypes)
+            # print(f'Converted data types\n: {df.dtypes}')
+            
             if count == 0:
-                dtypes = {t:batch[t].dtype.type for t in batch.keys()}
-                for dtype in dtypes.keys():
-                    if dtypes[dtype] == np.int64:
-                        dtypes[dtype] = 'Int64'
-                    else:
-                        dtypes[dtype] = 'str'
-
-                df = df.astype(dtypes)
                 df.to_csv(path_or_buf, index=False, sep='\t')
-
             else: 
-                df = df.astype(dtypes)
+                # df = df.astype(dtypes)
                 df.to_csv(path_or_buf, header=False, index=False, mode='a', sep='\t')
 
             count =+ 1
