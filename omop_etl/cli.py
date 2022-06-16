@@ -419,6 +419,7 @@ class ETLCli:
         parser.add_argument('--data', help='Exports clinical, derived, and health system tables from hipaa schema.', action="store_true")
         parser.add_argument('--mapping', help='Exports mapping tables from xref schema.', action="store_true")
         parser.add_argument('--vocab', help='Exports vocabulary tables from xref schema.', action="store_true")
+        parser.add_argument('-t', '--table', help='Use it in combination with --data, --mapping, and --vocab arguments to export one table at a time.')
         parser.add_argument('-a', '--all', help='Exports all release tables.', action="store_true")
         parser.add_argument('--batch_size', type=str, help='Batch size in MB. Argument for turbodbc.Megabytes')
         parser.add_argument('-c', '--config_file', help='Path to configuration file. Implemented for testing purposes.')
@@ -430,10 +431,9 @@ class ETLCli:
         loader = Loader(CONFIG_FILE)
     
         SERVER = loader.config.server
-        RELEASE_VERSION = loader.config.release_version
+        RELEASE_VERSION = f'v{loader.config.release_version}'
         RELEASE_PATH = loader.config.release_path
         DATABASE = loader.config.project_database
-        PROJECT_PATH = loader.config.project_dir
         BATCH_SIZE = 500
 
         if args.batch_size:
@@ -458,8 +458,8 @@ class ETLCli:
 
             with timeitc('Exporting data tables'):
 
-                # Export hipaa schema
-                for table in hipaa.Table: 
+                if args.data and args.table:
+                    table = args.table.lower()
                     print('Exporting table:', table)
                     if table.lower() in ['care_site', 'location', 'provider']:
                         out_path = os.path.join(RELEASE_PATH, 'health_system', f'{table.lower()}_{RELEASE_VERSION}.0.txt')
@@ -469,6 +469,19 @@ class ETLCli:
                         out_path = os.path.join(RELEASE_PATH, 'clinical_data', f'{table.lower()}_{RELEASE_VERSION}.0.txt')
                     
                     to_csv(out_path, table, BATCH_SIZE, 'hipaa', SERVER, DATABASE)
+
+                else:
+                    # Export hipaa schema
+                    for table in hipaa.Table: 
+                        print('Exporting table:', table)
+                        if table.lower() in ['care_site', 'location', 'provider']:
+                            out_path = os.path.join(RELEASE_PATH, 'health_system', f'{table.lower()}_{RELEASE_VERSION}.0.txt')
+                        elif table.lower() in ['condition_era', 'drug_era']:
+                            out_path = os.path.join(RELEASE_PATH, 'derived_tables', f'{table.lower()}_{RELEASE_VERSION}.0.txt')
+                        else:
+                            out_path = os.path.join(RELEASE_PATH, 'clinical_data', f'{table.lower()}_{RELEASE_VERSION}.0.txt')
+                        
+                        to_csv(out_path, table, BATCH_SIZE, 'hipaa', SERVER, DATABASE)
 
         if args.mapping or args.all:
             mapping = loader.list_tables(in_schema=['xref'], name_pattern='_mapping')
@@ -480,47 +493,34 @@ class ETLCli:
                 os.makedirs(dirpath)
 
             with timeitc('Exporting mapping tables'):
-                # Export mapping tables
-                for table in mapping.Table:
+
+                if args.mapping and args.table:
+                    table = args.table.lower()
                     print('Exporting table:', table)
                     out_path = os.path.join(RELEASE_PATH, 'mapping_tables', f'{table.lower()}_{RELEASE_VERSION}.0.txt')
                     to_csv(out_path, table, BATCH_SIZE, 'xref', SERVER, DATABASE)
 
+                else:
+                    # Export mapping tables
+                    for table in mapping.Table:
+                        print('Exporting table:', table)
+                        out_path = os.path.join(RELEASE_PATH, 'mapping_tables', f'{table.lower()}_{RELEASE_VERSION}.0.txt')
+                        to_csv(out_path, table, BATCH_SIZE, 'xref', SERVER, DATABASE)
+
         if args.vocab:
 
-            response = None
-            while response is None:
-                print(f"Select vocabulary tables' source\n\n  1. Database: {DATABASE}\n  2. Project directory (faster): {PROJECT_PATH}/vocabulary\n")
-                response = input(f'[1]/[2]: ')
+            if os.path.exists(dirpath):
+                print(f'Directory vocabulary already exists. Nothing done.')
+            else:
+                os.makedirs(dirpath)
 
-            dirpath = os.path.join(RELEASE_PATH, 'vocabulary')
+            if args.vocab and args.table:
+                table = args.table.lower()
+                print('Exporting table:', table)
+                out_path = os.path.join(RELEASE_PATH, 'vocabulary', f'{table.lower()}_{RELEASE_VERSION}.0.txt')
+                to_csv(out_path, table, BATCH_SIZE, 'xref', SERVER, DATABASE)
 
-            if response == '2':
-                path_exists = os.path.exists(dirpath)
-                if os.path.exists(dirpath):
-                    shutil.rmtree(dirpath)
-                    while path_exists:
-                        time.sleep(1)
-                        path_exists = os.path.exists(dirpath)
-                
-                shutil.copytree(f'{PROJECT_PATH}/vocabulary/', dirpath)
-                vocabulary_files  = os.listdir(dirpath)
-
-                assert vocabulary_files, f'Source directory {dirpath} is empty.'
-
-                # Rename vocabulary files
-                for f in vocabulary_files:
-                    _from = os.path.join(PROJECT_PATH, 'vocabulary', f)
-                    _to = os.path.join(dirpath, f.replace('.csv', f'_{RELEASE_VERSION}.0.txt').lower())
-                    print(f'File {_from} copied into {_to}')
-                    os.rename(_from, _to)
-
-            elif response == '1':
-                if os.path.exists(dirpath):
-                    print(f'Directory vocabulary already exists. Nothing done.')
-                else:
-                    os.makedirs(dirpath)
-
+            else: 
                 xref = loader.list_tables(in_schema=['xref'])
                 vocab = xref[~find('mapping', xref.Table)]
 
@@ -530,9 +530,6 @@ class ETLCli:
                         print('Exporting table:', table)
                         out_path = os.path.join(RELEASE_PATH, 'vocabulary', f'{table.lower()}_{RELEASE_VERSION}.0.txt')
                         to_csv(out_path, table, BATCH_SIZE, 'xref', SERVER, DATABASE)
-
-            else:
-                print(f'{response} is not a valid option.')
 
 if __name__ == "__main__":
     ETLCli()
