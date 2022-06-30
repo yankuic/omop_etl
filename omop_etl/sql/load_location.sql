@@ -5,7 +5,7 @@ select b.location_id
     ,[address_2] = left(addr2, 50)
     ,[city_name]
     ,[state] = left(state_abbrv, 2)
-    ,[zip3_cd]
+    ,[zip]
     ,[county] = left(cnty_name, 20)
     ,[location_source_value] = left(a.[addr_key], 50)
 from stage.location a 

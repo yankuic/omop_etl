@@ -52,3 +52,14 @@ select distinct person_id
       ,route_source_value
       ,dose_unit_source_value 
 from preload.drug_exposure
+
+/*
+Mask crazy dates to avoid outofbound error while exporting 
+table to flatfile. The column verbatim_end_date will
+retain the original value. 
+*/
+update dbo.drug_exposure
+set drug_exposure_end_datetime = '2200-01-01'
+   ,drug_exposure_end_date = '2200-01-01'
+where drug_exposure_end_datetime >= '2262-04-11'
+or drug_exposure_end_date >= '2262-04-11'
