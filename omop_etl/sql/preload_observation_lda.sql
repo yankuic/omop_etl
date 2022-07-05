@@ -55,7 +55,7 @@ from (
       left join xref.provider_mapping c 
       on c.providr_key = isnull(a.Attending_Provider, a.Visit_Provider)
       left join xref.source_to_concept_map d 
-      on d.source_code = 'LDA - intubation start and end times' and d.source_vocabulary_id = 'observation'
+      on d.source_code = 'LDA - intubation start time' and d.source_vocabulary_id = 'observation'
       left join xref.visit_occurrence_mapping e
       on a.patnt_encntr_key = e.patnt_encntr_key
       where b.active_ind = 'Y'
@@ -85,7 +85,7 @@ from (
       left join xref.provider_mapping c 
       on c.providr_key = isnull(a.Attending_Provider, a.Visit_Provider)
       left join xref.source_to_concept_map d 
-      on d.source_code = 'LDA - intubation start and end times' and d.source_vocabulary_id = 'observation'
+      on d.source_code = 'LDA - extubation start time' and d.source_vocabulary_id = 'observation'
       left join xref.visit_occurrence_mapping e
       on a.patnt_encntr_key = e.patnt_encntr_key
       where b.active_ind = 'Y'
