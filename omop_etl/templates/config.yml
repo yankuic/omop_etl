@@ -2,7 +2,7 @@
 # Items must follow format <item: subitem> OR <item:>
 project_info:
   project_dir: enter project directory
-  version: 1.1.0
+  version: 1.2.0
   hipaa: 'deid'
 
 date_range:
@@ -78,6 +78,8 @@ load:
     sofa: Sequential organ failure assessment score
     temp: Body temperature
     weight: Body weight
+    lvef: left ventricular ejection fraction
+    bmi: body mass index
   observation:
     icu: Intensive care unit stay
     lda: LDA intubation type and LDA intubation start and end times
@@ -5044,3 +5046,6 @@ loinc:
   99282-6: FDA product label FDA-initiated compliance action drug registration and listing inactivation - animal drug
   99615-7: Current anti-inflammatory drug use
   99780-9: Multidrug resistant gram-negative organism classification [Type]
+  94759-8: SARS-CoV-2 (COVID-19) RNA [Presence] in Nasopharynx by NAA with probe detection
+  94306-8: SARS-CoV-2 (COVID-19) RNA panel - Specimen by NAA with probe detection
+  95209-3: SARS-CoV+SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory specimen by Rapid immunoassay
