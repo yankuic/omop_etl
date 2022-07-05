@@ -29,7 +29,12 @@ exec('
 		,observation_datetime = a.measurement_datetime
 		,observation_type_concept_id = a.measurement_type_concept_id
 		,value_as_number = a.value_as_number
-		,value_as_string = NULL
+		,value_as_string = 
+			(case 
+				when value_as_number is null 
+					then value_source_value
+				else NULL 
+			end) 
 		,value_as_concept_id = a.value_as_concept_id
 		,qualifier_concept_id = NULL
 		,unit_concept_id = a.unit_concept_id
