@@ -240,6 +240,7 @@ All commands must be executed within the omop project directory, where files con
     - Archive all tables that need to be archived. Run archive.sql script. Need to re-write the scripts to use chunks. NOTE: We need to think about archiving: Do we really need space to archive when we have data downloaded on share drive?
     - Truncate all tables that need to be truncated. Run truncate.sql script. Need to update this script to check first whether the table exists and then truncate it if it exists.
     - Truncate project specific cohort tables. Need to implement this. For example, in cancer OMOP, we need to truncate cohort.cancer. It might be already implemented by the design of pulling data.
+	- Load data from source_to_concept_map.csv file to the xref.source_to_concept_map table in the project's database. The code for thsi step needs to be implemented.
 
 2. Load cohort patient list into PersonList table in db.
 
