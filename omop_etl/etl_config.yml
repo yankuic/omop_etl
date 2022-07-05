@@ -67,6 +67,8 @@ stage:
     sofa: MEASUREMENT_SOFA
     temp: MEASUREMENT_Temp
     weight: MEASUREMENT_Weight
+    lvef: MEASUREMENT_LVEF
+    bmi: MEASUREMENT_BMI
   observation:
     icu: OBSERVATION_ICU
     lda: OBSERVATION_LDA
@@ -147,6 +149,8 @@ preload:
     sofa: preload_measurement_sofa.sql
     temp: preload_measurement_temp.sql
     weight: preload_measurement_weight.sql
+    lvef: preload_measurement_lvef.sql
+    bmi: preload_measurement_bmi.sql
   observation:
     icu: preload_observation_icu.sql
     lda: preload_observation_lda.sql
@@ -645,6 +649,21 @@ aliases:
   - weight_kgs
   - attending_provider
   - visit_provider
+  MEASUREMENT_LVEF:
+  - patient_key
+  - patnt_encntr_key
+  - procedure_start_date
+  - procedure_start_datetime
+  - LV_EF_preferred
+  - attending_provider
+  - visit_provider
+  MEASUREMENT_BMI:
+  - patient_key
+  - patnt_encntr_key
+  - bmi_datetime
+  - bmi
+  - attending_provider
+  - visit_provider
   OBSERVATION_ICU:
   - patient_key
   - encounter_effective_date
@@ -728,3 +747,6 @@ aliases:
   - attending_provider
   - visit_provider
   - dept_id
+  - hospital
+  - location_of_service
+  - ed_episode_id

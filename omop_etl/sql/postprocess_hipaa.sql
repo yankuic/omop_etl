@@ -68,24 +68,24 @@ ethnicity_count as(
 )
 --The placeholder values in this query are being filled by variables listed in load.py --> load_hipaa method
 select distinct 
-       a.[person_id]
-      ,[gender_concept_id]
+       a.person_id
+      ,[gender_concept_id] = isnull(gender_concept_id, 0)
       ,[year_of_birth] = YEAR(b.{0})
       ,[month_of_birth] = MONTH(b.{0})
       ,[day_of_birth] = DAY(b.{0})
       ,[birth_datetime] = b.{0}
-      ,[race_concept_id] = c.{1}
-      ,[ethnicity_concept_id] = d.{2}
+      ,[race_concept_id] = isnull(c.{1}, 0)
+      ,[ethnicity_concept_id] = isnull(d.{2}, 0)
       ,[location_id] 
       ,[provider_id] 
       ,[care_site_id] 
       ,[person_source_value] = NULL
       ,[gender_source_value] 
-      ,[gender_source_concept_id]
+      ,[gender_source_concept_id] = isnull(gender_source_concept_id, 0)
       ,[race_source_value] = c.{3}
-      ,[race_source_concept_id]
+      ,[race_source_concept_id] = isnull(race_source_concept_id, 0)
       ,[ethnicity_source_value] = d.{4}
-      ,[ethnicity_source_concept_id]
+      ,[ethnicity_source_concept_id] = isnull(ethnicity_source_concept_id, 0)
 into hipaa.person 
 from dbo.person a
 join shifted b 
@@ -100,10 +100,10 @@ drop table if exists hipaa.death
 select a.[person_id]
       ,[death_date] = dateadd(day, @DateShift, a.death_date)
       ,[death_datetime] = dateadd(day, @DateShift, a.death_datetime)
-      ,[death_type_concept_id]
-      ,[cause_concept_id] 
+      ,[death_type_concept_id] = isnull(death_type_concept_id, 0)
+      ,[cause_concept_id]  = isnull(cause_concept_id, 0)
       ,[cause_source_value]
-      ,[cause_source_concept_id] 
+      ,[cause_source_concept_id] = isnull(cause_source_concept_id, 0)
 into hipaa.death
 from dbo.death a
 join xref.person_mapping b
@@ -123,12 +123,12 @@ select visit_occurrence_id
       ,provider_id
       ,care_site_id 
       ,visit_source_value
-      ,visit_source_concept_id
-      ,admitting_source_concept_id
+      ,visit_source_concept_id = isnull(visit_source_concept_id, 0)
+      ,admitting_source_concept_id = isnull(admitting_source_concept_id, 0)
       ,admitting_source_value
-      ,discharge_to_concept_id
+      ,discharge_to_concept_id = isnull(discharge_to_concept_id, 0)
       ,discharge_to_source_value
-      ,preceding_visit_occurrence_id 
+      ,preceding_visit_occurrence_id
 into hipaa.visit_occurrence
 from dbo.visit_occurrence a 
 join xref.person_mapping b 
@@ -150,9 +150,9 @@ select [condition_occurrence_id]
       ,[visit_occurrence_id]
       ,[visit_detail_id]
       ,[condition_source_value]
-      ,[condition_source_concept_id]
+      ,condition_source_concept_id = isnull(condition_source_concept_id, 0)
       ,[condition_status_source_value]
-      ,[condition_status_concept_id]
+      ,condition_status_concept_id = isnull(condition_status_concept_id, 0)
 into hipaa.condition_occurrence
 from [dbo].[condition_occurrence] a
 join xref.person_mapping b 
@@ -167,13 +167,13 @@ select procedure_occurrence_id
     ,[procedure_date] = dateadd(day, @DateShift, a.procedure_date)
     ,[procedure_datetime] = dateadd(day, @DateShift, a.procedure_datetime)
     ,[procedure_type_concept_id]
-    ,[modifier_concept_id]
+    ,[modifier_concept_id] = isnull(modifier_concept_id, 0)
     ,[quantity]
     ,[provider_id]
     ,[visit_occurrence_id]
     ,[visit_detail_id]
     ,[procedure_source_value]
-    ,[procedure_source_concept_id]
+    ,[procedure_source_concept_id] = isnull(procedure_source_concept_id, 0)
     ,[modifier_source_value]
 into hipaa.procedure_occurrence
 from dbo.procedure_occurrence a 
@@ -197,13 +197,13 @@ select drug_exposure_id
       ,quantity
       ,days_supply
       ,sig
-      ,route_concept_id
+      ,route_concept_id = isnull(route_concept_id, 0)
       ,lot_number
       ,provider_id
       ,visit_occurrence_id
       ,visit_detail_id
       ,drug_source_value
-      ,drug_source_concept_id
+      ,drug_source_concept_id = isnull(drug_source_concept_id, 0)
       ,route_source_value
       ,dose_unit_source_value 
 into hipaa.drug_exposure
@@ -221,17 +221,17 @@ select measurement_id
     ,measurement_datetime = dateadd(day, @DateShift, a.measurement_datetime)
     ,measurement_time
     ,measurement_type_concept_id
-    ,operator_concept_id
+    ,operator_concept_id = isnull(operator_concept_id, 0)
     ,value_as_number
-    ,value_as_concept_id
-    ,unit_concept_id
+    ,value_as_concept_id = isnull(value_as_concept_id, 0)
+    ,unit_concept_id = isnull(unit_concept_id, 0)
     ,range_low
     ,range_high
     ,provider_id
     ,visit_occurrence_id
     ,visit_detail_id
     ,measurement_source_value
-    ,measurement_source_concept_id
+    ,measurement_source_concept_id = isnull(measurement_source_concept_id, 0)
     ,unit_source_value
     ,value_source_value
 into hipaa.measurement
@@ -272,20 +272,20 @@ where observation_source_value = 'zipcode'
 --The placeholder value in this query are being filled by variables listed in load.py --> load_hipaa method
 select a.observation_id
     ,a.person_id
-    ,[observation_concept_id]
+    ,observation_concept_id = isnull(observation_concept_id, 0)
     ,[observation_date] = dateadd(day, @DateShift, a.observation_date)
     ,[observation_datetime] = dateadd(day, @DateShift, a.observation_datetime)
-    ,[observation_type_concept_id]
+    ,observation_type_concept_id = isnull(observation_type_concept_id, 0)
     ,[value_as_number]
     ,[value_as_string] = (case when observation_source_value = 'zipcode' then c.{5} else a.value_as_string end)
-    ,[value_as_concept_id]
-    ,[qualifier_concept_id]
-    ,[unit_concept_id]
+    ,value_as_concept_id = isnull(value_as_concept_id, 0)
+    ,qualifier_concept_id = isnull(qualifier_concept_id, 0)
+    ,unit_concept_id = isnull(unit_concept_id, 0)
     ,[provider_id]
     ,[visit_occurrence_id]
     ,[visit_detail_id]
     ,[observation_source_value]
-    ,[observation_source_concept_id]
+    ,observation_source_concept_id = isnull([observation_source_concept_id], 0)
     ,[unit_source_value]
     ,[qualifier_source_value]
 into hipaa.observation
@@ -327,7 +327,7 @@ select device_exposure_id
       ,[visit_occurrence_id]
       ,[visit_detail_id]
       ,[device_source_value]
-      ,[device_source_concept_id]
+      ,[device_source_concept_id] = isnull(device_source_concept_id, 0)
 into hipaa.device_exposure 
 from dbo.device_exposure a 
 join xref.person_mapping b
@@ -340,15 +340,15 @@ select [provider_id]
       ,[provider_name] = NULL
       ,[npi] = NULL
       ,[dea] = NULL
-      ,[specialty_concept_id]
+      ,[specialty_concept_id] = isnull(specialty_concept_id, 0)
       ,[care_site_id] 
       ,[year_of_birth] @SetNULL
-      ,[gender_concept_id] @SetNULL
+      ,[gender_concept_id] = coalesce(@SetZero, gender_concept_id, 0)
       ,[provider_source_value] = NULL
       ,[specialty_source_value]
-      ,[specialty_source_concept_id]
+      ,[specialty_source_concept_id] = coalesce(@SetZero, specialty_source_concept_id)
       ,[gender_source_value] @SetNULL
-      ,[gender_source_concept_id] @SetNULL
+      ,[gender_source_concept_id] = coalesce(@SetZero, gender_source_concept_id, 0)
 into hipaa.provider
 from dbo.provider
 
@@ -398,7 +398,7 @@ drop table if exists #location_zipcode
 drop table if exists hipaa.care_site
 select care_site_id
     ,care_site_name = NULL
-    ,place_of_service_concept_id
+    ,place_of_service_concept_id = isnull(place_of_service_concept_id, 0)
     ,location_id
     ,care_site_source_value = NULL
     ,place_of_service_source_value = NULL
