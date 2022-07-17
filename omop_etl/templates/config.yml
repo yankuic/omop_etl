@@ -100,61 +100,61 @@ db_connections:
     database: DWS_METADATA
 
 vocabularies:
-  - JAX
-  - Revenue Code
-  - NAACCR
-  - LOINC
-  - ICDO3
-  - NFC
-  - Gender
-  - MDC
-  - SPL
-  - CPT4
-  - CCAM
-  - OPS
-  - Currency
-  - ABMS
-  - VA Product     ??????????????????????????????????
-  - MMI
-  - MeSH
-  - ICD10
-  - MEDRT
-  - VA Class
-  - Medicare Specialty
-  - OPCS4
-  - OMOP Extension
-  - NUCC
-  - CVX
-  - HES Specialty
-  - HemOnc
   - SNOMED
-  - NDC
-  - dm+d
-  - RxNorm Extension
-  - ICD9Proc
-  - CMS Place of Service
-  - Race
   - ICD9CM
-  - Supplier
-  - Episode Type
-  - ICD10PCS
-  - ICD10CM
-  - NCIt
-  - Specimen Type
-  - EphMRA ATC
-  - Cancer Modifier
-  - GCN_SEQNO
-  - Provider
-  - RxNorm
-  - ATC
-  - CTD
-  - Ethnicity
-  - GGR
+  - ICD9Proc
+  - CPT4
   - HCPCS
-  - APC
-  - CIViC
-  - DRG
+  - LOINC
   - NDFRT
+  - RxNorm
+  - NDC
+  - Gender
+  - Race
+  - CMS Place of Service
+  - ATC
+  - VA Class
+  - ICD10
+  - ICD10PCS
+  - DRG
+  - MDC
+  - APC
+  - Revenue Code
+  - Ethnicity
+  - MeSH
+  - NUCC
+  - Medicare Specialty
+  - SPL
+  - GCN_SEQNO
+  - OPCS4
+  - HES Specialty
+  - Currency
+  - ICD10CM
+  - ABMS
+  - dm+d
+  - EphMRA ATC
+  - NFC
+  - RxNorm Extension
+  - MMI
+  - Specimen Type
+  - CVX
+  - ICDO3
+  - GGR
+  - MEDRT
+  - Episode Type
+  - Provider
+  - Supplier
+  - HemOnc
+  - NAACCR
+  - CTD
+  - OMOP Extension
+  - CIViC
+  - JAX
+  - NCIt
+  - Cancer Modifier
+  - OPS
+  - CCAM
+  - OMOP Invest Drug
 
 
 loinc:
