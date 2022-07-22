@@ -56,6 +56,10 @@ class ProjectConfig(Config):
         db_connections = self.get_property('db_connections')
         return db_connections['bo_metadata']['database']
 
+    @property 
+    def ohdsi_athena(self):
+        return self.get_property('ohdsi_athena')
+
     @property
     def server(self):
         db_connections = self.get_property('db_connections')

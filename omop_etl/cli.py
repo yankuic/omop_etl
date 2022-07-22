@@ -106,6 +106,7 @@ class ETLCli:
         parser = argparse.ArgumentParser('Import vocabulary tables into project database.')
         parser.add_argument('-t', '--table', type=str, help='Vocabulary table')
         parser.add_argument('-a', '--all', help='Import all vocabulary tables', action="store_true")
+        parser.add_argument('--download', help='Download vocabulary tables from Athena <https://athena.ohdsi.org>.', action="store_true")
         parser.add_argument('-c', '--config_file', help='Path to configuration file. Implemented for testing purposes.')
 
         # assert vocabulary folder exists
@@ -119,7 +120,7 @@ class ETLCli:
         server = loader.config.server
         database = loader.config.project_database
         vocabulary_tables = loader.vocabulary_tables
-
+        athena = loader.config.ohdsi_athena
         vocab_path = os.path.join(proj_dir, 'vocabulary')
 
         if args.table:
@@ -163,6 +164,67 @@ class ETLCli:
                         sep='\t'
                     )
                 )
+
+        if args.download:
+
+            from omop_etl.athena import athena_driver, request_new_vocabulary, download_vocabulary, get_downloaded_filename
+            from omop_etl.utils import search
+            import zipfile
+
+            print(f'Vocabulary tables will be overwritten. Do you want to continue?')
+            ans = None
+            while ans is None:
+                ans = input('[yes]/[no]: ')
+                if ans.lower() in ['n', 'no']:
+                    print('Exiting ... ')
+                    quit()
+                elif ans.lower() in ['y', 'yes']:
+                    continue
+                else:
+                    print('Please enter a valid answer [yes/no]')
+                    ans = None
+
+
+            driver = athena_driver(
+                athena['username'], 
+                athena['password'], 
+                athena['chrome_driver'], 
+                headless=False, # If true, selenium won't launch a chrome window.
+                download_dir=vocab_path
+            )
+
+            # request_new_vocabulary(driver, athena['vocabularies'])
+
+            download_vocabulary(driver)
+
+            filename = None
+
+            while not filename:
+                try:
+                    filename = get_downloaded_filename(vocab_path)
+                except ValueError:
+                    driver.implicitly_wait(60)
+            
+            driver.close()
+
+            with zipfile.ZipFile(filename) as z:
+                csv = [f.filename for f in z.filelist if search('csv', f.filename)]
+                not_csv = [f.filename for f in z.filelist if f.filename not in csv]
+                z.extractall(vocab_path)
+                print('Vocabulary files were extracted.')
+
+            # requires api_key from https://uts.nlm.nih.gov
+            print("Updating CPT4 records ...")
+            os.system(f'pushd {vocab_path} && cpt.bat {athena["nih_api"]} && popd')
+
+            # Clean up directory
+            print("Cleaning up files ... ")
+            os.remove(os.path.join(vocab_path, filename))
+            for f in not_csv:
+                os.remove(os.path.join(vocab_path, f))
+
+            print("Downloading vocabulary is complete!")    
+
 
     def new_project(self):
         #create project directory if not exists
