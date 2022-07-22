@@ -15,7 +15,8 @@ from dws_prod.dbo.ALL_PROVIDERS a
 left join dws_prod.dbo.ALL_PROVIDER_IDENTITIES b 
 on a.PROVIDR_KEY = b.PROVIDR_KEY 
 left join dws_prod.dbo.ALL_SEXES c 
-on c.SEX_CD_KEY = a.SEX_CD_KEY and c.SOURCE_SYS = a.SOURCE_SYS 
+on c.SEX_CD_KEY = a.SEX_CD_KEY and c.SOURCE_SYS = a.SOURCE_SYS
+where a.PROVIDR_KEY > 0 
 ), 
 /* SELECT PROVIDERS WITH  NPI */
 npi_cte as (

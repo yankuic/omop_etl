@@ -5,7 +5,7 @@ select distinct
     ,ADDR2
     ,a.CITY_NAME
     ,a.STATE_ABBRV
-    ,ZIP3_CD
+    ,ZIP5_CD as ZIP
     ,b.CNTY_NAME
     ,a.LATITUDE
     ,a.LONGITUDE
