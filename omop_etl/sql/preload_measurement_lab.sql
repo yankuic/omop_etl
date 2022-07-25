@@ -25,7 +25,7 @@ from stage.measurement_lab a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
 left join xref.provider_mapping c 
-on c.providr_key = a.Attending_Provider   --This is Authorizing Provider from Lab Detail section in BO
+on c.providr_key = a.Attending_Provider and c.providr_key > 0  --This is Authorizing Provider from Lab Detail section in BO
 left join xref.concept d 
 on a.LOINC_CODE = d.concept_code and d.vocabulary_id = 'LOINC'
 left join xref.concept_relationship e

@@ -21,7 +21,7 @@ from stage.observation_smoking a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
 left join xref.provider_mapping c 
-on c.providr_key = isnull(a.Attending_Provider, a.Visit_Provider)
+on c.providr_key = isnull(a.Attending_Provider, a.Visit_Provider) and c.providr_key > 0
 left join xref.source_to_concept_map d 
 on d.source_code = 'SMOKING STATUS' and d.source_vocabulary_id = 'observation'
 left join xref.visit_occurrence_mapping e

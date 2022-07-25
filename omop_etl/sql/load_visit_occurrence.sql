@@ -54,7 +54,7 @@ on a.patnt_encntr_key = b.patnt_encntr_key
 join xref.person_mapping c
 on a.patient_key = c.patient_key
 left join xref.provider_mapping d
-on d.providr_key = isnull(a.attending_provider, a.VISIT_PROVIDER)
+on d.providr_key = isnull(a.attending_provider, a.VISIT_PROVIDER) and d.providr_key > 0
 left join xref.source_to_concept_map e 
 on a.ADMIT_SOURCES = e.source_code and e.source_vocabulary_id = 'Admit Source'
 left join xref.source_to_concept_map f 
