@@ -19,7 +19,7 @@ select distinct
     ,[gender_source_concept_id] = 0
 from stage.provider a
 join xref.provider_mapping b 
-on a.providr_key = b.providr_key 
+on a.providr_key = b.providr_key and a.providr_key > 0
 left join xref.source_to_concept_map d 
 on d.source_code = a.SPCLTY_DESC and d.source_vocabulary_id = 'Provider'
 where b.provider_id in (

@@ -30,7 +30,7 @@ from stage.drug_admin a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
 left join xref.provider_mapping c 
-on c.providr_key = a.provider_key
+on c.providr_key = a.provider_key and c.providr_key > 0
 left join xref.concept d
 on a.RXNORM_CODE = d.concept_code and d.vocabulary_id like 'rxnorm%'
 left join xref.concept_relationship e

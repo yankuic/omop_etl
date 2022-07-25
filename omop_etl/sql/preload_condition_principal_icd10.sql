@@ -40,7 +40,7 @@ from stage.condition_principal_icd10 a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
 left join xref.provider_mapping c
-on a.providr_key = c.providr_key
+on a.providr_key = c.providr_key and c.providr_key > 0
 --join to map to standard concepts
 left join xref.concept d
 on a.principal_icd10 = d.concept_code and d.vocabulary_id = 'ICD10CM'
@@ -76,7 +76,7 @@ from stage.condition_principal_icd10 a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
 left join xref.provider_mapping c
-on a.providr_key = c.providr_key
+on a.providr_key = c.providr_key and c.providr_key > 0
 --join to map standard concepts
 join #icd d
 on a.principal_icd10 = d.concept_code and d.vocabulary_id = 'ICD10'

@@ -23,7 +23,7 @@ from stage.MEASUREMENT_Res_Vent_End_Peds a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
 left join xref.provider_mapping c 
-on c.providr_key = isnull(a.Attending_Provider, a.Visit_Provider)
+on c.providr_key = isnull(a.Attending_Provider, a.Visit_Provider) and c.providr_key > 0
 left join xref.source_to_concept_map d 
 on source_code = 'VENT END - Peds' and source_vocabulary_id = 'Flowsheet'
 left join xref.visit_occurrence_mapping e 
