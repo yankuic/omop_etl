@@ -35,8 +35,8 @@ select distinct
       end) condition_type_concept_id
       ,[stop_reason] = NULL
       ,[provider_id] = c.provider_id
-      ,[visit_occurrence_id] = f.visit_occurrence_id
-      ,[visit_detail_id] = NULL
+      ,[visit_occurrence_id] = isnull(g.visit_occurrence_id,f.visit_occurrence_id)
+      ,[visit_detail_id] = g.visit_detail_id
       ,[condition_source_value] = a.DIAG_CD_DECML
       ,[condition_source_concept_id] = isnull(d.concept_id, 0)
       ,[condition_status_source_value] = 'present on admission (' + a.condition_poa + ')'
@@ -50,7 +50,7 @@ from stage.condition a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
 left join xref.provider_mapping c
-on a.providr_key = c.providr_key
+on a.providr_key = c.providr_key and c.providr_key > 0
 --join to map to standard concepts
 left join xref.concept d
 on a.diag_cd_decml = d.concept_code and a.icd_type + 'CM' = d.vocabulary_id
@@ -58,6 +58,8 @@ left join xref.concept_relationship e
 on d.concept_id = e.concept_id_1 and e.relationship_id = 'Maps to'
 left join xref.visit_occurrence_mapping f
 on a.patnt_encntr_key = f.patnt_encntr_key
+left join xref.visit_detail_mapping g
+on a.patnt_encntr_key = g.patnt_encntr_key
 where b.active_ind = 'Y'
 
 union 
@@ -78,8 +80,8 @@ select distinct
       end) condition_type_concept_id
       ,[stop_reason] = NULL
       ,[provider_id] = c.provider_id
-      ,[visit_occurrence_id] = f.visit_occurrence_id
-      ,[visit_detail_id] = NULL
+      ,[visit_occurrence_id] = isnull(g.visit_occurrence_id,f.visit_occurrence_id)
+      ,[visit_detail_id] = g.visit_detail_id
       ,[condition_source_value] = a.DIAG_CD_DECML
       ,[condition_source_concept_id] = isnull(d.concept_id, 0)
       ,[condition_status_source_value] = 'present on admission (' + a.condition_poa + ')'
@@ -93,7 +95,7 @@ from stage.condition a
 join xref.person_mapping b
 on a.patient_key = b.patient_key
 left join xref.provider_mapping c
-on a.providr_key = c.providr_key
+on a.providr_key = c.providr_key and c.providr_key > 0
 --join to map to standard concepts
 join #icd d
 on a.diag_cd_decml = d.concept_code and a.icd_type = d.vocabulary_id
@@ -101,4 +103,6 @@ left join xref.concept_relationship e
 on d.concept_id = e.concept_id_1 and e.relationship_id = 'Maps to'
 left join xref.visit_occurrence_mapping f
 on a.patnt_encntr_key = f.patnt_encntr_key
+left join xref.visit_detail_mapping g
+on a.patnt_encntr_key = g.patnt_encntr_key
 where b.active_ind = 'Y'

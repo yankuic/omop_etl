@@ -45,6 +45,26 @@ CREATE TABLE [xref].[VISIT_OCCURRENCE_MAPPING](
 
 ) ON [fg_user1]
 
+CREATE TABLE [xref].[VISIT_DETAIL_MAPPING](
+
+	[visit_detail_id] [int] IDENTITY(1,1) NOT NULL,
+	[patnt_encntr_key] [decimal](18, 0) NULL,
+	[visit_occurrence_id] [int] NOT NULL,
+	[load_dt] [datetime2](7) NULL,
+	[active_ind] [varchar](1) NULL,
+    CONSTRAINT [xpk_visit_detail_mapping] PRIMARY KEY CLUSTERED      
+    (
+        [visit_detail_id] ASC
+    ) WITH (
+        PAD_INDEX = OFF, 
+        STATISTICS_NORECOMPUTE = OFF, 
+        IGNORE_DUP_KEY = OFF, 
+        ALLOW_ROW_LOCKS = ON, 
+        ALLOW_PAGE_LOCKS = ON
+    ) ON [fg_user1]
+
+) ON [fg_user1]
+
 CREATE TABLE [xref].[CARE_SITE_MAPPING](
 
 	[care_site_id] [int] IDENTITY(1,1) NOT NULL,
