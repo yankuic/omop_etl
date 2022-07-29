@@ -12,8 +12,8 @@ select distinct
     ,[modifier_concept_id] = 0
     ,[quantity] = 1 
     ,[provider_id] = c.provider_id
-    ,[visit_occurrence_id] = g.visit_occurrence_id
-    ,[visit_detail_id] = 0
+    ,[visit_occurrence_id] = isnull(h.visit_occurrence_id,g.visit_occurrence_id)
+    ,[visit_detail_id] = h.visit_detail_id
     ,[procedure_source_value] = a.CPT_CD
     ,[procedure_source_concept_id] = isnull(d.concept_id, 0)
     ,[modifier_source_value] = NULL
@@ -33,4 +33,6 @@ on d.concept_id = e.concept_id_1 and e.relationship_id = 'Maps to'
 -- on f.concept_id = e.concept_id_2 and f.domain_id = 'Procedure'
 left join xref.visit_occurrence_mapping g
 on a.patnt_encntr_key = g.patnt_encntr_key
+left join xref.visit_detail_mapping h
+on a.patnt_encntr_key = h.patnt_encntr_key
 where b.active_ind = 'Y'

@@ -13,8 +13,8 @@ select distinct
       ,range_low = try_convert(float, a.NORMAL_LOW)
       ,range_high = try_convert(float, a.NORMAL_HIGH)
       ,provider_id = c.provider_id
-      ,visit_occurrence_id = h.visit_occurrence_id
-      ,visit_detail_id = NULL
+      ,visit_occurrence_id = isnull(j.visit_occurrence_id,h.visit_occurrence_id)
+      ,visit_detail_id = j.visit_detail_id
       ,measurement_source_value = a.LOINC_CODE
       ,measurement_source_concept_id = isnull(d.concept_id, 0)
       ,unit_source_value = a.LAB_UNIT
@@ -36,4 +36,6 @@ left join xref.visit_occurrence_mapping h
 on a.patnt_encntr_key = h.patnt_encntr_key
 left join xref.concept i 
 on a.LAB_RESULT = i.concept_name and (i.domain_id = 'Meas Value' and i.standard_concept = 'S' and i.vocabulary_id = 'SNOMED')
+left join xref.visit_detail_mapping j
+on a.patnt_encntr_key = j.patnt_encntr_key
 where b.active_ind = 'Y'

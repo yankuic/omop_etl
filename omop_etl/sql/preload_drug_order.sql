@@ -22,8 +22,8 @@ select [person_id] = b.person_id
       ,[route_concept_id] = NULL
       ,[lot_number] = NULL
       ,[provider_id] = c.provider_id
-      ,[visit_occurrence_id] = g.visit_occurrence_id 
-      ,[visit_detail_id] = NULL
+      ,[visit_occurrence_id] = isnull(h.visit_occurrence_id,g.visit_occurrence_id) 
+      ,[visit_detail_id] = h.visit_detail_id
       ,[drug_source_value] = a.RXNORM_CODE
       ,[drug_source_concept_id] = d.concept_id
       ,[route_source_value] = a.MED_ORDER_ROUTE
@@ -42,4 +42,6 @@ on d.concept_id = e.concept_id_1 and e.relationship_id = 'Maps to'
 -- on e.concept_id_2 = f.concept_id and f.domain_id = 'Drug'
 left join xref.visit_occurrence_mapping g
 on a.patnt_encntr_key = g.patnt_encntr_key
+left join xref.visit_detail_mapping h
+on a.patnt_encntr_key = h.patnt_encntr_key
 where b.active_ind = 'Y'
