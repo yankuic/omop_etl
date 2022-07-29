@@ -12,8 +12,8 @@ from (
             ,qualifier_concept_id = NULL
             ,unit_concept_id = NULL
             ,provider_id = c.provider_id
-            ,visit_occurrence_id = e.visit_occurrence_id
-            ,visit_detail_id = NULL
+            ,visit_occurrence_id = isnull(f.visit_occurrence_id,e.visit_occurrence_id)
+            ,visit_detail_id = f.visit_detail_id
             ,observation_source_value = d.source_code
             ,observation_source_concept_id = isnull(d.source_concept_id,0)
             ,unit_source_value = NULL
@@ -28,6 +28,8 @@ from (
       on d.source_code = 'LDA - intubation tube type' and d.source_vocabulary_id = 'observation'
       left join xref.visit_occurrence_mapping e
       on a.patnt_encntr_key = e.patnt_encntr_key
+	  left join xref.visit_detail_mapping f
+	  on a.patnt_encntr_key = f.patnt_encntr_key
       where b.active_ind = 'Y'
 
       union
@@ -42,8 +44,8 @@ from (
             ,qualifier_concept_id = NULL
             ,unit_concept_id = NULL
             ,provider_id = c.provider_id
-            ,visit_occurrence_id = e.visit_occurrence_id
-            ,visit_detail_id = NULL
+            ,visit_occurrence_id = isnull(f.visit_occurrence_id,e.visit_occurrence_id)
+            ,visit_detail_id = f.visit_detail_id
             ,observation_source_value = d.source_code
             ,observation_source_concept_id = isnull(d.source_concept_id,0)
             ,unit_source_value = NULL
@@ -58,6 +60,8 @@ from (
       on d.source_code = 'LDA - intubation start time' and d.source_vocabulary_id = 'observation'
       left join xref.visit_occurrence_mapping e
       on a.patnt_encntr_key = e.patnt_encntr_key
+	  left join xref.visit_detail_mapping f
+	  on a.patnt_encntr_key = f.patnt_encntr_key
       where b.active_ind = 'Y'
       
       union
@@ -72,8 +76,8 @@ from (
             ,qualifier_concept_id = NULL
             ,unit_concept_id = NULL
             ,provider_id = c.provider_id
-            ,visit_occurrence_id = e.visit_occurrence_id
-            ,visit_detail_id = NULL
+            ,visit_occurrence_id = isnull(f.visit_occurrence_id,e.visit_occurrence_id)
+            ,visit_detail_id = f.visit_detail_id
             ,observation_source_value = d.source_code
             ,observation_source_concept_id = isnull(d.source_concept_id,0)
             ,unit_source_value = NULL
@@ -88,6 +92,8 @@ from (
       on d.source_code = 'LDA - extubation start time' and d.source_vocabulary_id = 'observation'
       left join xref.visit_occurrence_mapping e
       on a.patnt_encntr_key = e.patnt_encntr_key
+	  left join xref.visit_detail_mapping f
+	  on a.patnt_encntr_key = f.patnt_encntr_key
       where b.active_ind = 'Y'
 ) x 
 where x.observation_date is not NULL

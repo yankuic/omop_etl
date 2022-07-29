@@ -35,8 +35,8 @@ select distinct
       end) condition_type_concept_id
       ,[stop_reason] = NULL
       ,[provider_id] = c.provider_id
-      ,[visit_occurrence_id] = f.visit_occurrence_id
-      ,[visit_detail_id] = NULL
+      ,[visit_occurrence_id] = isnull(g.visit_occurrence_id,f.visit_occurrence_id)
+      ,[visit_detail_id] = g.visit_detail_id
       ,[condition_source_value] = a.DIAG_CD_DECML
       ,[condition_source_concept_id] = isnull(d.concept_id, 0)
       ,[condition_status_source_value] = 'present on admission (' + a.condition_poa + ')'
@@ -58,6 +58,8 @@ left join xref.concept_relationship e
 on d.concept_id = e.concept_id_1 and e.relationship_id = 'Maps to'
 left join xref.visit_occurrence_mapping f
 on a.patnt_encntr_key = f.patnt_encntr_key
+left join xref.visit_detail_mapping g
+on a.patnt_encntr_key = g.patnt_encntr_key
 where b.active_ind = 'Y'
 
 union 
@@ -78,8 +80,8 @@ select distinct
       end) condition_type_concept_id
       ,[stop_reason] = NULL
       ,[provider_id] = c.provider_id
-      ,[visit_occurrence_id] = f.visit_occurrence_id
-      ,[visit_detail_id] = NULL
+      ,[visit_occurrence_id] = isnull(g.visit_occurrence_id,f.visit_occurrence_id)
+      ,[visit_detail_id] = g.visit_detail_id
       ,[condition_source_value] = a.DIAG_CD_DECML
       ,[condition_source_concept_id] = isnull(d.concept_id, 0)
       ,[condition_status_source_value] = 'present on admission (' + a.condition_poa + ')'
@@ -101,4 +103,6 @@ left join xref.concept_relationship e
 on d.concept_id = e.concept_id_1 and e.relationship_id = 'Maps to'
 left join xref.visit_occurrence_mapping f
 on a.patnt_encntr_key = f.patnt_encntr_key
+left join xref.visit_detail_mapping g
+on a.patnt_encntr_key = g.patnt_encntr_key
 where b.active_ind = 'Y'

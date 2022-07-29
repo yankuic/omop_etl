@@ -136,6 +136,33 @@ on a.person_id = b.person_id
 where b.active_ind = 'Y'
 
 
+drop table if exists hipaa.visit_detail
+select visit_detail_id 
+      ,a.person_id 
+      ,visit_detail_concept_id
+      ,visit_detail_start_date = dateadd(day, @DateShift, a.visit_detail_start_date)
+      ,visit_detail_start_datetime = dateadd(day, @DateShift, a.visit_detail_start_datetime)
+      ,visit_detail_end_date = dateadd(day, @DateShift, a.visit_detail_end_date)
+      ,visit_detail_end_datetime = dateadd(day, @DateShift, a.visit_detail_end_datetime)
+      ,visit_detail_type_concept_id
+      ,provider_id
+      ,care_site_id 
+      ,visit_detail_source_value
+      ,visit_detail_source_concept_id = isnull(visit_detail_source_concept_id, 0)
+	  ,admitting_source_value
+      ,admitting_source_concept_id = isnull(admitting_source_concept_id, 0)
+	  ,discharge_to_source_value
+      ,discharge_to_concept_id = isnull(discharge_to_concept_id, 0)
+      ,preceding_visit_detail_id
+	  ,visit_detail_parent_id
+	  ,visit_occurrence_id
+into hipaa.visit_detail
+from dbo.visit_detail a 
+join xref.person_mapping b 
+on a.person_id = b.person_id
+where b.active_ind = 'Y'
+
+
 drop table if exists hipaa.condition_occurrence
 select [condition_occurrence_id]
       ,a.person_id
