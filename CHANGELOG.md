@@ -1,6 +1,16 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2022-07-29
+### Added
+* visit_detail table to handle non-primary encounters within a hospital account
+
+### Changed
+* visit_occurrence table contains only primary encounter for each hospital account. There are still issues with a small number of hospital accounts that do not have a primary encounter.
+
+### Removed
+* None
+
 ## [1.2.0] - 2022-07-05
 ### Added
 * bmi

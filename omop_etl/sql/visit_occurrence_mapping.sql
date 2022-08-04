@@ -17,6 +17,22 @@ insert into xref.visit_occurrence_mapping (
 		where b.patnt_encntr_key is null
 ) x
 
+insert into xref.visit_occurrence_mapping (
+	patnt_encntr_key
+	,load_dt
+	,active_ind
+)
+	select patnt_encntr_key
+		,load_dt = getdate()
+		,active_ind = 'N'
+	from (
+		select distinct a.patnt_encntr_key
+		from stage.visit_hospital a
+		left join xref.visit_occurrence_mapping b
+		on a.patnt_encntr_key = b.patnt_encntr_key
+		where b.patnt_encntr_key is null
+) x
+
 SET NOCOUNT ON;
 /*
 Activate only visits existing in stage table.
